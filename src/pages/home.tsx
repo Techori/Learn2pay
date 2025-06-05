@@ -1,9 +1,32 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Features from "../components/Features";
+import Stats from "../components/Stats";
+import Testimonials from "../components/Testimonials";
+import CTA from "../components/CTA";
+import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-black text-white min-h-screen overflow-hidden"
+    >
+      <Navbar />
+      <main>
+        <Hero />
+        <Stats />
+        <Features />
+        <Testimonials />
+        <CTA />
+      </main>
+      <Footer />
+    </motion.div>
+  );
+};
 
-export default Home
+export default Home;
