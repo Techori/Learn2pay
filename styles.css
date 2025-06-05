@@ -1,0 +1,127 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0F111A;
+  color: #FFFFFF;
+}
+
+.navbar {
+  background-color: #1A1D2E;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.logo {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #3A8DFF;
+}
+
+.logo span {
+  color: #FFFFFF;
+}
+
+.nav-links a {
+  color: #FFFFFF;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #A9C9FF;
+}
+
+.actions a {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.login {
+  color: #A9C9FF;
+}
+
+.get-started {
+  background-color: #3A8DFF;
+  color: #FFFFFF;
+}
+
+.get-started:hover {
+  background-color: #2F6CD9;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: linear-gradient(to right, #0F111A, #1A1D2E);
+}
+
+.tag {
+  display: inline-block;
+  background: #1F2233;
+  color: #A9C9FF;
+  padding: 0.4rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin: 1rem 0;
+}
+
+.orange-text {
+  color: #3A8DFF;
+}
+
+.white-text {
+  color: #FFFFFF;
+  display: block;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: 1.2rem auto 2.2rem;
+  font-size: 1.1rem;
+  color: #B0B8C4;
+}
+
+.buttons .btn {
+  padding: 0.9rem 1.7rem;
+  margin: 0.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.trial {
+  background-color: #3A8DFF;
+  color: #FFFFFF;
+}
+
+.trial:hover {
+  background-color: #2F6CD9;
+}
+
+.demo {
+  background-color: #FFFFFF;
+  color: #0F111A;
+}
+
+.demo:hover {
+  background-color: #A9C9FF;
+  color: #0F111A;
+}
