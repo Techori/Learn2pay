@@ -7,6 +7,7 @@ import Referral from "./pages/dashboards/referral";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import ScrollToTop from "./components/ScrollToTop";
+import About from './pages/about';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/referral" element={<Referral />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );
