@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import About from './pages/about';
 import Institute from "./pages/dashboards/Institute";
 import Pricing from "./pages/Pricing";
+import Services from "./pages/services";
 
 function App() {
   return (
@@ -24,9 +25,7 @@ function App() {
         <Route path="/parent-dashboard" element={<Parent />} />
         <Route path="/about" element={<About />} />
         <Route path="/pricing" element={<Pricing />} />
-        
-        
-        
+        <Route path="/services" element={<Services />} />
       </Routes>
     </BrowserRouter>
   );
