@@ -7,19 +7,21 @@ import Referral from "./pages/dashboards/referral";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import ScrollToTop from "./components/ScrollToTop";
+import Contact from "./pages/contact";
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/institute" element={<Institute />} />
-        <Route path="/parent" element={<Parent />} />
-        <Route path="/referral" element={<Referral />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/institute" element={<Institute />} />
+          <Route path="/parent" element={<Parent />} />
+          <Route path="/referral" element={<Referral />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
     </BrowserRouter>
   );
 }
