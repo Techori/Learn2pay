@@ -2,7 +2,9 @@ import React from 'react'
 
 const Institute = () => {
   return (
-    <div>Institute</div>
+    <div>
+      Institute
+    </div>
   )
 }
 

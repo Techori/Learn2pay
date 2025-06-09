@@ -16,7 +16,9 @@ interface NotificationCenterProps {
 
 const NotificationCenter = ({ notifications }: NotificationCenterProps) => {
   const unreadCount = notifications.filter((n) => !n.read).length;
-  const highPriorityCount = notifications.filter((n) => n.type === "warning").length;
+  const highPriorityCount = notifications.filter(
+    (n) => n.type === "warning"
+  ).length;
   const thisWeekCount = notifications.length; // Assuming all notifications are from this week for simplicity
 
   const containerVariants = {
@@ -53,19 +55,25 @@ const NotificationCenter = ({ notifications }: NotificationCenterProps) => {
       <div className="grid grid-cols-3 gap-4">
         <Card className="bg-slate-800/50 border-gray-700">
           <CardContent className="text-center">
-            <h4 className="text-2xl font-bold text-orange-500">{unreadCount}</h4>
+            <h4 className="text-2xl font-bold text-orange-500">
+              {unreadCount}
+            </h4>
             <p className="text-gray-300">Unread</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/50 border-gray-700">
           <CardContent className="text-center">
-            <h4 className="text-2xl font-bold text-orange-500">{highPriorityCount}</h4>
+            <h4 className="text-2xl font-bold text-orange-500">
+              {highPriorityCount}
+            </h4>
             <p className="text-gray-300">High Priority</p>
           </CardContent>
         </Card>
         <Card className="bg-slate-800/50 border-gray-700">
           <CardContent className="text-center">
-            <h4 className="text-2xl font-bold text-orange-500">{thisWeekCount}</h4>
+            <h4 className="text-2xl font-bold text-orange-500">
+              {thisWeekCount}
+            </h4>
             <p className="text-gray-300">This Week</p>
           </CardContent>
         </Card>
@@ -73,20 +81,35 @@ const NotificationCenter = ({ notifications }: NotificationCenterProps) => {
 
       {/* Recent Notifications */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">Recent Notifications</h3>
+        <h3 className="text-lg font-medium text-white mb-4">
+          Recent Notifications
+        </h3>
         <div className="space-y-4">
           {notifications.map((notification) => (
-            <Card key={notification.id} className="bg-slate-700/50 border-gray-600">
+            <Card
+              key={notification.id}
+              className="bg-slate-700/50 border-gray-600"
+            >
               <CardContent className="flex items-center justify-between p-4">
                 <div className="space-y-1">
                   <h4 className="text-white font-medium flex items-center gap-2">
                     {notification.title}
-                    <Badge className={`bg-${notification.type === "warning" ? "red" : "blue"}-500 text-white`}>{notification.type}</Badge>
+                    <Badge
+                      className={`bg-${
+                        notification.type === "warning" ? "red" : "blue"
+                      }-500 text-white`}
+                    >
+                      {notification.type}
+                    </Badge>
                   </h4>
-                  <p className="text-gray-400 text-sm">{notification.message}</p>
+                  <p className="text-gray-400 text-sm">
+                    {notification.message}
+                  </p>
                   <p className="text-gray-500 text-xs">{notification.time}</p>
                 </div>
-                <button className="text-blue-400 hover:text-blue-300 text-sm">Mark as Read</button>
+                <button className="text-blue-400 hover:text-blue-300 text-sm">
+                  Mark as Read
+                </button>
               </CardContent>
             </Card>
           ))}
@@ -95,14 +118,24 @@ const NotificationCenter = ({ notifications }: NotificationCenterProps) => {
 
       {/* Notification Preferences */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">Notification Preferences</h3>
+        <h3 className="text-lg font-medium text-white mb-4">
+          Notification Preferences
+        </h3>
         <div className="space-y-4">
-          {["Fee Reminders", "Academic Updates", "Attendance Alerts", "General Announcements", "Event Notifications"].map((preference) => (
+          {[
+            "Fee Reminders",
+            "Academic Updates",
+            "Attendance Alerts",
+            "General Announcements",
+            "Event Notifications",
+          ].map((preference) => (
             <Card key={preference} className="bg-slate-700/50 border-gray-600">
               <CardContent className="flex items-center justify-between p-4">
                 <div className="space-y-1">
                   <h4 className="text-white font-medium">{preference}</h4>
-                  <p className="text-gray-400 text-sm">Receive notifications for {preference.toLowerCase()}</p>
+                  <p className="text-gray-400 text-sm">
+                    Receive notifications for {preference.toLowerCase()}
+                  </p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Switch />
