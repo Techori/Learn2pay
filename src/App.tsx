@@ -19,6 +19,7 @@ function App() {
         <Route path="/referral" element={<Referral />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/parent-dashboard" element={<Parent />} />
       </Routes>
     </BrowserRouter>
   );
