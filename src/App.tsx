@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import About from './pages/about';
 import Institute from "./pages/dashboards/Institute";
 import Pricing from "./pages/Pricing";
+import Contact from "./pages/contact";
 
 function App() {
   return (
@@ -23,8 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<About />} />
         <Route path="/pricing" element={<Pricing />} />
-        
-        
+        <Route path="/contact" element={<Contact />} />
         
       </Routes>
     </BrowserRouter>
