@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { CheckCircle, X, ArrowRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -191,22 +191,19 @@ const Pricing = () => {
               Join thousands of institutions that trust Learn2Pay for their fee collection needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300" 
-                onClick={() => navigate('/register-institute')}
-              >
-                Start Free Trial
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="px-8 py-4 text-lg border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300"
-                onClick={() => navigate('/contact')}
-              >
-                Talk to Sales
-              </Button>
+            <Button 
+  className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300" 
+  onClick={() => navigate('/register')}
+>
+  Start Free Trial
+  <ArrowRight className="ml-2 h-5 w-5" />
+</Button>
+<Button 
+  className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300"
+  onClick={() => navigate('/contact')}
+>
+  Talk to Sales
+</Button>
             </div>
           </div>
         </div>
