@@ -1,24 +1,19 @@
-import * as React from "react";
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { cva, type VariantProps } from "class-variance-authority";
+import React from 'react';
+import type { FC } from 'react';
 
-import { cn } from "../../lib/utils";
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: string;
+  placeholder?: string;
+  type?: string;
+  className?: string;
+}
 
-const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-);
-
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants>
->(({ className, ...props }, ref) => (
-  <LabelPrimitive.Root
-    ref={ref}
-    className={cn(labelVariants(), className)}
+export const Input: FC<InputProps> = ({ id, placeholder, type = 'text', className, ...props }) => (
+  <input
+    id={id}
+    type={type}
+    placeholder={placeholder}
+    className={`w-full p-2 border rounded ${className}`}
     {...props}
   />
-));
-Label.displayName = LabelPrimitive.Root.displayName;
-
-export { Label };
+);
