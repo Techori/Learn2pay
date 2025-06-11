@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
-import { Button } from '../components/ui/Button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
-import { Input } from '../components/ui/Input';
-import { Label } from '../components/ui/Label';
-import { Textarea } from '../components/ui/Textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/Select';
-import { Checkbox } from '../components/ui/Checkbox';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Textarea } from '../components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Checkbox } from '../components/ui/checkbox';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form"
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '../components/ui/Form'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '../components/ui/form'
 
 
 const Register = () => {
   const navigate = useNavigate();
   const form = useForm({
-    defaultValues: {
-      instituteType: "",
-      agreeTerms: false,
-    }
-  })
+  defaultValues: {
+    instituteName: "",
+    instituteType: "",
+    description: "",
+    contactPerson: "",
+    email: "",
+    phone: "",
+    website: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    agreeTerms: false,
+  }
+});
 
   const onSubmit = (data: any) => {
     console.log(data)
@@ -72,16 +82,16 @@ const Register = () => {
                             <FormControl>
                               <Select value={field.value} onValueChange={field.onChange}>
                                <SelectTrigger className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500">
-                                  <SelectValue placeholder="Select type" className="placeholder-gray-400" />
+                                  <SelectValue>Select type</SelectValue>
                                 </SelectTrigger>
-                                <SelectContent className="bg-gray-900 border-gray-700 text-white">
-                                  <SelectItem value="school">School</SelectItem>
-                                  <SelectItem value="coaching">Coaching Center</SelectItem>
-                                  <SelectItem value="gym">Gym/Fitness Center</SelectItem>
-                                  <SelectItem value="academy">Academy</SelectItem>
-                                  <SelectItem value="college">College</SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
+                                <SelectContent>
+  <SelectItem value="school">School</SelectItem>
+  <SelectItem value="coaching">Coaching Center</SelectItem>
+  <SelectItem value="gym">Gym/Fitness Center</SelectItem>
+  <SelectItem value="academy">Academy</SelectItem>
+  <SelectItem value="college">College</SelectItem>
+  <SelectItem value="other">Other</SelectItem>
+</SelectContent>
                               </Select>
                             </FormControl>
                             <FormMessage />
