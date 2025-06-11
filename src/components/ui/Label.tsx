@@ -1,19 +1,11 @@
-import React from 'react';
-import type { FC } from 'react';
+import * as React from "react";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  id: string;
-  placeholder?: string;
-  type?: string;
-  className?: string;
-}
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
-export const Input: FC<InputProps> = ({ id, placeholder, type = 'text', className, ...props }) => (
-  <input
-    id={id}
-    type={type}
-    placeholder={placeholder}
-    className={`w-full p-2 border rounded ${className}`}
-    {...props}
-  />
+export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
+  ({ className = "", ...props }, ref) => (
+    <label ref={ref} className={`block mb-1 font-medium ${className}`} {...props} />
+  )
 );
+
+Label.displayName = "Label";
