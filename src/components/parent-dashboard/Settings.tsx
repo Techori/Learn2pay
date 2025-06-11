@@ -9,11 +9,11 @@ import {
 } from "../ui/Card";
 import { Input } from "../ui/Input";
 import { Label } from "../ui/Label";
-import { Switch } from "../ui/switch";
+import { Switch } from "../ui/Switch";
 import { Button } from "../ui/Button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Separator } from "../ui/separator";
-import { Badge } from "../ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/Tabs";
+import { Separator } from "../ui/Separator";
+import { Badge } from "../ui/Badge";
 import {
   Bell,
   CreditCard,

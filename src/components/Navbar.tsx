@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import MobileMenu from "./MobileMenu";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -31,11 +32,24 @@ const Navbar = () => {
           </Link>
 
           <div className="hidden md:flex items-center space-x-10">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/services">Services</NavLink>
-            <NavLink to="/pricing">Pricing</NavLink>
-            <NavLink to="/contact">Contact</NavLink>
+            <NavLink to="/" isActive={location.pathname === "/"}>
+              Home
+            </NavLink>
+            <NavLink to="/about" isActive={location.pathname === "/about"}>
+              About
+            </NavLink>
+            <NavLink
+              to="/services"
+              isActive={location.pathname === "/services"}
+            >
+              Services
+            </NavLink>
+            <NavLink to="/pricing" isActive={location.pathname === "/pricing"}>
+              Pricing
+            </NavLink>
+            <NavLink to="/contact" isActive={location.pathname === "/contact"}>
+              Contact
+            </NavLink>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -83,18 +97,24 @@ const Navbar = () => {
       </motion.header>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <MobileMenu
+        isOpen={isMenuOpen}
+        toggleMenu={toggleMenu}
+        currentPath={location.pathname}
+      />
     </>
   );
 };
 
-// Custom NavLink component with animation
+// Custom NavLink component with animation and active state
 const NavLink = ({
   to,
   children,
+  isActive,
 }: {
   to: string;
   children: React.ReactNode;
+  isActive: boolean;
 }) => {
   return (
     <motion.div
@@ -103,9 +123,20 @@ const NavLink = ({
     >
       <Link
         to={to}
-        className="text-gray-300 hover:text-orange-500 transition-colors duration-300"
+        className={`transition-colors duration-300 relative ${
+          isActive ? "text-orange-500" : "text-gray-300 hover:text-orange-500"
+        }`}
       >
         {children}
+        {isActive && (
+          <motion.div
+            layoutId="activeIndicator"
+            className="absolute -bottom-1 left-0 right-0 h-0.5 bg-orange-500"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
       </Link>
     </motion.div>
   );
