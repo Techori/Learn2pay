@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 type MobileMenuProps = {
   isOpen: boolean;
   toggleMenu: () => void;
+  currentPath: string;
 };
 
-const MobileMenu = ({ isOpen, toggleMenu }: MobileMenuProps) => {
+const MobileMenu = ({ isOpen, toggleMenu, currentPath }: MobileMenuProps) => {
   const menuVariants = {
     closed: {
       opacity: 0,
@@ -48,6 +49,14 @@ const MobileMenu = ({ isOpen, toggleMenu }: MobileMenuProps) => {
     },
   };
 
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Services", path: "/services" },
+    { name: "Pricing", path: "/pricing" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -80,27 +89,34 @@ const MobileMenu = ({ isOpen, toggleMenu }: MobileMenuProps) => {
           <div className="flex flex-col items-center justify-center h-[80vh]">
             <nav>
               <ul className="space-y-8 text-center">
-                {[
-                  { name: "Home", path: "/" },
-                  { name: "About", path: "/about" },
-                  { name: "Services", path: "/services" },
-                  { name: "Pricing", path: "/pricing" },
-                  { name: "Contact", path: "/contact" },
-                ].map((item, index) => (
-                  <motion.li
-                    key={index}
-                    variants={itemVariants}
-                    className="text-2xl"
-                  >
-                    <Link
-                      to={item.path}
-                      onClick={toggleMenu}
-                      className="text-white hover:text-orange-500 transition-colors"
+                {navItems.map((item, index) => {
+                  const isActive = item.path === currentPath;
+                  return (
+                    <motion.li
+                      key={index}
+                      variants={itemVariants}
+                      className="text-2xl relative"
                     >
-                      {item.name}
-                    </Link>
-                  </motion.li>
-                ))}
+                      <Link
+                        to={item.path}
+                        onClick={toggleMenu}
+                        className={`transition-colors ${
+                          isActive
+                            ? "text-orange-500"
+                            : "text-white hover:text-orange-500"
+                        }`}
+                      >
+                        {item.name}
+                        {isActive && (
+                          <motion.div
+                            className="absolute -bottom-2 left-1/4 right-1/4 h-0.5 bg-orange-500"
+                            layoutId="mobileActiveIndicator"
+                          />
+                        )}
+                      </Link>
+                    </motion.li>
+                  );
+                })}
               </ul>
             </nav>
 

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Badge } from "../ui/badge";
+import { Badge } from "../ui/Badge";
 import { Card, CardContent } from "../ui/Card";
-import { Switch } from "../ui/switch";
+import { Switch } from "../ui/Switch";
 
 interface NotificationCenterProps {
   notifications: Array<{

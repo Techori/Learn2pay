@@ -6,10 +6,11 @@ import Referral from "./pages/dashboards/referral";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import ScrollToTop from "./components/ScrollToTop";
-import About from './pages/about';
+import About from "./pages/about";
 import Institute from "./pages/dashboards/Institute";
-import Pricing from "./pages/Pricing";
+import Pricing from "./pages/pricing";
 import Services from "./pages/services";
+import Contact from "./pages/contact";
 
 function App() {
   return (
@@ -22,10 +23,13 @@ function App() {
         <Route path="/referral" element={<Referral />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/parent-dashboard" element={<Parent />} />
         <Route path="/about" element={<About />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/services" element={<Services />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/parent-dashboard" element={<Parent />} />
+        <Route path="/referral-dashboard" element={<Referral />} />
+        <Route path="/institute-dashboard" element={<Institute />} />
       </Routes>
     </BrowserRouter>
   );

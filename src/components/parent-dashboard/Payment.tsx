@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "../ui/Card";
 import { Button } from "../ui/Button";
-import { Badge } from "../ui/badge";
+import { Badge } from "../ui/Badge";
 
 const Payment = () => {
   const paymentMethods = [
@@ -47,7 +47,7 @@ const Payment = () => {
 
   return (
     <div className="space-y-8">
-            {/* Quick Payment Section */}
+      {/* Quick Payment Section */}
       <div>
         <h3 className="text-lg font-medium text-white mb-4">Quick Payment</h3>
         <Card className="bg-slate-700/50 border-gray-600">
@@ -169,10 +169,6 @@ const Payment = () => {
           ))}
         </div>
       </div>
-
-
-
-      
     </div>
   );
 };
