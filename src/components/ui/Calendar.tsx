@@ -3,7 +3,16 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/Button";
+// Define buttonVariants locally since it's not exported from Button
+const buttonVariants = ({ variant }: { variant?: string }) => {
+  const styles = {
+    outline:
+      "border border-gray-600 bg-transparent hover:bg-gray-700 hover:text-gray-200",
+    ghost: "hover:bg-gray-700 hover:text-gray-200",
+    default: "bg-orange-500 text-white hover:bg-orange-600",
+  };
+  return styles[variant as keyof typeof styles] || "";
+};
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>;
 
