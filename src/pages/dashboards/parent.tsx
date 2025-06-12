@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/Button";
+import { useToast } from "@/hooks/use-toast";
+import DashboardHeader from "@/components/shared/DashboardHeader";
 
 // Import parent dashboard components
 import DashboardStats from "../../components/parent-dashboard/DashboardStats";
@@ -7,11 +10,11 @@ import EmiSchedule from "../../components/parent-dashboard/EmiSchedule";
 import Payment from "../../components/parent-dashboard/Payment";
 import ChildProfile from "../../components/parent-dashboard/ChildProfile";
 import AttendanceTracker from "../../components/parent-dashboard/AttendanceTracker";
-import NotificationCenter from "../../components/parent-dashboard/NotificationCenter";
 import Settings from "../../components/parent-dashboard/Settings";
 
 const Parent = () => {
   const [selectedTab, setSelectedTab] = useState("dashboard");
+  const { toast } = useToast();
   // Mock data updated for EMI model - in real app, this would come from API
   const parentData = {
     name: "Mr. Rajesh Sharma",
@@ -211,6 +214,34 @@ const Parent = () => {
     },
   ];
 
+  const mockUser = {
+    name: parentData.name,
+    email: parentData.contactInfo.email,
+    phone: parentData.contactInfo.phone,
+    role: "Parent",
+    avatar: "",
+    address: "Mumbai, Maharashtra",
+  };
+
+  const handleLogout = () => {
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+    });
+  };
+
+  const handleUserUpdate = (updatedUser: any) => {
+    toast({
+      title: "Profile Updated",
+      description: "Your profile has been successfully updated.",
+    });
+  };
+
+  const parentBadges = [
+    { text: childInfo.class },
+    { text: childInfo.school, isPrimary: true },
+  ];
+
   const renderTabContent = () => {
     switch (selectedTab) {
       case "dashboard":
@@ -230,7 +261,27 @@ const Parent = () => {
       case "attendance":
         return <AttendanceTracker attendanceData={attendanceData} />;
       case "notifications":
-        return <NotificationCenter notifications={notifications} />;
+        return (
+          <div className="p-4">
+            <h2 className="text-xl font-bold mb-4">Notifications</h2>
+            {notifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`p-4 mb-3 border ${
+                  notification.read ? "border-gray-700" : "border-orange-500"
+                } rounded-lg bg-slate-800/50`}
+              >
+                <div className="flex justify-between">
+                  <h3 className="font-medium">{notification.title}</h3>
+                  <span className="text-sm text-gray-400">
+                    {notification.time}
+                  </span>
+                </div>
+                <p className="text-gray-300 mt-1">{notification.message}</p>
+              </div>
+            ))}
+          </div>
+        );
       case "settings":
         return <Settings parentData={parentData} />;
       default:
@@ -239,87 +290,14 @@ const Parent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-black text-white">
-      {/* Header */}
-      <motion.header
-        className="bg-black/50 backdrop-blur-md border-b border-gray-800"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center">
-              <div className="text-2xl font-bold">
-                <span className="text-orange-500">LEARN</span>
-                <span className="text-white">2PAY</span>
-              </div>
-              <div className="ml-8 text-sm text-gray-400">
-                <span className="text-orange-500 font-medium">PARENT</span>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 17h5l-5-5 5-5h-5m-6 10v-6a3 3 0 10-6 0v6h6z"
-                  />
-                </svg>
-                <span className="absolute -top-1 -right-1 h-4 w-4 bg-orange-500 text-xs rounded-full flex items-center justify-center">
-                  3
-                </span>
-              </button>
-
-              <button className="relative p-2 text-gray-400 hover:text-white transition-colors">
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 17h5l-5-5 5-5h-5m-6 10v-6a3 3 0 10-6 0v6h6z"
-                  />
-                </svg>
-              </button>
-
-              <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium">M</span>
-                <span className="text-white font-medium">
-                  {parentData.name}
-                </span>
-                <button className="text-orange-500 hover:text-orange-400 transition-colors">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.header>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+      <DashboardHeader
+        dashboardName="Parent"
+        badges={parentBadges}
+        user={mockUser}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* School Info */}
@@ -339,7 +317,7 @@ const Parent = () => {
                   Parent ID: {parentData.parentId}
                 </p>
               </div>
-              <button className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg text-white text-sm transition-colors">
+              <Button className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg text-white text-sm transition-colors">
                 <svg
                   className="w-4 h-4 inline mr-2"
                   fill="none"
@@ -354,7 +332,7 @@ const Parent = () => {
                   />
                 </svg>
                 Contact School
-              </button>
+              </Button>
             </div>
           </div>
         </motion.div>
