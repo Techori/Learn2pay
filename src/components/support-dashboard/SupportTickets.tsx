@@ -32,6 +32,9 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Plus,
+  Filter,
+  ArrowUpDown,
+  SlidersHorizontal,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -83,56 +86,47 @@ const SupportTickets = () => {
     {
       id: "TKT-001",
       title: "Fee collection not working",
-      description: "Unable to process fee payments through the portal",
       institute: "ABC School",
-      category: "Payment Issues",
       priority: "High",
       status: "In Progress",
-      assignedTo: "John Doe",
-      createdAt: "2024-03-15T10:30:00",
-      updatedAt: "2024-03-15T11:45:00",
-      lastResponse: "2 hours ago",
-      responseTime: "1.5 hours",
-      resolutionTime: "4 hours",
-      customerSatisfaction: 4,
-      attachments: 2,
-      comments: 5,
+      time: "2 hours ago",
+      assignee: "Rahul Sharma",
     },
     {
       id: "TKT-002",
       title: "Parent portal login issue",
-      description: "Parents cannot access their dashboard",
       institute: "XYZ Academy",
-      category: "Technical Issues",
       priority: "Medium",
-      status: "In Progress",
-      assignedTo: "Jane Smith",
-      createdAt: "2024-06-05T10:30:00",
-      updatedAt: "2024-06-05T10:30:00",
-      lastResponse: "1 hour ago",
-      responseTime: "1 hour",
-      resolutionTime: "N/A",
-      customerSatisfaction: 0,
-      attachments: 0,
-      comments: 0,
+      status: "New",
+      time: "4 hours ago",
+      assignee: "Unassigned",
     },
     {
       id: "TKT-003",
       title: "Payment gateway integration",
-      description: "Need help setting up Razorpay integration",
       institute: "Success Institute",
-      category: "Integration",
       priority: "Low",
       status: "Resolved",
-      assignedTo: "Mike Johnson",
-      createdAt: "2024-06-04T10:30:00",
-      updatedAt: "2024-06-04T10:30:00",
-      lastResponse: "1 day ago",
-      responseTime: "1 day",
-      resolutionTime: "2 days",
-      customerSatisfaction: 5,
-      attachments: 1,
-      comments: 2,
+      time: "1 day ago",
+      assignee: "Priya Singh",
+    },
+    {
+      id: "TKT-004",
+      title: "Student data import failed",
+      institute: "Global School",
+      priority: "High",
+      status: "New",
+      time: "1 hour ago",
+      assignee: "Unassigned",
+    },
+    {
+      id: "TKT-005",
+      title: "Attendance module error",
+      institute: "New Horizon Academy",
+      priority: "Medium",
+      status: "In Progress",
+      time: "5 hours ago",
+      assignee: "Vikram Patel",
     },
   ]);
 
@@ -192,8 +186,6 @@ const SupportTickets = () => {
         return "bg-orange-500";
       case "Resolved":
         return "bg-green-500";
-      case "Closed":
-        return "bg-gray-500";
       default:
         return "bg-gray-500";
     }
@@ -432,7 +424,6 @@ const SupportTickets = () => {
   const filteredTickets = tickets.filter((ticket) => {
     const matchesSearch =
       ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      ticket.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ticket.institute.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || ticket.status === statusFilter;
@@ -444,240 +435,130 @@ const SupportTickets = () => {
     return matchesSearch && matchesStatus && matchesPriority && matchesCategory;
   });
 
+  const handleTicketClick = (ticketId: string) => {
+    // Navigate to ticket details page
+    console.log(`Navigating to ticket ${ticketId}`);
+  };
+
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <CardTitle className="text-2xl">Support Tickets</CardTitle>
-          <CardDescription>
-            Manage and track all support requests
+    <div className="space-y-6">
+      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-white">Support Tickets</CardTitle>
+          <CardDescription className="text-gray-400">
+            Manage and respond to support requests from institutes
           </CardDescription>
-        </div>
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogTrigger asChild>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="mr-2 h-4 w-4" />
-              Create Ticket
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Create New Support Ticket</DialogTitle>
-              <DialogDescription>
-                Fill in the details to create a new support ticket
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium">Title</label>
-                <Input
-                  value={newTicket.title}
-                  onChange={(e) =>
-                    handleNewTicketChange("title", e.target.value)
-                  }
-                  placeholder="Enter ticket title"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Description</label>
-                <Textarea
-                  value={newTicket.description}
-                  onChange={(e) =>
-                    handleNewTicketChange("description", e.target.value)
-                  }
-                  placeholder="Enter ticket description"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Institute</label>
-                <Input
-                  value={newTicket.institute}
-                  onChange={(e) =>
-                    handleNewTicketChange("institute", e.target.value)
-                  }
-                  placeholder="Enter institute name"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Category</label>
-                <Select
-                  value={newTicket.category}
-                  onValueChange={(value) =>
-                    handleNewTicketChange("category", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Payment Issues">
-                      Payment Issues
-                    </SelectItem>
-                    <SelectItem value="Technical Issues">
-                      Technical Issues
-                    </SelectItem>
-                    <SelectItem value="Account Issues">
-                      Account Issues
-                    </SelectItem>
-                    <SelectItem value="Integration">Integration</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-sm font-medium">Priority</label>
-                <Select
-                  value={newTicket.priority}
-                  onValueChange={(value) =>
-                    handleNewTicketChange("priority", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="High">High</SelectItem>
-                    <SelectItem value="Medium">Medium</SelectItem>
-                    <SelectItem value="Low">Low</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-6">
+            <div className="relative w-full md:w-1/3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search tickets..."
+                className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
+              />
             </div>
-            <DialogFooter>
+            <div className="flex space-x-2 w-full md:w-auto">
               <Button
                 variant="outline"
-                onClick={() => setIsCreateDialogOpen(false)}
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
               >
-                Cancel
+                <Filter className="h-4 w-4 mr-2 text-gray-400" />
+                Filter
               </Button>
-              <Button onClick={handleCreateTicket}>Create Ticket</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Filters and Search */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Search tickets by ID, title, or institute..."
-                  className="pl-8"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                />
-              </div>
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <ArrowUpDown className="h-4 w-4 mr-2 text-gray-400" />
+                Sort
+              </Button>
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <SlidersHorizontal className="h-4 w-4 mr-2 text-gray-400" />
+                Advanced
+              </Button>
             </div>
-            <div className="flex gap-4">
-              <Select value={statusFilter} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="New">New</SelectItem>
-                  <SelectItem value="In Progress">In Progress</SelectItem>
-                  <SelectItem value="Resolved">Resolved</SelectItem>
-                  <SelectItem value="Closed">Closed</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select
-                value={priorityFilter}
-                onValueChange={handlePriorityChange}
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-12 text-xs font-semibold text-gray-400 pb-2 border-b border-gray-700">
+              <div className="col-span-1">ID</div>
+              <div className="col-span-4">Title</div>
+              <div className="col-span-2">Institute</div>
+              <div className="col-span-1">Priority</div>
+              <div className="col-span-2">Assignee</div>
+              <div className="col-span-2">Status</div>
+            </div>
+
+            {filteredTickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                className="grid grid-cols-12 items-center py-3 px-2 border border-gray-700 rounded-lg hover:bg-slate-700/50 cursor-pointer"
+                onClick={() => handleTicketClick(ticket.id)}
               >
-                <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="Priority" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Priority</SelectItem>
-                  <SelectItem value="High">High</SelectItem>
-                  <SelectItem value="Medium">Medium</SelectItem>
-                  <SelectItem value="Low">Low</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select
-                value={categoryFilter}
-                onValueChange={handleCategoryChange}
+                <div className="col-span-1 font-medium text-gray-200">
+                  {ticket.id}
+                </div>
+                <div className="col-span-4">
+                  <p className="font-medium text-white">{ticket.title}</p>
+                  <p className="text-xs text-gray-400">{ticket.time}</p>
+                </div>
+                <div className="col-span-2 text-gray-300">
+                  {ticket.institute}
+                </div>
+                <div className="col-span-1">
+                  <Badge
+                    className={`${getPriorityColor(
+                      ticket.priority
+                    )} text-white`}
+                  >
+                    {ticket.priority}
+                  </Badge>
+                </div>
+                <div className="col-span-2 text-gray-300">
+                  {ticket.assignee === "Unassigned" ? (
+                    <span className="text-gray-400">Unassigned</span>
+                  ) : (
+                    ticket.assignee
+                  )}
+                </div>
+                <div className="col-span-2">
+                  <Badge
+                    className={`${getStatusColor(ticket.status)} text-white`}
+                  >
+                    {ticket.status}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-sm text-gray-400">
+              Showing {filteredTickets.length} of {tickets.length} tickets
+            </p>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
               >
-                <SelectTrigger className="w-[150px]">
-                  <SelectValue placeholder="Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Payment Issues">Payment Issues</SelectItem>
-                  <SelectItem value="Technical Issues">
-                    Technical Issues
-                  </SelectItem>
-                  <SelectItem value="Account Issues">Account Issues</SelectItem>
-                  <SelectItem value="Integration">Integration</SelectItem>
-                </SelectContent>
-              </Select>
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                Next
+              </Button>
             </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Tickets List */}
-      <div className="space-y-4">
-        {filteredTickets.map((ticket) => (
-          <Card
-            key={ticket.id}
-            className="flex items-center justify-between p-4 border border-gray-700 rounded-lg cursor-pointer hover:bg-slate-800/50 mb-3"
-          >
-            <CardContent className="p-6">
-              <div className="space-y-1">
-                <div className="flex items-center space-x-2">
-                  <h3 className="font-semibold">{ticket.id}</h3>
-                  <Badge className={getPriorityColor(ticket.priority)}>
-                    {ticket.priority}
-                  </Badge>
-                  <Badge className={getStatusColor(ticket.status)}>
-                    {ticket.status}
-                  </Badge>
-                </div>
-                <p className="text-sm font-medium">{ticket.title}</p>
-                <p className="text-xs text-gray-400">
-                  {ticket.institute} • Created:{" "}
-                  {new Date(ticket.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-            </CardContent>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => handleTicketAction(ticket.id, "view")}
-                >
-                  View Details
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleTicketAction(ticket.id, "assign")}
-                >
-                  Assign Ticket
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleTicketAction(ticket.id, "escalate")}
-                >
-                  Escalate
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleTicketAction(ticket.id, "close")}
-                >
-                  Close Ticket
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </Card>
-        ))}
-      </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

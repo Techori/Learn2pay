@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -46,14 +47,14 @@ import {
   Ticket,
   AlertTriangle,
   LockKeyhole,
-
   CheckCircle,
-
   Building,
   MoreVertical,
   Eye,
-
   KeyRound,
+  Filter,
+  ArrowUpDown,
+  UserPlus,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -446,339 +447,117 @@ const SupportUsers = () => {
     window.location.href = `mailto:${user.email}`;
   };
 
+  const handleUserClick = (userId: string) => {
+    // Navigate to user details page
+    console.log(`Navigating to user ${userId}`);
+  };
+
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <CardTitle className="text-2xl">User Support</CardTitle>
-          <CardDescription>
-            Support for parents, students, teachers, and administrators
+    <div className="space-y-6">
+      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-white">Support Users</CardTitle>
+          <CardDescription className="text-gray-400">
+            Manage support team members and their assignments
           </CardDescription>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="flex items-center"
-            onClick={handleExportUsers}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Export Users
-          </Button>
-          <Dialog
-            open={isCreateDialogOpen}
-            onOpenChange={setIsCreateDialogOpen}
-          >
-            <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center">
-                <Plus className="mr-2 h-4 w-4" />
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-6">
+            <div className="relative w-full md:w-1/3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search users..."
+                className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
+              />
+            </div>
+            <div className="flex space-x-2 w-full md:w-auto">
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <Filter className="h-4 w-4 mr-2 text-gray-400" />
+                Filter
+              </Button>
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <ArrowUpDown className="h-4 w-4 mr-2 text-gray-400" />
+                Sort
+              </Button>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                <UserPlus className="h-4 w-4 mr-2" />
                 Add User
               </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add New User</DialogTitle>
-                <DialogDescription>
-                  Fill in the details to add a new user to the system
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">Full Name</label>
-                  <Input
-                    id="name"
-                    value={newUser.name}
-                    onChange={(e) =>
-                      handleNewUserChange("name", e.target.value)
-                    }
-                    placeholder="e.g., Jane Doe"
-                  />
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-12 text-xs font-semibold text-gray-400 pb-2 border-b border-gray-700">
+              <div className="col-span-3">Name</div>
+              <div className="col-span-3">Email</div>
+              <div className="col-span-2">Role</div>
+              <div className="col-span-1">Assigned</div>
+              <div className="col-span-1">Resolved</div>
+              <div className="col-span-2">Status</div>
+            </div>
+
+            {filteredUsers.map((user) => (
+              <div
+                key={user.id}
+                className="grid grid-cols-12 items-center py-3 px-2 border border-gray-700 rounded-lg hover:bg-slate-700/50 cursor-pointer"
+                onClick={() => handleUserClick(user.id)}
+              >
+                <div className="col-span-3">
+                  <p className="font-medium text-white">{user.name}</p>
+                  <p className="text-xs text-gray-400">ID: {user.id}</p>
                 </div>
-                <div>
-                  <label className="text-sm font-medium">Email</label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={newUser.email}
-                    onChange={(e) =>
-                      handleNewUserChange("email", e.target.value)
-                    }
-                    placeholder="e.g., jane.doe@example.com"
-                  />
+                <div className="col-span-3 text-gray-300">{user.email}</div>
+                <div className="col-span-2">
+                  <Badge className={`${getRoleColor(user.role)} text-white`}>
+                    {user.role}
+                  </Badge>
                 </div>
-                <div>
-                  <label className="text-sm font-medium">Phone</label>
-                  <Input
-                    id="phone"
-                    value={newUser.phone}
-                    onChange={(e) =>
-                      handleNewUserChange("phone", e.target.value)
-                    }
-                    placeholder="e.g., +91 9876543210"
-                  />
+                <div className="col-span-1 text-gray-300">
+                  {user.totalTickets}
                 </div>
-                <div>
-                  <label className="text-sm font-medium">Location</label>
-                  <Input
-                    id="location"
-                    value={newUser.location}
-                    onChange={(e) =>
-                      handleNewUserChange("location", e.target.value)
-                    }
-                    placeholder="e.g., Mumbai, Maharashtra"
-                  />
+                <div className="col-span-1 text-gray-300">
+                  {user.openTickets}
                 </div>
-                <div>
-                  <label className="text-sm font-medium">Institute</label>
-                  <Input
-                    id="institute"
-                    value={newUser.institute}
-                    onChange={(e) =>
-                      handleNewUserChange("institute", e.target.value)
-                    }
-                    placeholder="e.g., ABC International School"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Role</label>
-                  <Select
-                    value={newUser.role}
-                    onValueChange={(value) =>
-                      handleNewUserChange("role", value)
-                    }
+                <div className="col-span-2">
+                  <Badge
+                    className={`${getStatusColor(user.status)} text-white`}
                   >
-                    <SelectTrigger id="role">
-                      <SelectValue placeholder="Select role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Parent">Parent</SelectItem>
-                      <SelectItem value="Teacher">Teacher</SelectItem>
-                      <SelectItem value="Student">Student</SelectItem>
-                      <SelectItem value="Institute Admin">
-                        Institute Admin
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Status</label>
-                  <Select
-                    value={newUser.status}
-                    onValueChange={(value) =>
-                      handleNewUserChange("status", value)
-                    }
-                  >
-                    <SelectTrigger id="status">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Active">Active</SelectItem>
-                      <SelectItem value="Inactive">Inactive</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    {user.status}
+                  </Badge>
                 </div>
               </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsCreateDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleCreateUser}>Add User</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
+            ))}
+          </div>
 
-      {/* Search and Filter Bar */}
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search users by name, email, institute, or ID..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={handleSearch}
-          />
-        </div>
-        <Select value={roleFilter} onValueChange={handleRoleChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Roles" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Roles</SelectItem>
-            <SelectItem value="Parent">Parent</SelectItem>
-            <SelectItem value="Teacher">Teacher</SelectItem>
-            <SelectItem value="Student">Student</SelectItem>
-            <SelectItem value="Institute Admin">Institute Admin</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={statusFilter} onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* User List */}
-      <div className="space-y-4">
-        {filteredUsers.map((user) => (
-          <Card key={user.id}>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left Column - User Details */}
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      {/* Placeholder for user icon/avatar */}
-                      <UsersIcon className="h-10 w-10 text-blue-600" />
-                    </div>
-                    <div className="flex-grow space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-xl font-semibold">{user.name}</h3>
-                        <Badge
-                          className={`${getStatusColor(
-                            user.status
-                          )} text-white`}
-                        >
-                          {user.status}
-                        </Badge>
-                        <Badge
-                          className={`${getRoleColor(user.role)} text-white`}
-                        >
-                          {user.role}
-                        </Badge>
-                        <span className="text-sm text-muted-foreground">
-                          ID: {user.id}
-                        </span>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600 space-x-4 mt-2">
-                        <div className="flex items-center space-x-1">
-                          <Mail className="h-4 w-4 text-gray-400" />
-                          <span>{user.email}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Phone className="h-4 w-4 text-gray-400" />
-                          <span>{user.phone}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <MapPin className="h-4 w-4 text-gray-400" />
-                          <span>{user.location}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600 space-x-4 mt-2">
-                        <div className="flex items-center space-x-1">
-                          <Calendar className="h-4 w-4 text-gray-400" />
-                          <span>Joined: {user.joinedDate}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Clock className="h-4 w-4 text-gray-400" />
-                          <span>Last Login: {user.lastLogin}</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center text-sm text-gray-600 space-x-1 mt-2">
-                        <Building className="h-4 w-4 text-gray-400" />
-                        <span>Institute: {user.institute}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Quick Stats */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mt-4">
-                    <Card className="p-3 space-y-1">
-                      <div className="text-xl font-bold text-blue-600">
-                        {user.totalTickets}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Total Tickets
-                      </div>
-                    </Card>
-                    <Card className="p-3 space-y-1">
-                      <div className="text-xl font-bold text-orange-600">
-                        {user.openTickets}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Open Tickets
-                      </div>
-                    </Card>
-                    <Card className="p-3 space-y-1">
-                      <div className="text-xl font-bold text-red-600">
-                        {user.accountIssues}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Account Issues
-                      </div>
-                    </Card>
-                    <Card className="p-3 space-y-1">
-                      <div className="text-xl font-bold text-yellow-600">
-                        {user.paymentIssues}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Payment Issues
-                      </div>
-                    </Card>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap gap-3 mt-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center space-x-1"
-                      onClick={() => handleViewTickets(user)}
-                    >
-                      <Ticket className="h-4 w-4" />
-                      View Tickets
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center space-x-1"
-                      onClick={() => handleSendEmail(user)}
-                    >
-                      <Mail className="h-4 w-4" />
-                      Send Email
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Right Column - Actions */}
-                <div className="lg:col-span-1 flex flex-col items-end justify-between space-y-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleUserAction(user, "view")}
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => handleUserAction(user, "reset-password")}
-                      >
-                        <KeyRound className="mr-2 h-4 w-4" />
-                        Reset Password
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-sm text-gray-400">
+              Showing {filteredUsers.length} of {users.length} users
+            </p>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Action Dialog */}
       <Dialog open={isActionDialogOpen} onOpenChange={setIsActionDialogOpen}>

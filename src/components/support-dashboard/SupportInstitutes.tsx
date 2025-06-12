@@ -50,6 +50,8 @@ import {
   FileText,
   Plus,
   MoreVertical,
+  Filter,
+  ArrowUpDown,
 } from "lucide-react";
 
 const SupportInstitutes = () => {
@@ -582,399 +584,254 @@ const SupportInstitutes = () => {
 
   return (
     <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <CardTitle className="text-2xl">Institute Support</CardTitle>
-          <CardDescription>
-            Manage and support educational institutes
+      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-white">Institutes</CardTitle>
+          <CardDescription className="text-gray-400">
+            Manage and support registered educational institutions
           </CardDescription>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="outline"
-            className="flex items-center"
-            onClick={() => console.log("Export Report button clicked")}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Export Report
-          </Button>
-          <Dialog
-            open={isCreateDialogOpen}
-            onOpenChange={setIsCreateDialogOpen}
-          >
-            <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white flex items-center">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Institute
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-6">
+            <div className="relative w-full md:w-1/3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Input
+                placeholder="Search institutes..."
+                className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
+              />
+            </div>
+            <div className="flex space-x-2 w-full md:w-auto">
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <Filter className="h-4 w-4 mr-2 text-gray-400" />
+                Filter
               </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add New Institute</DialogTitle>
-                <DialogDescription>
-                  Fill in the details to add a new educational institute
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="name">Institute Name</Label>
-                  <Input
-                    id="name"
-                    value={newInstitute.name}
-                    onChange={(e) =>
-                      handleNewInstituteChange("name", e.target.value)
-                    }
-                    placeholder="e.g., Bright Minds School"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="location">Location</Label>
-                  <Input
-                    id="location"
-                    value={newInstitute.location}
-                    onChange={(e) =>
-                      handleNewInstituteChange("location", e.target.value)
-                    }
-                    placeholder="e.g., Mumbai, Maharashtra"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="students">Number of Students</Label>
-                  <Input
-                    id="students"
-                    type="number"
-                    value={newInstitute.students}
-                    onChange={(e) =>
-                      handleNewInstituteChange("students", e.target.value)
-                    }
-                    placeholder="e.g., 500"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="teachers">Number of Teachers</Label>
-                  <Input
-                    id="teachers"
-                    type="number"
-                    value={newInstitute.teachers}
-                    onChange={(e) =>
-                      handleNewInstituteChange("teachers", e.target.value)
-                    }
-                    placeholder="e.g., 30"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    value={newInstitute.phone}
-                    onChange={(e) =>
-                      handleNewInstituteChange("phone", e.target.value)
-                    }
-                    placeholder="e.g., +91 9876543210"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={newInstitute.email}
-                    onChange={(e) =>
-                      handleNewInstituteChange("email", e.target.value)
-                    }
-                    placeholder="e.g., info@institute.com"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="status">Status</Label>
-                  <Select
-                    value={newInstitute.status}
-                    onValueChange={(value) =>
-                      handleNewInstituteChange("status", value)
-                    }
-                  >
-                    <SelectTrigger id="status">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Active">Active</SelectItem>
-                      <SelectItem value="Inactive">Inactive</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="plan">Plan</Label>
-                  <Select
-                    value={newInstitute.plan}
-                    onValueChange={(value) =>
-                      handleNewInstituteChange("plan", value)
-                    }
-                  >
-                    <SelectTrigger id="plan">
-                      <SelectValue placeholder="Select plan" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Basic">Basic</SelectItem>
-                      <SelectItem value="Standard">Standard</SelectItem>
-                      <SelectItem value="Premium">Premium</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setIsCreateDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleCreateInstitute}>Add Institute</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
-
-      {/* Search and Filter Bar */}
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input
-            placeholder="Search institutes by name, location, or ID..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={handleSearch}
-          />
-        </div>
-        <Select value={statusFilter} onValueChange={handleStatusChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={planFilter} onValueChange={handlePlanChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Plans" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Plans</SelectItem>
-            <SelectItem value="Basic">Basic</SelectItem>
-            <SelectItem value="Standard">Standard</SelectItem>
-            <SelectItem value="Premium">Premium</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {summaryStats.map((stat, index) => (
-          <Card key={index}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
-              <div className={stat.color}>{stat.icon}</div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Institute List */}
-      <div className="space-y-4">
-        {filteredInstitutes.map((institute) => (
-          <Card key={institute.id}>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left Column - Institute Details */}
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      <Building className="h-10 w-10 text-blue-600" />
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                <ArrowUpDown className="h-4 w-4 mr-2 text-gray-400" />
+                Sort
+              </Button>
+              <Dialog
+                open={isCreateDialogOpen}
+                onOpenChange={setIsCreateDialogOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                    <Building className="h-4 w-4 mr-2" />
+                    Add Institute
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add New Institute</DialogTitle>
+                    <DialogDescription>
+                      Fill in the details to add a new educational institute
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="name">Institute Name</Label>
+                      <Input
+                        id="name"
+                        value={newInstitute.name}
+                        onChange={(e) =>
+                          handleNewInstituteChange("name", e.target.value)
+                        }
+                        placeholder="e.g., Bright Minds School"
+                      />
                     </div>
-                    <div className="flex-grow space-y-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-xl font-semibold">
-                          {institute.name}
-                        </h3>
-                        <Badge
-                          className={`${getStatusColor(
-                            institute.status
-                          )} text-white`}
-                        >
-                          {institute.status}
-                        </Badge>
-                        <Badge
-                          className={`${getPlanColor(
-                            institute.plan
-                          )} text-white`}
-                        >
-                          {institute.plan}
-                        </Badge>
-                        <Badge
-                          className={`${getPaymentColor(
-                            institute.payment
-                          )} text-white`}
-                        >
-                          {institute.payment}
-                        </Badge>
-                      </div>
-                      <p className="text-muted-foreground text-sm flex items-center space-x-1">
-                        <MapPin className="h-4 w-4" />
-                        <span>{institute.location}</span>
-                      </p>
-                      <p className="text-muted-foreground text-sm flex items-center space-x-1">
-                        <UsersIcon className="h-4 w-4" />
-                        <span>{institute.students} students</span>
-                      </p>
-                      <p className="text-muted-foreground text-sm flex items-center space-x-1">
-                        <Calendar className="h-4 w-4" />
-                        <span>Joined {institute.joinedDate}</span>
-                      </p>
-                      <div className="flex items-center text-sm text-gray-600 space-x-4 mt-2">
-                        <div className="flex items-center space-x-1">
-                          <Phone className="h-4 w-4 text-gray-400" />
-                          <span>{institute.phone}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Mail className="h-4 w-4" />
-                          <span>{institute.email}</span>
-                        </div>
-                      </div>
+                    <div>
+                      <Label htmlFor="location">Location</Label>
+                      <Input
+                        id="location"
+                        value={newInstitute.location}
+                        onChange={(e) =>
+                          handleNewInstituteChange("location", e.target.value)
+                        }
+                        placeholder="e.g., Mumbai, Maharashtra"
+                      />
                     </div>
-                  </div>
-
-                  {/* Quick Stats */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center mt-4">
-                    <div className="space-y-1">
-                      <div className="text-xl font-bold">
-                        {institute.students}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Students
-                      </div>
+                    <div>
+                      <Label htmlFor="students">Number of Students</Label>
+                      <Input
+                        id="students"
+                        type="number"
+                        value={newInstitute.students}
+                        onChange={(e) =>
+                          handleNewInstituteChange("students", e.target.value)
+                        }
+                        placeholder="e.g., 500"
+                      />
                     </div>
-                    <div className="space-y-1">
-                      <div className="text-xl font-bold">
-                        {institute.teachers}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Teachers
-                      </div>
+                    <div>
+                      <Label htmlFor="teachers">Number of Teachers</Label>
+                      <Input
+                        id="teachers"
+                        type="number"
+                        value={newInstitute.teachers}
+                        onChange={(e) =>
+                          handleNewInstituteChange("teachers", e.target.value)
+                        }
+                        placeholder="e.g., 30"
+                      />
                     </div>
-                    <div className="space-y-1">
-                      <div className="text-xl font-bold">
-                        {institute.totalTickets}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Total Tickets
-                      </div>
+                    <div>
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input
+                        id="phone"
+                        value={newInstitute.phone}
+                        onChange={(e) =>
+                          handleNewInstituteChange("phone", e.target.value)
+                        }
+                        placeholder="e.g., +91 9876543210"
+                      />
                     </div>
-                    <div className="space-y-1">
-                      <div className="text-xl font-bold">
-                        {institute.openTickets}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        Open Tickets
-                      </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={newInstitute.email}
+                        onChange={(e) =>
+                          handleNewInstituteChange("email", e.target.value)
+                        }
+                        placeholder="e.g., info@institute.com"
+                      />
                     </div>
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex flex-wrap gap-3 mt-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center space-x-1"
-                      onClick={() =>
-                        console.log(
-                          `Call button clicked for ${institute.name}, Phone: ${institute.phone}`
-                        )
-                      }
-                    >
-                      <Phone className="h-4 w-4" />
-                      Call
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center space-x-1"
-                      onClick={() =>
-                        console.log(
-                          `Email button clicked for ${institute.name}, Email: ${institute.email}`
-                        )
-                      }
-                    >
-                      <Mail className="h-4 w-4" />
-                      Email
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center space-x-1"
-                      onClick={() =>
-                        console.log(
-                          `View Tickets button clicked for ${institute.name}, Total Tickets: ${institute.totalTickets}, Open Tickets: ${institute.openTickets}`
-                        )
-                      }
-                    >
-                      <Ticket className="h-4 w-4" />
-                      View Tickets
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Right Column - Actions */}
-                <div className="lg:col-span-1 flex flex-col items-end justify-between space-y-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => handleInstituteAction(institute, "view")}
-                      >
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() =>
-                          handleInstituteAction(
-                            institute,
-                            institute.status === "Active"
-                              ? "deactivate"
-                              : "activate"
-                          )
+                    <div>
+                      <Label htmlFor="status">Status</Label>
+                      <Select
+                        value={newInstitute.status}
+                        onValueChange={(value) =>
+                          handleNewInstituteChange("status", value)
                         }
                       >
-                        {institute.status === "Active"
-                          ? "Deactivate"
-                          : "Activate"}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() =>
-                          handleInstituteAction(institute, "manage")
+                        <SelectTrigger id="status">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Active">Active</SelectItem>
+                          <SelectItem value="Inactive">Inactive</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="plan">Plan</Label>
+                      <Select
+                        value={newInstitute.plan}
+                        onValueChange={(value) =>
+                          handleNewInstituteChange("plan", value)
                         }
                       >
-                        Manage
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                        <SelectTrigger id="plan">
+                          <SelectValue placeholder="Select plan" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Basic">Basic</SelectItem>
+                          <SelectItem value="Standard">Standard</SelectItem>
+                          <SelectItem value="Premium">Premium</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsCreateDialogOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={handleCreateInstitute}>
+                      Add Institute
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-12 text-xs font-semibold text-gray-400 pb-2 border-b border-gray-700">
+              <div className="col-span-3">Name</div>
+              <div className="col-span-2">Location</div>
+              <div className="col-span-2">Type</div>
+              <div className="col-span-1">Students</div>
+              <div className="col-span-2">Subscription</div>
+              <div className="col-span-1">Tickets</div>
+              <div className="col-span-1">Status</div>
+            </div>
+
+            {filteredInstitutes.map((institute) => (
+              <div
+                key={institute.id}
+                className="grid grid-cols-12 items-center py-3 px-2 border border-gray-700 rounded-lg hover:bg-slate-700/50 cursor-pointer"
+                onClick={() => handleInstituteAction(institute, "view")}
+              >
+                <div className="col-span-3">
+                  <p className="font-medium text-white">{institute.name}</p>
+                  <p className="text-xs text-gray-400">ID: {institute.id}</p>
+                </div>
+                <div className="col-span-2 text-gray-300">
+                  {institute.location}
+                </div>
+                <div className="col-span-2 text-gray-300">
+                  {institute.students.toLocaleString()}
+                </div>
+                <div className="col-span-2">
+                  <Badge
+                    className={`${getPlanColor(institute.plan)} text-white`}
+                  >
+                    {institute.plan}
+                  </Badge>
+                </div>
+                <div className="col-span-1">
+                  {institute.openTickets > 0 ? (
+                    <Badge className="bg-red-500 text-white">
+                      {institute.openTickets}
+                    </Badge>
+                  ) : (
+                    <span className="text-gray-400">None</span>
+                  )}
+                </div>
+                <div className="col-span-1">
+                  <Badge
+                    className={`${getStatusColor(institute.status)} text-white`}
+                  >
+                    {institute.status}
+                  </Badge>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-sm text-gray-400">
+              Showing {filteredInstitutes.length} of {institutes.length}{" "}
+              institutes
+            </p>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                Previous
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Action Dialog */}
       <Dialog open={isActionDialogOpen} onOpenChange={setIsActionDialogOpen}>

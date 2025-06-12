@@ -154,16 +154,19 @@ const SupportDashboardOverview = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
-          <Card key={index}>
+          <Card
+            key={index}
+            className="bg-slate-800/50 border-gray-700 backdrop-blur-sm"
+          >
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
+              <CardTitle className="text-sm font-medium text-gray-200">
                 {stat.title}
               </CardTitle>
               <div className={stat.color}>{stat.icon}</div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">{stat.change}</p>
+              <div className="text-2xl font-bold text-white">{stat.value}</div>
+              <p className="text-xs text-gray-400">{stat.change}</p>
             </CardContent>
           </Card>
         ))}
@@ -171,13 +174,13 @@ const SupportDashboardOverview = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Tickets */}
-        <Card>
+        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Ticket className="h-5 w-5" />
+            <CardTitle className="flex items-center space-x-2 text-white">
+              <Ticket className="h-5 w-5 text-orange-400" />
               <span>Recent Support Tickets</span>
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-400">
               Latest support requests from institutes
             </CardDescription>
           </CardHeader>
@@ -186,12 +189,14 @@ const SupportDashboardOverview = () => {
               {recentTickets.map((ticket, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg cursor-pointer hover:bg-slate-800/50"
+                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg cursor-pointer hover:bg-slate-700/50"
                   onClick={() => handleTicketClick(ticket.id)}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <span className="font-medium">{ticket.id}</span>
+                      <span className="font-medium text-gray-200">
+                        {ticket.id}
+                      </span>
                       <Badge
                         className={`${getPriorityColor(
                           ticket.priority
@@ -200,7 +205,9 @@ const SupportDashboardOverview = () => {
                         {ticket.priority}
                       </Badge>
                     </div>
-                    <p className="text-sm font-medium">{ticket.title}</p>
+                    <p className="text-sm font-medium text-white">
+                      {ticket.title}
+                    </p>
                     <p className="text-xs text-gray-400">
                       {ticket.institute} • {ticket.time}
                     </p>
@@ -215,7 +222,7 @@ const SupportDashboardOverview = () => {
             </div>
             <Button
               variant="outline"
-              className="w-full mt-4"
+              className="w-full mt-4 border-gray-700 text-gray-200 hover:bg-gray-700"
               onClick={handleViewAllTickets}
             >
               View All Tickets
@@ -224,13 +231,13 @@ const SupportDashboardOverview = () => {
         </Card>
 
         {/* Support Channels */}
-        <Card>
+        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <MessageSquare className="h-5 w-5" />
+            <CardTitle className="flex items-center space-x-2 text-white">
+              <MessageSquare className="h-5 w-5 text-orange-400" />
               <span>Support Channels</span>
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-400">
               Performance across different support channels
             </CardDescription>
           </CardHeader>
@@ -239,63 +246,51 @@ const SupportDashboardOverview = () => {
               {supportChannels.map((channel, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:bg-slate-800/50"
+                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:bg-slate-700/50"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="text-orange-500">{channel.icon}</div>
+                    <div className="text-orange-400">{channel.icon}</div>
                     <div>
-                      <p className="font-medium">{channel.channel}</p>
+                      <p className="font-medium text-gray-200">
+                        {channel.channel}
+                      </p>
                       <p className="text-sm text-gray-400">
                         {channel.requests} requests today
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-medium">{channel.avgTime}</p>
-                    <p className="text-xs text-gray-400">avg response</p>
+                  <div>
+                    <p className="text-lg font-bold text-white">
+                      {channel.avgTime}
+                    </p>
+                    <p className="text-xs text-gray-400 text-right">
+                      avg. response
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                onClick={handleEscalatedIssues}
+              >
+                <AlertTriangle className="h-4 w-4 mr-2 text-red-400" />
+                Escalated Issues
+              </Button>
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                onClick={handlePerformanceReports}
+              >
+                <TrendingUp className="h-4 w-4 mr-2 text-green-400" />
+                Performance Reports
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common support tasks and shortcuts</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col space-y-2"
-              onClick={handleViewAllInstitutes}
-            >
-              <Users className="h-6 w-6" />
-              <span>View All Institutes</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col space-y-2"
-              onClick={handleEscalatedIssues}
-            >
-              <AlertTriangle className="h-6 w-6" />
-              <span>Escalated Issues</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col space-y-2"
-              onClick={handlePerformanceReports}
-            >
-              <TrendingUp className="h-6 w-6" />
-              <span>Performance Reports</span>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
