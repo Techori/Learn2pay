@@ -14,6 +14,9 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Services from "./pages/services";
 import Contact from "./pages/contact";
+
+import SalesDashboard from "./pages/dashboards/sales";
+
 import ScrollToTop from "./components/ScrollToTop";
 import About from "./pages/about";
 
@@ -38,9 +41,11 @@ function App() {
         <Route path="/referral-dashboard" element={<ReferralDashboard />} />
         <Route path="/institute-dashboard" element={<InstituteDashboard />} />
         <Route path="/support-dashboard" element={<SupportDashboard />} />
+        <Route path="/sales-dashboard" element={<SalesDashboard />} />
 
       </Routes>
     </BrowserRouter>
+
   );
 }
 
