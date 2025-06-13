@@ -1,12 +1,12 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { Badge } from "../components/ui/Badge";
 import { CheckCircle, X, ArrowRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 // import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import Navbar from '@/components/Navbar';
 const Pricing = () => {
   const navigate = useNavigate();
 
@@ -98,7 +98,9 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* <Header /> */}
-      
+      <Navbar />
+
+      {/* Main Pricing Section */}
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}

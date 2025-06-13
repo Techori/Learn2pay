@@ -6,12 +6,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Aavatar";
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Label } from "../../components/ui/Label";
+import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/Aavatar";
 import { User, Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../../hooks/use-toast";
 
 interface UserProfileProps {
   user: {
@@ -52,9 +52,11 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
           size="sm"
           className="flex items-center space-x-2"
         >
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-8 w-8 bg-orange-500/20">
             <AvatarImage src={user.avatar} />
-            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            <AvatarFallback className="text-orange-500">
+              {user.name.charAt(0)}
+            </AvatarFallback>
           </Avatar>
           <span className="hidden md:block">{user.name}</span>
         </Button>
@@ -68,15 +70,26 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsEditing(true)}
+                className="text-orange-500 hover:text-orange-600 hover:bg-orange-500/10"
               >
                 <Edit2 className="h-4 w-4" />
               </Button>
             ) : (
               <div className="flex space-x-2">
-                <Button variant="ghost" size="sm" onClick={handleCancel}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleCancel}
+                  className="text-gray-400 hover:text-gray-300 hover:bg-gray-800"
+                >
                   <X className="h-4 w-4" />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleSave}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleSave}
+                  className="text-green-500 hover:text-green-400 hover:bg-green-500/10"
+                >
                   <Save className="h-4 w-4" />
                 </Button>
               </div>
@@ -86,9 +99,9 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
 
         <div className="space-y-4">
           <div className="flex justify-center">
-            <Avatar className="h-20 w-20">
+            <Avatar className="h-20 w-20 bg-orange-500/20">
               <AvatarImage src={user.avatar} />
-              <AvatarFallback className="text-lg">
+              <AvatarFallback className="text-lg text-orange-500">
                 {user.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
@@ -106,9 +119,9 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
                   }
                 />
               ) : (
-                <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                  <User className="h-4 w-4 text-gray-500" />
-                  <span>{user.name}</span>
+                <div className="flex items-center space-x-2 p-2 bg-slate-800/50 border border-gray-700 rounded">
+                  <User className="h-4 w-4 text-orange-400" />
+                  <span className="text-gray-200">{user.name}</span>
                 </div>
               )}
             </div>
@@ -125,9 +138,9 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
                   }
                 />
               ) : (
-                <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                  <Mail className="h-4 w-4 text-gray-500" />
-                  <span>{user.email}</span>
+                <div className="flex items-center space-x-2 p-2 bg-slate-800/50 border border-gray-700 rounded">
+                  <Mail className="h-4 w-4 text-orange-400" />
+                  <span className="text-gray-200">{user.email}</span>
                 </div>
               )}
             </div>
@@ -143,17 +156,19 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
                   }
                 />
               ) : (
-                <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                  <Phone className="h-4 w-4 text-gray-500" />
-                  <span>{user.phone}</span>
+                <div className="flex items-center space-x-2 p-2 bg-slate-800/50 border border-gray-700 rounded">
+                  <Phone className="h-4 w-4 text-orange-400" />
+                  <span className="text-gray-200">{user.phone}</span>
                 </div>
               )}
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="role">Role</Label>
-              <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                <span className="capitalize font-medium">{user.role}</span>
+              <div className="flex items-center space-x-2 p-2 bg-slate-800/50 border border-gray-700 rounded">
+                <span className="capitalize font-medium text-orange-400">
+                  {user.role}
+                </span>
               </div>
             </div>
 
@@ -169,9 +184,9 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
                     }
                   />
                 ) : (
-                  <div className="flex items-center space-x-2 p-2 bg-gray-50 rounded">
-                    <MapPin className="h-4 w-4 text-gray-500" />
-                    <span>{user.address}</span>
+                  <div className="flex items-center space-x-2 p-2 bg-slate-800/50 border border-gray-700 rounded">
+                    <MapPin className="h-4 w-4 text-orange-400" />
+                    <span className="text-gray-200">{user.address}</span>
                   </div>
                 )}
               </div>
