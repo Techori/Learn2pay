@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "../../components/ui/Tabs";
-import { Button } from "../../components/ui/Button";
-import { LogOut } from "lucide-react";
-import ReferralTabContent from "../../components/referral/ReferralTabContent";
-import UserProfile from "../../components/shared/UserProfile";
-import NotificationCenter from "../../components/shared/NotificationCenter";
+import ReferralTabContent from "../../components/referral-dashboard/ReferralTabContent";
 import QuickActions from "../../components/shared/QuickActions";
 import { useToast } from "../../hooks/use-toast";
 import { motion } from "framer-motion";
+import DashboardHeader from "../../components/shared/DashboardHeader";
 
 const ReferralDashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -29,12 +26,17 @@ const ReferralDashboard = () => {
     });
   };
 
-  const handleUserUpdate = () => {
+  const handleUserUpdate = (updatedUser: any) => {
     toast({
       title: "Profile Updated",
       description: "Your profile has been successfully updated.",
     });
   };
+
+  const referralBadges = [
+    { text: "This Month" },
+    { text: "Nov 2024", isPrimary: true },
+  ];
 
   return (
     <motion.div
@@ -43,37 +45,13 @@ const ReferralDashboard = () => {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
     >
-      <header className="bg-black/90 backdrop-blur-md border-b border-gray-800 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-xl font-semibold text-white">
-              <span className="text-orange-500">LEARN</span>
-              <span className="text-white">2PAY</span> | Referral Dashboard
-            </h1>
-            <div className="flex items-center space-x-2">
-              <span className="bg-gray-800 text-gray-300 px-3 py-1 rounded text-sm">
-                This Month
-              </span>
-              <span className="bg-orange-500 text-white px-3 py-1 rounded text-sm">
-                Nov 2024
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <NotificationCenter />
-            <UserProfile user={mockUser} onUpdate={handleUserUpdate} />
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Logout</span>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader
+        dashboardName="Referral"
+        badges={referralBadges}
+        user={mockUser}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
+      />
 
       <div className="p-6 overflow-y-auto">
         <div className="mb-6">

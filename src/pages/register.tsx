@@ -1,356 +1,189 @@
 import React, { useState } from "react";
-import { Button } from "../components/ui/Button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
-import { Label } from "../components/ui/Label";
-import { Textarea } from "../components/ui/Textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/Select";
-import { Checkbox } from "../components/ui/Checkbox";
-import { ArrowLeft, Upload } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "../components/ui/Form";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import FileInput from "../components/ui/file-input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 
-const Register = () => {
-  const navigate = useNavigate();
-  const form = useForm({
-    defaultValues: {
-      instituteType: "",
-      agreeTerms: false,
-    },
-  });
+const RegistrationPage = () => {
+  const [formType, setFormType] = useState<"student" | "institute" | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [instituteType, setInstituteType] = useState<string>("");
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const handleFormSelection = (type: "student" | "institute") => {
+    setFormType(type);
+    setSubmitted(false);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmitted(true);
   };
 
   return (
-    <div className="min-h-screen bg-black text-white py-8 px-4">
-      <div className="container mx-auto max-w-2xl">
-        <Card className="border border-orange-500/20 bg-gradient-to-br from-gray-900/80 to-gray-800/50 shadow-xl">
-          <CardHeader className="text-center pb-6">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <span className="font-bold">
-                <span className="text-orange-500">Learn2Pay</span>
-              </span>
-            </div>
-            <CardTitle className="text-2xl text-white">
-              Register Your Institute
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center">
+      {!formType && !submitted && (
+        <Card className="max-w-md w-full text-center bg-[#1A1A1A] text-white">
+          <CardHeader>
+            <CardTitle className="text-[#FFA500] text-2xl">
+              Select Registration Type
             </CardTitle>
-            <CardDescription className="text-gray-300">
-              Start your free trial and transform your fee collection process
-            </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
-              >
-                {/* Institute Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    Institute Information
-                  </h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="instituteName">Institute Name *</Label>
-                      <Input
-                        id="instituteName"
-                        placeholder="e.g., ABC Academy"
-                        {...form.register("instituteName")}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <FormField
-                        control={form.control}
-                        name="instituteType"
-                        rules={{ required: "Please select an institute type." }}
-                        render={({ field, fieldState }) => (
-                          <FormItem>
-                            <FormLabel>Institute Type *</FormLabel>
-                            <FormControl>
-                              <Select
-                                value={field.value}
-                                onValueChange={field.onChange}
-                              >
-                                <SelectTrigger className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500">
-                                  <SelectValue
-                                    placeholder="Select type"
-                                    className="placeholder-gray-400"
-                                  />
-                                </SelectTrigger>
-                                <SelectContent className="bg-gray-900 border-gray-700 text-white">
-                                  <SelectItem value="school">School</SelectItem>
-                                  <SelectItem value="coaching">
-                                    Coaching Center
-                                  </SelectItem>
-                                  <SelectItem value="gym">
-                                    Gym/Fitness Center
-                                  </SelectItem>
-                                  <SelectItem value="academy">
-                                    Academy
-                                  </SelectItem>
-                                  <SelectItem value="college">
-                                    College
-                                  </SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="description">Institute Description</Label>
-                    <Textarea
-                      id="description"
-                      placeholder="Brief description of your institute"
-                      {...form.register("description")}
-                      rows={3}
-                    />
-                  </div>
-                </div>
-
-                {/* Contact Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    Contact Information
-                  </h3>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="contactPerson">Contact Person Name *</Label>
-                    <Input
-                      id="contactPerson"
-                      placeholder="Principal/Director/Owner name"
-                      {...form.register("contactPerson")}
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="admin@institute.com"
-                        {...form.register("email")}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="+91 98765 43210"
-                        {...form.register("phone")}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="website">Website (Optional)</Label>
-                    <Input
-                      id="website"
-                      type="url"
-                      placeholder="https://www.yourinstitute.com"
-                      {...form.register("website")}
-                    />
-                  </div>
-                </div>
-
-                {/* Address Information */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    Address Information
-                  </h3>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Complete Address *</Label>
-                    <Textarea
-                      id="address"
-                      placeholder="Street address, building name, etc."
-                      {...form.register("address")}
-                      required
-                      rows={2}
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="city">City *</Label>
-                      <Input
-                        id="city"
-                        placeholder="City name"
-                        {...form.register("city")}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="state">State *</Label>
-                      <Input
-                        id="state"
-                        placeholder="State name"
-                        {...form.register("state")}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="pincode">Pincode *</Label>
-                      <Input
-                        id="pincode"
-                        placeholder="123456"
-                        {...form.register("pincode")}
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* KYC Documents */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    KYC Documents
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Upload required documents for verification (PDF/JPG format,
-                    max 5MB each)
-                  </p>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Institute Registration Certificate</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label>PAN Card</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Terms and Conditions */}
-                <div className="flex items-center space-x-2">
-                  <FormField
-                    control={form.control}
-                    name="agreeTerms"
-                    rules={{ required: "You must agree to terms." }}
-                    render={({ field, fieldState }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onChange={field.onChange}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Label
-                    htmlFor="agreeTerms"
-                    className="text-sm leading-5 text-gray-300"
-                  >
-                    I agree to the{" "}
-                    <a href="#" className="text-orange-400 hover:underline">
-                      Terms and Conditions
-                    </a>{" "}
-                    and{" "}
-                    <a href="#" className="text-orange-400 hover:underline">
-                      Privacy Policy
-                    </a>
-                  </Label>
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-                  size="lg"
-                >
-                  Register Institute
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate("/")}
-                  className="text-gray-300 hover:text-orange-500"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Home
-                </Button>
-              </form>
-
-              <div className="mt-6 text-center">
-                <p className="text-sm text-gray-600">
-                  Already have an account?{" "}
-                  <Button
-                    variant="link"
-                    className="p-0 h-auto text-blue-600"
-                    onClick={() => navigate("/login")}
-                  >
-                    Sign In
-                  </Button>
-                </p>
-              </div>
-            </Form>
-
-            <div className="mt-6 text-center">
-              <Button
-                variant="ghost"
-                onClick={() => navigate("/")}
-                className="text-gray-600"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Home
-              </Button>
-            </div>
+            <Button
+              className="w-full bg-[#FFA500] text-black mb-4 hover:bg-orange-600"
+              onClick={() => handleFormSelection("student")}
+            >
+              Student Registration
+            </Button>
+            <Button
+              className="w-full bg-[#1A1A1A] text-white hover:bg-gray-800 border border-gray-600"
+              onClick={() => handleFormSelection("institute")}
+            >
+              Institute Registration
+            </Button>
           </CardContent>
         </Card>
-      </div>
+      )}
+
+      {formType === "student" && !submitted && (
+        <Card className="max-w-lg w-full bg-[#1A1A1A] text-white">
+          <CardHeader>
+            <CardTitle className="text-[#FFA500]">Student Registration</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" type="text" placeholder="Enter your name" required />
+              </div>
+              <div>
+                <Label htmlFor="class">Class</Label>
+                <Input id="class" type="text" placeholder="Enter your class" required />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="Enter your email" required />
+              </div>
+              <div>
+                <Label htmlFor="contact">Contact</Label>
+                <Input id="contact" type="tel" placeholder="Enter your contact number" required />
+              </div>
+              <div>
+                <Label htmlFor="identity">Identity Proof (PAN Card)</Label>
+                <FileInput id="identity" required />
+              </div>
+              <Button className="w-full bg-orange-600 text-white hover:bg-orange-700" type="submit">
+                Submit
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      {formType === "institute" && !submitted && (
+        <Card className="max-w-lg w-full bg-[#1A1A1A] text-white">
+          <CardHeader>
+            <CardTitle className="text-[#FFA500]">Institute Registration</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="institute-name">Institute Name</Label>
+                <Input
+                  id="institute-name"
+                  type="text"
+                  placeholder="Enter institute name"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="institute-type">Institute Type</Label>
+                <Select
+                  value={instituteType}
+                  onValueChange={setInstituteType}
+                >
+                  <SelectTrigger className="bg-gray-900 border-gray-700 text-white">
+                    <SelectValue>{instituteType ? instituteType : "Select type"}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="school">School</SelectItem>
+                    <SelectItem value="coaching">Coaching Center</SelectItem>
+                    <SelectItem value="academy">Academy</SelectItem>
+                    <SelectItem value="college">College</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="institute-address">Address</Label>
+                <Input
+                  id="institute-address"
+                  type="text"
+                  placeholder="Enter address"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="contact-person">Contact Person</Label>
+                <Input
+                  id="contact-person"
+                  type="text"
+                  placeholder="Enter contact person"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="institute-email">Email</Label>
+                <Input
+                  id="institute-email"
+                  type="email"
+                  placeholder="Enter email"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="pan-card">PAN Card</Label>
+                <FileInput id="pan-card" required />
+              </div>
+              <div>
+                <Label htmlFor="registration-id">Institute Registration ID</Label>
+                <FileInput id="registration-id" required />
+              </div>
+              <Button
+                className="w-full bg-[#FFA500] text-black hover:bg-orange-600"
+                type="submit"
+              >
+                Submit
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      )}
+
+      {submitted && (
+        <Card className="max-w-md w-full text-center bg-[#1A1A1A] text-white">
+          <CardHeader>
+            <CardTitle className="text-green-500 text-2xl">
+              Registration Successful!
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-300">
+              Thank you for registering. We will process your application shortly.
+            </p>
+            <Button
+              className="mt-4 bg-[#FFA500] text-black hover:bg-orange-600"
+              onClick={() => setFormType(null)}
+            >
+              Go Back
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
 
-export default Register;
+export default RegistrationPage;
