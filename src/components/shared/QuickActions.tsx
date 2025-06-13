@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Button } from '../../components/ui/Button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card';
 import { Plus, Download, Upload, Send, Calendar, Users, CreditCard, FileText, MessageSquare } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '../../hooks/use-toast';
 import { jsPDF } from "jspdf";
 
 interface QuickAction {
