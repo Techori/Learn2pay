@@ -8,6 +8,7 @@ import UserProfile from '@/components/shared/UserProfile';
 import NotificationCenter from '@/components/shared/NotificationCenter';
 import QuickActions from '@/components/shared/QuickActions';
 import { useToast } from '@/hooks/use-toast';
+import DashboardHeader from '@/components/shared/DashboardHeader';
 
 const Sales = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -38,41 +39,16 @@ const Sales = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#101624] flex">
-      {/* <SalesSidebar 
-        isCollapsed={sidebarCollapsed} 
-        onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
-      /> */}
+    <div className="min-h-screen bg-[#101624] flex flex-col">
+      <DashboardHeader
+        dashboardName="Sales"
+        badges={[{ text: 'This Month' }, { text: 'Nov 2024', isPrimary: true }]}
+        user={mockUser}
+        onLogout={handleLogout}
+        onUserUpdate={handleUserUpdate}
+      />
       
       <div className="flex-1 overflow-hidden">
-        <header className="bg-[#181f32] border-b border-[#232b45] px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-xl font-semibold text-white">
-                 <span className="text-orange-500">LEARN</span>
-                 <span className="text-white">2PAY</span>
-             </h1>
-              <span className="text-white text-xl font-semibold">| Sales Dashboard</span>
-              <div className="flex items-center space-x-2 ml-4">
-                <span className="bg-[#232b45] text-gray-300 px-3 py-1 rounded text-sm">This Month</span>
-                <span className="bg-orange-500 text-white px-3 py-1 rounded text-sm">Nov 2024</span>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <NotificationCenter />
-              <UserProfile user={mockUser} onUpdate={handleUserUpdate} />
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                size="sm"
-                className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
-              >
-                <LogOut className="h-4 w-4" />
-                <span>Logout</span>
-              </Button>
-            </div>
-          </div>
-        </header>
 
         <div className="p-6 overflow-y-auto">
           <div className="mb-6">

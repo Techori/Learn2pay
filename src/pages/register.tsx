@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import FileInput from "../components/ui/file-input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
+import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/Label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
 
 const RegistrationPage = () => {
   const [formType, setFormType] = useState<"student" | "institute" | null>(null);
@@ -72,7 +71,7 @@ const RegistrationPage = () => {
               </div>
               <div>
                 <Label htmlFor="identity">Identity Proof (PAN Card)</Label>
-                <FileInput id="identity" required />
+
               </div>
               <Button className="w-full bg-orange-600 text-white hover:bg-orange-700" type="submit">
                 Submit
@@ -145,11 +144,9 @@ const RegistrationPage = () => {
               </div>
               <div>
                 <Label htmlFor="pan-card">PAN Card</Label>
-                <FileInput id="pan-card" required />
               </div>
               <div>
                 <Label htmlFor="registration-id">Institute Registration ID</Label>
-                <FileInput id="registration-id" required />
               </div>
               <Button
                 className="w-full bg-[#FFA500] text-black hover:bg-orange-600"
