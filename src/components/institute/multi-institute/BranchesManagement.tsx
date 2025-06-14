@@ -13,6 +13,14 @@ import {
   Settings,
   Pencil,
 } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/Dialog';
 
 interface Branch {
   name: string;
@@ -28,8 +36,19 @@ interface Branch {
 
 const BranchesManagement = () => {
   const [showAddBranchForm, setShowAddBranchForm] = useState(false);
+  const [newBranch, setNewBranch] = useState<Branch>({
+    name: '',
+    code: '',
+    institute: '',
+    location: '',
+    head: '',
+    headContact: '',
+    students: 0,
+    revenue: '₹0.0L',
+    status: 'Active',
+  });
 
-  const branchOverviewData: Branch[] = [
+  const [branches, setBranches] = useState<Branch[]>([
     {
       name: "NPS - Secondary Campus",
       code: "NPS-SEC",
@@ -52,22 +71,63 @@ const BranchesManagement = () => {
       revenue: "₹3.0L",
       status: "Active",
     },
-  ];
+  ]);
+
+  const [isViewBranchDialogOpen, setIsViewBranchDialogOpen] = useState(false);
+  const [isEditBranchDialogOpen, setIsEditBranchDialogOpen] = useState(false);
+  const [selectedBranch, setSelectedBranch] = useState<Branch | null>(null);
 
   const handleAddBranchClick = () => {
     setShowAddBranchForm(true);
   };
 
+  const handleAddBranch = () => {
+    setBranches([...branches, newBranch]);
+    setNewBranch({
+      name: '',
+      code: '',
+      institute: '',
+      location: '',
+      head: '',
+      headContact: '',
+      students: 0,
+      revenue: '₹0.0L',
+      status: 'Active',
+    });
+    setShowAddBranchForm(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewBranch(prev => ({ ...prev, [id.replace('branch', '').replace('head', '').toLowerCase()]: value }));
+  };
+
   const handleViewBranch = (branch: Branch) => {
-    console.log("View Branch clicked:", branch);
+    setSelectedBranch(branch);
+    setIsViewBranchDialogOpen(true);
   };
 
   const handleEditBranch = (branch: Branch) => {
-    console.log("Edit Branch clicked:", branch);
+    setSelectedBranch(branch);
+    setIsEditBranchDialogOpen(true);
   };
 
-  const handleBranchSettings = (branch: Branch) => {
-    console.log("Branch Settings clicked:", branch);
+  const handleSaveEditedBranch = () => {
+    if (selectedBranch) {
+      setBranches(branches.map(brnch => brnch.code === selectedBranch.code ? selectedBranch : brnch));
+      setIsEditBranchDialogOpen(false);
+      setSelectedBranch(null);
+    }
+  };
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    if (selectedBranch) {
+      setSelectedBranch(prev => {
+        if (!prev) return null;
+        return { ...prev, [id.replace('editBranch', '').replace('editHead', '').toLowerCase()]: value };
+      });
+    }
   };
 
   return (
@@ -90,16 +150,16 @@ const BranchesManagement = () => {
         <Card className="bg-gray-800/50 border-gray-700 shadow-md p-6 mb-6">
           <CardTitle className="text-white mb-4">Add New Branch</CardTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input id="branchName" type="text" placeholder="Branch Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="branchCode" type="text" placeholder="Branch Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="branchInstitute" type="text" placeholder="Parent Institute" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="branchLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="branchHead" type="text" placeholder="Branch Head Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="branchHeadContact" type="text" placeholder="Branch Head Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="branchName" type="text" placeholder="Branch Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.name} onChange={handleInputChange} />
+            <Input id="branchCode" type="text" placeholder="Branch Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.code} onChange={handleInputChange} />
+            <Input id="branchInstitute" type="text" placeholder="Parent Institute" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.institute} onChange={handleInputChange} />
+            <Input id="branchLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.location} onChange={handleInputChange} />
+            <Input id="branchHead" type="text" placeholder="Branch Head Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.head} onChange={handleInputChange} />
+            <Input id="branchHeadContact" type="text" placeholder="Branch Head Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newBranch.headContact} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end space-x-2 mt-6">
             <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => setShowAddBranchForm(false)}>Cancel</Button>
-            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={() => { alert("Branch Added!"); setShowAddBranchForm(false); }}>Add Branch</Button>
+            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={handleAddBranch}>Add Branch</Button>
           </div>
         </Card>
       )}
@@ -124,7 +184,7 @@ const BranchesManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
-                {branchOverviewData.map((branch, index) => (
+                {branches.map((branch, index) => (
                   <tr key={index} className="hover:bg-gray-800/70">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-white">{branch.name}</div>
@@ -153,9 +213,6 @@ const BranchesManagement = () => {
                         <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleEditBranch(branch)}>
                           <Pencil className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleBranchSettings(branch)}>
-                          <Settings className="h-4 w-4" />
-                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -165,6 +222,88 @@ const BranchesManagement = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* View Branch Dialog */}
+      {selectedBranch && (
+        <Dialog open={isViewBranchDialogOpen} onOpenChange={setIsViewBranchDialogOpen}>
+          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-white">Branch Details</DialogTitle>
+              <DialogDescription className="text-gray-400">Viewing details for {selectedBranch.name}</DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+              <div>
+                <p className="text-sm text-gray-400">Name:</p>
+                <p className="text-white font-medium">{selectedBranch.name}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Code:</p>
+                <p className="text-white font-medium">{selectedBranch.code}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Institute:</p>
+                <p className="text-white font-medium">{selectedBranch.institute}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Location:</p>
+                <p className="text-white font-medium">{selectedBranch.location}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Head:</p>
+                <p className="text-white font-medium">{selectedBranch.head}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Head Contact:</p>
+                <p className="text-white font-medium">{selectedBranch.headContact}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Students:</p>
+                <p className="text-white font-medium">{selectedBranch.students}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Revenue:</p>
+                <p className="text-white font-medium">{selectedBranch.revenue}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Status:</p>
+                <Badge className={selectedBranch.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                  {selectedBranch.status}
+                </Badge>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button onClick={() => setIsViewBranchDialogOpen(false)}>Close</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Edit Branch Dialog */}
+      {selectedBranch && (
+        <Dialog open={isEditBranchDialogOpen} onOpenChange={setIsEditBranchDialogOpen}>
+          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-white">Edit Branch</DialogTitle>
+              <DialogDescription className="text-gray-400">Editing details for {selectedBranch.name}</DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+              <Input id="editBranchName" type="text" placeholder="Branch Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.name} onChange={handleEditInputChange} />
+              <Input id="editBranchCode" type="text" placeholder="Branch Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.code} onChange={handleEditInputChange} />
+              <Input id="editBranchInstitute" type="text" placeholder="Parent Institute" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.institute} onChange={handleEditInputChange} />
+              <Input id="editBranchLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.location} onChange={handleEditInputChange} />
+              <Input id="editBranchHead" type="text" placeholder="Branch Head Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.head} onChange={handleEditInputChange} />
+              <Input id="editBranchHeadContact" type="text" placeholder="Branch Head Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.headContact} onChange={handleEditInputChange} />
+              <Input id="editBranchStudents" type="number" placeholder="Students" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.students} onChange={handleEditInputChange} />
+              <Input id="editBranchRevenue" type="text" placeholder="Revenue" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.revenue} onChange={handleEditInputChange} />
+              <Input id="editBranchStatus" type="text" placeholder="Status" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedBranch.status} onChange={handleEditInputChange} />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditBranchDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleSaveEditedBranch}>Save Changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

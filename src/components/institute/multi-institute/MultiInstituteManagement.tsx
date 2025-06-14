@@ -15,6 +15,15 @@ import {
 } from 'lucide-react';
 import BranchesManagement from './BranchesManagement';
 import MultiInstituteAnalytics from './MultiInstituteAnalytics';
+import SearchAndFilter from '@/components/shared/SearchAndFilter';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/Dialog';
 
 interface Institute {
   name: string;
@@ -31,35 +40,22 @@ interface Institute {
 const MultiInstituteManagement = () => {
   const [activeSubTab, setActiveSubTab] = useState('institutes');
   const [showAddInstituteForm, setShowAddInstituteForm] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
-  const statsData = [
-    {
-      icon: Building2,
-      title: "Total Institutes",
-      value: "3",
-      color: "text-blue-400",
-    },
-    {
-      icon: Building2,
-      title: "Total Branches",
-      value: "6",
-      color: "text-green-400",
-    },
-    {
-      icon: Users,
-      title: "Total Students",
-      value: "2,380",
-      color: "text-purple-400",
-    },
-    {
-      icon: DollarSign,
-      title: "Total Revenue",
-      value: "₹45.5L",
-      color: "text-orange-400",
-    },
-  ];
+  const [newInstitute, setNewInstitute] = useState<Institute>({
+    name: '',
+    code: '',
+    type: '',
+    location: '',
+    principal: '',
+    principalContact: '',
+    students: 0,
+    revenue: '₹0.0L',
+    status: 'Active',
+  });
 
-  const instituteOverviewData = [
+  const [institutes, setInstitutes] = useState<Institute[]>([
     {
       name: "National Public School - Main Campus",
       code: "NPS-MAIN",
@@ -93,35 +89,109 @@ const MultiInstituteManagement = () => {
       revenue: "₹12.0L",
       status: "Suspended",
     },
+  ]);
+
+  const [isViewInstituteDialogOpen, setIsViewInstituteDialogOpen] = useState(false);
+  const [isEditInstituteDialogOpen, setIsEditInstituteDialogOpen] = useState(false);
+  const [selectedInstitute, setSelectedInstitute] = useState<Institute | null>(null);
+
+  const statsData = [
+    {
+      icon: Building2,
+      title: "Total Institutes",
+      value: institutes.length.toString(),
+      color: "text-blue-400",
+    },
+    {
+      icon: Building2,
+      title: "Total Branches",
+      value: "6", // This should be dynamic as well
+      color: "text-green-400",
+    },
+    {
+      icon: Users,
+      title: "Total Students",
+      value: institutes.reduce((sum, institute) => sum + institute.students, 0).toLocaleString(),
+      color: "text-purple-400",
+    },
+    {
+      icon: DollarSign,
+      title: "Total Revenue",
+      value: `₹${(institutes.reduce((sum, institute) => sum + parseFloat(institute.revenue.replace('₹', '').replace('L', '')), 0)).toFixed(1)}L`,
+      color: "text-orange-400",
+    },
   ];
 
   const handleAddInstituteClick = () => {
     setShowAddInstituteForm(true);
   };
 
-  const handleFilterByType = () => {
-    console.log("Filter by Type clicked");
-    // Mock filtering logic
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    console.log("Search Query:", query);
+    // Implement actual search logic here
   };
 
-  const handleFilterByStatus = () => {
-    console.log("Filter by Status clicked");
-    // Mock filtering logic
+  const handleFilter = (newFilters: Record<string, string>) => {
+    setFilters(newFilters);
+    console.log("Filters:", newFilters);
+    // Implement actual filter logic here
+  };
+
+  const handleClearFilters = () => {
+    setSearchQuery('');
+    setFilters({});
+    console.log("Filters cleared");
+    // Implement actual clear logic here
+  };
+
+  const handleAddInstitute = () => {
+    setInstitutes([...institutes, newInstitute]);
+    setNewInstitute({
+      name: '',
+      code: '',
+      type: '',
+      location: '',
+      principal: '',
+      principalContact: '',
+      students: 0,
+      revenue: '₹0.0L',
+      status: 'Active',
+    });
+    setShowAddInstituteForm(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewInstitute(prev => ({ ...prev, [id.replace('institute', '').replace('principal', '').toLowerCase()]: value }));
   };
 
   const handleViewInstitute = (institute: Institute) => {
-    console.log("View Institute clicked:", institute);
-    // Mock view institute logic, e.g., open a modal with institute details
+    setSelectedInstitute(institute);
+    setIsViewInstituteDialogOpen(true);
   };
 
   const handleEditInstitute = (institute: Institute) => {
-    console.log("Edit Institute clicked:", institute);
-    // Mock edit institute logic, e.g., navigate to an edit form
+    setSelectedInstitute(institute);
+    setIsEditInstituteDialogOpen(true);
   };
 
-  const handleInstituteSettings = (institute: Institute) => {
-    console.log("Institute Settings clicked:", institute);
-    // Mock institute settings logic
+  const handleSaveEditedInstitute = () => {
+    if (selectedInstitute) {
+      setInstitutes(institutes.map(inst => inst.code === selectedInstitute.code ? selectedInstitute : inst));
+      setIsEditInstituteDialogOpen(false);
+      setSelectedInstitute(null);
+    }
+  };
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    if (selectedInstitute) {
+      setSelectedInstitute(prev => {
+        if (!prev) return null;
+        return { ...prev, [id.replace('editInstitute', '').replace('editPrincipal', '').toLowerCase()]: value };
+      });
+    }
   };
 
   return (
@@ -144,16 +214,16 @@ const MultiInstituteManagement = () => {
         <Card className="bg-gray-800/50 border-gray-700 shadow-md p-6 mb-6">
           <CardTitle className="text-white mb-4">Add New Institute</CardTitle>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input id="instituteName" type="text" placeholder="Institute Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="instituteCode" type="text" placeholder="Institute Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="instituteType" type="text" placeholder="Type (e.g., School, Coaching)" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="instituteLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="principalName" type="text" placeholder="Principal Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
-            <Input id="principalContact" type="text" placeholder="Principal Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="instituteName" type="text" placeholder="Institute Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.name} onChange={handleInputChange} />
+            <Input id="instituteCode" type="text" placeholder="Institute Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.code} onChange={handleInputChange} />
+            <Input id="instituteType" type="text" placeholder="Type (e.g., School, Coaching)" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.type} onChange={handleInputChange} />
+            <Input id="instituteLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.location} onChange={handleInputChange} />
+            <Input id="principalName" type="text" placeholder="Principal Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.principal} onChange={handleInputChange} />
+            <Input id="principalContact" type="text" placeholder="Principal Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={newInstitute.principalContact} onChange={handleInputChange} />
           </div>
           <div className="flex justify-end space-x-2 mt-6">
             <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => setShowAddInstituteForm(false)}>Cancel</Button>
-            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={() => { alert("Institute Added!"); setShowAddInstituteForm(false); }}>Add Institute</Button>
+            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={handleAddInstitute}>Add Institute</Button>
           </div>
         </Card>
       )}
@@ -189,20 +259,33 @@ const MultiInstituteManagement = () => {
               Analytics
             </TabsTrigger>
           </TabsList>
-          <div className="flex space-x-2">
-            <Input
-              id="searchInstitutes"
-              type="text"
-              placeholder="Search institutes..."
-              className="bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 w-64"
-            />
-            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={handleFilterByType}>
-              Filter by Type
-            </Button>
-            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={handleFilterByStatus}>
-              Filter by Status
-            </Button>
-          </div>
+          <SearchAndFilter
+            searchPlaceholder="Search institutes..."
+            onSearch={handleSearch}
+            onFilter={handleFilter}
+            onClear={handleClearFilters}
+            filterOptions={[
+              {
+                key: 'type',
+                label: 'Type',
+                type: 'select',
+                options: [
+                  { value: 'School', label: 'School' },
+                  { value: 'Coaching', label: 'Coaching' },
+                  { value: 'College', label: 'College' },
+                ],
+              },
+              {
+                key: 'status',
+                label: 'Status',
+                type: 'select',
+                options: [
+                  { value: 'Active', label: 'Active' },
+                  { value: 'Suspended', label: 'Suspended' },
+                ],
+              },
+            ]}
+          />
         </div>
 
         {/* Institutes Tab Content */}
@@ -227,7 +310,22 @@ const MultiInstituteManagement = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
-                    {instituteOverviewData.map((institute, index) => (
+                    {institutes
+                      .filter(institute =>
+                        institute.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        institute.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        institute.principal.toLowerCase().includes(searchQuery.toLowerCase())
+                      )
+                      .filter(institute => {
+                        if (filters.type && institute.type !== filters.type) {
+                          return false;
+                        }
+                        if (filters.status && institute.status !== filters.status) {
+                          return false;
+                        }
+                        return true;
+                      })
+                      .map((institute, index) => (
                       <tr key={index} className="hover:bg-gray-800/70">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-white">{institute.name}</div>
@@ -256,9 +354,6 @@ const MultiInstituteManagement = () => {
                             <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleEditInstitute(institute as Institute)}>
                               <Pencil className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleInstituteSettings(institute as Institute)}>
-                              <Settings className="h-4 w-4" />
-                            </Button>
                           </div>
                         </td>
                       </tr>
@@ -280,6 +375,88 @@ const MultiInstituteManagement = () => {
           <MultiInstituteAnalytics />
         </TabsContent>
       </Tabs>
+
+      {/* View Institute Dialog */}
+      {selectedInstitute && (
+        <Dialog open={isViewInstituteDialogOpen} onOpenChange={setIsViewInstituteDialogOpen}>
+          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-white">Institute Details</DialogTitle>
+              <DialogDescription className="text-gray-400">Viewing details for {selectedInstitute.name}</DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+              <div>
+                <p className="text-sm text-gray-400">Name:</p>
+                <p className="text-white font-medium">{selectedInstitute.name}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Code:</p>
+                <p className="text-white font-medium">{selectedInstitute.code}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Type:</p>
+                <p className="text-white font-medium">{selectedInstitute.type}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Location:</p>
+                <p className="text-white font-medium">{selectedInstitute.location}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Principal:</p>
+                <p className="text-white font-medium">{selectedInstitute.principal}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Principal Contact:</p>
+                <p className="text-white font-medium">{selectedInstitute.principalContact}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Students:</p>
+                <p className="text-white font-medium">{selectedInstitute.students}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Revenue:</p>
+                <p className="text-white font-medium">{selectedInstitute.revenue}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-400">Status:</p>
+                <Badge className={selectedInstitute.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                  {selectedInstitute.status}
+                </Badge>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button onClick={() => setIsViewInstituteDialogOpen(false)}>Close</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Edit Institute Dialog */}
+      {selectedInstitute && (
+        <Dialog open={isEditInstituteDialogOpen} onOpenChange={setIsEditInstituteDialogOpen}>
+          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-white">Edit Institute</DialogTitle>
+              <DialogDescription className="text-gray-400">Editing details for {selectedInstitute.name}</DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+              <Input id="editInstituteName" type="text" placeholder="Institute Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.name} onChange={handleEditInputChange} />
+              <Input id="editInstituteCode" type="text" placeholder="Institute Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.code} onChange={handleEditInputChange} />
+              <Input id="editInstituteType" type="text" placeholder="Type (e.g., School, Coaching)" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.type} onChange={handleEditInputChange} />
+              <Input id="editInstituteLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.location} onChange={handleEditInputChange} />
+              <Input id="editPrincipalName" type="text" placeholder="Principal Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.principal} onChange={handleEditInputChange} />
+              <Input id="editPrincipalContact" type="text" placeholder="Principal Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.principalContact} onChange={handleEditInputChange} />
+              <Input id="editInstituteStudents" type="number" placeholder="Students" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.students} onChange={handleEditInputChange} />
+              <Input id="editInstituteRevenue" type="text" placeholder="Revenue" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.revenue} onChange={handleEditInputChange} />
+              <Input id="editInstituteStatus" type="text" placeholder="Status" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedInstitute.status} onChange={handleEditInputChange} />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsEditInstituteDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleSaveEditedInstitute}>Save Changes</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };
