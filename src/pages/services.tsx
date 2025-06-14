@@ -32,7 +32,6 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-import Navbar from '@/components/Navbar';
 
 const featureIcons: Record<string, any> = {
   "Student registration & management": Users,
@@ -115,7 +114,6 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white">
-      <Navbar />
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}
@@ -149,26 +147,26 @@ const Services = () => {
                     {service.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3 mb-8">
-                    {service.features.map((feature, i) => {
-                      const Icon = featureIcons[feature] || CheckCircle;
-                      return (
-                        <li key={i} className="flex items-center text-base text-orange-100 font-medium">
-                          <Icon className="h-5 w-5 text-orange-400 mr-2 flex-shrink-0 drop-shadow" />
-                          {feature}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <Button
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
-                    onClick={() => navigate('/contact')}
-                  >
-                    Learn More
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </CardContent>
+<CardContent>
+  <ul className="space-y-3 mb-8">
+    {service.features.map((feature, i) => {
+      const Icon = featureIcons[feature] || CheckCircle;
+      return (
+        <li key={i} className="flex items-center text-base text-orange-100 font-medium">
+          <Icon className="h-5 w-5 text-orange-400 mr-2 flex-shrink-0 drop-shadow" />
+          {feature}
+        </li>
+      );
+    })}
+  </ul>
+  <Button
+    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
+    onClick={() => navigate('/contact')}
+  >
+    <span>Learn More</span>
+    <ArrowRight className="h-5 w-5" />
+  </Button>
+</CardContent>
               </Card>
             ))}
           </div>
