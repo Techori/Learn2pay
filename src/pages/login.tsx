@@ -13,7 +13,7 @@ import {
   Building
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from "../components/ui/Checkbox";
+import { Checkbox } from "../components/ui/checkbox";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ const Login = () => {
     { value: 'support', label: 'Support Team', icon: User },
     { value: 'referral', label: 'Referral Team', icon: User }
   ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -150,12 +151,11 @@ const Login = () => {
                   Forgot password?
                 </button>
               </div>
-              
               {/* Sign In Button */}
               <Button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full h-12 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold"
+                className="w-full h-12 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold flex items-center justify-center"
               >
                 {isLoading ? (
                   <div className="flex items-center space-x-2">
@@ -163,14 +163,13 @@ const Login = () => {
                     <span>Signing In...</span>
                   </div>
                 ) : (
-                  <>
-                    <LogIn className="mr-2 h-4 w-4" />
+                  <span className="flex items-center gap-2">
+                    <LogIn className="h-4 w-4" />
                     Sign In
-                  </>
+                  </span>
                 )}
               </Button>
             </form>
-
             {/* Demo Credentials */}
             <div className="mt-6 p-4 bg-gray-900/80 rounded-lg border border-orange-500/20">
               <h4 className="text-sm font-semibold text-orange-300 mb-2">Demo Credentials:</h4>
@@ -183,7 +182,6 @@ const Login = () => {
                 <div className="font-medium">Password: password123</div>
               </div>
             </div>
-
             {/* Sign Up Link */}
             <div className="text-center">
               <p className="text-sm text-orange-200">
@@ -201,5 +199,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
+
 export default Login;
