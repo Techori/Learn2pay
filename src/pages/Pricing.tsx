@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
-import { Badge } from "../components/ui/Badge";
+import { Badge } from "../components/ui/badge";
 import { CheckCircle, X, ArrowRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 // import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Navbar from '@/components/Navbar';
+
 const Pricing = () => {
   const navigate = useNavigate();
 
@@ -98,16 +98,14 @@ const Pricing = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* <Header /> */}
-      <Navbar />
-
-      {/* Main Pricing Section */}
+      
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}
           <div className="text-center mb-16 animate-fade-in">
-<h1 className="text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 leading-[1.15] pb-2">
-  Simple, Transparent Pricing
-</h1>
+            <h1 className="text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 leading-[1.15] pb-2">
+              Simple, Transparent Pricing
+            </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Choose the perfect plan for your institution. Start with a free trial and scale as you grow.
             </p>
@@ -136,35 +134,35 @@ const Pricing = () => {
                     {plan.description}
                   </CardDescription>
                 </CardHeader>
-                
-                <CardContent className="space-y-6">
-                  <div className="space-y-3">
-                    {plan.features.map((feature, i) => (
-                      <div key={i} className="flex items-center text-sm">
-                        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                        <span className="text-gray-300">{feature}</span>
-                      </div>
-                    ))}
-                    {plan.limitations.map((limitation, i) => (
-                      <div key={i} className="flex items-center text-sm">
-                        <X className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
-                        <span className="text-gray-400">{limitation}</span>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <Button 
-                    className={`w-full transform hover:scale-105 transition-all duration-300 ${
-                      plan.popular 
-                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700' 
-                        : 'bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700'
-                    }`}
-                    onClick={() => plan.name === 'Enterprise' ? navigate('/contact') : navigate('/register-institute')}
-                  >
-                    {plan.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardContent>
+<CardContent className="space-y-6">
+  <div className="space-y-3">
+    {plan.features.map((feature, i) => (
+      <div key={i} className="flex items-center text-sm">
+        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+        <span className="text-gray-300">{feature}</span>
+      </div>
+    ))}
+    {plan.limitations.map((limitation, i) => (
+      <div key={i} className="flex items-center text-sm">
+        <X className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
+        <span className="text-gray-400">{limitation}</span>
+      </div>
+    ))}
+  </div>
+  
+  <Button 
+    className={`w-full flex items-center justify-center gap-2 transform hover:scale-105 transition-all duration-300 ${
+      plan.popular 
+        ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700' 
+        : 'bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700'
+    }`}
+    // Navigate to /register for all plans except Enterprise, which goes to /contact
+    onClick={() => plan.name === 'Enterprise' ? navigate('/contact') : navigate('/register')}
+  >
+    <ArrowRight className="h-4 w-4" />
+    <span>{plan.cta}</span>
+  </Button>
+</CardContent>
               </Card>
             ))}
           </div>
@@ -193,19 +191,20 @@ const Pricing = () => {
               Join thousands of institutions that trust Learn2Pay for their fee collection needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-  className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300" 
-  onClick={() => navigate('/register')}
->
-  Start Free Trial
-  <ArrowRight className="ml-2 h-5 w-5" />
-</Button>
-<Button 
-  className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300"
-  onClick={() => navigate('/contact')}
->
-  Talk to Sales
-</Button>
+              <Button 
+                className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2" 
+                onClick={() => navigate('/register')}
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span>Start Free Trial</span>
+              </Button>
+              <Button 
+                className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
+                onClick={() => navigate('/contact')}
+              >
+                <ArrowRight className="h-5 w-5" />
+                <span>Talk to Sales</span>
+              </Button>
             </div>
           </div>
         </div>
