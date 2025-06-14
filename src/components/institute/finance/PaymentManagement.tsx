@@ -106,10 +106,6 @@ const PaymentManagement = () => {
             <p className="text-gray-400 text-sm">Track and manage all payment transactions</p>
           </div>
           <div className="flex space-x-2">
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
-              <Plus className="h-4 w-4" />
-              <span>Add Payment</span>
-            </Button>
             <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2">
               <Upload className="h-4 w-4" />
               <span>Export</span>
@@ -119,9 +115,10 @@ const PaymentManagement = () => {
         <CardContent className="p-0">
           <div className="flex items-center justify-between p-4 border-b border-gray-700">
             <Input
+              id="payment-search"
               type="text"
-              placeholder="Search by student name, admission number, or transaction ID..."
-              className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 w-96"
+              placeholder="Search payments..."
+              className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500"
             />
             <div className="flex space-x-2">
               <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">Filter by Date</Button>
@@ -161,10 +158,10 @@ const PaymentManagement = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-orange-500">
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-orange-500">
                           <Pencil className="h-4 w-4" />
                         </Button>
                       </div>

@@ -10,22 +10,24 @@ import { motion } from "framer-motion";
 
 const Home = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="bg-black text-white min-h-screen overflow-hidden"
-    >
+    <>
       <Navbar />
-      <main>
-        <Hero />
-        <Stats />
-        <Features />
-        <Testimonials />
-        <CTA />
-      </main>
-      <Footer />
-    </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-black text-white min-h-screen overflow-hidden"
+      >
+        <main>
+          <Hero />
+          <Stats />
+          <Features />
+          <Testimonials />
+          <CTA />
+        </main>
+        <Footer />
+      </motion.div>
+    </>
   );
 };
 

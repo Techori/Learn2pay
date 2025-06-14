@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { jsPDF } from 'jspdf';
 import {
   FileText,
   IndianRupee,
@@ -84,6 +85,36 @@ const ReportsAndAnalytics = () => {
     },
   ];
 
+  const generateReportPdf = (reportTitle: string, content: string) => {
+    const doc = new jsPDF();
+    doc.setFontSize(22);
+    doc.text(reportTitle, 10, 20);
+    doc.setFontSize(12);
+    doc.text(content, 10, 30);
+    doc.save(`${reportTitle.replace(/[^a-zA-Z0-9]/g, '')}.pdf`);
+  };
+
+  const handleGenerateReportClick = (title: string, description: string) => {
+    const content = `This is a generated report for: ${description}.\n\n${title} data will be placed here.`;
+    generateReportPdf(title, content);
+  };
+
+  const handleDownloadRecentReportClick = (report: any) => {
+    if (report.type === "PDF") {
+      const content = `This is the content for the \"${report.title}\" report.\n\nGenerated on: ${report.date}.`;
+      generateReportPdf(report.title, content);
+    } else {
+      alert(`Downloading ${report.type} for: ${report.title}`);
+      console.log(`Simulating download of ${report.type} for: ${report.title}`);
+      // In a real app, you would fetch and download the actual Excel file
+    }
+  };
+
+  const handleExportAllDataClick = () => {
+    const content = `This is a comprehensive export of all data from the Institute Dashboard.\n\nThis report includes fee collection, student analytics, payment trends, and outstanding dues.`;
+    generateReportPdf("All Institute Data Export", content);
+  };
+
   const ReportCard = ({ icon: Icon, title, description, frequency, lastGenerated, lastGeneratedTime }: ReportCardProps) => (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
@@ -103,14 +134,14 @@ const ReportsAndAnalytics = () => {
           <span className="text-white">{lastGenerated} {lastGeneratedTime}</span>
         </div>
         <div className="flex space-x-2">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white flex-grow flex items-center justify-center space-x-2">
+          <Button className="bg-orange-500 hover:bg-orange-600 text-white flex-grow flex items-center justify-center space-x-2" onClick={() => handleGenerateReportClick(title, description)}>
             <Play className="h-4 w-4" />
             <span>Generate</span>
           </Button>
-          <Button variant="outline" size="icon" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">
+          <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => handleDownloadRecentReportClick({ title: title, type: 'PDF', date: lastGenerated, size: 'N/A' })}>
             <Download className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">
+          <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => console.log("Schedule Report clicked for:", title)}>
             <Clock className="h-4 w-4" />
           </Button>
         </div>
@@ -126,7 +157,7 @@ const ReportsAndAnalytics = () => {
           <h2 className="text-2xl font-bold text-white">Reports & Analytics</h2>
           <p className="text-gray-400">Generate comprehensive reports for fee management and analytics</p>
         </div>
-        <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
+        <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2" onClick={handleExportAllDataClick}>
           <Upload className="h-5 w-5" />
           <span>Export All Data</span>
         </Button>
@@ -203,7 +234,7 @@ const ReportsAndAnalytics = () => {
                     <div className="text-xs text-gray-400">{report.date} • {report.size} • {report.type}</div>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleDownloadRecentReportClick(report)}>
                   <Download className="h-4 w-4" />
                 </Button>
               </div>

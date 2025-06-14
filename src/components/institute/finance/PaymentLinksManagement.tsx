@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/Dialog';
 import {
   Link,
   IndianRupee,
@@ -15,6 +24,38 @@ import {
 } from 'lucide-react';
 
 const PaymentLinksManagement = () => {
+  const [showCreateLinkDialog, setShowCreateLinkDialog] = useState(false);
+  const [newLinkDetails, setNewLinkDetails] = useState({
+    linkName: '',
+    amount: '',
+    expires: '',
+  });
+  const [generatedPaymentLink, setGeneratedPaymentLink] = useState<string | null>(null);
+
+  const handleLinkInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewLinkDetails(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleCreateLinkSubmit = () => {
+    const mockBaseUrl = "https://pay.institute.com/";
+    const generatedPath = `${newLinkDetails.linkName.toLowerCase().replace(/[^a-z0-9]/g, '')}-${Date.now().toString().slice(-6)}`;
+    const fullLink = `${mockBaseUrl}${generatedPath}`;
+
+    console.log("Creating payment link:", { ...newLinkDetails, generatedLink: fullLink });
+    setGeneratedPaymentLink(fullLink);
+    setShowCreateLinkDialog(false);
+    setNewLinkDetails({ linkName: '', amount: '', expires: '' }); // Clear form
+  };
+
+  const handleCopyGeneratedLink = () => {
+    if (generatedPaymentLink) {
+      navigator.clipboard.writeText(generatedPaymentLink)
+        .then(() => alert('Generated link copied to clipboard!'))
+        .catch(err => console.error('Failed to copy link: ', err));
+    }
+  };
+
   const paymentLinkSummary = [
     {
       icon: Link,
@@ -83,11 +124,73 @@ const PaymentLinksManagement = () => {
           <h2 className="text-2xl font-bold text-white">Payment Links Management</h2>
           <p className="text-gray-400">Create and manage payment links for students</p>
         </div>
-        <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
-          <Plus className="h-5 w-5" />
-          <span>Create Payment Link</span>
-        </Button>
+        <Dialog open={showCreateLinkDialog} onOpenChange={setShowCreateLinkDialog}>
+          <DialogTrigger asChild>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
+              <Plus className="h-5 w-5" />
+              <span>Create Payment Link</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-gray-800 border-gray-700 text-white">
+            <DialogHeader>
+              <DialogTitle className="text-white">Create New Payment Link</DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Enter the details for the new payment link.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <Input
+                id="linkName"
+                placeholder="Link Name (e.g., Class 10 Fees)"
+                value={newLinkDetails.linkName}
+                onChange={handleLinkInputChange}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+              />
+              <Input
+                id="amount"
+                placeholder="Amount (e.g., ₹15000)"
+                type="number"
+                value={newLinkDetails.amount}
+                onChange={handleLinkInputChange}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+              />
+              <Input
+                id="expires"
+                type="date"
+                value={newLinkDetails.expires}
+                onChange={handleLinkInputChange}
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+              />
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowCreateLinkDialog(false)} className="border-gray-700 text-gray-300 hover:bg-gray-700">Cancel</Button>
+              <Button onClick={handleCreateLinkSubmit} className="bg-orange-500 hover:bg-orange-600 text-white">Create Link</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
+
+      {generatedPaymentLink && (
+        <Dialog open={!!generatedPaymentLink} onOpenChange={() => setGeneratedPaymentLink(null)}>
+          <DialogContent className="bg-gray-800 border-gray-700 text-white">
+            <DialogHeader>
+              <DialogTitle className="text-white">Payment Link Generated!</DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Your payment link has been successfully created.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+              <p className="text-white break-all mb-2">{generatedPaymentLink}</p>
+              <Button onClick={handleCopyGeneratedLink} className="bg-blue-500 hover:bg-blue-600 text-white">
+                <Copy className="h-4 w-4 mr-2" /> Copy Link
+              </Button>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setGeneratedPaymentLink(null)} className="border-gray-700 text-gray-300 hover:bg-gray-700">Done</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {paymentLinkSummary.map((item, index) => (
@@ -116,13 +219,14 @@ const PaymentLinksManagement = () => {
         <CardContent className="p-0">
           <div className="flex items-center justify-between p-4 border-b border-gray-700">
             <Input
+              id="searchPaymentLinks"
               type="text"
               placeholder="Search payment links..."
               className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 w-96"
             />
             <div className="flex space-x-2">
-              <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">Filter by Status</Button>
-              <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">Filter by Amount</Button>
+              <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => console.log("Filter by Status clicked")}>Filter by Status</Button>
+              <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => console.log("Filter by Amount clicked")}>Filter by Amount</Button>
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -158,13 +262,13 @@ const PaymentLinksManagement = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{link.expires}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                        <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => navigator.clipboard.writeText(link.linkUrl).then(() => alert('Link copied!'))}>
                           <Copy className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                        <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => console.log("View payment link:", link)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                        <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => console.log("Send payment link:", link)}>
                           <Send className="h-4 w-4" />
                         </Button>
                       </div>

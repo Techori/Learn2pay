@@ -4,9 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, Users, Globe, Heart } from 'lucide-react';
 // import Header from '../components/Header';
 import Footer from '../components/Footer';
-import AboutUI from '../components/AboutUI';
-import Navbar from '../components/Navbar';
-
+import AboutUI from '../components/ui/AboutUi';
 const About: React.FC = () => {
   const navigate = useNavigate();
 
@@ -85,7 +83,7 @@ const About: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar/>
+      
 
       {/* Hero Section */}
       <section className="py-20 px-4 text-center">
@@ -101,12 +99,12 @@ const About: React.FC = () => {
       </section>
 
       <AboutUI
-        values={values}
-        team={team}
-        milestones={milestones}
-        onStart={() => navigate('/register-institute')}
-        onContact={() => navigate('/contact')}
-      />
+  values={values}
+  team={team}
+  milestones={milestones}
+  onStart={() => navigate('/register')}
+  onContact={() => navigate('/contact')}
+/>
 
       <Footer />
     </div>

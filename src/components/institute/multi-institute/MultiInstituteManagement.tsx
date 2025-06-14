@@ -13,9 +13,24 @@ import {
   Settings,
   Pencil,
 } from 'lucide-react';
+import BranchesManagement from './BranchesManagement';
+import MultiInstituteAnalytics from './MultiInstituteAnalytics';
+
+interface Institute {
+  name: string;
+  code: string;
+  type: string;
+  location: string;
+  principal: string;
+  principalContact: string;
+  students: number;
+  revenue: string;
+  status: string;
+}
 
 const MultiInstituteManagement = () => {
   const [activeSubTab, setActiveSubTab] = useState('institutes');
+  const [showAddInstituteForm, setShowAddInstituteForm] = useState(false);
 
   const statsData = [
     {
@@ -80,6 +95,35 @@ const MultiInstituteManagement = () => {
     },
   ];
 
+  const handleAddInstituteClick = () => {
+    setShowAddInstituteForm(true);
+  };
+
+  const handleFilterByType = () => {
+    console.log("Filter by Type clicked");
+    // Mock filtering logic
+  };
+
+  const handleFilterByStatus = () => {
+    console.log("Filter by Status clicked");
+    // Mock filtering logic
+  };
+
+  const handleViewInstitute = (institute: Institute) => {
+    console.log("View Institute clicked:", institute);
+    // Mock view institute logic, e.g., open a modal with institute details
+  };
+
+  const handleEditInstitute = (institute: Institute) => {
+    console.log("Edit Institute clicked:", institute);
+    // Mock edit institute logic, e.g., navigate to an edit form
+  };
+
+  const handleInstituteSettings = (institute: Institute) => {
+    console.log("Institute Settings clicked:", institute);
+    // Mock institute settings logic
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-6">
@@ -87,11 +131,32 @@ const MultiInstituteManagement = () => {
           <h2 className="text-2xl font-bold text-white">Multi-Institute Management</h2>
           <p className="text-gray-400">Manage multiple institutes and their branches</p>
         </div>
-        <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
+        <Button 
+          className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
+          onClick={handleAddInstituteClick}
+        >
           <Plus className="h-5 w-5" />
           <span>Add New Institute</span>
         </Button>
       </div>
+
+      {showAddInstituteForm && (
+        <Card className="bg-gray-800/50 border-gray-700 shadow-md p-6 mb-6">
+          <CardTitle className="text-white mb-4">Add New Institute</CardTitle>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input id="instituteName" type="text" placeholder="Institute Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="instituteCode" type="text" placeholder="Institute Code" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="instituteType" type="text" placeholder="Type (e.g., School, Coaching)" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="instituteLocation" type="text" placeholder="Location" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="principalName" type="text" placeholder="Principal Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+            <Input id="principalContact" type="text" placeholder="Principal Contact" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" />
+          </div>
+          <div className="flex justify-end space-x-2 mt-6">
+            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => setShowAddInstituteForm(false)}>Cancel</Button>
+            <Button className="bg-green-500 hover:bg-green-600 text-white" onClick={() => { alert("Institute Added!"); setShowAddInstituteForm(false); }}>Add Institute</Button>
+          </div>
+        </Card>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -126,14 +191,15 @@ const MultiInstituteManagement = () => {
           </TabsList>
           <div className="flex space-x-2">
             <Input
+              id="searchInstitutes"
               type="text"
               placeholder="Search institutes..."
               className="bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 w-64"
             />
-            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">
+            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={handleFilterByType}>
               Filter by Type
             </Button>
-            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">
+            <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={handleFilterByStatus}>
               Filter by Status
             </Button>
           </div>
@@ -184,13 +250,13 @@ const MultiInstituteManagement = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleViewInstitute(institute as Institute)}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleEditInstitute(institute as Institute)}>
                               <Pencil className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleInstituteSettings(institute as Institute)}>
                               <Settings className="h-4 w-4" />
                             </Button>
                           </div>
@@ -206,16 +272,12 @@ const MultiInstituteManagement = () => {
 
         {/* Branches Tab Content (Placeholder) */}
         <TabsContent value="branches">
-          <div className="p-6 bg-gray-800/50 rounded-lg text-gray-300">
-            Branches management will be implemented here.
-          </div>
+          <BranchesManagement />
         </TabsContent>
 
         {/* Analytics Tab Content (Placeholder) */}
         <TabsContent value="analytics">
-          <div className="p-6 bg-gray-800/50 rounded-lg text-gray-300">
-            Analytics for Multi-Institute will be implemented here.
-          </div>
+          <MultiInstituteAnalytics />
         </TabsContent>
       </Tabs>
     </div>

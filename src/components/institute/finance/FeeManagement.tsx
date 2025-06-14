@@ -5,6 +5,15 @@ import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/Dialog';
+import {
   DollarSign,
   IndianRupee,
   Users,
@@ -14,9 +23,50 @@ import {
   Eye,
   Pencil,
 } from 'lucide-react';
+import PaymentHistory from './PaymentHistory';
+import FeeReports from './FeeReports';
 
 const FeeManagement = () => {
   const [activeSubTab, setActiveSubTab] = useState('student-fees');
+  const [showAddPaymentDialog, setShowAddPaymentDialog] = useState(false);
+  const [showAddFeeStructureDialog, setShowAddFeeStructureDialog] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState({
+    studentId: '',
+    amount: '',
+    date: '',
+    method: '',
+  });
+  const [newFeeStructure, setNewFeeStructure] = useState({
+    class: '',
+    tuitionFee: '',
+    admissionFee: '',
+    examFee: '',
+  });
+
+  const handlePaymentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setPaymentDetails(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleAddPaymentSubmit = () => {
+    console.log("Adding payment:", paymentDetails);
+    alert(`Payment of ₹${paymentDetails.amount} added for student ${paymentDetails.studentId}`);
+    setShowAddPaymentDialog(false);
+    setPaymentDetails({ studentId: '', amount: '', date: '', method: '' }); // Clear form
+  };
+
+  const handleFeeStructureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewFeeStructure(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleAddFeeStructureSubmit = () => {
+    const totalFee = parseFloat(newFeeStructure.tuitionFee) + parseFloat(newFeeStructure.admissionFee) + parseFloat(newFeeStructure.examFee);
+    console.log("Adding fee structure:", { ...newFeeStructure, totalFee });
+    alert(`Fee structure for ${newFeeStructure.class} added! Total: ₹${totalFee.toLocaleString()}`);
+    setShowAddFeeStructureDialog(false);
+    setNewFeeStructure({ class: '', tuitionFee: '', admissionFee: '', examFee: '' }); // Clear form
+  };
 
   const financialSummary = [
     {
@@ -157,11 +207,58 @@ const FeeManagement = () => {
                 <p className="text-gray-400 text-sm">Track and manage individual student fee payments</p>
               </div>
               <div className="flex space-x-2">
-                <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
-                  <Plus className="h-4 w-4" />
-                  <span>Add Payment</span>
-                </Button>
-                <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2">
+                <Dialog open={showAddPaymentDialog} onOpenChange={setShowAddPaymentDialog}>
+                  <DialogTrigger asChild>
+                    <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
+                      <Plus className="h-4 w-4" />
+                      <span>Add Payment</span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-gray-800 border-gray-700 text-white">
+                    <DialogHeader>
+                      <DialogTitle className="text-white">Add New Payment</DialogTitle>
+                      <DialogDescription className="text-gray-400">
+                        Enter the details for the new fee payment.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <Input
+                        id="studentId"
+                        placeholder="Student ID"
+                        value={paymentDetails.studentId}
+                        onChange={handlePaymentInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="amount"
+                        placeholder="Amount"
+                        type="number"
+                        value={paymentDetails.amount}
+                        onChange={handlePaymentInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="date"
+                        type="date"
+                        value={paymentDetails.date}
+                        onChange={handlePaymentInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="method"
+                        placeholder="Payment Method (e.g., Cash, UPI, Card)"
+                        value={paymentDetails.method}
+                        onChange={handlePaymentInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setShowAddPaymentDialog(false)} className="border-gray-700 text-gray-300 hover:bg-gray-700">Cancel</Button>
+                      <Button onClick={handleAddPaymentSubmit} className="bg-orange-500 hover:bg-orange-600 text-white">Add Payment</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2" onClick={() => console.log("Export button clicked")}>
                   <Upload className="h-4 w-4" />
                   <span>Export</span>
                 </Button>
@@ -170,13 +267,14 @@ const FeeManagement = () => {
             <CardContent className="p-0">
               <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <Input
+                  id="searchStudentFees"
                   type="text"
                   placeholder="Search by student name or admission number..."
                   className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 w-80"
                 />
                 <div className="flex space-x-2">
-                  <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">Filter by Class</Button>
-                  <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50">Filter by Status</Button>
+                  <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => console.log("Filter by Class clicked")}>Filter by Class</Button>
+                  <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50" onClick={() => console.log("Filter by Status clicked")}>Filter by Status</Button>
                 </div>
               </div>
               <div className="overflow-x-auto">
@@ -213,10 +311,10 @@ const FeeManagement = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{student.lastPayment}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => console.log("View student details:", student)}>
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-1 px-3 py-1 text-sm rounded-md">
+                            <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-1 px-3 py-1 text-sm rounded-md" onClick={() => alert(`Payment for ${student.studentName} processed!`)}>
                               <span>Pay</span>
                             </Button>
                           </div>
@@ -238,10 +336,59 @@ const FeeManagement = () => {
                 <CardTitle className="text-lg text-white">Fee Structure Management</CardTitle>
                 <p className="text-gray-400 text-sm">Configure fee structures for different classes</p>
               </div>
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
-                <Plus className="h-4 w-4" />
-                <span>Add Fee Structure</span>
-              </Button>
+              <Dialog open={showAddFeeStructureDialog} onOpenChange={setShowAddFeeStructureDialog}>
+                <DialogTrigger asChild>
+                  <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
+                    <Plus className="h-4 w-4" />
+                    <span>Add Fee Structure</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-gray-800 border-gray-700 text-white">
+                  <DialogHeader>
+                    <DialogTitle className="text-white">Add New Fee Structure</DialogTitle>
+                    <DialogDescription className="text-gray-400">
+                      Define a new fee structure for a class.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-4 py-4">
+                    <Input
+                      id="class"
+                      placeholder="Class (e.g., 10th A)"
+                      value={newFeeStructure.class}
+                      onChange={handleFeeStructureInputChange}
+                      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                    <Input
+                      id="tuitionFee"
+                      placeholder="Tuition Fee"
+                      type="number"
+                      value={newFeeStructure.tuitionFee}
+                      onChange={handleFeeStructureInputChange}
+                      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                    <Input
+                      id="admissionFee"
+                      placeholder="Admission Fee"
+                      type="number"
+                      value={newFeeStructure.admissionFee}
+                      onChange={handleFeeStructureInputChange}
+                      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                    <Input
+                      id="examFee"
+                      placeholder="Exam Fee"
+                      type="number"
+                      value={newFeeStructure.examFee}
+                      onChange={handleFeeStructureInputChange}
+                      className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                    />
+                  </div>
+                  <DialogFooter>
+                    <Button variant="outline" onClick={() => setShowAddFeeStructureDialog(false)} className="border-gray-700 text-gray-300 hover:bg-gray-700">Cancel</Button>
+                    <Button onClick={handleAddFeeStructureSubmit} className="bg-orange-500 hover:bg-orange-600 text-white">Add Fee Structure</Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
@@ -266,10 +413,10 @@ const FeeManagement = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.totalFee}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => console.log("Edit Fee Structure:", fee)}>
                               <Pencil className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-orange-500">
+                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => console.log("View Fee Structure:", fee)}>
                               <Eye className="h-4 w-4" />
                             </Button>
                           </div>
@@ -285,16 +432,12 @@ const FeeManagement = () => {
 
         {/* Payment History Tab Content (Placeholder) */}
         <TabsContent value="payment-history">
-          <div className="p-6 bg-gray-800/50 rounded-lg text-gray-300">
-            Payment history will be displayed here.
-          </div>
+          <PaymentHistory />
         </TabsContent>
 
         {/* Reports Tab Content (Placeholder) */}
         <TabsContent value="reports">
-          <div className="p-6 bg-gray-800/50 rounded-lg text-gray-300">
-            Fee related reports will be generated here.
-          </div>
+          <FeeReports />
         </TabsContent>
       </Tabs>
     </div>
