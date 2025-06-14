@@ -6,12 +6,15 @@ import { Badge } from "../../components/ui/Badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
 import { Search, Filter, CheckCircle, Clock, FileText, User, Phone, Mail, Upload } from 'lucide-react';
 import { useToast } from '../../hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/Dialog';
 
 const OnboardingManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [stageFilter, setStageFilter] = useState('');
   const [assignedToFilter, setAssignedToFilter] = useState('');
   const [dateRange, setDateRange] = useState({ from: '', to: '' });
+  const [showBulkUpload, setShowBulkUpload] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
 
   const onboardingCases = [
@@ -160,7 +163,7 @@ const OnboardingManagement = () => {
               <Button
                 variant="outline"
                 className="border-[#ff7900] text-orange-400 hover:bg-orange-500/10"
-                onClick={() => toast({ title: "Bulk Upload", description: "Bulk upload modal will open." })}
+                onClick={() => setShowBulkUpload(true)}
               >
                 <Upload className="h-4 w-4 mr-2" />
                 Bulk Upload
@@ -168,7 +171,36 @@ const OnboardingManagement = () => {
               <Button
                 variant="outline"
                 className="border-[#ff7900] text-orange-400 hover:bg-orange-500/10"
-                onClick={() => toast({ title: "Generate Report", description: "Report generation started." })}
+                onClick={() => {
+                  // Use onboardingCases instead of leads
+                  const csvContent = [
+                    ["Institute Name", "Contact", "Phone", "Email", "Stage", "Progress", "Start Date", "Expected Completion", "Assigned To", "Value"],
+                    ...onboardingCases.map(c => [
+                      c.instituteName,
+                      c.contact,
+                      c.phone,
+                      c.email,
+                      c.stage,
+                      c.progress + "%",
+                      c.startDate,
+                      c.expectedCompletion,
+                      c.assignedTo,
+                      c.value
+                    ])
+                  ]
+                    .map(e => e.join(","))
+                    .join("\n");
+
+                  const blob = new Blob([csvContent], { type: "text/csv" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "onboarding_report.csv";
+                  document.body.appendChild(a); // For Firefox
+                  a.click();
+                  document.body.removeChild(a);
+                  URL.revokeObjectURL(url);
+                }}
               >
                 <FileText className="h-4 w-4 mr-2" />
                 Generate Report
@@ -338,6 +370,34 @@ const OnboardingManagement = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Bulk Upload Dialog */}
+      <Dialog open={showBulkUpload} onOpenChange={setShowBulkUpload}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Bulk Upload Leads</DialogTitle>
+          </DialogHeader>
+          <input
+            type="file"
+            accept=".csv, .xlsx"
+            onChange={e => setSelectedFile(e.target.files?.[0] || null)}
+            className="mb-4"
+          />
+          <Button
+            onClick={() => {
+              if (selectedFile) {
+                // TODO: Parse and process file here
+                // Example: Papa.parse(selectedFile, { ... })
+                setShowBulkUpload(false);
+              }
+            }}
+            disabled={!selectedFile}
+            className="bg-orange-500 text-white"
+          >
+            Upload
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

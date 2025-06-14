@@ -4,15 +4,14 @@ import LeadsManagement from './LeadsManagement';
 import OnboardingManagement from './OnboardingManagement';
 import TargetsGoals from './TargetsGoals';
 import SalesReports from './SalesReports';
+import EmiReminder from './EmiReminder';
+import SalesDashboard from './SalesDashboard';
 
 const SalesTabContent = () => {
   return (
     <>
       <TabsContent value="dashboard">
-        <div className="text-center py-12 bg-[#181f32] rounded-xl border border-[#232b45] shadow-none">
-          <h3 className="text-lg font-semibold mb-2 text-white">Sales Dashboard Overview</h3>
-          <p className="text-gray-400">Main dashboard content displayed on the main page</p>
-        </div>
+        <SalesDashboard />
       </TabsContent>
 
       <TabsContent value="leads">
@@ -33,6 +32,10 @@ const SalesTabContent = () => {
 
       <TabsContent value="reports">
         <SalesReports />
+      </TabsContent>
+
+      <TabsContent value="emiReminder">  
+        <EmiReminder />
       </TabsContent>
 
       <TabsContent value="settings">

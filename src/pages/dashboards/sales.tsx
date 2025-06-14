@@ -56,12 +56,13 @@ const Sales = () => {
           </div>
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6 bg-[#232b45] border border-[#232b45] rounded-lg mb-4">
+            <TabsList className="grid w-full grid-cols-7 bg-[#232b45] border border-[#232b45] rounded-lg mb-4">
               <TabsTrigger value="dashboard" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Dashboard</TabsTrigger>
               <TabsTrigger value="leads" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Leads</TabsTrigger>
               <TabsTrigger value="onboarding" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Onboarding</TabsTrigger>
               <TabsTrigger value="targets" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Targets</TabsTrigger>
               <TabsTrigger value="reports" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Reports</TabsTrigger>
+              <TabsTrigger value="emiReminder" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">EmiReminder</TabsTrigger>
               <TabsTrigger value="settings" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Settings</TabsTrigger>
             </TabsList>
 
