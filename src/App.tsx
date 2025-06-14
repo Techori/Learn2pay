@@ -5,7 +5,7 @@ import Home from "./pages/home";
 import ParentDashboard from "./pages/dashboards/parent";
 import ReferralDashboard from "./pages/dashboards/referral";
 
-import InstituteDashboard from "./pages/dashboards/institute";
+import InstituteDashboard from "./pages/dashboards/Institute";
 
 import SupportDashboard from "./pages/dashboards/support";
 
@@ -22,9 +22,11 @@ import About from "./pages/about";
 
 import Demo from "./pages/demo";
 import Pricing from "./pages/Pricing";
+import { Toaster } from "./components/ui/Toaster";
 
 function App() {
   return (
+<>
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
@@ -45,6 +47,8 @@ function App() {
 
       </Routes>
     </BrowserRouter>
+    <Toaster />
+</>
 
   );
 }

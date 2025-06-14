@@ -29,13 +29,35 @@ import {
   MapPin,
   Calendar,
 } from 'lucide-react';
-import { useToast } from '../../hooks/use-toast'; // Adjust path as needed
+import { useToast } from '../../hooks/use-toast'; // already imported
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/Dialog";
 
 const LeadsManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [sourceFilter, setSourceFilter] = useState<string | null>(null);
   const [locationFilter, setLocationFilter] = useState<string | null>(null);
+  const [showAddLead, setShowAddLead] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+  const [newLead, setNewLead] = useState({
+    name: "",
+    contact: "",
+    phone: "",
+    email: "",
+    location: "",
+    status: "",
+    source: "",
+    lastContact: "",
+    followUpDate: "",
+    notes: "",
+    estimatedValue: "",
+  });
   const { toast } = useToast();
 
   const leads = [
@@ -173,109 +195,156 @@ const LeadsManagement = () => {
               </CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button
-                className="bg-orange-500 hover:bg-orange-600 text-white"
-                onClick={() => toast({ title: "Add New Lead", description: "Lead creation modal will open." })}
-              >
-                <Plus className="h-4 w-4 mr-2" /> Add New Lead
-              </Button>
-              <Button
-                variant="outline"
-                className="text-white border-gray-600"
-                onClick={() => toast({ title: "Import Leads", description: "Import leads modal will open." })}
-              >
-                <UserPlus className="h-4 w-4 mr-2" /> Import Leads
-              </Button>
+              {/* Add New Lead Dialog */}
+              <Dialog open={showAddLead} onOpenChange={setShowAddLead}>
+                <DialogTrigger asChild>
+                  <Button
+                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                    onClick={() => setShowAddLead(true)}
+                  >
+                    <Plus className="h-4 w-4 mr-2" /> Add New Lead
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add New Lead</DialogTitle>
+                  </DialogHeader>
+                  <form
+                    className="space-y-3"
+                    onSubmit={e => {
+                      e.preventDefault();
+                      // Yahan aap lead ko leads array me add kar sakte hain (state me ya API call)
+                      toast({ title: "Lead Added", description: newLead.name });
+                      setShowAddLead(false);
+                      setNewLead({
+                        name: "",
+                        contact: "",
+                        phone: "",
+                        email: "",
+                        location: "",
+                        status: "",
+                        source: "",
+                        lastContact: "",
+                        followUpDate: "",
+                        notes: "",
+                        estimatedValue: "",
+                      });
+                    }}
+                  >
+                    <Input placeholder="Institute Name" required value={newLead.name} onChange={e => setNewLead({ ...newLead, name: e.target.value })} />
+                    <Input placeholder="Contact Person" required value={newLead.contact} onChange={e => setNewLead({ ...newLead, contact: e.target.value })} />
+                    <Input placeholder="Phone" required value={newLead.phone} onChange={e => setNewLead({ ...newLead, phone: e.target.value })} />
+                    <Input placeholder="Email" required value={newLead.email} onChange={e => setNewLead({ ...newLead, email: e.target.value })} />
+                    <Input placeholder="Location" required value={newLead.location} onChange={e => setNewLead({ ...newLead, location: e.target.value })} />
+                    <Input placeholder="Status" required value={newLead.status} onChange={e => setNewLead({ ...newLead, status: e.target.value })} />
+                    <Input placeholder="Source" required value={newLead.source} onChange={e => setNewLead({ ...newLead, source: e.target.value })} />
+                    <Input placeholder="Last Contact Date" type="date" required value={newLead.lastContact} onChange={e => setNewLead({ ...newLead, lastContact: e.target.value })} />
+                    <Input placeholder="Follow Up Date" type="date" required value={newLead.followUpDate} onChange={e => setNewLead({ ...newLead, followUpDate: e.target.value })} />
+                    <Input placeholder="Notes" value={newLead.notes} onChange={e => setNewLead({ ...newLead, notes: e.target.value })} />
+                    <Input placeholder="Estimated Value" required value={newLead.estimatedValue} onChange={e => setNewLead({ ...newLead, estimatedValue: e.target.value })} />
+                    <Button type="submit" className="bg-orange-500 text-white w-full">Add Lead</Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+
+              {/* Import Leads Dialog */}
+              <Dialog open={showImport} onOpenChange={setShowImport}>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="text-white border-gray-600"
+                    onClick={() => setShowImport(true)}
+                  >
+                    <UserPlus className="h-4 w-4 mr-2" /> Import Leads
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Import Leads</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <input type="file" accept=".csv, .xlsx" className="block w-full text-white" />
+                    <Button className="bg-blue-500 text-white w-full">Import</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          {/* Search and Filters */}
-          <div className="flex flex-wrap gap-4 mb-6">
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input
-                placeholder="Search leads by name, contact, or location..."
-                className="pl-10 bg-[#0B0F1A] text-white border-gray-600"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-            {/* Status Filter Dropdown */}
-            <div className="relative">
-              <Button
-                variant={statusFilter ? "default" : "outline"}
-                className={`text-white border-gray-600 flex items-center ${statusFilter ? "bg-orange-500" : ""}`}
-              >
-                <Filter className="h-4 w-4 mr-2" /> 
-                <span>{statusFilter ? statusFilter : "Status"}</span>
-                <select
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                  value={statusFilter || ""}
-                  onChange={e => setStatusFilter(e.target.value || null)}
-                >
-                  <option value="">All</option>
-                  {statusOptions.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </Button>
-            </div>
-            {/* Source Filter Dropdown */}
-            <div className="relative">
-              <Button
-                variant={sourceFilter ? "default" : "outline"}
-                className={`text-white border-gray-600 flex items-center ${sourceFilter ? "bg-orange-500" : ""}`}
-              >
-                <Filter className="h-4 w-4 mr-2" /> 
-                <span>{sourceFilter ? sourceFilter : "Source"}</span>
-                <select
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                  value={sourceFilter || ""}
-                  onChange={e => setSourceFilter(e.target.value || null)}
-                >
-                  <option value="">All</option>
-                  {sourceOptions.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </Button>
-            </div>
-            {/* Location Filter Dropdown */}
-            <div className="relative">
-              <Button
-                variant={locationFilter ? "default" : "outline"}
-                className={`text-white border-gray-600 flex items-center ${locationFilter ? "bg-orange-500" : ""}`}
-              >
-                <Filter className="h-4 w-4 mr-2" /> 
-                <span>{locationFilter ? locationFilter : "Location"}</span>
-                <select
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                  value={locationFilter || ""}
-                  onChange={e => setLocationFilter(e.target.value || null)}
-                >
-                  <option value="">All</option>
-                  {locationOptions.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </Button>
-            </div>
-            {/* Reset Filters Button */}
-            {(statusFilter || sourceFilter || locationFilter) && (
-              <Button
-                variant="outline"
-                className="text-white border-gray-600"
-                onClick={() => {
-                  setStatusFilter(null);
-                  setSourceFilter(null);
-                  setLocationFilter(null);
-                }}
-              >
-                Reset Filters
-              </Button>
-            )}
-          </div>
+{/* Search and Filters */}
+<div className="flex flex-wrap gap-4 mb-6">
+  <div className="relative flex-1 min-w-[200px]">
+    <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+    <Input
+      placeholder="Search leads by name, contact, or location..."
+      className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  </div>
+  {/* Status Filter Dropdown */}
+  <div className="relative">
+    <select
+      className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+      value={statusFilter || ""}
+      onChange={(e) => setStatusFilter(e.target.value || null)}
+    >
+      <option value="">Status</option>
+      {statusOptions.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+    <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+  </div>
+  {/* Source Filter Dropdown */}
+  <div className="relative">
+    <select
+      className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+      value={sourceFilter || ""}
+      onChange={(e) => setSourceFilter(e.target.value || null)}
+    >
+      <option value="">Source</option>
+      {sourceOptions.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+    <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+  </div>
+  {/* Location Filter Dropdown */}
+  <div className="relative">
+    <select
+      className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+      value={locationFilter || ""}
+      onChange={(e) => setLocationFilter(e.target.value || null)}
+    >
+      <option value="">Location</option>
+      {locationOptions.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+    <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+  </div>
+  {/* Reset Filters Button */}
+  {(statusFilter || sourceFilter || locationFilter) && (
+    <button
+      className="px-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 hover:bg-[#2a3352] transition"
+      onClick={() => {
+        setStatusFilter(null);
+        setSourceFilter(null);
+        setLocationFilter(null);
+      }}
+    >
+      Reset Filters
+    </button>
+  )}
+</div>
 
           {/* Leads Table */}
           <Table>
@@ -334,7 +403,7 @@ const LeadsManagement = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-white border-gray-600"
+                        className="text-white border-orange-500"
                         onClick={() => toast({ title: "Calling", description: lead.phone })}
                       >
                         <Phone className="h-3 w-3" />
@@ -342,7 +411,7 @@ const LeadsManagement = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-white border-gray-600"
+                        className="text-white border-orange-500"
                         onClick={() => toast({ title: "Send Email", description: lead.email })}
                       >
                         <Mail className="h-3 w-3" />
@@ -350,7 +419,7 @@ const LeadsManagement = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-white border-gray-600"
+                        className="text-white border-orange-500"
                         onClick={() => toast({ title: "Edit Lead", description: lead.name })}
                       >
                         <Edit className="h-3 w-3" />
@@ -358,7 +427,7 @@ const LeadsManagement = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-white border-gray-600"
+                        className="text-white border-orange-500"
                         onClick={() => toast({ title: "View Lead", description: lead.name })}
                       >
                         <Eye className="h-3 w-3" />

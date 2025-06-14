@@ -2,77 +2,238 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { Badge } from "../../components/ui/Badge";
-import { Target, TrendingUp, Calendar, Award, Users, DollarSign, BarChart3 } from 'lucide-react';
+import { Target, TrendingUp, Calendar, Award, Users, DollarSign, BarChart3, BarChart2 } from 'lucide-react';
 
 const TargetsGoals = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('monthly');
+  const [period, setPeriod] = useState<"monthly" | "quarterly" | "yearly">("monthly");
 
-  const teamTargets = [
-    {
-      name: "Ravi Kumar",
-      role: "Senior Sales Executive",
-      monthlyTarget: 20,
-      achieved: 17,
-      revenueTarget: "₹5,00,000",
-      revenueAchieved: "₹4,25,000",
-      conversionRate: "28%",
-      ranking: 1
+  const periodData = {
+    monthly: {
+      label: "Monthly Goals Progress",
+      subLabel: "Track progress against monthly objectives",
+      overallTarget: 85,
+      revenue: "₹32.5L",
+      revenuePercent: 81,
+      institutes: 128,
+      institutesPercent: 85,
+      avgConversion: 24,
+      goals: [
+        {
+          key: "January 2024 Targets",
+          target: 50,
+          achieved: 42,
+          percent: 84,
+          status: "On Track"
+        },
+        {
+          key: "Revenue Goal",
+          target: "₹10,00,000",
+          achieved: "₹8,40,000",
+          percent: 84,
+          status: "On Track"
+        },
+        {
+          key: "New Markets",
+          target: 2,
+          achieved: 1,
+          percent: 50,
+          status: "Needs Push"
+        }
+      ],
+      leaderboard: [
+        {
+          name: "Ravi Kumar",
+          role: "Senior Sales Executive",
+          monthlyTarget: 20,
+          achieved: 17,
+          revenueTarget: "₹5,00,000",
+          revenueAchieved: "₹4,25,000",
+          conversionRate: "28%",
+          ranking: 1
+        },
+        {
+          name: "Priya Patel", 
+          role: "Sales Executive",
+          monthlyTarget: 15,
+          achieved: 12,
+          revenueTarget: "₹3,75,000",
+          revenueAchieved: "₹3,00,000",
+          conversionRate: "24%",
+          ranking: 2
+        },
+        {
+          name: "Vikram Singh",
+          role: "Sales Executive", 
+          monthlyTarget: 15,
+          achieved: 9,
+          revenueTarget: "₹3,75,000",
+          revenueAchieved: "₹2,25,000",
+          conversionRate: "18%",
+          ranking: 3
+        },
+        {
+          name: "Anita Sharma",
+          role: "Junior Sales Executive",
+          monthlyTarget: 12,
+          achieved: 8,
+          revenueTarget: "₹3,00,000", 
+          revenueAchieved: "₹2,00,000",
+          conversionRate: "22%",
+          ranking: 4
+        }
+      ]
     },
-    {
-      name: "Priya Patel", 
-      role: "Sales Executive",
-      monthlyTarget: 15,
-      achieved: 12,
-      revenueTarget: "₹3,75,000",
-      revenueAchieved: "₹3,00,000",
-      conversionRate: "24%",
-      ranking: 2
+    quarterly: {
+      label: "Quarterly Goals Progress",
+      subLabel: "Track progress against quarterly objectives",
+      overallTarget: 70,
+      revenue: "₹90L",
+      revenuePercent: 75,
+      institutes: 350,
+      institutesPercent: 70,
+      avgConversion: 20,
+      goals: [
+        {
+          key: "Q1 2024 Targets",
+          target: 150,
+          achieved: 128,
+          percent: 85,
+          status: "On Track"
+        },
+        {
+          key: "Revenue Goal",
+          target: "₹40,00,000",
+          achieved: "₹32,50,000",
+          percent: 81,
+          status: "Needs Push"
+        },
+        {
+          key: "New Markets",
+          target: 5,
+          achieved: 3,
+          percent: 60,
+          status: "Behind"
+        }
+      ],
+      leaderboard: [
+        {
+          name: "Ravi Kumar",
+          role: "Senior Sales Executive",
+          monthlyTarget: 60,
+          achieved: 51,
+          revenueTarget: "₹15,00,000",
+          revenueAchieved: "₹12,75,000",
+          conversionRate: "30%",
+          ranking: 1
+        },
+        {
+          name: "Priya Patel", 
+          role: "Sales Executive",
+          monthlyTarget: 45,
+          achieved: 36,
+          revenueTarget: "₹11,25,000",
+          revenueAchieved: "₹9,00,000",
+          conversionRate: "25%",
+          ranking: 2
+        },
+        {
+          name: "Vikram Singh",
+          role: "Sales Executive", 
+          monthlyTarget: 45,
+          achieved: 27,
+          revenueTarget: "₹11,25,000",
+          revenueAchieved: "₹6,75,000",
+          conversionRate: "20%",
+          ranking: 3
+        },
+        {
+          name: "Anita Sharma",
+          role: "Junior Sales Executive",
+          monthlyTarget: 36,
+          achieved: 24,
+          revenueTarget: "₹9,00,000", 
+          revenueAchieved: "₹6,00,000",
+          conversionRate: "22%",
+          ranking: 4
+        }
+      ]
     },
-    {
-      name: "Vikram Singh",
-      role: "Sales Executive", 
-      monthlyTarget: 15,
-      achieved: 9,
-      revenueTarget: "₹3,75,000",
-      revenueAchieved: "₹2,25,000",
-      conversionRate: "18%",
-      ranking: 3
-    },
-    {
-      name: "Anita Sharma",
-      role: "Junior Sales Executive",
-      monthlyTarget: 12,
-      achieved: 8,
-      revenueTarget: "₹3,00,000", 
-      revenueAchieved: "₹2,00,000",
-      conversionRate: "22%",
-      ranking: 4
+    yearly: {
+      label: "Yearly Goals Progress",
+      subLabel: "Track progress against yearly objectives",
+      overallTarget: 92,
+      revenue: "₹3.8Cr",
+      revenuePercent: 92,
+      institutes: 1500,
+      institutesPercent: 92,
+      avgConversion: 26,
+      goals: [
+        {
+          key: "2024 Targets",
+          target: 600,
+          achieved: 550,
+          percent: 92,
+          status: "On Track"
+        },
+        {
+          key: "Revenue Goal",
+          target: "₹1,60,00,000",
+          achieved: "₹1,47,20,000",
+          percent: 92,
+          status: "On Track"
+        },
+        {
+          key: "New Markets",
+          target: 20,
+          achieved: 18,
+          percent: 90,
+          status: "On Track"
+        }
+      ],
+      leaderboard: [
+        {
+          name: "Ravi Kumar",
+          role: "Senior Sales Executive",
+          monthlyTarget: 240,
+          achieved: 221,
+          revenueTarget: "₹60,00,000",
+          revenueAchieved: "₹55,00,000",
+          conversionRate: "32%",
+          ranking: 1
+        },
+        {
+          name: "Priya Patel", 
+          role: "Sales Executive",
+          monthlyTarget: 180,
+          achieved: 150,
+          revenueTarget: "₹45,00,000",
+          revenueAchieved: "₹37,50,000",
+          conversionRate: "25%",
+          ranking: 2
+        },
+        {
+          name: "Vikram Singh",
+          role: "Sales Executive", 
+          monthlyTarget: 180,
+          achieved: 108,
+          revenueTarget: "₹45,00,000",
+          revenueAchieved: "₹27,00,000",
+          conversionRate: "20%",
+          ranking: 3
+        },
+        {
+          name: "Anita Sharma",
+          role: "Junior Sales Executive",
+          monthlyTarget: 144,
+          achieved: 96,
+          revenueTarget: "₹36,00,000", 
+          revenueAchieved: "₹24,00,000",
+          conversionRate: "22%",
+          ranking: 4
+        }
+      ]
     }
-  ];
-
-  const quarterlyGoals = [
-    {
-      title: "Q1 2024 Targets",
-      totalTarget: 150,
-      achieved: 128,
-      percentage: 85,
-      status: "On Track"
-    },
-    {
-      title: "Revenue Goal",
-      totalTarget: "₹40,00,000",
-      achieved: "₹32,50,000",
-      percentage: 81,
-      status: "Needs Push"
-    },
-    {
-      title: "New Markets",
-      totalTarget: 5,
-      achieved: 3,
-      percentage: 60,
-      status: "Behind"
-    }
-  ];
+  };
 
   const getPerformanceColor = (percentage: number) => {
     if (percentage >= 90) return 'text-green-400';
@@ -89,30 +250,36 @@ const TargetsGoals = () => {
     }
   };
 
+  const periodLabelMap = {
+    monthly: "Monthly Goals Progress",
+    quarterly: "Quarterly Goals Progress",
+    yearly: "Yearly Goals Progress",
+  };
+
   return (
     <div className="space-y-6 bg-[#101624] min-h-screen p-4 rounded-xl text-white">
       {/* Period Selector */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Targets & Goals</h2>
-        <div className="flex space-x-2">
-          <Button 
-            variant={selectedPeriod === 'monthly' ? 'default' : 'outline'}
-            onClick={() => setSelectedPeriod('monthly')}
-            className={selectedPeriod === 'monthly' ? 'bg-orange-500 border-orange-500 text-white' : 'border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10'}
+        <div className="flex gap-2">
+          <Button
+            variant={period === "monthly" ? "default" : "outline"}
+            className={period === "monthly" ? "bg-orange-500 text-white" : ""}
+            onClick={() => setPeriod("monthly")}
           >
             Monthly
           </Button>
-          <Button 
-            variant={selectedPeriod === 'quarterly' ? 'default' : 'outline'}
-            onClick={() => setSelectedPeriod('quarterly')}
-            className={selectedPeriod === 'quarterly' ? 'bg-orange-500 border-orange-500 text-white' : 'border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10'}
+          <Button
+            variant={period === "quarterly" ? "default" : "outline"}
+            className={period === "quarterly" ? "bg-orange-500 text-white" : ""}
+            onClick={() => setPeriod("quarterly")}
           >
             Quarterly
           </Button>
-          <Button 
-            variant={selectedPeriod === 'yearly' ? 'default' : 'outline'}
-            onClick={() => setSelectedPeriod('yearly')}
-            className={selectedPeriod === 'yearly' ? 'bg-orange-500 border-orange-500 text-white' : 'border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10'}
+          <Button
+            variant={period === "yearly" ? "default" : "outline"}
+            className={period === "yearly" ? "bg-orange-500 text-white" : ""}
+            onClick={() => setPeriod("yearly")}
           >
             Yearly
           </Button>
@@ -125,9 +292,8 @@ const TargetsGoals = () => {
           <CardContent className="p-4 flex items-center">
             <Target className="h-8 w-8 text-blue-400 mr-3" />
             <div>
-              <p className="text-2xl font-bold text-white">85%</p>
-              <p className="text-sm text-gray-300">Overall Target</p>
-              <p className="text-xs text-blue-400">Team Performance</p>
+              <div className="text-2xl font-bold text-blue-400">{periodData[period].overallTarget}%</div>
+              <div className="text-sm text-gray-400">Overall Target</div>
             </div>
           </CardContent>
         </Card>
@@ -135,9 +301,9 @@ const TargetsGoals = () => {
           <CardContent className="p-4 flex items-center">
             <DollarSign className="h-8 w-8 text-green-400 mr-3" />
             <div>
-              <p className="text-2xl font-bold text-white">₹32.5L</p>
-              <p className="text-sm text-gray-300">Revenue Achieved</p>
-              <p className="text-xs text-green-400">81% of target</p>
+              <div className="text-2xl font-bold text-green-400">{periodData[period].revenue}</div>
+              <div className="text-sm text-gray-400">Revenue Achieved</div>
+              <div className="text-xs text-green-400">{periodData[period].revenuePercent}% of target</div>
             </div>
           </CardContent>
         </Card>
@@ -145,9 +311,9 @@ const TargetsGoals = () => {
           <CardContent className="p-4 flex items-center">
             <TrendingUp className="h-8 w-8 text-purple-400 mr-3" />
             <div>
-              <p className="text-2xl font-bold text-white">128</p>
+              <p className="text-2xl font-bold text-white">{periodData[period].institutes}</p>
               <p className="text-sm text-gray-300">Institutes Onboarded</p>
-              <p className="text-xs text-purple-400">85% of target</p>
+              <p className="text-xs text-purple-400">{periodData[period].institutesPercent}% of target</p>
             </div>
           </CardContent>
         </Card>
@@ -155,7 +321,7 @@ const TargetsGoals = () => {
           <CardContent className="p-4 flex items-center">
             <Award className="h-8 w-8 text-orange-400 mr-3" />
             <div>
-              <p className="text-2xl font-bold text-white">24%</p>
+              <p className="text-2xl font-bold text-white">{periodData[period].avgConversion}%</p>
               <p className="text-sm text-gray-300">Avg Conversion</p>
               <p className="text-xs text-orange-400">Above benchmark</p>
             </div>
@@ -168,24 +334,24 @@ const TargetsGoals = () => {
         <CardHeader>
           <CardTitle className="flex items-center text-white">
             <BarChart3 className="h-5 w-5 mr-2 text-orange-400" />
-            Quarterly Goals Progress
+            {periodLabelMap[period]}
           </CardTitle>
-          <CardDescription className="text-gray-400">Track progress against quarterly objectives</CardDescription>
+          <CardDescription className="text-gray-400">
+            Track progress against {period} objectives
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {quarterlyGoals.map((goal, index) => (
-              <div key={index} className="p-4 border border-[#232b45] rounded-lg bg-[#232b45]">
+            {periodData[period].goals.map((goal, idx) => (
+              <div key={idx} className="p-4 border border-[#232b45] rounded-lg bg-[#232b45] mb-4">
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-semibold text-white">{goal.title}</h3>
-                  <Badge className={getStatusColor(goal.status) + " font-semibold"}>
-                    {goal.status}
-                  </Badge>
+                  <h3 className="font-semibold text-white">{goal.key}</h3>
+                  <Badge className="font-semibold">{goal.status}</Badge>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-300">Target:</span>
-                    <span className="font-medium text-white">{goal.totalTarget}</span>
+                    <span className="font-medium text-white">{goal.target}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-300">Achieved:</span>
@@ -194,11 +360,11 @@ const TargetsGoals = () => {
                   <div className="w-full bg-[#181f32] rounded-full h-3">
                     <div 
                       className="bg-orange-500 h-3 rounded-full" 
-                      style={{width: `${goal.percentage}%`}}
+                      style={{width: `${goal.percent}%`}}
                     ></div>
                   </div>
-                  <div className={`text-center font-bold ${getPerformanceColor(goal.percentage)}`}>
-                    {goal.percentage}%
+                  <div className="text-center font-bold text-orange-400">
+                    {goal.percent}%
                   </div>
                 </div>
               </div>
@@ -218,7 +384,7 @@ const TargetsGoals = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {teamTargets.map((member, index) => (
+            {periodData[period].leaderboard.map((member, index) => (
               <div key={index} className="flex items-center justify-between p-4 bg-[#232b45] rounded-lg">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center justify-center w-8 h-8 bg-orange-500 text-white rounded-full font-bold">
