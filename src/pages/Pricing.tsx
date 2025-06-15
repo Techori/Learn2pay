@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { CheckCircle, X, ArrowRight, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-// import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Pricing = () => {
@@ -97,8 +96,6 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* <Header /> */}
-      
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}
@@ -114,16 +111,20 @@ const Pricing = () => {
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {plans.map((plan, index) => (
-              <Card key={index} className={`relative bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:-translate-y-2 animate-fade-in ${plan.popular ? 'border-orange-500/50 scale-105' : ''}`} style={{animationDelay: `${index * 200}ms`}}>
+              <Card
+                key={index}
+                className={`relative bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:-translate-y-2 animate-fade-in ${plan.popular ? 'border-orange-500/50 scale-105' : ''}`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-orange-500 text-white px-4 py-1">
-                      <Star className="h-3 w-3 mr-1" />
+                    <Badge className="bg-orange-500 text-white px-4 py-1 flex items-center gap-1">
+                      <Star className="h-3 w-3" />
                       Most Popular
                     </Badge>
                   </div>
                 )}
-                
+
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-2xl text-white mb-2">{plan.name}</CardTitle>
                   <div className="mb-4">
@@ -134,35 +135,35 @@ const Pricing = () => {
                     {plan.description}
                   </CardDescription>
                 </CardHeader>
-<CardContent className="space-y-6">
-  <div className="space-y-3">
-    {plan.features.map((feature, i) => (
-      <div key={i} className="flex items-center text-sm">
-        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-        <span className="text-gray-300">{feature}</span>
-      </div>
-    ))}
-    {plan.limitations.map((limitation, i) => (
-      <div key={i} className="flex items-center text-sm">
-        <X className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
-        <span className="text-gray-400">{limitation}</span>
-      </div>
-    ))}
-  </div>
-  
-  <Button 
-    className={`w-full flex items-center justify-center gap-2 transform hover:scale-105 transition-all duration-300 ${
-      plan.popular 
-        ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700' 
-        : 'bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700'
-    }`}
-    // Navigate to /register for all plans except Enterprise, which goes to /contact
-    onClick={() => plan.name === 'Enterprise' ? navigate('/contact') : navigate('/register')}
-  >
-    <ArrowRight className="h-4 w-4" />
-    <span>{plan.cta}</span>
-  </Button>
-</CardContent>
+
+                <CardContent className="space-y-6">
+                  <div className="space-y-3">
+                    {plan.features.map((feature, i) => (
+                      <div key={i} className="flex items-center text-sm">
+                        <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                        <span className="text-gray-300">{feature}</span>
+                      </div>
+                    ))}
+                    {plan.limitations.map((limitation, i) => (
+                      <div key={i} className="flex items-center text-sm">
+                        <X className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
+                        <span className="text-gray-400">{limitation}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Button
+                    className={`w-full flex items-center justify-center gap-2 transform hover:scale-105 transition-all duration-300 ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                        : 'bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700'
+                    }`}
+                    onClick={() => plan.name === 'Enterprise' ? navigate('/contact') : navigate('/register-institute')}
+                  >
+                    <ArrowRight className="h-4 w-4" />
+                    <span>{plan.cta}</span>
+                  </Button>
+                </CardContent>
               </Card>
             ))}
           </div>
@@ -172,7 +173,11 @@ const Pricing = () => {
             <h2 className="text-4xl font-bold text-center mb-12 animate-fade-in">Frequently Asked Questions</h2>
             <div className="space-y-6">
               {faqs.map((faq, index) => (
-                <Card key={index} className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 animate-fade-in" style={{animationDelay: `${index * 100}ms`}}>
+                <Card
+                  key={index}
+                  className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
                   <CardHeader>
                     <CardTitle className="text-white text-lg">{faq.question}</CardTitle>
                   </CardHeader>
@@ -193,7 +198,7 @@ const Pricing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2" 
-                onClick={() => navigate('/register')}
+                onClick={() => navigate('/register-institute')}
               >
                 <ArrowRight className="h-5 w-5" />
                 <span>Start Free Trial</span>

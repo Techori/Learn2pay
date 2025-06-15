@@ -3,7 +3,7 @@ import React from "react";
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "ghost" | "link" | "outline";
+  variant?: "default" | "ghost" | "link" | "outline" | "destructive";
   size?: "default" | "lg" | "sm";
 }
 
@@ -12,6 +12,7 @@ const variantClasses: Record<string, string> = {
   ghost: "bg-transparent text-gray-300 hover:text-orange-500",
   link: "bg-transparent underline text-blue-600 hover:text-blue-800 p-0 h-auto",
   outline: "border border-orange-500 text-orange-500 bg-transparent hover:bg-orange-500 hover:text-white",
+  destructive: "bg-red-600 text-white hover:bg-red-700",
 };
 
 const sizeClasses: Record<string, string> = {

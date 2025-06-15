@@ -76,6 +76,7 @@ const SearchAndFilter = ({
         <div className="relative flex-1">
           <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           <Input
+            id="search-input"
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
@@ -111,21 +112,16 @@ const SearchAndFilter = ({
                         handleFilterChange(option.key, value)
                       }
                     >
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={`Select ${option.label.toLowerCase()}`}
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {option.options.map((opt) => (
-                          <SelectItem key={opt.value} value={opt.value}>
-                            {opt.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
+                      <option value="" disabled selected hidden>{`Select ${option.label.toLowerCase()}`}</option>
+                      {option.options.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
                     </Select>
                   ) : option.type === "date" ? (
                     <Input
+                      id={`filter-${option.key}`}
                       type="date"
                       value={filters[option.key] || ""}
                       onChange={(e) =>
@@ -134,6 +130,7 @@ const SearchAndFilter = ({
                     />
                   ) : (
                     <Input
+                      id={`filter-${option.key}`}
                       value={filters[option.key] || ""}
                       onChange={(e) =>
                         handleFilterChange(option.key, e.target.value)

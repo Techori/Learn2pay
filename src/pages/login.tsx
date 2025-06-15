@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button } from "../components/ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
-import { Label } from "../components/ui/Label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { 
   User, 
   Lock, 
@@ -151,6 +151,7 @@ const Login = () => {
                   Forgot password?
                 </button>
               </div>
+
               {/* Sign In Button */}
               <Button 
                 type="submit" 
@@ -170,6 +171,7 @@ const Login = () => {
                 )}
               </Button>
             </form>
+
             {/* Demo Credentials */}
             <div className="mt-6 p-4 bg-gray-900/80 rounded-lg border border-orange-500/20">
               <h4 className="text-sm font-semibold text-orange-300 mb-2">Demo Credentials:</h4>
@@ -182,6 +184,7 @@ const Login = () => {
                 <div className="font-medium">Password: password123</div>
               </div>
             </div>
+
             {/* Sign Up Link */}
             <div className="text-center">
               <p className="text-sm text-orange-200">
@@ -199,6 +202,6 @@ const Login = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;

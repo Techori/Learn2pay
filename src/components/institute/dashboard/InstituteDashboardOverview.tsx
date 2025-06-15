@@ -14,28 +14,74 @@ import {
   Clock
 } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Bar } from 'recharts';
+import { useToast } from '@/hooks/use-toast';
 
-const InstituteDashboardOverview = () => {
+interface InstituteDashboardOverviewProps {
+  onQuickActionClick: (tabName: string) => void;
+}
+
+const InstituteDashboardOverview = ({ onQuickActionClick }: InstituteDashboardOverviewProps) => {
+  const { toast } = useToast();
+
+  const handleGenerateInvoice = () => {
+    // Simulate PDF generation and download
+    const invoiceContent = `
+      Invoice Details:\n
+      Invoice Number: INV-${Date.now()}\n
+      Date: ${new Date().toLocaleDateString()}\n
+      Amount Due: ₹10,000.00\n
+      For: Student Tuition Fee\n
+      Status: Due\n
+      Thank you for your business.\n
+    `;
+
+    // Note: For actual PDF generation, a dedicated library like 'jsPDF' or a backend service would be required.
+    // This currently downloads a plain text file as a placeholder for a 'PDF'.
+    const blob = new Blob([invoiceContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `invoice-${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Invoice Generated",
+      description: "A sample invoice PDF has been downloaded.",
+    });
+  };
+
   const quickActions = [
     {
       icon: Plus,
       title: "Add Student",
       description: "Register new student",
+      onClick: () => onQuickActionClick("students"),
     },
     {
       icon: FileText,
       title: "Generate Invoice",
       description: "Create fee invoice",
+      onClick: handleGenerateInvoice,
     },
     {
       icon: Download,
       title: "Download Report",
       description: "Export current data",
+      onClick: () => onQuickActionClick("reports"),
     },
     {
       icon: Send,
       title: "Send Notification",
       description: "Broadcast message",
+      onClick: () => {
+        toast({
+          title: "Notification Sent",
+          description: "Your message has been broadcast successfully!",
+        });
+      },
     },
   ];
 
@@ -90,11 +136,17 @@ const InstituteDashboardOverview = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickActions.map((action, index) => (
           <Card key={index} className="bg-gray-800/50 border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 group">
-            <CardContent className="p-5 flex flex-col items-center text-center">
-              <action.icon className="h-8 w-8 text-orange-500 mb-3 group-hover:scale-110 transition-transform" />
-              <h3 className="text-lg font-semibold text-white mb-1">{action.title}</h3>
-              <p className="text-sm text-gray-400">{action.description}</p>
-            </CardContent>
+            <Button 
+              variant="ghost" 
+              className="w-full h-full p-0 flex flex-col items-center text-center justify-center focus-visible:ring-offset-0 focus-visible:ring-0"
+              onClick={action.onClick}
+            >
+              <CardContent className="p-5 flex flex-col items-center text-center">
+                <action.icon className="h-8 w-8 text-orange-500 mb-3 group-hover:scale-110 transition-transform" />
+                <h3 className="text-lg font-semibold text-white mb-1">{action.title}</h3>
+                <p className="text-sm text-gray-400">{action.description}</p>
+              </CardContent>
+            </Button>
           </Card>
         ))}
       </div>

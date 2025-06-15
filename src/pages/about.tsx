@@ -2,28 +2,29 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Users, Globe, Heart } from 'lucide-react';
 import Footer from '../components/Footer';
-import  AboutUI from '../components/ui/aboutui';
+import AboutUI from '../components/ui/AboutUi'; // Use the capitalized file name consistently
+
 const About: React.FC = () => {
   const navigate = useNavigate();
 
   const values = [
     {
-      icon: <Shield className="h-8 w-8 text-gray-300" />, // Changed to grayscale
+      icon: <Shield className="h-8 w-8 text-gray-300" />,
       title: "Security First",
       description: "We prioritize the security of your data and transactions with bank-grade encryption.",
     },
     {
-      icon: <Users className="h-8 w-8 text-gray-300" />, // Changed to grayscale
+      icon: <Users className="h-8 w-8 text-gray-300" />,
       title: "Customer Success",
       description: "Your success is our success. We're committed to helping you achieve your goals.",
     },
     {
-      icon: <Globe className="h-8 w-8 text-gray-300" />, // Changed to grayscale
+      icon: <Globe className="h-8 w-8 text-gray-300" />,
       title: "Innovation",
       description: "We continuously innovate to provide cutting-edge solutions for fee management.",
     },
     {
-      icon: <Heart className="h-8 w-8 text-gray-300" />, // Changed to grayscale
+      icon: <Heart className="h-8 w-8 text-gray-300" />,
       title: "Community",
       description: "We believe in building strong relationships with our educational partners.",
     },
@@ -94,6 +95,7 @@ const About: React.FC = () => {
         </div>
       </section>
 
+      {/* About UI Section */}
       <AboutUI
         values={values}
         team={team}

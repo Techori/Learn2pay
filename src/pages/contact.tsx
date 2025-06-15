@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Button } from "../components/ui/Button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import { Input } from "../components/ui/Input";
-import { Label } from "../components/ui/Label";
-import { Textarea } from "../components/ui/Textarea";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
 import { 
   Mail, 
   Phone, 
@@ -110,23 +110,21 @@ const Contact = () => {
           <p className="text-lg text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
             Have questions about our fee management solutions? We're here to help you transform your institution's payment process.
           </p>
-          <div className="flex justify-center w-full">
-            <button
-              className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-xl shadow transition"
-              onClick={() => {
-                // Scroll to the contact form section
-                const formSection = document.getElementById('contact-form-section');
-                if (formSection) {
-                  formSection.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            >
-              <ArrowRight className="w-6 h-6" />
-              <span>Contact Our Team</span>
-            </button>
-          </div>
+          <Button
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-xl shadow transition"
+            onClick={() => {
+              const formSection = document.getElementById('contact-form-section');
+              if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
+            <ArrowRight className="w-6 h-6" />
+            <span>Contact Our Team</span>
+          </Button>
         </div>
       </section>
+
       {/* Compact Contact Form */}
       <section id="contact-form-section" className="py-8 px-2 flex justify-center items-center">
         <Card className="w-full max-w-xl mx-auto bg-gradient-to-br from-gray-900/90 to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
@@ -186,12 +184,12 @@ const Contact = () => {
                 required
               />
               <Button 
-  type="submit" 
-  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
->
-  <span>Send Message</span>
-  <Send className="h-5 w-5" />
-</Button>
+                type="submit" 
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
+              >
+                <span>Send Message</span>
+                <Send className="h-5 w-5" />
+              </Button>
               {submitted && (
                 <div className="text-center text-green-400 font-semibold mt-2 animate-fade-in">
                   Thank you! Your message has been sent.
@@ -201,6 +199,7 @@ const Contact = () => {
           </CardContent>
         </Card>
       </section>
+
       {/* Contact Info & Support Types */}
       <section className="py-10 px-4">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -245,6 +244,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
       {/* FAQ Section */}
       <section className="py-14 px-4 bg-gradient-to-r from-orange-600/10 via-orange-500/5 to-orange-600/10">
         <div className="container mx-auto">
@@ -300,6 +300,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
       {/* CTA Section */}
       <section className="py-14 px-4">
         <div className="container mx-auto text-center">
@@ -323,6 +324,7 @@ const Contact = () => {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );

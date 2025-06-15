@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
-import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
 import {
   School,
   BookOpen,
@@ -40,10 +40,8 @@ const featureIcons: Record<string, any> = {
   "Attendance tracking": CalendarCheck,
   "Exam management": FileText,
   "Transport fee management": Bus,
-
   "Batch-wise fee collection": Layers,
   "Student performance tracking": TrendingUp,
-
   "Multi-campus management": Home,
   "Department-wise billing": ClipboardList,
   "Scholarship management": FileText,
@@ -147,26 +145,26 @@ const Services = () => {
                     {service.description}
                   </CardDescription>
                 </CardHeader>
-<CardContent>
-  <ul className="space-y-3 mb-8">
-    {service.features.map((feature, i) => {
-      const Icon = featureIcons[feature] || CheckCircle;
-      return (
-        <li key={i} className="flex items-center text-base text-orange-100 font-medium">
-          <Icon className="h-5 w-5 text-orange-400 mr-2 flex-shrink-0 drop-shadow" />
-          {feature}
-        </li>
-      );
-    })}
-  </ul>
-  <Button
-    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
-    onClick={() => navigate('/contact')}
-  >
-    <span>Learn More</span>
-    <ArrowRight className="h-5 w-5" />
-  </Button>
-</CardContent>
+                <CardContent>
+                  <ul className="space-y-3 mb-8">
+                    {service.features.map((feature, i) => {
+                      const Icon = featureIcons[feature] || CheckCircle;
+                      return (
+                        <li key={i} className="flex items-center text-base text-orange-100 font-medium">
+                          <Icon className="h-5 w-5 text-orange-400 mr-2 flex-shrink-0 drop-shadow" />
+                          {feature}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <Button
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
+                    onClick={() => navigate('/contact')}
+                  >
+                    <span>Learn More</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </CardContent>
               </Card>
             ))}
           </div>

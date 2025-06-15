@@ -12,6 +12,7 @@ interface SelectProps {
 interface SelectItemProps {
   value: string;
   children: ReactNode;
+  className?: string;
 }
 
 export const Select: FC<SelectProps> = ({
@@ -20,24 +21,44 @@ export const Select: FC<SelectProps> = ({
   required,
   children,
   className,
-}) => (
-  <select
-    className={`w-full p-2 border rounded ${className ?? ''}`}
-    value={value}
-    onChange={e => onValueChange(e.target.value)}
-    required={required}
-  >
+}) => {
+  return (
+    <select
+      className={`w-full p-2 border rounded bg-gray-800 text-white border-gray-700 ${className ?? ''}`}
+      value={value}
+      onChange={e => onValueChange(e.target.value)}
+      required={required}
+    >
+      {React.Children.map(children, child => {
+        if (React.isValidElement(child) && child.type === SelectItem) {
+          const { value, children, className } = child.props as SelectItemProps;
+          return (
+            <option value={value} className={className}>
+              {children}
+            </option>
+          );
+        }
+        return null;
+      })}
+    </select>
+  );
+};
+
+export const SelectItem: FC<SelectItemProps> = ({ value, children, className }) => (
+  <option value={value} className={className}>
     {children}
-  </select>
+  </option>
 );
 
-export const SelectItem: FC<SelectItemProps> = ({ value, children }) => (
-  <option value={value}>{children}</option>
+// Compatibility shims
+export const SelectContent: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
+  <div className={className}>{children}</div>
 );
 
-// Compatibility shims for your usage in login.tsx
-export const SelectContent: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
 export const SelectTrigger: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
-  <div className={className ?? ''}>{children}</div>
+  <div className={className}>{children}</div>
 );
-export const SelectValue: FC<{ children: ReactNode }> = ({ children }) => <>{children}</>;
+
+export const SelectValue: FC<{ children: ReactNode; placeholder?: string }> = ({ children, placeholder }) => (
+  <div>{children || placeholder}</div>
+);
