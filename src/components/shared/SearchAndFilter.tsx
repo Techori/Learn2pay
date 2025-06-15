@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "../../components/ui/Select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/Dialog";
+} from "../../components/ui/Dialog";
 import { Search, Filter, X } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 
@@ -98,7 +98,7 @@ const SearchAndFilter = ({
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle>Filter Options</DialogTitle>
+              <DialogTitle >Filter Options</DialogTitle>
             </DialogHeader>
 
             <div className="space-y-4">

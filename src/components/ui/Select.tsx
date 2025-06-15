@@ -50,7 +50,7 @@ export const SelectItem: FC<SelectItemProps> = ({ value, children, className }) 
   </option>
 );
 
-// Compatibility shims for existing components
+// Compatibility shims
 export const SelectContent: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => (
   <div className={className}>{children}</div>
 );

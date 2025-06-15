@@ -40,10 +40,8 @@ const featureIcons: Record<string, any> = {
   "Attendance tracking": CalendarCheck,
   "Exam management": FileText,
   "Transport fee management": Bus,
-
   "Batch-wise fee collection": Layers,
   "Student performance tracking": TrendingUp,
-
   "Multi-campus management": Home,
   "Department-wise billing": ClipboardList,
   "Scholarship management": FileText,
@@ -160,11 +158,11 @@ const Services = () => {
                     })}
                   </ul>
                   <Button
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
                     onClick={() => navigate('/contact')}
                   >
-                    Learn More
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <span>Learn More</span>
+                    <ArrowRight className="h-5 w-5" />
                   </Button>
                 </CardContent>
               </Card>

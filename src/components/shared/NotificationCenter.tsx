@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/Dialog';
-import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
-import { ScrollArea } from '@/components/ui/ScrollArea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/Dialog';
+import { Button } from '../../components/ui/Button';
+import { Badge } from '../../components/ui/Badge';
+import { ScrollArea } from '../../components/ui/ScrollArea';
 import { Bell, CheckCircle, AlertCircle, Info, X } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+// Update the import path below if your useToast hook is located elsewhere
+import { useToast } from '../../hooks/use-toast';
 
 interface Notification {
   id: string;

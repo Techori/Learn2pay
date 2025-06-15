@@ -80,11 +80,21 @@ const Institute = () => {
               <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
             onClick={() => setActiveTab("multi-institute")}
           >
             <Building2 className="h-4 w-4" />
             <span>Add Institute</span>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-gray-300 border-gray-700 hover:bg-gray-800/10"
+          >
+            Filters
           </Button>
         </div>
 

@@ -100,7 +100,7 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="py-16 px-4 relative overflow-hidden">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="container mx-auto text-center relative z-10">
+        <div className="container mx-auto text-center relative z-10 flex flex-col items-center">
           <div className="flex justify-center mb-4">
             <Sparkles className="h-12 w-12 text-orange-400 animate-pulse" />
           </div>
@@ -110,19 +110,23 @@ const Contact = () => {
           <p className="text-lg text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
             Have questions about our fee management solutions? We're here to help you transform your institution's payment process.
           </p>
-          <Button 
-            className="mt-2 px-6 py-3 text-base bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 font-bold rounded-xl shadow-lg animate-bounce"
+          <Button
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-xl shadow transition"
             onClick={() => {
-              window.scrollTo({ top: 600, behavior: 'smooth' });
+              const formSection = document.getElementById('contact-form-section');
+              if (formSection) {
+                formSection.scrollIntoView({ behavior: 'smooth' });
+              }
             }}
           >
-            Contact Our Team <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="w-6 h-6" />
+            <span>Contact Our Team</span>
           </Button>
         </div>
       </section>
 
       {/* Compact Contact Form */}
-      <section className="py-8 px-2 flex justify-center items-center">
+      <section id="contact-form-section" className="py-8 px-2 flex justify-center items-center">
         <Card className="w-full max-w-xl mx-auto bg-gradient-to-br from-gray-900/90 to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
           <CardHeader className="pb-3">
             <div className="flex items-center gap-2 mb-1">
@@ -181,10 +185,10 @@ const Contact = () => {
               />
               <Button 
                 type="submit" 
-                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
               >
-                <Send className="mr-2 h-5 w-5" />
-                Send Message
+                <span>Send Message</span>
+                <Send className="h-5 w-5" />
               </Button>
               {submitted && (
                 <div className="text-center text-green-400 font-semibold mt-2 animate-fade-in">

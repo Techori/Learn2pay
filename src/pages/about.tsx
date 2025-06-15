@@ -1,31 +1,30 @@
 import React from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import { Shield, Users, Globe, Heart } from 'lucide-react';
-// import Header from '../components/Header';
 import Footer from '../components/Footer';
-import AboutUI from '../components/ui/AboutUi';
+import AboutUI from '../components/ui/AboutUi'; // Use the capitalized file name consistently
+
 const About: React.FC = () => {
   const navigate = useNavigate();
 
   const values = [
     {
-      icon: <Shield className="h-8 w-8 text-orange-500" />,
+      icon: <Shield className="h-8 w-8 text-gray-300" />,
       title: "Security First",
       description: "We prioritize the security of your data and transactions with bank-grade encryption.",
     },
     {
-      icon: <Users className="h-8 w-8 text-orange-500" />,
+      icon: <Users className="h-8 w-8 text-gray-300" />,
       title: "Customer Success",
       description: "Your success is our success. We're committed to helping you achieve your goals.",
     },
     {
-      icon: <Globe className="h-8 w-8 text-orange-500" />,
+      icon: <Globe className="h-8 w-8 text-gray-300" />,
       title: "Innovation",
       description: "We continuously innovate to provide cutting-edge solutions for fee management.",
     },
     {
-      icon: <Heart className="h-8 w-8 text-orange-500" />,
+      icon: <Heart className="h-8 w-8 text-gray-300" />,
       title: "Community",
       description: "We believe in building strong relationships with our educational partners.",
     },
@@ -83,12 +82,10 @@ const About: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      
-
       {/* Hero Section */}
       <section className="py-20 px-4 text-center">
         <div className="container mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
             About Learn2Pay
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -98,13 +95,14 @@ const About: React.FC = () => {
         </div>
       </section>
 
+      {/* About UI Section */}
       <AboutUI
-  values={values}
-  team={team}
-  milestones={milestones}
-  onStart={() => navigate('/register')}
-  onContact={() => navigate('/contact')}
-/>
+        values={values}
+        team={team}
+        milestones={milestones}
+        onStart={() => navigate('/register')}
+        onContact={() => navigate('/contact')}
+      />
 
       <Footer />
     </div>
