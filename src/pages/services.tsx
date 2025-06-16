@@ -1,5 +1,5 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Button } from "../components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
 import {
   School,
   BookOpen,
@@ -32,7 +32,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-
+import Navbar from "@/components/Navbar";
 const featureIcons: Record<string, any> = {
   "Student registration & management": Users,
   "Class-wise fee structure": ClipboardList,
@@ -112,6 +112,7 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white">
+      <Navbar />
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}

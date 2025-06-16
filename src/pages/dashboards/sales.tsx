@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "../../components/ui/Tabs";
-import { Button } from "../../components/ui/Button";
-import { LogOut } from 'lucide-react';
+
 // import SalesSidebar from '@/components/SalesSidebar';
 import SalesTabContent from '../../components/sales/SalesTabContent';
-import UserProfile from '@/components/shared/UserProfile';
-import NotificationCenter from '@/components/shared/NotificationCenter';
+
 import QuickActions from '@/components/shared/QuickActions';
 import { useToast } from '@/hooks/use-toast';
 import DashboardHeader from '@/components/shared/DashboardHeader';
 
 const Sales = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const { toast } = useToast();
 

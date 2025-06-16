@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button } from '../components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Input } from '../components/ui/input';
-import { Label } from '../components/ui/label';
-import { Textarea } from '../components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { Checkbox } from '../components/ui/checkbox';
+import { Button } from '../components/ui/Button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
+import { Label } from '../components/ui/Label';
+import { Textarea } from '../components/ui/Textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/Select';
+import { Checkbox } from '../components/ui/Checkbox';
 import { ArrowLeft, Upload } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '../components/ui/form';
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '../components/ui/Form';
 
 const Register = () => {
   const navigate = useNavigate();

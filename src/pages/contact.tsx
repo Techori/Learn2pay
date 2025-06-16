@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
-import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/Button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import { Input } from "../components/ui/Input";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { 
@@ -18,7 +18,8 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../components/Footer';
-
+import Navbar from '@/components/Navbar';
+import { Nav } from 'react-day-picker';
 const Contact = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -97,6 +98,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white">
+      <Navbar/>
       {/* Hero Section */}
       <section className="py-16 px-4 relative overflow-hidden">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>

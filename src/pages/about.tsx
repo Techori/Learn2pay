@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, Users, Globe, Heart } from 'lucide-react';
 import Footer from '../components/Footer';
 import AboutUI from '../components/ui/AboutUi'; // Use the capitalized file name consistently
-
+import Navbar from '@/components/Navbar';
 const About: React.FC = () => {
   const navigate = useNavigate();
 
@@ -82,6 +82,7 @@ const About: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <Navbar />
       {/* Hero Section */}
       <section className="py-20 px-4 text-center">
         <div className="container mx-auto">
