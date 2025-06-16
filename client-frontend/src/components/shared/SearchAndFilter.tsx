@@ -1,20 +1,20 @@
 import React, { useState } from "react";
-import { Input } from "../../components/ui/Input";
-import { Button } from "../../components/ui/Button";
+import { Input } from "../ui/Input";
+import { Button } from "../ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../components/ui/Select";
+} from "../ui/Select";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../components/ui/Dialog";
+} from "../ui/Dialog";
 import { Search, Filter, X } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 
@@ -98,7 +98,7 @@ const SearchAndFilter = ({
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle >Filter Options</DialogTitle>
+              <DialogTitle>Filter Options</DialogTitle>
             </DialogHeader>
 
             <div className="space-y-4">
@@ -112,7 +112,12 @@ const SearchAndFilter = ({
                         handleFilterChange(option.key, value)
                       }
                     >
-                      <option value="" disabled selected hidden>{`Select ${option.label.toLowerCase()}`}</option>
+                      <option
+                        value=""
+                        disabled
+                        selected
+                        hidden
+                      >{`Select ${option.label.toLowerCase()}`}</option>
                       {option.options.map((opt) => (
                         <SelectItem key={opt.value} value={opt.value}>
                           {opt.label}

@@ -1,0 +1,288 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: radial-gradient(circle at center, #1e0f05, #000000);
+  color: white;
+}
+
+/* Header */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: black;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.lern {
+  color: orange;
+}
+
+.pay {
+  color: white;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+}
+
+.nav-buttons a {
+  margin-left: 20px;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.login {
+  color: white;
+}
+
+.get-started {
+  background-color: orange;
+  color: white;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #331800;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: orange;
+  margin-bottom: 30px;
+  border: 1px solid orange;
+}
+
+.hero h1 {
+  font-size: 64px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.highlight {
+  color: orange;
+}
+
+.bold-white {
+  color: white;
+  font-weight: 900;
+}
+
+.hero p {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  font-size: 18px;
+  color: #ccc;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cta-buttons a {
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trial {
+  background-color: orange;
+  color: white;
+}
+
+.demo {
+  background-color: white;
+  color: orange;
+  border: 2px solid orange;
+}
+.stats-section {
+  background: linear-gradient(to bottom, #0b0b0b, #1c0f0f); /* black-brown effect */
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.certifications {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 40px;
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.stat-box {
+  background-color: #1a1a1a;
+  padding: 30px;
+  border-radius: 12px;
+  width: 200px;
+  box-shadow: 0 0 10px rgba(255, 136, 0, 0.2);
+}
+
+.stat-box .icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #ff8800;
+}
+
+.stat-box h2 {
+  font-size: 1.8rem;
+  color: #ff8800;
+  margin: 0;
+}
+
+.stat-box p {
+  font-size: 0.95rem;
+  margin-top: 5px;
+  color: #ddd;
+}
+.why-choose-us {
+  background-color: #000000;
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.why-choose-us h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.why-choose-us .subtitle {
+  color: #cccccc;
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.feature-card {
+  background: linear-gradient(to bottom right, #1c1f25, #2d2d2d);
+  border-radius: 12px;
+  padding: 30px;
+  width: 260px;
+  box-shadow: 0 4px 10px rgba(255, 136, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(255, 136, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 2.2rem;
+  color: #ff8800;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: #cccccc;
+}
+.features-section {
+  background-color: #0b0c10;
+  padding: 80px 30px;
+  text-align: center;
+  color: white;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  color: #ff6a00;
+  margin-bottom: 10px;
+}
+
+.features-subtitle {
+  color: #cccccc;
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  justify-content: center;
+}
+
+.feature-box {
+  background: linear-gradient(to bottom right, #2b2b2b, #1c1f25);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 10px rgba(255, 136, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.feature-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(255, 136, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: #ff6a00;
+  margin-bottom: 15px;
+}
+
+.feature-box h3 {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.feature-box p {
+  font-size: 0.95rem;
+  color: #cccccc;
+}

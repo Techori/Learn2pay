@@ -6,10 +6,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/Dialog";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
-import { Label } from "../../components/ui/Label";
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/Aavatar";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Label } from "../ui/Label";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/Aavatar";
 import { User, Mail, Phone, MapPin, Edit2, Save, X } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 

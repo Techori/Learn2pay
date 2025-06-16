@@ -1,16 +1,21 @@
-
-import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/Dialog';
-import { Button } from '../../components/ui/Button';
-import { Badge } from '../../components/ui/Badge';
-import { ScrollArea } from '../../components/ui/ScrollArea';
-import { Bell, CheckCircle, AlertCircle, Info, X } from 'lucide-react';
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/Dialog";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import { ScrollArea } from "../ui/ScrollArea";
+import { Bell, CheckCircle, AlertCircle, Info, X } from "lucide-react";
 // Update the import path below if your useToast hook is located elsewhere
-import { useToast } from '../../hooks/use-toast';
+import { useToast } from "../../hooks/use-toast";
 
 interface Notification {
   id: string;
-  type: 'success' | 'warning' | 'info' | 'error';
+  type: "success" | "warning" | "info" | "error";
   title: string;
   message: string;
   timestamp: string;
@@ -20,50 +25,50 @@ interface Notification {
 const NotificationCenter = () => {
   const [notifications, setNotifications] = useState<Notification[]>([
     {
-      id: '1',
-      type: 'success',
-      title: 'Payment Received',
-      message: 'Fee payment of ₹5,000 received from Student ID: 12345',
-      timestamp: '2 minutes ago',
-      read: false
+      id: "1",
+      type: "success",
+      title: "Payment Received",
+      message: "Fee payment of ₹5,000 received from Student ID: 12345",
+      timestamp: "2 minutes ago",
+      read: false,
     },
     {
-      id: '2',
-      type: 'warning',
-      title: 'Fee Overdue',
-      message: 'Student John Doe has overdue fees of ₹2,500',
-      timestamp: '1 hour ago',
-      read: false
+      id: "2",
+      type: "warning",
+      title: "Fee Overdue",
+      message: "Student John Doe has overdue fees of ₹2,500",
+      timestamp: "1 hour ago",
+      read: false,
     },
     {
-      id: '3',
-      type: 'info',
-      title: 'System Update',
-      message: 'New features have been added to the dashboard',
-      timestamp: '3 hours ago',
-      read: true
+      id: "3",
+      type: "info",
+      title: "System Update",
+      message: "New features have been added to the dashboard",
+      timestamp: "3 hours ago",
+      read: true,
     },
     {
-      id: '4',
-      type: 'error',
-      title: 'Payment Failed',
-      message: 'Payment gateway error for transaction ID: TXN123',
-      timestamp: '5 hours ago',
-      read: false
-    }
+      id: "4",
+      type: "error",
+      title: "Payment Failed",
+      message: "Payment gateway error for transaction ID: TXN123",
+      timestamp: "5 hours ago",
+      read: false,
+    },
   ]);
 
   const { toast } = useToast();
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   const markAsRead = (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     toast({
       title: "Notifications Updated",
       description: "All notifications marked as read.",
@@ -71,16 +76,16 @@ const NotificationCenter = () => {
   };
 
   const deleteNotification = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'success':
+      case "success":
         return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'warning':
+      case "warning":
         return <AlertCircle className="h-5 w-5 text-yellow-500" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="h-5 w-5 text-red-500" />;
       default:
         return <Info className="h-5 w-5 text-blue-500" />;
@@ -110,7 +115,7 @@ const NotificationCenter = () => {
             )}
           </DialogTitle>
         </DialogHeader>
-        
+
         <ScrollArea className="h-[400px] pr-4">
           <div className="space-y-3">
             {notifications.length === 0 ? (
@@ -122,7 +127,9 @@ const NotificationCenter = () => {
                 <div
                   key={notification.id}
                   className={`p-4 border rounded-lg transition-all hover:shadow-sm ${
-                    notification.read ? 'bg-gray-50' : 'bg-white border-blue-200'
+                    notification.read
+                      ? "bg-gray-50"
+                      : "bg-white border-blue-200"
                   }`}
                 >
                   <div className="flex items-start justify-between">

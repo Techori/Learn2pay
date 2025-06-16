@@ -1,10 +1,23 @@
+import React, { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/Table";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
 
-import React, { useState } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/Table';
-import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
-
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, Download } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Search,
+  Download,
+} from "lucide-react";
 
 interface Column {
   key: string;
@@ -17,7 +30,13 @@ interface Action {
   label: string;
   icon: React.ComponentType<{ className?: string }>;
   onClick: (row: any) => void;
-  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
 }
 
 interface DataTableProps {
@@ -39,18 +58,22 @@ const DataTable = ({
   filterable = true,
   pagination = true,
   pageSize = 10,
-  title
+  title,
 }: DataTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "asc" | "desc";
+  } | null>(null);
 
   // Filter data based on search query
-  const filteredData = data.filter(row =>
-    searchQuery === '' || 
-    Object.values(row).some(value => 
-      String(value).toLowerCase().includes(searchQuery.toLowerCase())
-    )
+  const filteredData = data.filter(
+    (row) =>
+      searchQuery === "" ||
+      Object.values(row).some((value) =>
+        String(value).toLowerCase().includes(searchQuery.toLowerCase())
+      )
   );
 
   // Sort data
@@ -62,10 +85,10 @@ const DataTable = ({
       const bValue = b[sortConfig.key];
 
       if (aValue < bValue) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
+        return sortConfig.direction === "asc" ? -1 : 1;
       }
       if (aValue > bValue) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
+        return sortConfig.direction === "asc" ? 1 : -1;
       }
       return 0;
     });
@@ -74,12 +97,15 @@ const DataTable = ({
   // Pagination
   const totalPages = Math.ceil(sortedData.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
-  const paginatedData = pagination ? sortedData.slice(startIndex, startIndex + pageSize) : sortedData;
+  const paginatedData = pagination
+    ? sortedData.slice(startIndex, startIndex + pageSize)
+    : sortedData;
 
   const handleSort = (key: string) => {
-    setSortConfig(current => ({
+    setSortConfig((current) => ({
       key,
-      direction: current?.key === key && current.direction === 'asc' ? 'desc' : 'asc'
+      direction:
+        current?.key === key && current.direction === "asc" ? "desc" : "asc",
     }));
   };
 
@@ -90,7 +116,7 @@ const DataTable = ({
   return (
     <div className="space-y-4">
       {title && <h3 className="text-lg font-semibold">{title}</h3>}
-      
+
       {/* Search and Filter */}
       {(searchable || filterable) && (
         <div className="flex items-center justify-between">
@@ -110,7 +136,7 @@ const DataTable = ({
               </div>
             )}
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Button variant="outline" size="sm">
               <Download className="h-4 w-4 mr-2" />
@@ -128,14 +154,16 @@ const DataTable = ({
               {columns.map((column) => (
                 <TableHead
                   key={column.key}
-                  className={column.sortable ? 'cursor-pointer hover:bg-gray-50' : ''}
+                  className={
+                    column.sortable ? "cursor-pointer hover:bg-gray-50" : ""
+                  }
                   onClick={() => column.sortable && handleSort(column.key)}
                 >
                   <div className="flex items-center space-x-1">
                     <span>{column.label}</span>
                     {column.sortable && sortConfig?.key === column.key && (
                       <span className="text-xs">
-                        {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                        {sortConfig.direction === "asc" ? "↑" : "↓"}
                       </span>
                     )}
                   </div>
@@ -147,7 +175,10 @@ const DataTable = ({
           <TableBody>
             {paginatedData.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="text-center py-8 text-gray-500">
+                <TableCell
+                  colSpan={columns.length + (actions.length > 0 ? 1 : 0)}
+                  className="text-center py-8 text-gray-500"
+                >
                   No data found
                 </TableCell>
               </TableRow>
@@ -156,7 +187,9 @@ const DataTable = ({
                 <TableRow key={index}>
                   {columns.map((column) => (
                     <TableCell key={column.key}>
-                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                      {column.render
+                        ? column.render(row[column.key], row)
+                        : row[column.key]}
                     </TableCell>
                   ))}
                   {actions.length > 0 && (
@@ -165,7 +198,7 @@ const DataTable = ({
                         {actions.map((action, actionIndex) => (
                           <Button
                             key={actionIndex}
-                            variant={action.variant || 'ghost'}
+                            variant={action.variant || "ghost"}
                             size="sm"
                             onClick={() => action.onClick(row)}
                           >
@@ -187,9 +220,11 @@ const DataTable = ({
       {pagination && totalPages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-gray-500">
-            Showing {startIndex + 1} to {Math.min(startIndex + pageSize, sortedData.length)} of {sortedData.length} entries
+            Showing {startIndex + 1} to{" "}
+            {Math.min(startIndex + pageSize, sortedData.length)} of{" "}
+            {sortedData.length} entries
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
@@ -207,11 +242,11 @@ const DataTable = ({
             >
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            
+
             <span className="text-sm font-medium">
               Page {currentPage} of {totalPages}
             </span>
-            
+
             <Button
               variant="outline"
               size="sm"
