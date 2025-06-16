@@ -1,18 +1,41 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import { Input } from "../../components/ui/Input";
-import { Badge } from "../../components/ui/Badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
-import { Search, Filter, CheckCircle, Clock, FileText, User, Phone, Mail, Upload } from 'lucide-react';
-import { useToast } from '../../hooks/use-toast';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/Dialog';
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Badge } from "../ui/Badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/Table";
+import {
+  Search,
+  Filter,
+  CheckCircle,
+  Clock,
+  FileText,
+  User,
+  Phone,
+  Mail,
+  Upload,
+} from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
 
 const OnboardingManagement = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [stageFilter, setStageFilter] = useState('');
-  const [assignedToFilter, setAssignedToFilter] = useState('');
-  const [dateRange, setDateRange] = useState({ from: '', to: '' });
+  const [searchTerm, setSearchTerm] = useState("");
+  const [stageFilter, setStageFilter] = useState("");
+  const [assignedToFilter, setAssignedToFilter] = useState("");
+  const [dateRange, setDateRange] = useState({ from: "", to: "" });
   const [showBulkUpload, setShowBulkUpload] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
@@ -32,13 +55,13 @@ const OnboardingManagement = () => {
       documents: {
         registration: "Completed",
         license: "Pending",
-        agreement: "In Review"
+        agreement: "In Review",
       },
-      value: "₹25,000"
+      value: "₹25,000",
     },
     {
       id: 2,
-      instituteName: "Excel Coaching Center", 
+      instituteName: "Excel Coaching Center",
       contact: "Mr. Rajesh Kumar",
       phone: "+91 9876543211",
       email: "info@excelcoaching.com",
@@ -50,14 +73,14 @@ const OnboardingManagement = () => {
       documents: {
         registration: "Completed",
         license: "Completed",
-        agreement: "Completed"
+        agreement: "Completed",
       },
-      value: "₹15,000"
+      value: "₹15,000",
     },
     {
       id: 3,
       instituteName: "Modern Academy",
-      contact: "Ms. Anita Patel", 
+      contact: "Ms. Anita Patel",
       phone: "+91 9876543212",
       email: "director@modernacademy.in",
       stage: "Training",
@@ -68,33 +91,44 @@ const OnboardingManagement = () => {
       documents: {
         registration: "Completed",
         license: "Completed",
-        agreement: "Pending"
+        agreement: "Pending",
       },
-      value: "₹12,000"
-    }
+      value: "₹12,000",
+    },
   ];
 
   // Unique filter options
-  const uniqueStages = Array.from(new Set(onboardingCases.map(c => c.stage)));
-  const uniqueAssignees = Array.from(new Set(onboardingCases.map(c => c.assignedTo)));
+  const uniqueStages = Array.from(new Set(onboardingCases.map((c) => c.stage)));
+  const uniqueAssignees = Array.from(
+    new Set(onboardingCases.map((c) => c.assignedTo))
+  );
 
   // Theme helpers for dark mode and orange accent
   const getStageColor = (stage: string) => {
     switch (stage) {
-      case 'Documentation': return 'bg-yellow-900/60 text-yellow-300';
-      case 'Setup': return 'bg-blue-900/60 text-blue-300';
-      case 'Training': return 'bg-purple-900/60 text-purple-300';
-      case 'Completed': return 'bg-green-900/60 text-green-300';
-      default: return 'bg-gray-800 text-gray-300';
+      case "Documentation":
+        return "bg-yellow-900/60 text-yellow-300";
+      case "Setup":
+        return "bg-blue-900/60 text-blue-300";
+      case "Training":
+        return "bg-purple-900/60 text-purple-300";
+      case "Completed":
+        return "bg-green-900/60 text-green-300";
+      default:
+        return "bg-gray-800 text-gray-300";
     }
   };
 
   const getDocumentStatus = (status: string) => {
     switch (status) {
-      case 'Completed': return 'text-green-400';
-      case 'Pending': return 'text-yellow-400';
-      case 'In Review': return 'text-blue-400';
-      default: return 'text-gray-400';
+      case "Completed":
+        return "text-green-400";
+      case "Pending":
+        return "text-yellow-400";
+      case "In Review":
+        return "text-blue-400";
+      default:
+        return "text-gray-400";
     }
   };
 
@@ -109,10 +143,13 @@ const OnboardingManagement = () => {
       case_.assignedTo.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStage = !stageFilter || case_.stage === stageFilter;
-    const matchesAssigned = !assignedToFilter || case_.assignedTo === assignedToFilter;
+    const matchesAssigned =
+      !assignedToFilter || case_.assignedTo === assignedToFilter;
     const matchesDate =
-      (!dateRange.from || new Date(case_.startDate) >= new Date(dateRange.from)) &&
-      (!dateRange.to || new Date(case_.expectedCompletion) <= new Date(dateRange.to));
+      (!dateRange.from ||
+        new Date(case_.startDate) >= new Date(dateRange.from)) &&
+      (!dateRange.to ||
+        new Date(case_.expectedCompletion) <= new Date(dateRange.to));
 
     return matchesSearch && matchesStage && matchesAssigned && matchesDate;
   });
@@ -146,7 +183,9 @@ const OnboardingManagement = () => {
           <CardContent className="p-4">
             <div className="text-2xl font-bold text-purple-400">5.2</div>
             <div className="text-sm text-gray-300">Avg. Days to Complete</div>
-            <div className="text-xs text-purple-400">Industry benchmark: 7 days</div>
+            <div className="text-xs text-purple-400">
+              Industry benchmark: 7 days
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -157,7 +196,9 @@ const OnboardingManagement = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-white">Onboarding Pipeline</CardTitle>
-              <CardDescription className="text-gray-400">Track institute onboarding progress</CardDescription>
+              <CardDescription className="text-gray-400">
+                Track institute onboarding progress
+              </CardDescription>
             </div>
             <div className="flex space-x-2">
               <Button
@@ -174,8 +215,19 @@ const OnboardingManagement = () => {
                 onClick={() => {
                   // Use onboardingCases instead of leads
                   const csvContent = [
-                    ["Institute Name", "Contact", "Phone", "Email", "Stage", "Progress", "Start Date", "Expected Completion", "Assigned To", "Value"],
-                    ...onboardingCases.map(c => [
+                    [
+                      "Institute Name",
+                      "Contact",
+                      "Phone",
+                      "Email",
+                      "Stage",
+                      "Progress",
+                      "Start Date",
+                      "Expected Completion",
+                      "Assigned To",
+                      "Value",
+                    ],
+                    ...onboardingCases.map((c) => [
                       c.instituteName,
                       c.contact,
                       c.phone,
@@ -185,10 +237,10 @@ const OnboardingManagement = () => {
                       c.startDate,
                       c.expectedCompletion,
                       c.assignedTo,
-                      c.value
-                    ])
+                      c.value,
+                    ]),
                   ]
-                    .map(e => e.join(","))
+                    .map((e) => e.join(","))
                     .join("\n");
 
                   const blob = new Blob([csvContent], { type: "text/csv" });
@@ -213,8 +265,8 @@ const OnboardingManagement = () => {
           <div className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0 mb-6">
             <div className="relative flex-1">
               <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              <Input 
-                placeholder="Search by institute name or contact..." 
+              <Input
+                placeholder="Search by institute name or contact..."
                 className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -226,11 +278,13 @@ const OnboardingManagement = () => {
               <select
                 className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
                 value={stageFilter}
-                onChange={e => setStageFilter(e.target.value)}
+                onChange={(e) => setStageFilter(e.target.value)}
               >
                 <option value="">Stage</option>
-                {uniqueStages.map(stage => (
-                  <option key={stage} value={stage}>{stage}</option>
+                {uniqueStages.map((stage) => (
+                  <option key={stage} value={stage}>
+                    {stage}
+                  </option>
                 ))}
               </select>
             </div>
@@ -240,11 +294,13 @@ const OnboardingManagement = () => {
               <select
                 className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
                 value={assignedToFilter}
-                onChange={e => setAssignedToFilter(e.target.value)}
+                onChange={(e) => setAssignedToFilter(e.target.value)}
               >
                 <option value="">Assigned To</option>
-                {uniqueAssignees.map(assignee => (
-                  <option key={assignee} value={assignee}>{assignee}</option>
+                {uniqueAssignees.map((assignee) => (
+                  <option key={assignee} value={assignee}>
+                    {assignee}
+                  </option>
                 ))}
               </select>
             </div>
@@ -255,25 +311,32 @@ const OnboardingManagement = () => {
                 type="date"
                 className="rounded bg-[#232b45] border border-[#232b45] text-gray-300 px-2 py-2"
                 value={dateRange.from}
-                onChange={e => setDateRange({ ...dateRange, from: e.target.value })}
+                onChange={(e) =>
+                  setDateRange({ ...dateRange, from: e.target.value })
+                }
               />
               <span className="text-gray-400">to</span>
               <input
                 type="date"
                 className="rounded bg-[#232b45] border border-[#232b45] text-gray-300 px-2 py-2"
                 value={dateRange.to}
-                onChange={e => setDateRange({ ...dateRange, to: e.target.value })}
+                onChange={(e) =>
+                  setDateRange({ ...dateRange, to: e.target.value })
+                }
               />
             </div>
             {/* Reset Filters */}
-            {(stageFilter || assignedToFilter || dateRange.from || dateRange.to) && (
+            {(stageFilter ||
+              assignedToFilter ||
+              dateRange.from ||
+              dateRange.to) && (
               <Button
                 variant="outline"
                 className="border-[#232b45] text-gray-300"
                 onClick={() => {
-                  setStageFilter('');
-                  setAssignedToFilter('');
-                  setDateRange({ from: '', to: '' });
+                  setStageFilter("");
+                  setAssignedToFilter("");
+                  setDateRange({ from: "", to: "" });
                 }}
               >
                 Reset Filters
@@ -286,9 +349,15 @@ const OnboardingManagement = () => {
             <Table className="min-w-full bg-[#181f32] text-white">
               <TableHeader>
                 <TableRow className="bg-[#232b45]">
-                  <TableHead className="text-orange-400">Institute Details</TableHead>
-                  <TableHead className="text-orange-400">Stage & Progress</TableHead>
-                  <TableHead className="text-orange-400">Documents Status</TableHead>
+                  <TableHead className="text-orange-400">
+                    Institute Details
+                  </TableHead>
+                  <TableHead className="text-orange-400">
+                    Stage & Progress
+                  </TableHead>
+                  <TableHead className="text-orange-400">
+                    Documents Status
+                  </TableHead>
                   <TableHead className="text-orange-400">Timeline</TableHead>
                   <TableHead className="text-orange-400">Assigned To</TableHead>
                   <TableHead className="text-orange-400">Value</TableHead>
@@ -297,68 +366,125 @@ const OnboardingManagement = () => {
               </TableHeader>
               <TableBody>
                 {filteredCases.map((case_) => (
-                  <TableRow key={case_.id} className="hover:bg-[#232b45]/60 transition">
+                  <TableRow
+                    key={case_.id}
+                    className="hover:bg-[#232b45]/60 transition"
+                  >
                     <TableCell>
                       <div>
-                        <div className="font-medium text-white">{case_.instituteName}</div>
-                        <div className="text-sm text-gray-400">{case_.contact}</div>
-                        <div className="text-sm text-gray-400">{case_.phone}</div>
+                        <div className="font-medium text-white">
+                          {case_.instituteName}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {case_.contact}
+                        </div>
+                        <div className="text-sm text-gray-400">
+                          {case_.phone}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-2">
-                        <Badge className={getStageColor(case_.stage) + " font-semibold"}>
+                        <Badge
+                          className={
+                            getStageColor(case_.stage) + " font-semibold"
+                          }
+                        >
                           {case_.stage}
                         </Badge>
                         <div className="w-full bg-[#232b45] rounded-full h-2">
-                          <div 
-                            className="bg-orange-500 h-2 rounded-full" 
-                            style={{width: `${case_.progress}%`}}
+                          <div
+                            className="bg-orange-500 h-2 rounded-full"
+                            style={{ width: `${case_.progress}%` }}
                           ></div>
                         </div>
-                        <div className="text-xs text-gray-400">{case_.progress}% complete</div>
+                        <div className="text-xs text-gray-400">
+                          {case_.progress}% complete
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="space-y-1">
-                        <div className={`text-xs ${getDocumentStatus(case_.documents.registration)}`}>
+                        <div
+                          className={`text-xs ${getDocumentStatus(
+                            case_.documents.registration
+                          )}`}
+                        >
                           Registration: {case_.documents.registration}
                         </div>
-                        <div className={`text-xs ${getDocumentStatus(case_.documents.license)}`}>
+                        <div
+                          className={`text-xs ${getDocumentStatus(
+                            case_.documents.license
+                          )}`}
+                        >
                           License: {case_.documents.license}
                         </div>
-                        <div className={`text-xs ${getDocumentStatus(case_.documents.agreement)}`}>
+                        <div
+                          className={`text-xs ${getDocumentStatus(
+                            case_.documents.agreement
+                          )}`}
+                        >
                           Agreement: {case_.documents.agreement}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div>Started: <span className="text-gray-300">{case_.startDate}</span></div>
-                        <div>Expected: <span className="text-gray-300">{case_.expectedCompletion}</span></div>
+                        <div>
+                          Started:{" "}
+                          <span className="text-gray-300">
+                            {case_.startDate}
+                          </span>
+                        </div>
+                        <div>
+                          Expected:{" "}
+                          <span className="text-gray-300">
+                            {case_.expectedCompletion}
+                          </span>
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center">
                         <User className="h-4 w-4 mr-1 text-orange-400" />
-                        <span className="text-sm text-white">{case_.assignedTo}</span>
+                        <span className="text-sm text-white">
+                          {case_.assignedTo}
+                        </span>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="font-semibold text-orange-400">{case_.value}</div>
+                      <div className="font-semibold text-orange-400">
+                        {case_.value}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-1">
-                        <Button size="sm" variant="outline" className="border-[#232b45] text-gray-300 hover:bg-orange-500/10">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-[#232b45] text-gray-300 hover:bg-orange-500/10"
+                        >
                           <Phone className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="border-[#232b45] text-gray-300 hover:bg-orange-500/10">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-[#232b45] text-gray-300 hover:bg-orange-500/10"
+                        >
                           <Mail className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="border-[#232b45] text-gray-300 hover:bg-orange-500/10">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-[#232b45] text-gray-300 hover:bg-orange-500/10"
+                        >
                           <FileText className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="border-[#232b45] text-green-400 hover:bg-orange-500/10">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-[#232b45] text-green-400 hover:bg-orange-500/10"
+                        >
                           <CheckCircle className="h-3 w-3" />
                         </Button>
                       </div>
@@ -380,7 +506,7 @@ const OnboardingManagement = () => {
           <input
             type="file"
             accept=".csv, .xlsx"
-            onChange={e => setSelectedFile(e.target.files?.[0] || null)}
+            onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
             className="mb-4"
           />
           <Button

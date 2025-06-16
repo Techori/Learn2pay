@@ -1,0 +1,44 @@
+:root {
+  /* Primary Colors */
+  --primary: #f97316; /* Orange 500 */
+  --primary-dark: #c2410c; /* Orange 700 */
+
+  /* Secondary Colors */
+  --secondary: #cbd5e1; /* Slate 300 */
+
+  /* Status Colors */
+  --success: #22c55e; /* Green 500 */
+  --warning: #f59e0b; /* Amber 500 */
+  --danger: #ef4444; /* Red 500 */
+
+  /* Background Colors */
+  --bg-dark: #000000; /* Black */
+  --bg-gray: #0f172a; /* Slate 900 */
+
+  /* Text Colors */
+  --text-light: #f8fafc; /* Slate 50 */
+  --text-dark: #0f172a; /* Slate 900 */
+  --text-gray: #64748b; /* Slate 500 */
+
+  /* Border Colors */
+  --border-light: #334155; /* Slate 700 */
+  --border-dark: #1e293b; /* Slate 800 */
+}
+
+/* Dark theme is default for this app */
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.border-primary {
+  border-color: var(--primary);
+}

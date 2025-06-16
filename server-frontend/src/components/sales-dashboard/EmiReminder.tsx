@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { institutes } from "../../data/instituteEmiData";
 import SearchAndFilter from "../shared/SearchAndFilter";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
-import { Mail, Bell, CheckCircle, AlertCircle, Calendar, Download } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "../ui/Card";
+import { Button } from "../ui/Button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/Table";
+import {
+  Mail,
+  Bell,
+  CheckCircle,
+  AlertCircle,
+  Calendar,
+  Download,
+} from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
-import { Badge } from "../../components/ui/Badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../components/ui/Dialog";
+import { Badge } from "../ui/Badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
 
 // Enhanced interface for EMI data with status
 interface EnhancedEmi {
@@ -16,7 +36,7 @@ interface EnhancedEmi {
   parentEmail: string;
   amount: number;
   dueDate: string;
-  status: 'pending' | 'overdue' | 'paid';
+  status: "pending" | "overdue" | "paid";
   lastReminder: string | null;
   reminderCount: number;
 }
@@ -37,13 +57,21 @@ interface FilterOption {
 
 const EmiReminder: React.FC = () => {
   // Enhanced state with status information
-  const [enhancedEmiList, setEnhancedEmiList] = useState<EnhancedInstitute[]>([]);
-  const [filteredInstituteId, setFilteredInstituteId] = useState<number | "">("");
+  const [enhancedEmiList, setEnhancedEmiList] = useState<EnhancedInstitute[]>(
+    []
+  );
+  const [filteredInstituteId, setFilteredInstituteId] = useState<number | "">(
+    ""
+  );
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const [reminderSent, setReminderSent] = useState<{[key: string]: boolean}>({});
+  const [reminderSent, setReminderSent] = useState<{ [key: string]: boolean }>(
+    {}
+  );
   const [showReminderDialog, setShowReminderDialog] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState<EnhancedEmi | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<EnhancedEmi | null>(
+    null
+  );
   const [selectedInstitute, setSelectedInstitute] = useState<string>("");
   const [reminderTemplate, setReminderTemplate] = useState<string>("");
   const { toast } = useToast();
@@ -53,54 +81,75 @@ const EmiReminder: React.FC = () => {
     // Simulate API call
     setTimeout(() => {
       const today = new Date();
-      
-      const enhancedData = institutes.map(institute => {
+
+      const enhancedData = institutes.map((institute) => {
         return {
           ...institute,
-          students: institute.students.map(student => {
+          students: institute.students.map((student) => {
             const dueDate = new Date(student.dueDate);
-            let status: 'pending' | 'overdue' | 'paid';
-            
+            let status: "pending" | "overdue" | "paid";
+
             // Randomly assign some as paid for demo purposes
             const isPaid = Math.random() > 0.7;
-            
+
             if (isPaid) {
-              status = 'paid';
+              status = "paid";
             } else if (dueDate < today) {
-              status = 'overdue';
+              status = "overdue";
             } else {
-              status = 'pending';
+              status = "pending";
             }
-            
+
             return {
               ...student,
               status,
-              lastReminder: status === 'paid' ? 'N/A' : null,
-              reminderCount: 0
+              lastReminder: status === "paid" ? "N/A" : null,
+              reminderCount: 0,
             };
-          })
+          }),
         };
       });
-      
+
       setEnhancedEmiList(enhancedData);
       setIsLoading(false);
     }, 500);
   }, []);
 
   // Calculate summary statistics
-  const totalEmis = enhancedEmiList.reduce((sum, institute) => sum + institute.students.length, 0);
-  const pendingEmis = enhancedEmiList.reduce((sum, institute) => 
-    sum + institute.students.filter(s => s.status === 'pending').length, 0);
-  const overdueEmis = enhancedEmiList.reduce((sum, institute) => 
-    sum + institute.students.filter(s => s.status === 'overdue').length, 0);
-  const paidEmis = enhancedEmiList.reduce((sum, institute) => 
-    sum + institute.students.filter(s => s.status === 'paid').length, 0);
-  
-  const totalAmount = enhancedEmiList.reduce((sum, institute) => 
-    sum + institute.students.reduce((iSum, student) => iSum + student.amount, 0), 0);
-  const pendingAmount = enhancedEmiList.reduce((sum, institute) => 
-    sum + institute.students.filter(s => s.status !== 'paid')
-      .reduce((iSum, student) => iSum + student.amount, 0), 0);
+  const totalEmis = enhancedEmiList.reduce(
+    (sum, institute) => sum + institute.students.length,
+    0
+  );
+  const pendingEmis = enhancedEmiList.reduce(
+    (sum, institute) =>
+      sum + institute.students.filter((s) => s.status === "pending").length,
+    0
+  );
+  const overdueEmis = enhancedEmiList.reduce(
+    (sum, institute) =>
+      sum + institute.students.filter((s) => s.status === "overdue").length,
+    0
+  );
+  const paidEmis = enhancedEmiList.reduce(
+    (sum, institute) =>
+      sum + institute.students.filter((s) => s.status === "paid").length,
+    0
+  );
+
+  const totalAmount = enhancedEmiList.reduce(
+    (sum, institute) =>
+      sum +
+      institute.students.reduce((iSum, student) => iSum + student.amount, 0),
+    0
+  );
+  const pendingAmount = enhancedEmiList.reduce(
+    (sum, institute) =>
+      sum +
+      institute.students
+        .filter((s) => s.status !== "paid")
+        .reduce((iSum, student) => iSum + student.amount, 0),
+    0
+  );
 
   // Prepare filter options
   const filterOptions: FilterOption[] = [
@@ -113,7 +162,7 @@ const EmiReminder: React.FC = () => {
         ...institutes.map((inst) => ({
           value: String(inst.id),
           label: inst.name,
-        }))
+        })),
       ],
     },
     {
@@ -126,7 +175,7 @@ const EmiReminder: React.FC = () => {
         { value: "overdue", label: "Overdue" },
         { value: "paid", label: "Paid" },
       ],
-    }
+    },
   ];
 
   // Handle filter change
@@ -136,70 +185,76 @@ const EmiReminder: React.FC = () => {
     } else {
       setFilteredInstituteId("");
     }
-    
+
     setStatusFilter(filters.status || "");
   };
 
   // Filter data based on selected filters
   const filteredData = enhancedEmiList
-    .filter(institute => filteredInstituteId === "" || institute.id === filteredInstituteId)
-    .map(institute => ({
+    .filter(
+      (institute) =>
+        filteredInstituteId === "" || institute.id === filteredInstituteId
+    )
+    .map((institute) => ({
       ...institute,
-      students: institute.students.filter(student => 
-        statusFilter === "" || student.status === statusFilter
-      )
+      students: institute.students.filter(
+        (student) => statusFilter === "" || student.status === statusFilter
+      ),
     }))
-    .filter(institute => institute.students.length > 0);
+    .filter((institute) => institute.students.length > 0);
 
   // Handle sending reminder
   const handleSendReminder = (student: EnhancedEmi, instituteName: string) => {
     setSelectedStudent(student);
     setSelectedInstitute(instituteName);
-    
+
     // Set default reminder template
     const dueDate = new Date(student.dueDate);
-    const formattedDate = dueDate.toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    const formattedDate = dueDate.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
-    
+
     setReminderTemplate(
-      `Dear Parent/Guardian of ${student.name},\n\nThis is a reminder that your EMI payment of ₹${student.amount.toLocaleString()} for ${instituteName} is due on ${formattedDate}.\n\nPlease make the payment before the due date to avoid any late fees.\n\nRegards,\nLearn2Pay Team`
+      `Dear Parent/Guardian of ${
+        student.name
+      },\n\nThis is a reminder that your EMI payment of ₹${student.amount.toLocaleString()} for ${instituteName} is due on ${formattedDate}.\n\nPlease make the payment before the due date to avoid any late fees.\n\nRegards,\nLearn2Pay Team`
     );
-    
+
     setShowReminderDialog(true);
   };
 
   // Send the actual reminder
   const sendReminderNow = () => {
     if (!selectedStudent) return;
-    
+
     // In a real app, this would call an API to send the reminder
     const key = `${selectedStudent.id}-${selectedStudent.parentEmail}`;
-    setReminderSent(prev => ({...prev, [key]: true}));
-    
+    setReminderSent((prev) => ({ ...prev, [key]: true }));
+
     // Update the student's reminder info
-    setEnhancedEmiList(prevList => 
-      prevList.map(institute => ({
+    setEnhancedEmiList((prevList) =>
+      prevList.map((institute) => ({
         ...institute,
-        students: institute.students.map(student => 
-          student.id === selectedStudent.id && student.parentEmail === selectedStudent.parentEmail
+        students: institute.students.map((student) =>
+          student.id === selectedStudent.id &&
+          student.parentEmail === selectedStudent.parentEmail
             ? {
                 ...student,
                 lastReminder: new Date().toISOString(),
-                reminderCount: student.reminderCount + 1
+                reminderCount: student.reminderCount + 1,
               }
             : student
-        )
+        ),
       }))
     );
-    
+
     toast({
       title: "Reminder Sent",
       description: `EMI reminder sent to ${selectedStudent.parentEmail} for ${selectedStudent.name}`,
     });
-    
+
     setShowReminderDialog(false);
   };
 
@@ -215,12 +270,13 @@ const EmiReminder: React.FC = () => {
       status: string;
       lastReminder: string;
     }[] = [];
-    
+
     // Use filtered data if filters are applied, otherwise use all data
-    const dataToExport = filteredData.length > 0 ? filteredData : enhancedEmiList;
-    
-    dataToExport.forEach(institute => {
-      institute.students.forEach(student => {
+    const dataToExport =
+      filteredData.length > 0 ? filteredData : enhancedEmiList;
+
+    dataToExport.forEach((institute) => {
+      institute.students.forEach((student) => {
         allStudents.push({
           institute: institute.name,
           studentName: student.name,
@@ -228,45 +284,59 @@ const EmiReminder: React.FC = () => {
           amount: student.amount,
           dueDate: student.dueDate,
           status: student.status,
-          lastReminder: student.lastReminder || 'Not sent'
+          lastReminder: student.lastReminder || "Not sent",
         });
       });
     });
-    
+
     // Create CSV header
-    const headers = ['Institute', 'Student Name', 'Email', 'Amount (₹)', 'Due Date', 'Status', 'Last Reminder'];
-    
+    const headers = [
+      "Institute",
+      "Student Name",
+      "Email",
+      "Amount (₹)",
+      "Due Date",
+      "Status",
+      "Last Reminder",
+    ];
+
     // Create CSV content
     const csvContent = [
-      headers.join(','),
-      ...allStudents.map(student => [
-        `"${student.institute}"`,
-        `"${student.studentName}"`,
-        `"${student.email}"`,
-        student.amount,
-        formatDate(student.dueDate),
-        student.status,
-        typeof student.lastReminder === 'string' && student.lastReminder !== 'Not sent' 
-          ? formatDate(student.lastReminder) 
-          : student.lastReminder
-      ].join(','))
-    ].join('\n');
-    
+      headers.join(","),
+      ...allStudents.map((student) =>
+        [
+          `"${student.institute}"`,
+          `"${student.studentName}"`,
+          `"${student.email}"`,
+          student.amount,
+          formatDate(student.dueDate),
+          student.status,
+          typeof student.lastReminder === "string" &&
+          student.lastReminder !== "Not sent"
+            ? formatDate(student.lastReminder)
+            : student.lastReminder,
+        ].join(",")
+      ),
+    ].join("\n");
+
     // Create a Blob with the CSV content
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
     // Create a download link and trigger the download
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
-    
-    link.setAttribute('href', url);
-    link.setAttribute('download', `emi_reminders_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    
+
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `emi_reminders_${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     toast({
       title: "Export Successful",
       description: `EMI data has been exported to CSV`,
@@ -275,13 +345,25 @@ const EmiReminder: React.FC = () => {
 
   // Get status badge
   const getStatusBadge = (status: string) => {
-    switch(status) {
-      case 'pending':
-        return <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">Pending</Badge>;
-      case 'overdue':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/50">Overdue</Badge>;
-      case 'paid':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/50">Paid</Badge>;
+    switch (status) {
+      case "pending":
+        return (
+          <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/50">
+            Pending
+          </Badge>
+        );
+      case "overdue":
+        return (
+          <Badge className="bg-red-500/20 text-red-400 border-red-500/50">
+            Overdue
+          </Badge>
+        );
+      case "paid":
+        return (
+          <Badge className="bg-green-500/20 text-green-400 border-green-500/50">
+            Paid
+          </Badge>
+        );
       default:
         return <Badge>Unknown</Badge>;
     }
@@ -290,10 +372,10 @@ const EmiReminder: React.FC = () => {
   // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
+    return date.toLocaleDateString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
     });
   };
 
@@ -314,8 +396,12 @@ const EmiReminder: React.FC = () => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-400">Total EMIs</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{totalEmis}</h3>
-                <p className="text-sm mt-1 text-gray-400">₹{totalAmount.toLocaleString()}</p>
+                <h3 className="text-2xl font-bold text-white mt-1">
+                  {totalEmis}
+                </h3>
+                <p className="text-sm mt-1 text-gray-400">
+                  ₹{totalAmount.toLocaleString()}
+                </p>
               </div>
               <div className="bg-blue-500/20 p-2 rounded-full">
                 <Calendar className="h-5 w-5 text-blue-400" />
@@ -329,7 +415,9 @@ const EmiReminder: React.FC = () => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-400">Pending EMIs</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{pendingEmis}</h3>
+                <h3 className="text-2xl font-bold text-white mt-1">
+                  {pendingEmis}
+                </h3>
                 <p className="text-sm mt-1 text-yellow-400">Due soon</p>
               </div>
               <div className="bg-yellow-500/20 p-2 rounded-full">
@@ -344,7 +432,9 @@ const EmiReminder: React.FC = () => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-400">Overdue EMIs</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{overdueEmis}</h3>
+                <h3 className="text-2xl font-bold text-white mt-1">
+                  {overdueEmis}
+                </h3>
                 <p className="text-sm mt-1 text-red-400">Needs attention</p>
               </div>
               <div className="bg-red-500/20 p-2 rounded-full">
@@ -359,7 +449,9 @@ const EmiReminder: React.FC = () => {
             <div className="flex justify-between items-start">
               <div>
                 <p className="text-sm text-gray-400">Paid EMIs</p>
-                <h3 className="text-2xl font-bold text-white mt-1">{paidEmis}</h3>
+                <h3 className="text-2xl font-bold text-white mt-1">
+                  {paidEmis}
+                </h3>
                 <p className="text-sm mt-1 text-green-400">Completed</p>
               </div>
               <div className="bg-green-500/20 p-2 rounded-full">
@@ -381,8 +473,8 @@ const EmiReminder: React.FC = () => {
               </CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="border-orange-500 text-orange-400 hover:bg-orange-500/10"
                 onClick={exportToCSV}
               >
@@ -399,7 +491,7 @@ const EmiReminder: React.FC = () => {
               onFilter={handleFilter}
             />
           </div>
-          
+
           <Table>
             <TableHeader>
               <TableRow>
@@ -415,54 +507,72 @@ const EmiReminder: React.FC = () => {
             <TableBody>
               {filteredData.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center py-8 text-gray-400">
+                  <TableCell
+                    colSpan={7}
+                    className="text-center py-8 text-gray-400"
+                  >
                     No EMI records found matching your filters
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredData.map((institute) =>
                   institute.students.map((student) => (
-                    <TableRow key={`${institute.id}-${student.id}`} className={
-                      student.status === 'overdue' ? 'bg-red-900/10' : 
-                      student.status === 'paid' ? 'bg-green-900/10' : ''
-                    }>
+                    <TableRow
+                      key={`${institute.id}-${student.id}`}
+                      className={
+                        student.status === "overdue"
+                          ? "bg-red-900/10"
+                          : student.status === "paid"
+                          ? "bg-green-900/10"
+                          : ""
+                      }
+                    >
                       <TableCell>
                         <div className="font-medium">{institute.name}</div>
                       </TableCell>
                       <TableCell>
                         <div>{student.name}</div>
-                        <div className="text-xs text-gray-400">{student.parentEmail}</div>
+                        <div className="text-xs text-gray-400">
+                          {student.parentEmail}
+                        </div>
                       </TableCell>
                       <TableCell>₹{student.amount.toLocaleString()}</TableCell>
                       <TableCell>{formatDate(student.dueDate)}</TableCell>
+                      <TableCell>{getStatusBadge(student.status)}</TableCell>
                       <TableCell>
-                        {getStatusBadge(student.status)}
-                      </TableCell>
-                      <TableCell>
-                        {student.lastReminder ? 
+                        {student.lastReminder ? (
                           <span className="text-xs">
                             {formatDate(student.lastReminder)}
                             <span className="text-gray-400 ml-2">
                               ({student.reminderCount} sent)
                             </span>
-                          </span> : 
-                          <span className="text-gray-400 text-xs">Not sent yet</span>
-                        }
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 text-xs">
+                            Not sent yet
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell>
-                        {student.status !== 'paid' && (
+                        {student.status !== "paid" && (
                           <Button
                             size="sm"
                             variant="outline"
                             className="text-orange-400 border-orange-400 hover:bg-orange-500/10"
-                            onClick={() => handleSendReminder(student, institute.name)}
-                            disabled={reminderSent[`${student.id}-${student.parentEmail}`]}
+                            onClick={() =>
+                              handleSendReminder(student, institute.name)
+                            }
+                            disabled={
+                              reminderSent[
+                                `${student.id}-${student.parentEmail}`
+                              ]
+                            }
                           >
                             <Bell className="h-4 w-4 mr-1" />
                             Send Reminder
                           </Button>
                         )}
-                        {student.status === 'paid' && (
+                        {student.status === "paid" && (
                           <span className="text-green-400 text-xs flex items-center">
                             <CheckCircle className="h-3 w-3 mr-1" />
                             Completed
@@ -494,28 +604,32 @@ const EmiReminder: React.FC = () => {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-sm font-medium text-gray-300">Subject:</div>
+                  <div className="text-sm font-medium text-gray-300">
+                    Subject:
+                  </div>
                   <div className="bg-[#232b45] p-2 rounded text-white">
                     EMI Payment Reminder - {selectedInstitute}
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-sm font-medium text-gray-300">Message:</div>
-                  <textarea 
+                  <div className="text-sm font-medium text-gray-300">
+                    Message:
+                  </div>
+                  <textarea
                     className="w-full bg-[#232b45] border border-[#232b45] text-white p-3 rounded resize-none h-40"
                     value={reminderTemplate}
                     onChange={(e) => setReminderTemplate(e.target.value)}
                   />
                 </div>
                 <div className="flex justify-end space-x-2 pt-2">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => setShowReminderDialog(false)}
                     className="border-gray-500 text-gray-300"
                   >
                     Cancel
                   </Button>
-                  <Button 
+                  <Button
                     onClick={sendReminderNow}
                     className="bg-orange-500 hover:bg-orange-600"
                   >

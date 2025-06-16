@@ -1,11 +1,37 @@
-import React, { useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import { Badge } from "../../components/ui/Badge";
-import { Bar, Line, Doughnut } from 'react-chartjs-2';
-import { CalendarDays, ChevronRight, Phone, Mail, ArrowUpRight, TrendingUp, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
-import type { ChartData } from 'chart.js';
+import React, { useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/Card";
+import { Button } from "../ui/Button";
+import { Badge } from "../ui/Badge";
+import { Bar, Line, Doughnut } from "react-chartjs-2";
+import {
+  CalendarDays,
+  ChevronRight,
+  Phone,
+  Mail,
+  ArrowUpRight,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import type { ChartData } from "chart.js";
 
 // Register Chart.js components
 ChartJS.register(
@@ -23,88 +49,142 @@ ChartJS.register(
 const SalesDashboard = () => {
   // Mock data for dashboard
   const revenueData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
-        label: 'Revenue (in lakhs ₹)',
+        label: "Revenue (in lakhs ₹)",
         data: [12, 15, 18, 14, 21, 24],
-        backgroundColor: '#f97316',
+        backgroundColor: "#f97316",
         borderRadius: 6,
-      }
+      },
     ],
   };
 
   const targetData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
-        label: 'Target',
+        label: "Target",
         data: [15, 15, 15, 20, 20, 20],
-        borderColor: '#fff',
+        borderColor: "#fff",
         borderDash: [5, 5],
         pointRadius: 0,
         borderWidth: 2,
         fill: false,
-        backgroundColor: 'transparent'
-      }
-    ]
+        backgroundColor: "transparent",
+      },
+    ],
   };
 
   const conversionData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
     datasets: [
       {
-        label: 'Conversion Rate (%)',
+        label: "Conversion Rate (%)",
         data: [22, 24, 25, 24, 26, 28],
-        borderColor: '#10b981',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderColor: "#10b981",
+        backgroundColor: "rgba(16, 185, 129, 0.1)",
         fill: true,
         tension: 0.3,
         pointRadius: 3,
-        pointBackgroundColor: '#10b981',
-      }
-    ]
+        pointBackgroundColor: "#10b981",
+      },
+    ],
   };
 
   const stageDistributionData = {
-    labels: ['Initial Contact', 'Needs Assessment', 'Proposal', 'Negotiation', 'Closed'],
+    labels: [
+      "Initial Contact",
+      "Needs Assessment",
+      "Proposal",
+      "Negotiation",
+      "Closed",
+    ],
     datasets: [
       {
         data: [32, 25, 18, 15, 10],
-        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#f43f5e'],
+        backgroundColor: [
+          "#3b82f6",
+          "#10b981",
+          "#f59e0b",
+          "#8b5cf6",
+          "#f43f5e",
+        ],
         borderWidth: 0,
-      }
-    ]
+      },
+    ],
   };
 
   const recentLeads = [
-    { name: 'Sunrise Public School', contact: 'Dr. Priya Sharma', status: 'Hot', date: 'Today', value: '₹25,000' },
-    { name: 'Excel Coaching Center', contact: 'Mr. Rajesh Kumar', status: 'Warm', date: 'Yesterday', value: '₹15,000' },
-    { name: 'Modern Academy', contact: 'Ms. Anita Patel', status: 'Cold', date: '2 days ago', value: '₹12,000' }
+    {
+      name: "Sunrise Public School",
+      contact: "Dr. Priya Sharma",
+      status: "Hot",
+      date: "Today",
+      value: "₹25,000",
+    },
+    {
+      name: "Excel Coaching Center",
+      contact: "Mr. Rajesh Kumar",
+      status: "Warm",
+      date: "Yesterday",
+      value: "₹15,000",
+    },
+    {
+      name: "Modern Academy",
+      contact: "Ms. Anita Patel",
+      status: "Cold",
+      date: "2 days ago",
+      value: "₹12,000",
+    },
   ];
 
   const upcomingTasks = [
-    { task: 'Follow up with Sunrise Public School', deadline: 'Today, 2:30 PM', priority: 'High' },
-    { task: 'Send proposal to Excel Coaching', deadline: 'Tomorrow, 10:00 AM', priority: 'Medium' },
-    { task: 'Onboarding call with Modern Academy', deadline: 'July 15, 11:00 AM', priority: 'Medium' },
-    { task: 'Monthly sales report submission', deadline: 'July 16, EOD', priority: 'High' }
+    {
+      task: "Follow up with Sunrise Public School",
+      deadline: "Today, 2:30 PM",
+      priority: "High",
+    },
+    {
+      task: "Send proposal to Excel Coaching",
+      deadline: "Tomorrow, 10:00 AM",
+      priority: "Medium",
+    },
+    {
+      task: "Onboarding call with Modern Academy",
+      deadline: "July 15, 11:00 AM",
+      priority: "Medium",
+    },
+    {
+      task: "Monthly sales report submission",
+      deadline: "July 16, EOD",
+      priority: "High",
+    },
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Hot': return 'bg-red-600 text-white';
-      case 'Warm': return 'bg-yellow-400 text-black';
-      case 'Cold': return 'bg-blue-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case "Hot":
+        return "bg-red-600 text-white";
+      case "Warm":
+        return "bg-yellow-400 text-black";
+      case "Cold":
+        return "bg-blue-500 text-white";
+      default:
+        return "bg-gray-500 text-white";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-900/60 text-red-300';
-      case 'Medium': return 'bg-yellow-900/60 text-yellow-300';
-      case 'Low': return 'bg-blue-900/60 text-blue-300';
-      default: return 'bg-gray-800 text-gray-300';
+      case "High":
+        return "bg-red-900/60 text-red-300";
+      case "Medium":
+        return "bg-yellow-900/60 text-yellow-300";
+      case "Low":
+        return "bg-blue-900/60 text-blue-300";
+      default:
+        return "bg-gray-800 text-gray-300";
     }
   };
 
@@ -187,10 +267,16 @@ const SalesDashboard = () => {
           <CardHeader>
             <div className="flex justify-between items-center">
               <div>
-                <CardTitle className="text-white">Revenue Performance</CardTitle>
-                <CardDescription className="text-gray-400">Monthly revenue vs targets</CardDescription>
+                <CardTitle className="text-white">
+                  Revenue Performance
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Monthly revenue vs targets
+                </CardDescription>
               </div>
-              <Badge className="bg-green-500/20 text-green-400 border-green-500/50">+15% YOY</Badge>
+              <Badge className="bg-green-500/20 text-green-400 border-green-500/50">
+                +15% YOY
+              </Badge>
             </div>
           </CardHeader>
           <CardContent>
@@ -203,11 +289,17 @@ const SalesDashboard = () => {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                      legend: { labels: { color: '#fff' } },
+                      legend: { labels: { color: "#fff" } },
                     },
                     scales: {
-                      x: { ticks: { color: '#fff' }, grid: { color: '#232b45' } },
-                      y: { ticks: { color: '#fff' }, grid: { color: '#232b45' } },
+                      x: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "#232b45" },
+                      },
+                      y: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "#232b45" },
+                      },
                     },
                   }}
                 />
@@ -236,7 +328,9 @@ const SalesDashboard = () => {
         <div className="grid grid-cols-1 gap-6">
           <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
             <CardHeader>
-              <CardTitle className="text-white">Conversion Rate Trend</CardTitle>
+              <CardTitle className="text-white">
+                Conversion Rate Trend
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="h-36 flex items-center justify-center">
@@ -249,8 +343,14 @@ const SalesDashboard = () => {
                       legend: { display: false },
                     },
                     scales: {
-                      x: { ticks: { color: '#fff' }, grid: { color: '#232b45' } },
-                      y: { ticks: { color: '#fff' }, grid: { color: '#232b45' } },
+                      x: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "#232b45" },
+                      },
+                      y: {
+                        ticks: { color: "#fff" },
+                        grid: { color: "#232b45" },
+                      },
                     },
                   }}
                 />
@@ -263,7 +363,7 @@ const SalesDashboard = () => {
               <CardTitle className="text-white">Leads by Stage</CardTitle>
             </CardHeader>
             <CardContent className="flex justify-center">
-              <div style={{ width: '200px', height: '140px' }}>
+              <div style={{ width: "200px", height: "140px" }}>
                 <Doughnut
                   key="leads-doughnut-chart"
                   data={stageDistributionData}
@@ -271,12 +371,12 @@ const SalesDashboard = () => {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                      legend: { 
-                        position: 'right',
-                        labels: { color: '#fff', padding: 10 }
+                      legend: {
+                        position: "right",
+                        labels: { color: "#fff", padding: 10 },
                       },
                     },
-                    cutout: '65%'
+                    cutout: "65%",
                   }}
                 />
               </div>
@@ -294,15 +394,26 @@ const SalesDashboard = () => {
           <CardContent>
             <div className="space-y-3">
               {recentLeads.map((lead, index) => (
-                <div key={index} className="p-3 border border-[#232b45] rounded-lg bg-[#232b45] flex justify-between items-center">
+                <div
+                  key={index}
+                  className="p-3 border border-[#232b45] rounded-lg bg-[#232b45] flex justify-between items-center"
+                >
                   <div>
                     <div className="font-medium">{lead.name}</div>
-                    <div className="text-sm text-gray-400">{lead.contact} • {lead.date}</div>
+                    <div className="text-sm text-gray-400">
+                      {lead.contact} • {lead.date}
+                    </div>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
+                    <Badge className={getStatusColor(lead.status)}>
+                      {lead.status}
+                    </Badge>
                     <div className="text-sm text-gray-300">{lead.value}</div>
-                    <Button variant="ghost" size="sm" className="px-0 hover:bg-transparent hover:text-orange-400">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="px-0 hover:bg-transparent hover:text-orange-400"
+                    >
                       <ChevronRight className="h-5 w-5" />
                     </Button>
                   </div>
@@ -324,7 +435,10 @@ const SalesDashboard = () => {
           <CardContent>
             <div className="space-y-3">
               {upcomingTasks.map((task, index) => (
-                <div key={index} className="p-3 border border-[#232b45] rounded-lg bg-[#232b45]">
+                <div
+                  key={index}
+                  className="p-3 border border-[#232b45] rounded-lg bg-[#232b45]"
+                >
                   <div className="flex justify-between items-start">
                     <div className="flex items-start space-x-3">
                       <div className="mt-1">
@@ -333,12 +447,14 @@ const SalesDashboard = () => {
                       <div>
                         <div className="font-medium">{task.task}</div>
                         <div className="text-sm text-gray-400 flex items-center mt-1">
-                          <CalendarDays className="h-3 w-3 mr-1" /> 
+                          <CalendarDays className="h-3 w-3 mr-1" />
                           {task.deadline}
                         </div>
                       </div>
                     </div>
-                    <Badge className={getPriorityColor(task.priority)}>{task.priority}</Badge>
+                    <Badge className={getPriorityColor(task.priority)}>
+                      {task.priority}
+                    </Badge>
                   </div>
                 </div>
               ))}

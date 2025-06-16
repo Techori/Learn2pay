@@ -1,8 +1,8 @@
 import  { useState } from 'react';
-import { Tabs, TabsList, TabsTrigger } from "../../components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/Tabs";
 
 // import SalesSidebar from '@/components/SalesSidebar';
-import SalesTabContent from '../../components/sales/SalesTabContent';
+import SalesTabContent from '../components/sales-dashboard/SalesTabContent';
 
 import QuickActions from '@/components/shared/QuickActions';
 import { useToast } from '@/hooks/use-toast';

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "../../components/ui/Tabs";
-import ReferralTabContent from "../../components/referral-dashboard/ReferralTabContent";
-import QuickActions from "../../components/shared/QuickActions";
-import { useToast } from "../../hooks/use-toast";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/Tabs";
+import ReferralTabContent from "../components/referral-dashboard/ReferralTabContent";
+import QuickActions from "../components/shared/QuickActions";
+import { useToast } from "../hooks/use-toast";
 import { motion } from "framer-motion";
-import DashboardHeader from "../../components/shared/DashboardHeader";
+import DashboardHeader from "../components/shared/DashboardHeader";
 
 const ReferralDashboard = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
