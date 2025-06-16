@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import {
   School,
@@ -14,13 +20,10 @@ import {
   FileText,
   Bus,
   Layers,
-  Book,
   TrendingUp,
-  FileBarChart,
-  FileSignature,
+
   Home,
-  Library,
-  Users2,
+
   Globe,
   Languages,
   BarChart2,
@@ -29,9 +32,9 @@ import {
   Smartphone,
   Headphones,
   CreditCard,
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 import Navbar from "@/components/Navbar";
 const featureIcons: Record<string, any> = {
   "Student registration & management": Users,
@@ -67,13 +70,14 @@ const Services = () => {
     {
       icon: <School className="h-16 w-16 text-orange-500 drop-shadow-lg" />,
       title: "Schools & Colleges",
-      description: "Complete fee management solution for educational institutions",
+      description:
+        "Complete fee management solution for educational institutions",
       features: [
         "Student registration & management",
         "Class-wise fee structure",
         "Parent communication portal",
-        "Transport fee management"
-      ]
+        "Transport fee management",
+      ],
     },
     {
       icon: <BookOpen className="h-16 w-16 text-orange-500 drop-shadow-lg" />,
@@ -84,18 +88,21 @@ const Services = () => {
         "Automated Fee Reminders",
         "Discount and Scholarship Management",
         "Automated Fee Reminders",
-      ]
+      ],
     },
     {
-      icon: <GraduationCap className="h-16 w-16 text-orange-500 drop-shadow-lg" />,
+      icon: (
+        <GraduationCap className="h-16 w-16 text-orange-500 drop-shadow-lg" />
+      ),
       title: "Universities",
-      description: "Enterprise-grade solutions for large educational institutions",
+      description:
+        "Enterprise-grade solutions for large educational institutions",
       features: [
         "Multi-campus management",
         "Department-wise billing",
         "Scholarship management",
         "Hostel fee collection",
-      ]
+      ],
     },
   ];
 
@@ -107,7 +114,7 @@ const Services = () => {
     "SMS & Email Alerts",
     "Secure Payment Processing",
     "Mobile App Access",
-    "24/7 Customer Support"
+    "24/7 Customer Support",
   ];
 
   return (
@@ -121,7 +128,8 @@ const Services = () => {
               Our Services
             </h1>
             <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-              Customized fee collection and management solutions for various types of educational institutions worldwide
+              Customized fee collection and management solutions for various
+              types of educational institutions worldwide
             </p>
             <div className="flex justify-center mt-8">
               <span className="inline-block w-32 h-1 rounded-full bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 shadow-lg"></span>
@@ -138,7 +146,9 @@ const Services = () => {
               >
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-600/10 rounded-full blur-2xl pointer-events-none"></div>
                 <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">{service.icon}</div>
+                  <div className="mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    {service.icon}
+                  </div>
                   <CardTitle className="text-2xl mb-2 text-white font-bold tracking-wide drop-shadow">
                     {service.title}
                   </CardTitle>
@@ -151,7 +161,10 @@ const Services = () => {
                     {service.features.map((feature, i) => {
                       const Icon = featureIcons[feature] || CheckCircle;
                       return (
-                        <li key={i} className="flex items-center text-base text-orange-100 font-medium">
+                        <li
+                          key={i}
+                          className="flex items-center text-base text-orange-100 font-medium"
+                        >
                           <Icon className="h-5 w-5 text-orange-400 mr-2 flex-shrink-0 drop-shadow" />
                           {feature}
                         </li>
@@ -160,7 +173,7 @@ const Services = () => {
                   </ul>
                   <Button
                     className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
-                    onClick={() => navigate('/contact')}
+                    onClick={() => navigate("/contact")}
                   >
                     <span>Learn More</span>
                     <ArrowRight className="h-5 w-5" />
@@ -184,7 +197,9 @@ const Services = () => {
                     className="text-center p-6 border border-orange-500/20 rounded-xl bg-gradient-to-br from-gray-800/80 to-gray-900/60 hover:border-orange-400 hover:bg-orange-500/10 transition-all duration-300 group shadow-md"
                   >
                     <Icon className="h-10 w-10 text-orange-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300 drop-shadow" />
-                    <p className="text-lg font-semibold text-orange-100">{feature}</p>
+                    <p className="text-lg font-semibold text-orange-100">
+                      {feature}
+                    </p>
                   </div>
                 );
               })}
@@ -197,18 +212,17 @@ const Services = () => {
               Get the Perfect Solution for Your Institution
             </h2>
             <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-              Talk to our experts and discover how Lern2Pay can fulfill your specific requirements
+              Talk to our experts and discover how Lern2Pay can fulfill your
+              specific requirements
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-bold rounded-xl shadow"
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate("/contact")}
               >
                 Book Free Consultation
               </Button>
-              <Button
-                className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300 font-bold rounded-xl shadow"
-              >
+              <Button className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300 font-bold rounded-xl shadow">
                 View Demo
               </Button>
             </div>

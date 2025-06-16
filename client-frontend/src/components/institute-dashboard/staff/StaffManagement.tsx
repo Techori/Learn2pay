@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from '@/components/ui/Dialog';
+} from "@/components/ui/Dialog";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/RadixSelect";
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from "@/hooks/use-toast";
 import {
   Users,
   UserCog,
@@ -29,7 +29,7 @@ import {
   Trash2,
   Download,
   Filter,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface NewStaffMember {
   name: string;
@@ -56,13 +56,13 @@ const StaffManagement = () => {
   const { toast } = useToast();
   const [showAddStaffDialog, setShowAddStaffDialog] = useState(false);
   const [newStaffMember, setNewStaffMember] = useState<NewStaffMember>({
-    name: '',
-    role: '',
-    department: '',
-    contactPhone: '',
-    contactEmail: '',
-    experience: '',
-    status: 'active',
+    name: "",
+    role: "",
+    department: "",
+    contactPhone: "",
+    contactEmail: "",
+    experience: "",
+    status: "active",
   });
 
   const [viewingStaff, setViewingStaff] = useState<StaffMember | null>(null);
@@ -70,63 +70,66 @@ const StaffManagement = () => {
   const [showConfirmDeleteDialog, setShowConfirmDeleteDialog] = useState(false);
   const [staffToDeleteId, setStaffToDeleteId] = useState<string | null>(null);
 
-  const [selectedDepartment, setSelectedDepartment] = useState('All');
+  const [selectedDepartment, setSelectedDepartment] = useState("All");
 
   const [staffDirectoryData, setStaffDirectoryData] = useState<StaffMember[]>([
     {
-      staffId: 'ST001',
-      name: 'Jane Doe',
-      role: 'Principal',
-      department: 'Administration',
-      contactPhone: '+91 9876543210',
-      contactEmail: 'jane.doe@example.com',
-      experience: '15 years',
-      status: 'active',
+      staffId: "ST001",
+      name: "Jane Doe",
+      role: "Principal",
+      department: "Administration",
+      contactPhone: "+91 9876543210",
+      contactEmail: "jane.doe@example.com",
+      experience: "15 years",
+      status: "active",
     },
     {
-      staffId: 'ST002',
-      name: 'John Smith',
-      role: 'Teacher',
-      department: 'Mathematics',
-      contactPhone: '+91 9876543211',
-      contactEmail: 'john.smith@example.com',
-      experience: '8 years',
-      status: 'active',
+      staffId: "ST002",
+      name: "John Smith",
+      role: "Teacher",
+      department: "Mathematics",
+      contactPhone: "+91 9876543211",
+      contactEmail: "john.smith@example.com",
+      experience: "8 years",
+      status: "active",
     },
     {
-      staffId: 'ST003',
-      name: 'Emily White',
-      role: 'Accountant',
-      department: 'Administration',
-      contactPhone: '+91 9876543212',
-      contactEmail: 'emily.white@example.com',
-      experience: '5 years',
-      status: 'active',
+      staffId: "ST003",
+      name: "Emily White",
+      role: "Accountant",
+      department: "Administration",
+      contactPhone: "+91 9876543212",
+      contactEmail: "emily.white@example.com",
+      experience: "5 years",
+      status: "active",
     },
     {
-      staffId: 'ST004',
-      name: 'Michael Brown',
-      role: 'Teacher',
-      department: 'Science',
-      contactPhone: '+91 9876543213',
-      contactEmail: 'michael.brown@example.com',
-      experience: '10 years',
-      status: 'inactive',
+      staffId: "ST004",
+      name: "Michael Brown",
+      role: "Teacher",
+      department: "Science",
+      contactPhone: "+91 9876543213",
+      contactEmail: "michael.brown@example.com",
+      experience: "10 years",
+      status: "inactive",
     },
     {
-      staffId: 'ST005',
-      name: 'Sarah Green',
-      role: 'Office Staff',
-      department: 'Support',
-      contactPhone: '+91 9876543214',
-      contactEmail: 'sarah.green@example.com',
-      experience: '3 years',
-      status: 'active',
+      staffId: "ST005",
+      name: "Sarah Green",
+      role: "Office Staff",
+      department: "Support",
+      contactPhone: "+91 9876543214",
+      contactEmail: "sarah.green@example.com",
+      experience: "3 years",
+      status: "active",
     },
   ]);
 
   const handleAddStaff = () => {
-    const newStaffWithId = { ...newStaffMember, staffId: `ST${String(staffDirectoryData.length + 1).padStart(3, '0')}` };
+    const newStaffWithId = {
+      ...newStaffMember,
+      staffId: `ST${String(staffDirectoryData.length + 1).padStart(3, "0")}`,
+    };
     setStaffDirectoryData((prev) => [...prev, newStaffWithId]);
     toast({
       title: "Success",
@@ -134,13 +137,13 @@ const StaffManagement = () => {
     });
     setShowAddStaffDialog(false);
     setNewStaffMember({
-      name: '',
-      role: '',
-      department: '',
-      contactPhone: '',
-      contactEmail: '',
-      experience: '',
-      status: 'active',
+      name: "",
+      role: "",
+      department: "",
+      contactPhone: "",
+      contactEmail: "",
+      experience: "",
+      status: "active",
     });
   };
 
@@ -160,7 +163,9 @@ const StaffManagement = () => {
   };
 
   const handleDeleteStaff = (staffId: string) => {
-    setStaffDirectoryData((prev) => prev.filter((staff) => staff.staffId !== staffId));
+    setStaffDirectoryData((prev) =>
+      prev.filter((staff) => staff.staffId !== staffId)
+    );
     toast({
       title: "Staff Deleted",
       description: "Staff member has been removed.",
@@ -171,8 +176,17 @@ const StaffManagement = () => {
   };
 
   const handleExportStaff = () => {
-    const headers = ["ID", "Name", "Role", "Department", "Contact Phone", "Contact Email", "Experience", "Status"];
-    const rows = staffDirectoryData.map(staff => [
+    const headers = [
+      "ID",
+      "Name",
+      "Role",
+      "Department",
+      "Contact Phone",
+      "Contact Email",
+      "Experience",
+      "Status",
+    ];
+    const rows = staffDirectoryData.map((staff) => [
       staff.staffId,
       staff.name,
       staff.role,
@@ -184,15 +198,15 @@ const StaffManagement = () => {
     ]);
 
     let csvContent = headers.join(",") + "\n";
-    rows.forEach(row => {
+    rows.forEach((row) => {
       csvContent += row.join(",") + "\n";
     });
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'staff_directory.csv');
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "staff_directory.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -215,14 +229,16 @@ const StaffManagement = () => {
     {
       icon: UserCheck,
       title: "Active Staff",
-      value: staffDirectoryData.filter(staff => staff.status === 'active').length,
+      value: staffDirectoryData.filter((staff) => staff.status === "active")
+        .length,
       change: "+2%",
       changeType: "increase",
     },
     {
       icon: UserCog,
       title: "Inactive Staff",
-      value: staffDirectoryData.filter(staff => staff.status === 'inactive').length,
+      value: staffDirectoryData.filter((staff) => staff.status === "inactive")
+        .length,
       change: "-1%",
       changeType: "decrease",
     },
@@ -234,7 +250,9 @@ const StaffManagement = () => {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white">Staff Management</h2>
-          <p className="text-gray-400">Manage teaching and non-teaching staff</p>
+          <p className="text-gray-400">
+            Manage teaching and non-teaching staff
+          </p>
         </div>
         <Button
           className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
@@ -251,10 +269,18 @@ const StaffManagement = () => {
           <Card key={index} className="bg-gray-800 border-gray-700 shadow-md">
             <CardContent className="p-5 flex flex-col items-start">
               <metric.icon className="h-8 w-8 text-orange-500 mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-1">{metric.value}</h3>
+              <h3 className="text-lg font-semibold text-white mb-1">
+                {metric.value}
+              </h3>
               <p className="text-sm text-gray-400">{metric.title}</p>
               {metric.change && (
-                <span className={`text-xs font-medium ${metric.changeType === "increase" ? "text-green-500" : "text-red-500"} mt-2`}>
+                <span
+                  className={`text-xs font-medium ${
+                    metric.changeType === "increase"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  } mt-2`}
+                >
                   {metric.changeType === "increase" ? "▲" : "▼"} {metric.change}
                 </span>
               )}
@@ -267,7 +293,9 @@ const StaffManagement = () => {
       <Dialog open={showAddStaffDialog} onOpenChange={setShowAddStaffDialog}>
         <DialogContent className="bg-gray-900 border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Add New Staff Member</DialogTitle>
+            <DialogTitle className="text-xl font-bold">
+              Add New Staff Member
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
               Fill in the details to add a new staff member to the system.
             </DialogDescription>
@@ -275,20 +303,31 @@ const StaffManagement = () => {
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Full Name</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Full Name
+                </label>
                 <Input
                   id="staff-name"
                   value={newStaffMember.name}
-                  onChange={(e) => setNewStaffMember({ ...newStaffMember, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewStaffMember({
+                      ...newStaffMember,
+                      name: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                   placeholder="Enter full name"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Role</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Role
+                </label>
                 <Select
                   value={newStaffMember.role}
-                  onValueChange={(value) => setNewStaffMember({ ...newStaffMember, role: value })}
+                  onValueChange={(value) =>
+                    setNewStaffMember({ ...newStaffMember, role: value })
+                  }
                 >
                   <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                     <SelectValue placeholder="Select role" />
@@ -302,16 +341,22 @@ const StaffManagement = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Department</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Department
+                </label>
                 <Select
                   value={newStaffMember.department}
-                  onValueChange={(value) => setNewStaffMember({ ...newStaffMember, department: value })}
+                  onValueChange={(value) =>
+                    setNewStaffMember({ ...newStaffMember, department: value })
+                  }
                 >
                   <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                     <SelectValue placeholder="Select department" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Administration">Administration</SelectItem>
+                    <SelectItem value="Administration">
+                      Administration
+                    </SelectItem>
                     <SelectItem value="Mathematics">Mathematics</SelectItem>
                     <SelectItem value="Science">Science</SelectItem>
                     <SelectItem value="Languages">Languages</SelectItem>
@@ -319,31 +364,52 @@ const StaffManagement = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Contact Phone</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Contact Phone
+                </label>
                 <Input
                   id="staff-phone"
                   value={newStaffMember.contactPhone}
-                  onChange={(e) => setNewStaffMember({ ...newStaffMember, contactPhone: e.target.value })}
+                  onChange={(e) =>
+                    setNewStaffMember({
+                      ...newStaffMember,
+                      contactPhone: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                   placeholder="Enter phone number"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Contact Email</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Contact Email
+                </label>
                 <Input
                   id="staff-email"
                   value={newStaffMember.contactEmail}
-                  onChange={(e) => setNewStaffMember({ ...newStaffMember, contactEmail: e.target.value })}
+                  onChange={(e) =>
+                    setNewStaffMember({
+                      ...newStaffMember,
+                      contactEmail: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                   placeholder="Enter email address"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Experience</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Experience
+                </label>
                 <Input
                   id="staff-experience"
                   value={newStaffMember.experience}
-                  onChange={(e) => setNewStaffMember({ ...newStaffMember, experience: e.target.value })}
+                  onChange={(e) =>
+                    setNewStaffMember({
+                      ...newStaffMember,
+                      experience: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                   placeholder="Enter years of experience"
                 />
@@ -372,7 +438,9 @@ const StaffManagement = () => {
       <Dialog open={!!viewingStaff} onOpenChange={() => setViewingStaff(null)}>
         <DialogContent className="bg-gray-900 border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Staff Member Details</DialogTitle>
+            <DialogTitle className="text-xl font-bold">
+              Staff Member Details
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
               Detailed information about {viewingStaff?.name}.
             </DialogDescription>
@@ -404,9 +472,11 @@ const StaffManagement = () => {
                 <div className="text-gray-300">Status:</div>
                 <div className="text-white">
                   <Badge
-                    className={viewingStaff.status === "active"
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-red-500/20 text-red-400"}
+                    className={
+                      viewingStaff.status === "active"
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }
                   >
                     {viewingStaff.status}
                   </Badge>
@@ -430,7 +500,9 @@ const StaffManagement = () => {
       <Dialog open={!!editingStaff} onOpenChange={() => setEditingStaff(null)}>
         <DialogContent className="bg-gray-900 border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Edit Staff Member</DialogTitle>
+            <DialogTitle className="text-xl font-bold">
+              Edit Staff Member
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
               Update the details for {editingStaff?.name}.
             </DialogDescription>
@@ -439,19 +511,27 @@ const StaffManagement = () => {
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Full Name</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Full Name
+                  </label>
                   <Input
                     id="edit-staff-name"
                     value={editingStaff.name}
-                    onChange={(e) => setEditingStaff({ ...editingStaff, name: e.target.value })}
+                    onChange={(e) =>
+                      setEditingStaff({ ...editingStaff, name: e.target.value })
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Role</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Role
+                  </label>
                   <Select
                     value={editingStaff.role}
-                    onValueChange={(value) => setEditingStaff({ ...editingStaff, role: value })}
+                    onValueChange={(value) =>
+                      setEditingStaff({ ...editingStaff, role: value })
+                    }
                   >
                     <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                       <SelectValue />
@@ -465,16 +545,22 @@ const StaffManagement = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Department</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Department
+                  </label>
                   <Select
                     value={editingStaff.department}
-                    onValueChange={(value) => setEditingStaff({ ...editingStaff, department: value })}
+                    onValueChange={(value) =>
+                      setEditingStaff({ ...editingStaff, department: value })
+                    }
                   >
                     <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Administration">Administration</SelectItem>
+                      <SelectItem value="Administration">
+                        Administration
+                      </SelectItem>
                       <SelectItem value="Mathematics">Mathematics</SelectItem>
                       <SelectItem value="Science">Science</SelectItem>
                       <SelectItem value="Languages">Languages</SelectItem>
@@ -482,37 +568,62 @@ const StaffManagement = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Contact Phone</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Contact Phone
+                  </label>
                   <Input
                     id="edit-staff-phone"
                     value={editingStaff.contactPhone}
-                    onChange={(e) => setEditingStaff({ ...editingStaff, contactPhone: e.target.value })}
+                    onChange={(e) =>
+                      setEditingStaff({
+                        ...editingStaff,
+                        contactPhone: e.target.value,
+                      })
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Contact Email</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Contact Email
+                  </label>
                   <Input
                     id="edit-staff-email"
                     value={editingStaff.contactEmail}
-                    onChange={(e) => setEditingStaff({ ...editingStaff, contactEmail: e.target.value })}
+                    onChange={(e) =>
+                      setEditingStaff({
+                        ...editingStaff,
+                        contactEmail: e.target.value,
+                      })
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Experience</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Experience
+                  </label>
                   <Input
                     id="edit-staff-experience"
                     value={editingStaff.experience}
-                    onChange={(e) => setEditingStaff({ ...editingStaff, experience: e.target.value })}
+                    onChange={(e) =>
+                      setEditingStaff({
+                        ...editingStaff,
+                        experience: e.target.value,
+                      })
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Status</label>
+                  <label className="text-sm font-medium text-gray-300">
+                    Status
+                  </label>
                   <Select
                     value={editingStaff.status}
-                    onValueChange={(value) => setEditingStaff({ ...editingStaff, status: value })}
+                    onValueChange={(value) =>
+                      setEditingStaff({ ...editingStaff, status: value })
+                    }
                   >
                     <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
                       <SelectValue />
@@ -545,12 +656,18 @@ const StaffManagement = () => {
       </Dialog>
 
       {/* Confirm Delete Dialog */}
-      <Dialog open={showConfirmDeleteDialog} onOpenChange={setShowConfirmDeleteDialog}>
+      <Dialog
+        open={showConfirmDeleteDialog}
+        onOpenChange={setShowConfirmDeleteDialog}
+      >
         <DialogContent className="bg-gray-900 border-gray-700 text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Confirm Deletion</DialogTitle>
+            <DialogTitle className="text-xl font-bold">
+              Confirm Deletion
+            </DialogTitle>
             <DialogDescription className="text-gray-400">
-              Are you sure you want to delete this staff member? This action cannot be undone.
+              Are you sure you want to delete this staff member? This action
+              cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -563,7 +680,9 @@ const StaffManagement = () => {
             </Button>
             <Button
               variant="destructive"
-              onClick={() => staffToDeleteId && handleDeleteStaff(staffToDeleteId)}
+              onClick={() =>
+                staffToDeleteId && handleDeleteStaff(staffToDeleteId)
+              }
               className="bg-red-600 hover:bg-red-700 text-white"
             >
               Delete
@@ -614,37 +733,95 @@ const StaffManagement = () => {
             <table className="min-w-full divide-y divide-gray-700">
               <thead className="bg-gray-900">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Name</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Role</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Department</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Contact</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Experience</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Role
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Department
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Contact
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Experience
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {staffDirectoryData
-                  .filter(staff => 
-                    selectedDepartment === 'All' || staff.department === selectedDepartment
+                  .filter(
+                    (staff) =>
+                      selectedDepartment === "All" ||
+                      staff.department === selectedDepartment
                   )
                   .map((staff) => (
                     <tr key={staff.staffId} className="hover:bg-gray-800/70">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{staff.staffId}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-white">{staff.name}</div>
-                        <div className="text-xs text-gray-400">{staff.contactEmail}</div>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                        {staff.staffId}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{staff.role}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{staff.department}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{staff.contactPhone}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{staff.experience}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-white">
+                          {staff.name}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {staff.contactEmail}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                        {staff.role}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                        {staff.department}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                        {staff.contactPhone}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                        {staff.experience}
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Badge
-                          className={staff.status === "active"
-                            ? "bg-green-500/20 text-green-400"
-                            : "bg-red-500/20 text-red-400"}
+                          className={
+                            staff.status === "active"
+                              ? "bg-green-500/20 text-green-400"
+                              : "bg-red-500/20 text-red-400"
+                          }
                         >
                           {staff.status}
                         </Badge>
@@ -689,4 +866,4 @@ const StaffManagement = () => {
   );
 };
 
-export default StaffManagement; 
+export default StaffManagement;

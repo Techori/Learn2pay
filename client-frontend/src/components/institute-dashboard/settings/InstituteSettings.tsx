@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { Switch } from '@/components/ui/Switch';
-import { Label } from '@/components/ui/Label';
-import { CalendarIcon, Settings } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Badge } from '@/components/ui/Badge';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
+import { Input } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
+import { Switch } from "@/components/ui/Switch";
+import { Label } from "@/components/ui/Label";
+import { CalendarIcon, Settings } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/Badge";
 
 const GeneralSettings = () => {
   const { toast } = useToast();
@@ -36,36 +36,85 @@ const GeneralSettings = () => {
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg text-white">Institute Information</CardTitle>
-        <p className="text-gray-400 text-sm">Basic institute details and contact information</p>
+        <CardTitle className="text-lg text-white">
+          Institute Information
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          Basic institute details and contact information
+        </p>
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="instituteName" className="text-gray-300">Institute Name</Label>
-          <Input id="instituteName" value={generalSettings.instituteName} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="instituteName" className="text-gray-300">
+            Institute Name
+          </Label>
+          <Input
+            id="instituteName"
+            value={generalSettings.instituteName}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="instituteCode" className="text-gray-300">Institute Code</Label>
-          <Input id="instituteCode" value={generalSettings.instituteCode} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="instituteCode" className="text-gray-300">
+            Institute Code
+          </Label>
+          <Input
+            id="instituteCode"
+            value={generalSettings.instituteCode}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="emailAddress" className="text-gray-300">Email Address</Label>
-          <Input id="emailAddress" value={generalSettings.emailAddress} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="emailAddress" className="text-gray-300">
+            Email Address
+          </Label>
+          <Input
+            id="emailAddress"
+            value={generalSettings.emailAddress}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="phoneNumber" className="text-gray-300">Phone Number</Label>
-          <Input id="phoneNumber" value={generalSettings.phoneNumber} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="phoneNumber" className="text-gray-300">
+            Phone Number
+          </Label>
+          <Input
+            id="phoneNumber"
+            value={generalSettings.phoneNumber}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="space-y-2 col-span-1 md:col-span-2">
-          <Label htmlFor="address" className="text-gray-300">Address</Label>
-          <Input id="address" value={generalSettings.address} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="address" className="text-gray-300">
+            Address
+          </Label>
+          <Input
+            id="address"
+            value={generalSettings.address}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="space-y-2 col-span-1 md:col-span-2">
-          <Label htmlFor="website" className="text-gray-300">Website</Label>
-          <Input id="website" value={generalSettings.website} onChange={handleChange} className="bg-gray-900 border-gray-700 text-white placeholder-gray-500" />
+          <Label htmlFor="website" className="text-gray-300">
+            Website
+          </Label>
+          <Input
+            id="website"
+            value={generalSettings.website}
+            onChange={handleChange}
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-start">
-          <Button onClick={handleSaveGeneralSettings} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={handleSaveGeneralSettings}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             Save Changes
           </Button>
         </div>
@@ -97,12 +146,18 @@ const AcademicSettings = () => {
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg text-white">Academic Year Settings</CardTitle>
-        <p className="text-gray-400 text-sm">Configure academic year dates and terms</p>
+        <CardTitle className="text-lg text-white">
+          Academic Year Settings
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          Configure academic year dates and terms
+        </p>
       </CardHeader>
       <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="academicYearStart" className="text-gray-300">Academic Year Start</Label>
+          <Label htmlFor="academicYearStart" className="text-gray-300">
+            Academic Year Start
+          </Label>
           <div className="relative">
             <Input
               id="academicYearStart"
@@ -115,7 +170,9 @@ const AcademicSettings = () => {
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="academicYearEnd" className="text-gray-300">Academic Year End</Label>
+          <Label htmlFor="academicYearEnd" className="text-gray-300">
+            Academic Year End
+          </Label>
           <div className="relative">
             <Input
               id="academicYearEnd"
@@ -128,17 +185,24 @@ const AcademicSettings = () => {
           </div>
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-start">
-          <Button onClick={handleSaveAcademicSettings} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={handleSaveAcademicSettings}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             Save Changes
           </Button>
         </div>
       </CardContent>
       <CardHeader className="mt-6">
         <CardTitle className="text-lg text-white">Term Configuration</CardTitle>
-        <p className="text-gray-400 text-sm">Set up academic terms and holidays</p>
+        <p className="text-gray-400 text-sm">
+          Set up academic terms and holidays
+        </p>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-500 text-center py-8">Term configuration options will be available here</p>
+        <p className="text-gray-500 text-center py-8">
+          Term configuration options will be available here
+        </p>
       </CardContent>
     </Card>
   );
@@ -168,60 +232,89 @@ const NotificationSettings = () => {
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg text-white">Notification Preferences</CardTitle>
-        <p className="text-gray-400 text-sm">Configure how and when you receive notifications</p>
+        <CardTitle className="text-lg text-white">
+          Notification Preferences
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          Configure how and when you receive notifications
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="emailNotifications" className="text-white block">Email Notifications</Label>
-            <p className="text-gray-400 text-sm">Receive notifications via email</p>
+            <Label htmlFor="emailNotifications" className="text-white block">
+              Email Notifications
+            </Label>
+            <p className="text-gray-400 text-sm">
+              Receive notifications via email
+            </p>
           </div>
           <Switch
             id="emailNotifications"
             checked={notificationPreferences.emailNotifications}
-            onCheckedChange={(checked) => handleNotificationToggle("emailNotifications", checked)}
+            onCheckedChange={(checked) =>
+              handleNotificationToggle("emailNotifications", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="smsNotifications" className="text-white block">SMS Notifications</Label>
-            <p className="text-gray-400 text-sm">Receive notifications via SMS</p>
+            <Label htmlFor="smsNotifications" className="text-white block">
+              SMS Notifications
+            </Label>
+            <p className="text-gray-400 text-sm">
+              Receive notifications via SMS
+            </p>
           </div>
           <Switch
             id="smsNotifications"
             checked={notificationPreferences.smsNotifications}
-            onCheckedChange={(checked) => handleNotificationToggle("smsNotifications", checked)}
+            onCheckedChange={(checked) =>
+              handleNotificationToggle("smsNotifications", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="paymentReminders" className="text-white block">Payment Reminders</Label>
-            <p className="text-gray-400 text-sm">Automatic payment reminder notifications</p>
+            <Label htmlFor="paymentReminders" className="text-white block">
+              Payment Reminders
+            </Label>
+            <p className="text-gray-400 text-sm">
+              Automatic payment reminder notifications
+            </p>
           </div>
           <Switch
             id="paymentReminders"
             checked={notificationPreferences.paymentReminders}
-            onCheckedChange={(checked) => handleNotificationToggle("paymentReminders", checked)}
+            onCheckedChange={(checked) =>
+              handleNotificationToggle("paymentReminders", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="overdueAlerts" className="text-white block">Overdue Alerts</Label>
+            <Label htmlFor="overdueAlerts" className="text-white block">
+              Overdue Alerts
+            </Label>
             <p className="text-gray-400 text-sm">Alerts for overdue payments</p>
           </div>
           <Switch
             id="overdueAlerts"
             checked={notificationPreferences.overdueAlerts}
-            onCheckedChange={(checked) => handleNotificationToggle("overdueAlerts", checked)}
+            onCheckedChange={(checked) =>
+              handleNotificationToggle("overdueAlerts", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="flex justify-start pt-4">
-          <Button onClick={handleSaveNotificationSettings} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={handleSaveNotificationSettings}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             Save Changes
           </Button>
         </div>
@@ -263,23 +356,33 @@ const SecuritySettings = () => {
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
         <CardTitle className="text-lg text-white">Security Settings</CardTitle>
-        <p className="text-gray-400 text-sm">Configure security and access controls</p>
+        <p className="text-gray-400 text-sm">
+          Configure security and access controls
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="twoFactor" className="text-white block">Two-Factor Authentication</Label>
-            <p className="text-gray-400 text-sm">Add an extra layer of security</p>
+            <Label htmlFor="twoFactor" className="text-white block">
+              Two-Factor Authentication
+            </Label>
+            <p className="text-gray-400 text-sm">
+              Add an extra layer of security
+            </p>
           </div>
           <Switch
             id="twoFactor"
             checked={securitySettings.twoFactor}
-            onCheckedChange={(checked) => handleSwitchChange("twoFactor", checked)}
+            onCheckedChange={(checked) =>
+              handleSwitchChange("twoFactor", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="sessionTimeout" className="text-gray-300">Session Timeout (minutes)</Label>
+          <Label htmlFor="sessionTimeout" className="text-gray-300">
+            Session Timeout (minutes)
+          </Label>
           <Input
             id="sessionTimeout"
             type="number"
@@ -290,18 +393,26 @@ const SecuritySettings = () => {
         </div>
         <div className="flex items-center justify-between">
           <div>
-            <Label htmlFor="strongPassword" className="text-white block">Strong Password Policy</Label>
-            <p className="text-gray-400 text-sm">Enforce strong password requirements</p>
+            <Label htmlFor="strongPassword" className="text-white block">
+              Strong Password Policy
+            </Label>
+            <p className="text-gray-400 text-sm">
+              Enforce strong password requirements
+            </p>
           </div>
           <Switch
             id="strongPassword"
             checked={securitySettings.strongPassword}
-            onCheckedChange={(checked) => handleSwitchChange("strongPassword", checked)}
+            onCheckedChange={(checked) =>
+              handleSwitchChange("strongPassword", checked)
+            }
             className="data-[state=checked]:bg-orange-500"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="maxLoginAttempts" className="text-gray-300">Max Login Attempts</Label>
+          <Label htmlFor="maxLoginAttempts" className="text-gray-300">
+            Max Login Attempts
+          </Label>
           <Input
             id="maxLoginAttempts"
             type="number"
@@ -311,7 +422,10 @@ const SecuritySettings = () => {
           />
         </div>
         <div className="flex justify-start pt-4">
-          <Button onClick={handleSaveSecuritySettings} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={handleSaveSecuritySettings}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             Save Changes
           </Button>
         </div>
@@ -379,13 +493,19 @@ const BillingSettings = () => {
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg text-white">Billing Information</CardTitle>
-        <p className="text-gray-400 text-sm">Manage your subscription and payment details</p>
+        <CardTitle className="text-lg text-white">
+          Billing Information
+        </CardTitle>
+        <p className="text-gray-400 text-sm">
+          Manage your subscription and payment details
+        </p>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Subscription Details */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Current Subscription</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Current Subscription
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <Label className="text-gray-300">Plan:</Label>
@@ -405,10 +525,17 @@ const BillingSettings = () => {
             </div>
           </div>
           <div className="flex space-x-2">
-            <Button onClick={handleChangePlan} className="bg-orange-500 hover:bg-orange-600 text-white">
+            <Button
+              onClick={handleChangePlan}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
               Change Plan
             </Button>
-            <Button onClick={handleViewInvoices} variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800">
+            <Button
+              onClick={handleViewInvoices}
+              variant="outline"
+              className="border-gray-700 text-gray-300 hover:bg-gray-800"
+            >
               View Invoices
             </Button>
           </div>
@@ -431,7 +558,10 @@ const BillingSettings = () => {
               <p className="text-white">{paymentMethod.expiry}</p>
             </div>
           </div>
-          <Button onClick={handleUpdatePaymentMethod} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button
+            onClick={handleUpdatePaymentMethod}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
             Update Payment Method
           </Button>
         </div>
@@ -443,25 +573,60 @@ const BillingSettings = () => {
             <table className="min-w-full divide-y divide-gray-700">
               <thead className="bg-gray-900">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Invoice ID</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Date</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Description</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Amount</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Invoice ID
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Date
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Description
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Amount
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {paymentHistory.map((item) => (
                   <tr key={item.id} className="hover:bg-gray-800/70">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{item.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{item.date}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{item.description}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{item.amount}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                      {item.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {item.date}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {item.description}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      {item.amount}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <Badge
-                        className={item.status === "Paid"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-red-500/20 text-red-400"}
+                        className={
+                          item.status === "Paid"
+                            ? "bg-green-500/20 text-green-400"
+                            : "bg-red-500/20 text-red-400"
+                        }
                       >
                         {item.status}
                       </Badge>
@@ -478,7 +643,7 @@ const BillingSettings = () => {
 };
 
 const InstituteSettings = () => {
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState("general");
 
   return (
     <div className="space-y-6">
@@ -488,24 +653,45 @@ const InstituteSettings = () => {
           <Settings className="h-6 w-6 text-gray-400" />
           <span>Institute Settings</span>
         </h2>
-        <p className="text-gray-400 ml-4">Configure institute details, preferences, and system settings</p>
+        <p className="text-gray-400 ml-4">
+          Configure institute details, preferences, and system settings
+        </p>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="space-y-6"
+      >
         <TabsList className="grid w-full grid-cols-5 bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
-          <TabsTrigger value="general" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md">
+          <TabsTrigger
+            value="general"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+          >
             General
           </TabsTrigger>
-          <TabsTrigger value="academic" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md">
+          <TabsTrigger
+            value="academic"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+          >
             Academic
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md">
+          <TabsTrigger
+            value="notifications"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+          >
             Notifications
           </TabsTrigger>
-          <TabsTrigger value="security" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md">
+          <TabsTrigger
+            value="security"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+          >
             Security
           </TabsTrigger>
-          <TabsTrigger value="billing" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md">
+          <TabsTrigger
+            value="billing"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+          >
             Billing
           </TabsTrigger>
         </TabsList>
@@ -530,4 +716,4 @@ const InstituteSettings = () => {
   );
 };
 
-export default InstituteSettings; 
+export default InstituteSettings;

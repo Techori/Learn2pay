@@ -17,14 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/Dropdown-menu";
+
 import {
   Dialog,
   DialogContent,
@@ -710,8 +703,10 @@ const SupportInstitutes = () => {
                           handleNewInstituteChange("status", value)
                         }
                       >
-                        <SelectTrigger id="status">
-                          <SelectValue placeholder="Select status" />
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status">
+                            {newInstitute.status}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Active">Active</SelectItem>
@@ -727,8 +722,10 @@ const SupportInstitutes = () => {
                           handleNewInstituteChange("plan", value)
                         }
                       >
-                        <SelectTrigger id="plan">
-                          <SelectValue placeholder="Select plan" />
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select plan">
+                            {newInstitute.plan}
+                          </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Basic">Basic</SelectItem>

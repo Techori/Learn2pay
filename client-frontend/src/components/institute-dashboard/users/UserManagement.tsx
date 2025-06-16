@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
+import React, { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
 import {
   Dialog,
   DialogContent,
@@ -10,11 +10,8 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from '@/components/ui/Dialog';
-import {
-  Select,
-  SelectItem,
-} from '@/components/ui/Select';
+} from "@/components/ui/Dialog";
+import { Select, SelectItem } from "@/components/ui/Select";
 import {
   Users,
   UserCheck,
@@ -27,8 +24,8 @@ import {
   Ban,
   Search,
   Trash2,
-} from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+} from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface User {
   id: string;
@@ -57,22 +54,22 @@ const UserManagement = () => {
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [roleFilter, setRoleFilter] = useState<string>('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleFilter, setRoleFilter] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   const [newUser, setNewUser] = useState<NewUser>({
-    name: '',
-    email: '',
-    contact: '',
-    role: '',
-    permissions: '',
+    name: "",
+    email: "",
+    contact: "",
+    role: "",
+    permissions: "",
   });
 
   const [systemUsersData, setSystemUsersData] = useState<User[]>([
     {
-      id: '1',
+      id: "1",
       name: "Dr. Rajesh Kumar",
       email: "rajesh@nps.edu",
       contact: "9876543210",
@@ -82,7 +79,7 @@ const UserManagement = () => {
       permissions: "Full Access",
     },
     {
-      id: '2',
+      id: "2",
       name: "Mrs. Priya Sharma",
       email: "priya@nps.edu",
       contact: "9876543211",
@@ -92,7 +89,7 @@ const UserManagement = () => {
       permissions: "Fee Management, Reports",
     },
     {
-      id: '3',
+      id: "3",
       name: "Mr. Amit Singh",
       email: "amit@nps.edu",
       contact: "9876543212",
@@ -102,7 +99,7 @@ const UserManagement = () => {
       permissions: "Student Management, Attendance",
     },
     {
-      id: '4',
+      id: "4",
       name: "Ms. Sunita Patel",
       email: "sunita@nps.edu",
       contact: "9876543213",
@@ -123,19 +120,25 @@ const UserManagement = () => {
     {
       icon: UserCheck,
       title: "Active Users",
-      value: systemUsersData.filter(user => user.status === "Active").length.toString(),
+      value: systemUsersData
+        .filter((user) => user.status === "Active")
+        .length.toString(),
       color: "text-green-400",
     },
     {
       icon: UserCog,
       title: "Admin Roles",
-      value: systemUsersData.filter(user => user.role === "Principal").length.toString(),
+      value: systemUsersData
+        .filter((user) => user.role === "Principal")
+        .length.toString(),
       color: "text-purple-400",
     },
     {
       icon: UserX,
       title: "Inactive Users",
-      value: systemUsersData.filter(user => user.status === "Inactive").length.toString(),
+      value: systemUsersData
+        .filter((user) => user.status === "Inactive")
+        .length.toString(),
       color: "text-orange-400",
     },
   ];
@@ -181,7 +184,7 @@ const UserManagement = () => {
   const handleAddUser = () => {
     console.log("handleAddUser called.");
     console.log("handleAddUser: Current newUser state:", newUser);
-    
+
     if (!validateUserData(newUser)) {
       console.log("handleAddUser: Validation failed, returning.");
       return;
@@ -198,11 +201,11 @@ const UserManagement = () => {
       setSystemUsersData([...systemUsersData, newUserWithId]);
       setShowAddUserDialog(false);
       setNewUser({
-        name: '',
-        email: '',
-        contact: '',
-        role: '',
-        permissions: '',
+        name: "",
+        email: "",
+        contact: "",
+        role: "",
+        permissions: "",
       });
       toast({
         title: "Success",
@@ -235,7 +238,10 @@ const UserManagement = () => {
   };
 
   const handleManagePermissions = (user: User) => {
-    console.log("handleManagePermissions: Managing permissions for user:", user);
+    console.log(
+      "handleManagePermissions: Managing permissions for user:",
+      user
+    );
     setSelectedUser(user);
     setShowPermissionsDialog(true);
   };
@@ -255,13 +261,18 @@ const UserManagement = () => {
 
     setIsLoading(true);
     try {
-      setSystemUsersData(systemUsersData.filter(u => u.id !== selectedUser.id));
+      setSystemUsersData(
+        systemUsersData.filter((u) => u.id !== selectedUser.id)
+      );
       setShowDeleteDialog(false);
       toast({
         title: "Success",
         description: "User deleted successfully",
       });
-      console.log("confirmDeleteUser: User deleted successfully:", selectedUser.id);
+      console.log(
+        "confirmDeleteUser: User deleted successfully:",
+        selectedUser.id
+      );
     } catch (error) {
       toast({
         title: "Error",
@@ -283,35 +294,46 @@ const UserManagement = () => {
     }
     setIsLoading(true);
     try {
-      setSystemUsersData(systemUsersData.map(u => 
-        u.id === user.id 
-          ? { ...u, status: u.status === "Active" ? "Inactive" : "Active" }
-          : u
-      ));
+      setSystemUsersData(
+        systemUsersData.map((u) =>
+          u.id === user.id
+            ? { ...u, status: u.status === "Active" ? "Inactive" : "Active" }
+            : u
+        )
+      );
       toast({
         title: "Success",
-        description: `User ${user.status === "Active" ? "deactivated" : "activated"} successfully`,
+        description: `User ${
+          user.status === "Active" ? "deactivated" : "activated"
+        } successfully`,
       });
-      console.log(`handleToggleUserStatus: User ${user.id} status toggled to ${user.status === "Active" ? "Inactive" : "Active"}`);
+      console.log(
+        `handleToggleUserStatus: User ${user.id} status toggled to ${
+          user.status === "Active" ? "Inactive" : "Active"
+        }`
+      );
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to update user status",
         variant: "destructive",
       });
-      console.error("handleToggleUserStatus: Failed to update user status:", error);
+      console.error(
+        "handleToggleUserStatus: Failed to update user status:",
+        error
+      );
     } finally {
       setIsLoading(false);
       console.log("handleToggleUserStatus: Loading state set to false.");
     }
   };
 
-  const filteredUsers = systemUsersData.filter(user => {
-    const matchesSearch = 
+  const filteredUsers = systemUsersData.filter((user) => {
+    const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.role.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesRole = roleFilter ? user.role === roleFilter : true;
     const matchesStatus = statusFilter ? user.status === statusFilter : true;
 
@@ -324,19 +346,21 @@ const UserManagement = () => {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white">User Management</h2>
-          <p className="text-gray-400">Manage system users and their permissions</p>
+          <p className="text-gray-400">
+            Manage system users and their permissions
+          </p>
         </div>
-        <Button 
+        <Button
           className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
           onClick={() => {
             console.log("UI: Add New User button clicked.");
             setShowAddUserDialog(true);
             setNewUser({
-                name: '',
-                email: '',
-                contact: '',
-                role: '',
-                permissions: '',
+              name: "",
+              email: "",
+              contact: "",
+              role: "",
+              permissions: "",
             });
           }}
           disabled={isLoading}
@@ -349,9 +373,17 @@ const UserManagement = () => {
       {/* User Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {userSummary.map((item, index) => (
-          <Card key={index} className="bg-gray-800/50 border-gray-700 shadow-md">
+          <Card
+            key={index}
+            className="bg-gray-800/50 border-gray-700 shadow-md"
+          >
             <CardContent className="p-5 flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${item.color.replace('text', 'bg')}/20`}>
+              <div
+                className={`p-3 rounded-lg ${item.color.replace(
+                  "text",
+                  "bg"
+                )}/20`}
+              >
                 <item.icon className={`h-6 w-6 ${item.color}`} />
               </div>
               <div>
@@ -368,7 +400,9 @@ const UserManagement = () => {
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
           <div>
             <CardTitle className="text-lg text-white">System Users</CardTitle>
-            <p className="text-gray-400 text-sm">Manage all users with access to the system</p>
+            <p className="text-gray-400 text-sm">
+              Manage all users with access to the system
+            </p>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -381,7 +415,9 @@ const UserManagement = () => {
                 placeholder="Search users by name, email, or role..."
                 className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 pl-10"
                 value={searchQuery}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchQuery(e.target.value)
+                }
               />
             </div>
             <div className="flex space-x-2">
@@ -412,29 +448,54 @@ const UserManagement = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Name</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Email</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Role</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Status</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Last Login</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">Actions</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Name
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Email
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Role
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Last Login
+                  </th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-700 hover:bg-gray-800/50">
-                    <td className="px-4 py-3 text-sm text-white">{user.name}</td>
-                    <td className="px-4 py-3 text-sm text-gray-300">{user.email}</td>
-                    <td className="px-4 py-3 text-sm text-gray-300">{user.role}</td>
+                  <tr
+                    key={user.id}
+                    className="border-b border-gray-700 hover:bg-gray-800/50"
+                  >
+                    <td className="px-4 py-3 text-sm text-white">
+                      {user.name}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-300">
+                      {user.email}
+                    </td>
+                    <td className="px-4 py-3 text-sm text-gray-300">
+                      {user.role}
+                    </td>
                     <td className="px-4 py-3 text-sm">
                       <Badge
-                        variant={user.status === "Active" ? "default" : "destructive"}
+                        variant={
+                          user.status === "Active" ? "default" : "destructive"
+                        }
                         className="capitalize"
                       >
                         {user.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-300">{user.lastLogin}</td>
+                    <td className="px-4 py-3 text-sm text-gray-300">
+                      {user.lastLogin}
+                    </td>
                     <td className="px-4 py-3 text-sm">
                       <div className="flex items-center space-x-2">
                         <Button
@@ -508,7 +569,9 @@ const UserManagement = () => {
                 type="text"
                 placeholder="Enter full name"
                 value={newUser.name}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewUser({ ...newUser, name: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewUser({ ...newUser, name: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
@@ -519,18 +582,24 @@ const UserManagement = () => {
                 type="email"
                 placeholder="Enter email address"
                 value={newUser.email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewUser({ ...newUser, email: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewUser({ ...newUser, email: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Contact</label>
+              <label className="text-sm font-medium text-gray-300">
+                Contact
+              </label>
               <Input
                 id="contact"
                 type="tel"
                 placeholder="Enter contact number"
                 value={newUser.contact}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewUser({ ...newUser, contact: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewUser({ ...newUser, contact: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
@@ -538,7 +607,9 @@ const UserManagement = () => {
               <label className="text-sm font-medium text-gray-300">Role</label>
               <Select
                 value={newUser.role}
-                onValueChange={(value: string) => setNewUser({ ...newUser, role: value })}
+                onValueChange={(value: string) =>
+                  setNewUser({ ...newUser, role: value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               >
                 <SelectItem value="Principal">Principal</SelectItem>
@@ -548,15 +619,23 @@ const UserManagement = () => {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Permissions</label>
+              <label className="text-sm font-medium text-gray-300">
+                Permissions
+              </label>
               <Select
                 value={newUser.permissions}
-                onValueChange={(value: string) => setNewUser({ ...newUser, permissions: value })}
+                onValueChange={(value: string) =>
+                  setNewUser({ ...newUser, permissions: value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               >
                 <SelectItem value="Full Access">Full Access</SelectItem>
-                <SelectItem value="Fee Management, Reports">Fee Management, Reports</SelectItem>
-                <SelectItem value="Student Management, Attendance">Student Management, Attendance</SelectItem>
+                <SelectItem value="Fee Management, Reports">
+                  Fee Management, Reports
+                </SelectItem>
+                <SelectItem value="Student Management, Attendance">
+                  Student Management, Attendance
+                </SelectItem>
                 <SelectItem value="Basic Access">Basic Access</SelectItem>
               </Select>
             </div>
@@ -614,18 +693,26 @@ const UserManagement = () => {
                 <div>
                   <p className="text-sm font-medium text-gray-400">Status</p>
                   <Badge
-                    variant={selectedUser.status === "Active" ? "default" : "destructive"}
+                    variant={
+                      selectedUser.status === "Active"
+                        ? "default"
+                        : "destructive"
+                    }
                     className="capitalize"
                   >
                     {selectedUser.status}
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-400">Last Login</p>
+                  <p className="text-sm font-medium text-gray-400">
+                    Last Login
+                  </p>
                   <p className="text-white">{selectedUser.lastLogin}</p>
                 </div>
                 <div className="col-span-2">
-                  <p className="text-sm font-medium text-gray-400">Permissions</p>
+                  <p className="text-sm font-medium text-gray-400">
+                    Permissions
+                  </p>
                   <p className="text-white">{selectedUser.permissions}</p>
                 </div>
               </div>
@@ -652,7 +739,8 @@ const UserManagement = () => {
           <DialogHeader>
             <DialogTitle>Delete User</DialogTitle>
             <DialogDescription className="text-gray-400">
-              Are you sure you want to delete this user? This action cannot be undone.
+              Are you sure you want to delete this user? This action cannot be
+              undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -692,40 +780,59 @@ const UserManagement = () => {
           {selectedUser && (
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Name</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Name
+                </label>
                 <Input
                   id="edit-name"
                   type="text"
                   value={selectedUser.name}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedUser({ ...selectedUser, name: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSelectedUser({ ...selectedUser, name: e.target.value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Email</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Email
+                </label>
                 <Input
                   id="edit-email"
                   type="email"
                   value={selectedUser.email}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedUser({ ...selectedUser, email: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSelectedUser({ ...selectedUser, email: e.target.value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Contact</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Contact
+                </label>
                 <Input
                   id="edit-contact"
                   type="tel"
                   value={selectedUser.contact}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSelectedUser({ ...selectedUser, contact: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      contact: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Role</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Role
+                </label>
                 <Select
                   value={selectedUser.role}
-                  onValueChange={(value: string) => setSelectedUser({ ...selectedUser, role: value })}
+                  onValueChange={(value: string) =>
+                    setSelectedUser({ ...selectedUser, role: value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 >
                   <SelectItem value="Principal">Principal</SelectItem>
@@ -735,15 +842,23 @@ const UserManagement = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Permissions</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Permissions
+                </label>
                 <Select
                   value={selectedUser.permissions}
-                  onValueChange={(value: string) => setSelectedUser({ ...selectedUser, permissions: value })}
+                  onValueChange={(value: string) =>
+                    setSelectedUser({ ...selectedUser, permissions: value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 >
                   <SelectItem value="Full Access">Full Access</SelectItem>
-                  <SelectItem value="Fee Management, Reports">Fee Management, Reports</SelectItem>
-                  <SelectItem value="Student Management, Attendance">Student Management, Attendance</SelectItem>
+                  <SelectItem value="Fee Management, Reports">
+                    Fee Management, Reports
+                  </SelectItem>
+                  <SelectItem value="Student Management, Attendance">
+                    Student Management, Attendance
+                  </SelectItem>
                   <SelectItem value="Basic Access">Basic Access</SelectItem>
                 </Select>
               </div>
@@ -766,13 +881,20 @@ const UserManagement = () => {
                 if (selectedUser) {
                   setIsLoading(true);
                   try {
-                    setSystemUsersData(systemUsersData.map(u => u.id === selectedUser.id ? selectedUser : u));
+                    setSystemUsersData(
+                      systemUsersData.map((u) =>
+                        u.id === selectedUser.id ? selectedUser : u
+                      )
+                    );
                     setShowEditUserDialog(false);
                     toast({
                       title: "Success",
                       description: "User updated successfully",
                     });
-                    console.log("Edit User: User updated successfully:", selectedUser);
+                    console.log(
+                      "Edit User: User updated successfully:",
+                      selectedUser
+                    );
                   } catch (error) {
                     toast({
                       title: "Error",
@@ -796,7 +918,10 @@ const UserManagement = () => {
       </Dialog>
 
       {/* Manage Permissions Dialog */}
-      <Dialog open={showPermissionsDialog} onOpenChange={setShowPermissionsDialog}>
+      <Dialog
+        open={showPermissionsDialog}
+        onOpenChange={setShowPermissionsDialog}
+      >
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader>
             <DialogTitle>Manage Permissions</DialogTitle>
@@ -807,19 +932,31 @@ const UserManagement = () => {
           {selectedUser && (
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">User:</label>
-                <p className="text-white font-semibold">{selectedUser.name} ({selectedUser.role})</p>
+                <label className="text-sm font-medium text-gray-300">
+                  User:
+                </label>
+                <p className="text-white font-semibold">
+                  {selectedUser.name} ({selectedUser.role})
+                </p>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Current Permissions:</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Current Permissions:
+                </label>
                 <Select
                   value={selectedUser.permissions}
-                  onValueChange={(value: string) => setSelectedUser({ ...selectedUser, permissions: value })}
+                  onValueChange={(value: string) =>
+                    setSelectedUser({ ...selectedUser, permissions: value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 >
                   <SelectItem value="Full Access">Full Access</SelectItem>
-                  <SelectItem value="Fee Management, Reports">Fee Management, Reports</SelectItem>
-                  <SelectItem value="Student Management, Attendance">Student Management, Attendance</SelectItem>
+                  <SelectItem value="Fee Management, Reports">
+                    Fee Management, Reports
+                  </SelectItem>
+                  <SelectItem value="Student Management, Attendance">
+                    Student Management, Attendance
+                  </SelectItem>
                   <SelectItem value="Basic Access">Basic Access</SelectItem>
                 </Select>
               </div>
@@ -838,27 +975,41 @@ const UserManagement = () => {
             </Button>
             <Button
               onClick={() => {
-                console.log("Manage Permissions dialog Update Permissions button clicked.");
+                console.log(
+                  "Manage Permissions dialog Update Permissions button clicked."
+                );
                 if (selectedUser) {
                   setIsLoading(true);
                   try {
-                    setSystemUsersData(systemUsersData.map(u => u.id === selectedUser.id ? selectedUser : u));
+                    setSystemUsersData(
+                      systemUsersData.map((u) =>
+                        u.id === selectedUser.id ? selectedUser : u
+                      )
+                    );
                     setShowPermissionsDialog(false);
                     toast({
                       title: "Success",
                       description: "Permissions updated successfully",
                     });
-                    console.log("Manage Permissions: Permissions updated successfully:", selectedUser);
+                    console.log(
+                      "Manage Permissions: Permissions updated successfully:",
+                      selectedUser
+                    );
                   } catch (error) {
                     toast({
                       title: "Error",
                       description: "Failed to update permissions",
                       variant: "destructive",
                     });
-                    console.error("Manage Permissions: Failed to update permissions:", error);
+                    console.error(
+                      "Manage Permissions: Failed to update permissions:",
+                      error
+                    );
                   } finally {
                     setIsLoading(false);
-                    console.log("Manage Permissions: Loading state set to false.");
+                    console.log(
+                      "Manage Permissions: Loading state set to false."
+                    );
                   }
                 }
               }}

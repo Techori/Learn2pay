@@ -184,7 +184,7 @@ const SalesReports = () => {
       });
     } else if (selectedReport === "revenue") {
       doc.text("Revenue Analysis", 10, 10);
-      doc.autoTable({
+      autoTable(doc, {
         head: [["Source", "Amount", "Percentage"]],
         body: revenueBreakdown.map((r) => [
           r.source,
@@ -194,7 +194,7 @@ const SalesReports = () => {
       });
     } else if (selectedReport === "conversion") {
       doc.text("Conversion Funnel", 10, 10);
-      doc.autoTable({
+      autoTable(doc, {
         head: [["Stage", "Count", "Percentage"]],
         body: conversionFunnel.map((c) => [
           c.stage,
@@ -242,7 +242,7 @@ const SalesReports = () => {
       ]);
     }
     wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Report");
+    XLSX.utils.book_append_sheet(wb, ws!, "Report");
     XLSX.writeFile(wb, `${selectedReport}_report.xlsx`);
   };
 

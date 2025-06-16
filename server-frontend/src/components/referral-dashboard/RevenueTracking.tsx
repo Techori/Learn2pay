@@ -102,7 +102,9 @@ const RevenueTracking = () => {
             <div className="flex space-x-2">
               <Select value={timeRange} onValueChange={setTimeRange}>
                 <SelectTrigger className="w-32 text-gray-700">
-                  <SelectValue placeholder="Select range"/>
+                  <SelectValue placeholder="Select range">
+                    Select range
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="3months">3 Months</SelectItem>

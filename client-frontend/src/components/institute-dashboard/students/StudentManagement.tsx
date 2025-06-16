@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs';
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/Dialog';
+} from "@/components/ui/Dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/Select';
+} from "@/components/ui/Select";
 import {
   Users,
   UserCheck,
@@ -28,7 +34,7 @@ import {
   Eye,
   Pencil,
   Search,
-} from 'lucide-react';
+} from "lucide-react";
 
 interface Student {
   id: string;
@@ -67,35 +73,36 @@ interface KYC {
   studentName: string;
   studentId: string;
   aadharNo: string;
-  verificationStatus: 'Pending' | 'Verified' | 'Rejected';
+  verificationStatus: "Pending" | "Verified" | "Rejected";
   submittedDate: string;
 }
 
-interface NewStudent extends Omit<Student, 'id' | 'status' | 'feeStatus' | 'attendance'> {}
+interface NewStudent
+  extends Omit<Student, "id" | "status" | "feeStatus" | "attendance"> {}
 
 const StudentManagement = () => {
-  const [activeSubTab, setActiveSubTab] = useState('all-students');
+  const [activeSubTab, setActiveSubTab] = useState("all-students");
   const [showAddStudentDialog, setShowAddStudentDialog] = useState(false);
   const [showViewStudentDialog, setShowViewStudentDialog] = useState(false);
   const [showEditStudentDialog, setShowEditStudentDialog] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [classFilter, setClassFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [classFilter, setClassFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const [newStudent, setNewStudent] = useState<NewStudent>({
-    studentName: '',
-    studentId: '',
-    class: '',
-    roll: '',
-    parentName: '',
-    parentContact: '',
-    parentEmail: '',
+    studentName: "",
+    studentId: "",
+    class: "",
+    roll: "",
+    parentName: "",
+    parentContact: "",
+    parentEmail: "",
   });
 
   const [allStudentsData, setAllStudentsData] = useState<Student[]>([
     {
-      id: '1',
+      id: "1",
       studentName: "Rajesh Kumar",
       studentId: "STU001",
       class: "10th A",
@@ -108,7 +115,7 @@ const StudentManagement = () => {
       attendance: "95%",
     },
     {
-      id: '2',
+      id: "2",
       studentName: "Priya Sharma",
       studentId: "STU002",
       class: "10th A",
@@ -121,7 +128,7 @@ const StudentManagement = () => {
       attendance: "92%",
     },
     {
-      id: '3',
+      id: "3",
       studentName: "Arjun Singh",
       studentId: "STU003",
       class: "9th B",
@@ -137,7 +144,7 @@ const StudentManagement = () => {
 
   const [transfersData, setTransfersData] = useState<Transfer[]>([
     {
-      id: 'T001',
+      id: "T001",
       studentName: "Rahul Gupta",
       studentId: "STU004",
       transferDate: "2023-08-15",
@@ -145,7 +152,7 @@ const StudentManagement = () => {
       destinationInstitute: "DPS Public School, Delhi",
     },
     {
-      id: 'T002',
+      id: "T002",
       studentName: "Sneha Reddy",
       studentId: "STU005",
       transferDate: "2023-09-01",
@@ -156,7 +163,7 @@ const StudentManagement = () => {
 
   const [alumniData, setAlumniData] = useState<Alumni[]>([
     {
-      id: 'A001',
+      id: "A001",
       studentName: "Vivek Singh",
       studentId: "STU006",
       graduationYear: "2020",
@@ -164,7 +171,7 @@ const StudentManagement = () => {
       contactEmail: "vivek.s@example.com",
     },
     {
-      id: 'A002',
+      id: "A002",
       studentName: "Neha Kumari",
       studentId: "STU007",
       graduationYear: "2019",
@@ -193,19 +200,21 @@ const StudentManagement = () => {
   ]);
 
   const [showAddTransferDialog, setShowAddTransferDialog] = useState(false);
-  const [newTransfer, setNewTransfer] = useState<Omit<Transfer, 'id'>>({
-    studentName: '',
-    studentId: '',
-    transferDate: '',
-    reason: '',
-    destinationInstitute: '',
+  const [newTransfer, setNewTransfer] = useState<Omit<Transfer, "id">>({
+    studentName: "",
+    studentId: "",
+    transferDate: "",
+    reason: "",
+    destinationInstitute: "",
   });
 
   const [showAddKycDialog, setShowAddKycDialog] = useState(false);
-  const [newKyc, setNewKyc] = useState<Omit<KYC, 'id' | 'verificationStatus' | 'submittedDate'>>({
-    studentName: '',
-    studentId: '',
-    aadharNo: '',
+  const [newKyc, setNewKyc] = useState<
+    Omit<KYC, "id" | "verificationStatus" | "submittedDate">
+  >({
+    studentName: "",
+    studentId: "",
+    aadharNo: "",
   });
 
   const studentSummary = [
@@ -219,7 +228,9 @@ const StudentManagement = () => {
     {
       icon: UserCheck,
       title: "Active Students",
-      value: allStudentsData.filter(student => student.status === "Active").length.toString(),
+      value: allStudentsData
+        .filter((student) => student.status === "Active")
+        .length.toString(),
       description: "95.1% active rate",
       color: "text-green-400",
     },
@@ -243,20 +254,20 @@ const StudentManagement = () => {
     const studentWithId: Student = {
       ...newStudent,
       id: (allStudentsData.length + 1).toString(),
-      status: 'Active',
-      feeStatus: 'Pending',
-      attendance: '0%', // Default for new student
+      status: "Active",
+      feeStatus: "Pending",
+      attendance: "0%", // Default for new student
     };
     setAllStudentsData([...allStudentsData, studentWithId]);
     setShowAddStudentDialog(false);
     setNewStudent({
-      studentName: '',
-      studentId: '',
-      class: '',
-      roll: '',
-      parentName: '',
-      parentContact: '',
-      parentEmail: '',
+      studentName: "",
+      studentId: "",
+      class: "",
+      roll: "",
+      parentName: "",
+      parentContact: "",
+      parentEmail: "",
     });
   };
 
@@ -273,22 +284,22 @@ const StudentManagement = () => {
 
   const handleExportStudents = () => {
     // Implement export functionality here
-    alert('Exporting student data...');
+    alert("Exporting student data...");
   };
 
   const handleAddTransfer = () => {
     const transferWithId: Transfer = {
       ...newTransfer,
-      id: `T${String(transfersData.length + 1).padStart(3, '0')}`,
+      id: `T${String(transfersData.length + 1).padStart(3, "0")}`,
     };
     setTransfersData([...transfersData, transferWithId]);
     setShowAddTransferDialog(false);
     setNewTransfer({
-      studentName: '',
-      studentId: '',
-      transferDate: '',
-      reason: '',
-      destinationInstitute: '',
+      studentName: "",
+      studentId: "",
+      transferDate: "",
+      reason: "",
+      destinationInstitute: "",
     });
   };
 
@@ -296,19 +307,19 @@ const StudentManagement = () => {
     const kycWithId: KYC = {
       ...newKyc,
       id: newKyc.aadharNo, // Aadhar number as unique ID
-      verificationStatus: 'Pending',
-      submittedDate: new Date().toISOString().split('T')[0],
+      verificationStatus: "Pending",
+      submittedDate: new Date().toISOString().split("T")[0],
     };
     setKycData([...kycData, kycWithId]);
     setShowAddKycDialog(false);
     setNewKyc({
-      studentName: '',
-      studentId: '',
-      aadharNo: '',
+      studentName: "",
+      studentId: "",
+      aadharNo: "",
     });
   };
 
-  const filteredStudents = allStudentsData.filter(student => {
+  const filteredStudents = allStudentsData.filter((student) => {
     const matchesSearch =
       student.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -325,9 +336,17 @@ const StudentManagement = () => {
       {/* Student Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {studentSummary.map((item, index) => (
-          <Card key={index} className="bg-gray-800/50 border-gray-700 shadow-md">
+          <Card
+            key={index}
+            className="bg-gray-800/50 border-gray-700 shadow-md"
+          >
             <CardContent className="p-5 flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${item.color.replace('text', 'bg')}/20`}>
+              <div
+                className={`p-3 rounded-lg ${item.color.replace(
+                  "text",
+                  "bg"
+                )}/20`}
+              >
                 <item.icon className={`h-6 w-6 ${item.color}`} />
               </div>
               <div>
@@ -341,21 +360,40 @@ const StudentManagement = () => {
       </div>
 
       {/* Inner Tabs for Student Management */}
-      <Tabs value={activeSubTab} onValueChange={setActiveSubTab} className="space-y-6">
+      <Tabs
+        value={activeSubTab}
+        onValueChange={setActiveSubTab}
+        className="space-y-6"
+      >
         <TabsList className="grid w-full grid-cols-5 bg-gray-800 p-1 rounded-md">
-          <TabsTrigger value="all-students" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="all-students"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             All Students
           </TabsTrigger>
-          <TabsTrigger value="admissions" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="admissions"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Admissions
           </TabsTrigger>
-          <TabsTrigger value="transfers" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="transfers"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Transfers
           </TabsTrigger>
-          <TabsTrigger value="alumni" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="alumni"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Alumni
           </TabsTrigger>
-          <TabsTrigger value="kyc" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="kyc"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Complete KYC
           </TabsTrigger>
         </TabsList>
@@ -365,8 +403,12 @@ const StudentManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">Student Management</CardTitle>
-                <p className="text-gray-400 text-sm">Manage all student records and information</p>
+                <CardTitle className="text-lg text-white">
+                  Student Management
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Manage all student records and information
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Button
@@ -400,16 +442,54 @@ const StudentManagement = () => {
                   />
                 </div>
                 <div className="flex space-x-2">
-                  <Select value={classFilter} onValueChange={setClassFilter} className="w-[180px] bg-gray-900 border-gray-700 text-white">
-                    <SelectItem value="" className="bg-gray-800 text-white hover:bg-gray-700">All Classes</SelectItem>
-                    <SelectItem value="10th A" className="bg-gray-800 text-white hover:bg-gray-700">10th A</SelectItem>
-                    <SelectItem value="9th B" className="bg-gray-800 text-white hover:bg-gray-700">9th B</SelectItem>
+                  <Select
+                    value={classFilter}
+                    onValueChange={setClassFilter}
+                    className="w-[180px] bg-gray-900 border-gray-700 text-white"
+                  >
+                    <SelectItem
+                      value=""
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      All Classes
+                    </SelectItem>
+                    <SelectItem
+                      value="10th A"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      10th A
+                    </SelectItem>
+                    <SelectItem
+                      value="9th B"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      9th B
+                    </SelectItem>
                     {/* Add more classes dynamically if needed */}
                   </Select>
-                  <Select value={statusFilter} onValueChange={setStatusFilter} className="w-[180px] bg-gray-900 border-gray-700 text-white">
-                    <SelectItem value="" className="bg-gray-800 text-white hover:bg-gray-700">All Status</SelectItem>
-                    <SelectItem value="Active" className="bg-gray-800 text-white hover:bg-gray-700">Active</SelectItem>
-                    <SelectItem value="Inactive" className="bg-gray-800 text-white hover:bg-gray-700">Inactive</SelectItem>
+                  <Select
+                    value={statusFilter}
+                    onValueChange={setStatusFilter}
+                    className="w-[180px] bg-gray-900 border-gray-700 text-white"
+                  >
+                    <SelectItem
+                      value=""
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      All Status
+                    </SelectItem>
+                    <SelectItem
+                      value="Active"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Active
+                    </SelectItem>
+                    <SelectItem
+                      value="Inactive"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Inactive
+                    </SelectItem>
                   </Select>
                 </div>
               </div>
@@ -417,42 +497,108 @@ const StudentManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Student Details</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Class & Roll No</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Parent Info</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Contact</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Status</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fee Status</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Attendance</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Student Details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Class & Roll No
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Parent Info
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Contact
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Fee Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Attendance
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {filteredStudents.map((student) => (
                       <tr key={student.id} className="hover:bg-gray-800/70">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">{student.studentName}</div>
-                          <div className="text-xs text-gray-400">{student.studentId}</div>
+                          <div className="text-sm font-medium text-white">
+                            {student.studentName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {student.studentId}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {student.class}<br/>Roll: {student.roll}
+                          {student.class}
+                          <br />
+                          Roll: {student.roll}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-white">{student.parentName}</div>
-                          <div className="text-xs text-gray-400">{student.parentEmail}</div>
+                          <div className="text-sm text-white">
+                            {student.parentName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {student.parentEmail}
+                          </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{student.parentContact}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {student.parentContact}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge className={student.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                          <Badge
+                            className={
+                              student.status === "Active"
+                                ? "bg-green-500/20 text-green-400"
+                                : "bg-red-500/20 text-red-400"
+                            }
+                          >
                             {student.status}
                           </Badge>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge className={student.feeStatus === "Paid" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}>
+                          <Badge
+                            className={
+                              student.feeStatus === "Paid"
+                                ? "bg-green-500/20 text-green-400"
+                                : "bg-yellow-500/20 text-yellow-400"
+                            }
+                          >
                             {student.feeStatus}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{student.attendance}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {student.attendance}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center space-x-2">
                             <Button
@@ -483,8 +629,12 @@ const StudentManagement = () => {
         {/* Admissions Tab Content */}
         <TabsContent value="admissions">
           <Card className="bg-gray-800/50 border-gray-700 shadow-md h-[400px] flex flex-col items-center justify-center">
-            <CardTitle className="text-xl text-white mb-4">Admission Management</CardTitle>
-            <CardDescription className="text-gray-400 text-center mb-6">Track and process new student applications</CardDescription>
+            <CardTitle className="text-xl text-white mb-4">
+              Admission Management
+            </CardTitle>
+            <CardDescription className="text-gray-400 text-center mb-6">
+              Track and process new student applications
+            </CardDescription>
             <Button
               className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
               onClick={() => setShowAddStudentDialog(true)} // Reusing the Add Student dialog for now
@@ -500,8 +650,12 @@ const StudentManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">Transfer Management</CardTitle>
-                <p className="text-gray-400 text-sm">Manage student transfers to other institutes</p>
+                <CardTitle className="text-lg text-white">
+                  Transfer Management
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Manage student transfers to other institutes
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Button
@@ -518,22 +672,52 @@ const StudentManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Student Details</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Transfer Date</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Reason</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Destination Institute</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Student Details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Transfer Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Reason
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Destination Institute
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {transfersData.map((transfer) => (
                       <tr key={transfer.id} className="hover:bg-gray-800/70">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">{transfer.studentName}</div>
-                          <div className="text-xs text-gray-400">{transfer.studentId}</div>
+                          <div className="text-sm font-medium text-white">
+                            {transfer.studentName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {transfer.studentId}
+                          </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{transfer.transferDate}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{transfer.reason}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{transfer.destinationInstitute}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {transfer.transferDate}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {transfer.reason}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {transfer.destinationInstitute}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -548,8 +732,12 @@ const StudentManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">Alumni Records</CardTitle>
-                <p className="text-gray-400 text-sm">View and manage records of graduated students</p>
+                <CardTitle className="text-lg text-white">
+                  Alumni Records
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  View and manage records of graduated students
+                </p>
               </div>
             </CardHeader>
             <CardContent className="p-0">
@@ -557,22 +745,52 @@ const StudentManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Student Details</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Graduation Year</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Career Path</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Contact Email</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Student Details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Graduation Year
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Career Path
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Contact Email
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {alumniData.map((alumnus) => (
                       <tr key={alumnus.id} className="hover:bg-gray-800/70">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">{alumnus.studentName}</div>
-                          <div className="text-xs text-gray-400">{alumnus.studentId}</div>
+                          <div className="text-sm font-medium text-white">
+                            {alumnus.studentName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {alumnus.studentId}
+                          </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{alumnus.graduationYear}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{alumnus.careerPath}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{alumnus.contactEmail}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {alumnus.graduationYear}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {alumnus.careerPath}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {alumnus.contactEmail}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -587,8 +805,12 @@ const StudentManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">KYC Management</CardTitle>
-                <p className="text-gray-400 text-sm">Manage student KYC verification records</p>
+                <CardTitle className="text-lg text-white">
+                  KYC Management
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Manage student KYC verification records
+                </p>
               </div>
               <div className="flex space-x-2">
                 <Button
@@ -605,32 +827,62 @@ const StudentManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Student Details</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Aadhar No.</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Verification Status</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Submitted Date</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Student Details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Aadhar No.
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Verification Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Submitted Date
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {kycData.map((kyc) => (
                       <tr key={kyc.id} className="hover:bg-gray-800/70">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">{kyc.studentName}</div>
-                          <div className="text-xs text-gray-400">{kyc.studentId}</div>
+                          <div className="text-sm font-medium text-white">
+                            {kyc.studentName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {kyc.studentId}
+                          </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{kyc.aadharNo}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {kyc.aadharNo}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Badge
-                            className={kyc.verificationStatus === "Verified"
-                              ? "bg-green-500/20 text-green-400"
-                              : kyc.verificationStatus === "Pending"
+                            className={
+                              kyc.verificationStatus === "Verified"
+                                ? "bg-green-500/20 text-green-400"
+                                : kyc.verificationStatus === "Pending"
                                 ? "bg-yellow-500/20 text-yellow-400"
-                                : "bg-red-500/20 text-red-400"}
+                                : "bg-red-500/20 text-red-400"
+                            }
                           >
                             {kyc.verificationStatus}
                           </Badge>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{kyc.submittedDate}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {kyc.submittedDate}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -642,28 +894,39 @@ const StudentManagement = () => {
       </Tabs>
 
       {/* Add New Student Dialog */}
-      <Dialog open={showAddStudentDialog} onOpenChange={setShowAddStudentDialog}>
+      <Dialog
+        open={showAddStudentDialog}
+        onOpenChange={setShowAddStudentDialog}
+      >
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader>
             <DialogTitle>Add New Student</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student Name</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student Name
+              </label>
               <Input
                 id="add-student-name"
                 value={newStudent.studentName}
-                onChange={(e) => setNewStudent({ ...newStudent, studentName: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, studentName: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student's full name"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student ID</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student ID
+              </label>
               <Input
                 id="add-student-id"
                 value={newStudent.studentId}
-                onChange={(e) => setNewStudent({ ...newStudent, studentId: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, studentId: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student ID"
               />
@@ -673,47 +936,68 @@ const StudentManagement = () => {
               <Input
                 id="add-student-class"
                 value={newStudent.class}
-                onChange={(e) => setNewStudent({ ...newStudent, class: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, class: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="e.g., 10th A"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Roll No.</label>
+              <label className="text-sm font-medium text-gray-300">
+                Roll No.
+              </label>
               <Input
                 id="add-student-roll"
                 value={newStudent.roll}
-                onChange={(e) => setNewStudent({ ...newStudent, roll: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, roll: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter roll number"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Parent Name</label>
+              <label className="text-sm font-medium text-gray-300">
+                Parent Name
+              </label>
               <Input
                 id="add-parent-name"
                 value={newStudent.parentName}
-                onChange={(e) => setNewStudent({ ...newStudent, parentName: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, parentName: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter parent's full name"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Parent Contact</label>
+              <label className="text-sm font-medium text-gray-300">
+                Parent Contact
+              </label>
               <Input
                 id="add-parent-contact"
                 value={newStudent.parentContact}
-                onChange={(e) => setNewStudent({ ...newStudent, parentContact: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({
+                    ...newStudent,
+                    parentContact: e.target.value,
+                  })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter parent's contact number"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Parent Email</label>
+              <label className="text-sm font-medium text-gray-300">
+                Parent Email
+              </label>
               <Input
                 id="add-parent-email"
                 value={newStudent.parentEmail}
-                onChange={(e) => setNewStudent({ ...newStudent, parentEmail: e.target.value })}
+                onChange={(e) =>
+                  setNewStudent({ ...newStudent, parentEmail: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter parent's email address"
                 type="email"
@@ -739,7 +1023,10 @@ const StudentManagement = () => {
       </Dialog>
 
       {/* View Student Dialog */}
-      <Dialog open={showViewStudentDialog} onOpenChange={setShowViewStudentDialog}>
+      <Dialog
+        open={showViewStudentDialog}
+        onOpenChange={setShowViewStudentDialog}
+      >
         <DialogContent className="bg-gray-900 text-white border-gray-700">
           <DialogHeader>
             <DialogTitle>Student Details</DialogTitle>
@@ -777,13 +1064,25 @@ const StudentManagement = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Status</p>
-                  <Badge className={selectedStudent.status === "Active" ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                  <Badge
+                    className={
+                      selectedStudent.status === "Active"
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }
+                  >
                     {selectedStudent.status}
                   </Badge>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Fee Status</p>
-                  <Badge className={selectedStudent.feeStatus === "Paid" ? "bg-green-500/20 text-green-400" : "bg-yellow-500/20 text-yellow-400"}>
+                  <Badge
+                    className={
+                      selectedStudent.feeStatus === "Paid"
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-yellow-500/20 text-yellow-400"
+                    }
+                  >
                     {selectedStudent.feeStatus}
                   </Badge>
                 </div>
@@ -806,7 +1105,10 @@ const StudentManagement = () => {
       </Dialog>
 
       {/* Edit Student Dialog */}
-      <Dialog open={showEditStudentDialog} onOpenChange={setShowEditStudentDialog}>
+      <Dialog
+        open={showEditStudentDialog}
+        onOpenChange={setShowEditStudentDialog}
+      >
         <DialogContent className="bg-gray-900 text-white border-gray-700 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Student</DialogTitle>
@@ -814,89 +1116,171 @@ const StudentManagement = () => {
           {selectedStudent && (
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Student Name</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Student Name
+                </label>
                 <Input
                   id="edit-student-name"
                   value={selectedStudent.studentName}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, studentName: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      studentName: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Class</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Class
+                </label>
                 <Input
                   id="edit-student-class"
                   value={selectedStudent.class}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, class: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      class: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Roll No.</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Roll No.
+                </label>
                 <Input
                   id="edit-student-roll"
                   value={selectedStudent.roll}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, roll: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      roll: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Parent Name</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Parent Name
+                </label>
                 <Input
                   id="edit-parent-name"
                   value={selectedStudent.parentName}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, parentName: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      parentName: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Parent Contact</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Parent Contact
+                </label>
                 <Input
                   id="edit-parent-contact"
                   value={selectedStudent.parentContact}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, parentContact: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      parentContact: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Parent Email</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Parent Email
+                </label>
                 <Input
                   id="edit-parent-email"
                   value={selectedStudent.parentEmail}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, parentEmail: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      parentEmail: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                   type="email"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Status</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Status
+                </label>
                 <Select
                   value={selectedStudent.status}
-                  onValueChange={(value) => setSelectedStudent({ ...selectedStudent, status: value })}
+                  onValueChange={(value) =>
+                    setSelectedStudent({ ...selectedStudent, status: value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem value="Active" className="bg-gray-800 text-white hover:bg-gray-700">Active</SelectItem>
-                  <SelectItem value="Inactive" className="bg-gray-800 text-white hover:bg-gray-700">Inactive</SelectItem>
+                  <SelectItem
+                    value="Active"
+                    className="bg-gray-800 text-white hover:bg-gray-700"
+                  >
+                    Active
+                  </SelectItem>
+                  <SelectItem
+                    value="Inactive"
+                    className="bg-gray-800 text-white hover:bg-gray-700"
+                  >
+                    Inactive
+                  </SelectItem>
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Fee Status</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Fee Status
+                </label>
                 <Select
                   value={selectedStudent.feeStatus}
-                  onValueChange={(value) => setSelectedStudent({ ...selectedStudent, feeStatus: value })}
+                  onValueChange={(value) =>
+                    setSelectedStudent({ ...selectedStudent, feeStatus: value })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem value="Paid" className="bg-gray-800 text-white hover:bg-gray-700">Paid</SelectItem>
-                  <SelectItem value="Pending" className="bg-gray-800 text-white hover:bg-gray-700">Pending</SelectItem>
-                  <SelectItem value="Overdue" className="bg-gray-800 text-white hover:bg-gray-700">Overdue</SelectItem>
+                  <SelectItem
+                    value="Paid"
+                    className="bg-gray-800 text-white hover:bg-gray-700"
+                  >
+                    Paid
+                  </SelectItem>
+                  <SelectItem
+                    value="Pending"
+                    className="bg-gray-800 text-white hover:bg-gray-700"
+                  >
+                    Pending
+                  </SelectItem>
+                  <SelectItem
+                    value="Overdue"
+                    className="bg-gray-800 text-white hover:bg-gray-700"
+                  >
+                    Overdue
+                  </SelectItem>
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Attendance</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Attendance
+                </label>
                 <Input
                   id="edit-student-attendance"
                   value={selectedStudent.attendance}
-                  onChange={(e) => setSelectedStudent({ ...selectedStudent, attendance: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedStudent({
+                      ...selectedStudent,
+                      attendance: e.target.value,
+                    })
+                  }
                   className="bg-gray-800 border-gray-700 text-white"
                 />
               </div>
@@ -914,9 +1298,13 @@ const StudentManagement = () => {
               className="bg-orange-500 hover:bg-orange-600 text-white"
               onClick={() => {
                 if (selectedStudent) {
-                  setAllStudentsData(allStudentsData.map(student =>
-                    student.id === selectedStudent.id ? selectedStudent : student
-                  ));
+                  setAllStudentsData(
+                    allStudentsData.map((student) =>
+                      student.id === selectedStudent.id
+                        ? selectedStudent
+                        : student
+                    )
+                  );
                 }
                 setShowEditStudentDialog(false);
               }}
@@ -928,58 +1316,90 @@ const StudentManagement = () => {
       </Dialog>
 
       {/* Add New Transfer Dialog */}
-      <Dialog open={showAddTransferDialog} onOpenChange={setShowAddTransferDialog}>
+      <Dialog
+        open={showAddTransferDialog}
+        onOpenChange={setShowAddTransferDialog}
+      >
         <DialogContent className="bg-gray-900 text-white border-gray-700 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Transfer</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student Name</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student Name
+              </label>
               <Input
                 id="add-transfer-student-name"
                 value={newTransfer.studentName}
-                onChange={(e) => setNewTransfer({ ...newTransfer, studentName: e.target.value })}
+                onChange={(e) =>
+                  setNewTransfer({
+                    ...newTransfer,
+                    studentName: e.target.value,
+                  })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student's full name"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student ID</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student ID
+              </label>
               <Input
                 id="add-transfer-student-id"
                 value={newTransfer.studentId}
-                onChange={(e) => setNewTransfer({ ...newTransfer, studentId: e.target.value })}
+                onChange={(e) =>
+                  setNewTransfer({ ...newTransfer, studentId: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student ID"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Transfer Date</label>
+              <label className="text-sm font-medium text-gray-300">
+                Transfer Date
+              </label>
               <Input
                 id="add-transfer-date"
                 type="date"
                 value={newTransfer.transferDate}
-                onChange={(e) => setNewTransfer({ ...newTransfer, transferDate: e.target.value })}
+                onChange={(e) =>
+                  setNewTransfer({
+                    ...newTransfer,
+                    transferDate: e.target.value,
+                  })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Reason</label>
+              <label className="text-sm font-medium text-gray-300">
+                Reason
+              </label>
               <Input
                 id="add-transfer-reason"
                 value={newTransfer.reason}
-                onChange={(e) => setNewTransfer({ ...newTransfer, reason: e.target.value })}
+                onChange={(e) =>
+                  setNewTransfer({ ...newTransfer, reason: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Reason for transfer"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Destination Institute</label>
+              <label className="text-sm font-medium text-gray-300">
+                Destination Institute
+              </label>
               <Input
                 id="add-transfer-destination"
                 value={newTransfer.destinationInstitute}
-                onChange={(e) => setNewTransfer({ ...newTransfer, destinationInstitute: e.target.value })}
+                onChange={(e) =>
+                  setNewTransfer({
+                    ...newTransfer,
+                    destinationInstitute: e.target.value,
+                  })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Name of destination institute"
               />
@@ -1011,31 +1431,43 @@ const StudentManagement = () => {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student Name</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student Name
+              </label>
               <Input
                 id="add-kyc-student-name"
                 value={newKyc.studentName}
-                onChange={(e) => setNewKyc({ ...newKyc, studentName: e.target.value })}
+                onChange={(e) =>
+                  setNewKyc({ ...newKyc, studentName: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student's full name"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Student ID</label>
+              <label className="text-sm font-medium text-gray-300">
+                Student ID
+              </label>
               <Input
                 id="add-kyc-student-id"
                 value={newKyc.studentId}
-                onChange={(e) => setNewKyc({ ...newKyc, studentId: e.target.value })}
+                onChange={(e) =>
+                  setNewKyc({ ...newKyc, studentId: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter student ID"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Aadhar Number</label>
+              <label className="text-sm font-medium text-gray-300">
+                Aadhar Number
+              </label>
               <Input
                 id="add-kyc-aadhar-no"
                 value={newKyc.aadharNo}
-                onChange={(e) => setNewKyc({ ...newKyc, aadharNo: e.target.value })}
+                onChange={(e) =>
+                  setNewKyc({ ...newKyc, aadharNo: e.target.value })
+                }
                 className="bg-gray-800 border-gray-700 text-white"
                 placeholder="Enter 12-digit Aadhar number"
                 maxLength={12}

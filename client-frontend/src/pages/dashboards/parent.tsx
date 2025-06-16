@@ -129,48 +129,48 @@ const Parent = () => {
     },
   ];
   // Updated transaction history for EMI payments to Learn2Pay
-  const transactionHistory = [
-    {
-      id: "TXN001",
-      date: "2025-05-13",
-      type: "emi" as const,
-      amount: 2500,
-      method: "Auto-Debit",
-      status: "Paid" as const,
-      transactionId: "L2P123456789",
-      schoolFeeCovered: 2300,
-    },
-    {
-      id: "TXN002",
-      date: "2025-04-12",
-      type: "emi" as const,
-      amount: 2500,
-      method: "UPI",
-      status: "Paid" as const,
-      transactionId: "L2P987654321",
-      schoolFeeCovered: 2300,
-    },
-    {
-      id: "TXN003",
-      date: "2025-03-14",
-      type: "emi" as const,
-      amount: 2500,
-      method: "Net Banking",
-      status: "Paid" as const,
-      transactionId: "L2P456789123",
-      schoolFeeCovered: 2300,
-    },
-    {
-      id: "TXN004",
-      date: "2025-06-15",
-      type: "emi" as const,
-      amount: 2500,
-      method: "Auto-Debit",
-      status: "Due" as const,
-      transactionId: null,
-      schoolFeeCovered: 2300,
-    },
-  ];
+  // const transactionHistory = [
+  //   {
+  //     id: "TXN001",
+  //     date: "2025-05-13",
+  //     type: "emi" as const,
+  //     amount: 2500,
+  //     method: "Auto-Debit",
+  //     status: "Paid" as const,
+  //     transactionId: "L2P123456789",
+  //     schoolFeeCovered: 2300,
+  //   },
+  //   {
+  //     id: "TXN002",
+  //     date: "2025-04-12",
+  //     type: "emi" as const,
+  //     amount: 2500,
+  //     method: "UPI",
+  //     status: "Paid" as const,
+  //     transactionId: "L2P987654321",
+  //     schoolFeeCovered: 2300,
+  //   },
+  //   {
+  //     id: "TXN003",
+  //     date: "2025-03-14",
+  //     type: "emi" as const,
+  //     amount: 2500,
+  //     method: "Net Banking",
+  //     status: "Paid" as const,
+  //     transactionId: "L2P456789123",
+  //     schoolFeeCovered: 2300,
+  //   },
+  //   {
+  //     id: "TXN004",
+  //     date: "2025-06-15",
+  //     type: "emi" as const,
+  //     amount: 2500,
+  //     method: "Auto-Debit",
+  //     status: "Due" as const,
+  //     transactionId: null,
+  //     schoolFeeCovered: 2300,
+  //   },
+  // ];
   const attendanceData = [
     { month: "May 2025", present: 22, total: 23, percentage: 95.7 },
     { month: "April 2025", present: 20, total: 21, percentage: 95.2 },
@@ -230,7 +230,7 @@ const Parent = () => {
     });
   };
 
-  const handleUserUpdate = (updatedUser: any) => {
+  const handleUserUpdate = () => {
     toast({
       title: "Profile Updated",
       description: "Your profile has been successfully updated.",

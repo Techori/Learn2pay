@@ -1,14 +1,21 @@
-import React from 'react';
-import type { FC } from 'react';
+import React from "react";
+import type { FC } from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  id: string;
+  /** Optional id to avoid mandatory id errors */
+  id?: string;
   placeholder?: string;
   type?: string;
   className?: string;
 }
 
-export const Input: FC<InputProps> = ({ id, placeholder, type = 'text', className, ...props }) => (
+export const Input: FC<InputProps> = ({
+  id,
+  placeholder,
+  type = "text",
+  className,
+  ...props
+}) => (
   <input
     id={id}
     type={type}
@@ -17,4 +24,3 @@ export const Input: FC<InputProps> = ({ id, placeholder, type = 'text', classNam
     {...props}
   />
 );
-

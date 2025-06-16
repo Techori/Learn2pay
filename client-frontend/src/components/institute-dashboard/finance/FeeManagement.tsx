@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Badge } from '@/components/ui/Badge';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/Tabs';
+import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from '@/components/ui/Dialog';
+} from "@/components/ui/Dialog";
 import {
   DollarSign,
   IndianRupee,
@@ -22,28 +22,29 @@ import {
   Upload,
   Eye,
   Pencil,
-} from 'lucide-react';
-import PaymentHistory from './PaymentHistory';
-import FeeReports from './FeeReports';
-import SearchAndFilter from '@/components/shared/SearchAndFilter';
+} from "lucide-react";
+import PaymentHistory from "./PaymentHistory";
+import FeeReports from "./FeeReports";
+import SearchAndFilter from "@/components/shared/SearchAndFilter";
 
 const FeeManagement = () => {
-  const [activeSubTab, setActiveSubTab] = useState('student-fees');
+  const [activeSubTab, setActiveSubTab] = useState("student-fees");
   const [showAddPaymentDialog, setShowAddPaymentDialog] = useState(false);
-  const [showAddFeeStructureDialog, setShowAddFeeStructureDialog] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [showAddFeeStructureDialog, setShowAddFeeStructureDialog] =
+    useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [paymentDetails, setPaymentDetails] = useState({
-    studentId: '',
-    amount: '',
-    date: '',
-    method: '',
+    studentId: "",
+    amount: "",
+    date: "",
+    method: "",
   });
   const [newFeeStructure, setNewFeeStructure] = useState({
-    class: '',
-    tuitionFee: '',
-    admissionFee: '',
-    examFee: '',
+    class: "",
+    tuitionFee: "",
+    admissionFee: "",
+    examFee: "",
   });
 
   const [studentFees, setStudentFees] = useState([
@@ -82,8 +83,10 @@ const FeeManagement = () => {
     },
   ]);
 
-  const [isViewStudentFeeDialogOpen, setIsViewStudentFeeDialogOpen] = useState(false);
-  const [isEditStudentFeeDialogOpen, setIsEditStudentFeeDialogOpen] = useState(false);
+  const [isViewStudentFeeDialogOpen, setIsViewStudentFeeDialogOpen] =
+    useState(false);
+  const [isEditStudentFeeDialogOpen, setIsEditStudentFeeDialogOpen] =
+    useState(false);
   const [selectedStudentFee, setSelectedStudentFee] = useState<any>(null);
 
   const [feeStructures, setFeeStructures] = useState([
@@ -110,13 +113,15 @@ const FeeManagement = () => {
     },
   ]);
 
-  const [isViewFeeStructureDialogOpen, setIsViewFeeStructureDialogOpen] = useState(false);
-  const [isEditFeeStructureDialogOpen, setIsEditFeeStructureDialogOpen] = useState(false);
+  const [isViewFeeStructureDialogOpen, setIsViewFeeStructureDialogOpen] =
+    useState(false);
+  const [isEditFeeStructureDialogOpen, setIsEditFeeStructureDialogOpen] =
+    useState(false);
   const [selectedFeeStructure, setSelectedFeeStructure] = useState<any>(null);
 
   const handlePaymentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setPaymentDetails(prev => ({ ...prev, [id]: value }));
+    setPaymentDetails((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleAddPaymentSubmit = () => {
@@ -132,31 +137,53 @@ const FeeManagement = () => {
       dueDate: "N/A",
       lastPayment: new Date().toISOString().slice(0, 10),
     };
-    setStudentFees(prevFees => [...prevFees, newPayment]);
-    alert(`Payment of ₹${paymentDetails.amount} added for student ${paymentDetails.studentId}`);
+    setStudentFees((prevFees) => [...prevFees, newPayment]);
+    alert(
+      `Payment of ₹${paymentDetails.amount} added for student ${paymentDetails.studentId}`
+    );
     setShowAddPaymentDialog(false);
-    setPaymentDetails({ studentId: '', amount: '', date: '', method: '' }); // Clear form
+    setPaymentDetails({ studentId: "", amount: "", date: "", method: "" }); // Clear form
   };
 
-  const handleFeeStructureInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFeeStructureInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { id, value } = e.target;
-    setNewFeeStructure(prev => ({ ...prev, [id]: value }));
+    setNewFeeStructure((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleAddFeeStructureSubmit = () => {
-    const totalFeeValue = parseFloat(newFeeStructure.tuitionFee || '0') + parseFloat(newFeeStructure.admissionFee || '0') + parseFloat(newFeeStructure.examFee || '0');
+    const totalFeeValue =
+      parseFloat(newFeeStructure.tuitionFee || "0") +
+      parseFloat(newFeeStructure.admissionFee || "0") +
+      parseFloat(newFeeStructure.examFee || "0");
     const newStructure = {
       class: newFeeStructure.class,
-      tuitionFee: `₹${parseFloat(newFeeStructure.tuitionFee || '0').toLocaleString()}`,
-      admissionFee: `₹${parseFloat(newFeeStructure.admissionFee || '0').toLocaleString()}`,
-      examFee: `₹${parseFloat(newFeeStructure.examFee || '0').toLocaleString()}`,
+      tuitionFee: `₹${parseFloat(
+        newFeeStructure.tuitionFee || "0"
+      ).toLocaleString()}`,
+      admissionFee: `₹${parseFloat(
+        newFeeStructure.admissionFee || "0"
+      ).toLocaleString()}`,
+      examFee: `₹${parseFloat(
+        newFeeStructure.examFee || "0"
+      ).toLocaleString()}`,
       totalFee: `₹${totalFeeValue.toLocaleString()}`,
     };
-    setFeeStructures(prevStructures => [...prevStructures, newStructure]);
+    setFeeStructures((prevStructures) => [...prevStructures, newStructure]);
     console.log("Adding fee structure:", newStructure);
-    alert(`Fee structure for ${newFeeStructure.class} added! Total: ₹${totalFeeValue.toLocaleString()}`);
+    alert(
+      `Fee structure for ${
+        newFeeStructure.class
+      } added! Total: ₹${totalFeeValue.toLocaleString()}`
+    );
     setShowAddFeeStructureDialog(false);
-    setNewFeeStructure({ class: '', tuitionFee: '', admissionFee: '', examFee: '' }); // Clear form
+    setNewFeeStructure({
+      class: "",
+      tuitionFee: "",
+      admissionFee: "",
+      examFee: "",
+    }); // Clear form
   };
 
   const handleViewStudentFee = (fee: any) => {
@@ -171,18 +198,29 @@ const FeeManagement = () => {
 
   const handleSaveEditedStudentFee = () => {
     if (selectedStudentFee) {
-      setStudentFees(studentFees.map(sf => sf.studentId === selectedStudentFee.studentId ? selectedStudentFee : sf));
+      setStudentFees(
+        studentFees.map((sf) =>
+          sf.studentId === selectedStudentFee.studentId
+            ? selectedStudentFee
+            : sf
+        )
+      );
       setIsEditStudentFeeDialogOpen(false);
       setSelectedStudentFee(null);
     }
   };
 
-  const handleStudentFeeInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStudentFeeInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { id, value } = e.target;
     if (selectedStudentFee) {
       setSelectedStudentFee((prev: any) => {
         if (!prev) return null;
-        return { ...prev, [id.replace('editStudentFee', '').toLowerCase()]: value };
+        return {
+          ...prev,
+          [id.replace("editStudentFee", "").toLowerCase()]: value,
+        };
       });
     }
   };
@@ -199,18 +237,27 @@ const FeeManagement = () => {
 
   const handleSaveEditedFeeStructure = () => {
     if (selectedFeeStructure) {
-      setFeeStructures(feeStructures.map(fs => fs.class === selectedFeeStructure.class ? selectedFeeStructure : fs));
+      setFeeStructures(
+        feeStructures.map((fs) =>
+          fs.class === selectedFeeStructure.class ? selectedFeeStructure : fs
+        )
+      );
       setIsEditFeeStructureDialogOpen(false);
       setSelectedFeeStructure(null);
     }
   };
 
-  const handleFeeStructureEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFeeStructureEditInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { id, value } = e.target;
     if (selectedFeeStructure) {
       setSelectedFeeStructure((prev: any) => {
         if (!prev) return null;
-        return { ...prev, [id.replace('editFeeStructure', '').toLowerCase()]: value };
+        return {
+          ...prev,
+          [id.replace("editFeeStructure", "").toLowerCase()]: value,
+        };
       });
     }
   };
@@ -228,7 +275,7 @@ const FeeManagement = () => {
   };
 
   const handleClearFilters = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setFilters({});
     console.log("Filters cleared");
     // Implement actual clear logic here
@@ -270,15 +317,24 @@ const FeeManagement = () => {
       {/* Financial Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {financialSummary.map((item, index) => (
-          <Card key={index} className="bg-gray-800/50 border-gray-700 shadow-md">
+          <Card
+            key={index}
+            className="bg-gray-800/50 border-gray-700 shadow-md"
+          >
             <CardContent className="p-5 flex items-center space-x-4">
-              <div className={`p-3 rounded-lg ${item.color.replace('text', 'bg')}/20`}>
+              <div
+                className={`p-3 rounded-lg ${item.color.replace(
+                  "text",
+                  "bg"
+                )}/20`}
+              >
                 <item.icon className={`h-6 w-6 ${item.color}`} />
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
                 <p className="text-2xl font-bold text-white flex items-center">
-                    <span className="text-xl"></span>{item.amount}
+                  <span className="text-xl"></span>
+                  {item.amount}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">{item.description}</p>
               </div>
@@ -288,18 +344,34 @@ const FeeManagement = () => {
       </div>
 
       {/* Inner Tabs for Fee Management */}
-      <Tabs value={activeSubTab} onValueChange={setActiveSubTab} className="space-y-6">
+      <Tabs
+        value={activeSubTab}
+        onValueChange={setActiveSubTab}
+        className="space-y-6"
+      >
         <TabsList className="grid w-full grid-cols-4 bg-gray-800 p-1 rounded-md">
-          <TabsTrigger value="student-fees" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="student-fees"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Student Fees
           </TabsTrigger>
-          <TabsTrigger value="fee-structure" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="fee-structure"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Fee Structure
           </TabsTrigger>
-          <TabsTrigger value="payment-history" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="payment-history"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Payment History
           </TabsTrigger>
-          <TabsTrigger value="reports" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger
+            value="reports"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
             Reports
           </TabsTrigger>
         </TabsList>
@@ -309,11 +381,18 @@ const FeeManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">Student Fee Management</CardTitle>
-                <p className="text-gray-400 text-sm">Track and manage individual student fee payments</p>
+                <CardTitle className="text-lg text-white">
+                  Student Fee Management
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Track and manage individual student fee payments
+                </p>
               </div>
               <div className="flex space-x-2">
-                <Dialog open={showAddPaymentDialog} onOpenChange={setShowAddPaymentDialog}>
+                <Dialog
+                  open={showAddPaymentDialog}
+                  onOpenChange={setShowAddPaymentDialog}
+                >
                   <DialogTrigger asChild>
                     <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
                       <Plus className="h-4 w-4" />
@@ -322,7 +401,9 @@ const FeeManagement = () => {
                   </DialogTrigger>
                   <DialogContent className="bg-gray-800 border-gray-700 text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">Add New Payment</DialogTitle>
+                      <DialogTitle className="text-white">
+                        Add New Payment
+                      </DialogTitle>
                       <DialogDescription className="text-gray-400">
                         Enter the details for the new fee payment.
                       </DialogDescription>
@@ -359,12 +440,26 @@ const FeeManagement = () => {
                       />
                     </div>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setShowAddPaymentDialog(false)} className="border-gray-700 text-gray-300 hover:bg-gray-700">Cancel</Button>
-                      <Button onClick={handleAddPaymentSubmit} className="bg-green-500 hover:bg-green-600 text-white">Add Payment</Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowAddPaymentDialog(false)}
+                        className="border-gray-700 text-gray-300 hover:bg-gray-700"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleAddPaymentSubmit}
+                        className="bg-green-500 hover:bg-green-600 text-white"
+                      >
+                        Add Payment
+                      </Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-                <Button variant="outline" className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+                >
                   <Upload className="h-4 w-4" />
                   <span>Export</span>
                 </Button>
@@ -379,23 +474,23 @@ const FeeManagement = () => {
                   onClear={handleClearFilters}
                   filterOptions={[
                     {
-                      key: 'paymentStatus',
-                      label: 'Payment Status',
-                      type: 'select',
+                      key: "paymentStatus",
+                      label: "Payment Status",
+                      type: "select",
                       options: [
-                        { value: 'Paid', label: 'Paid' },
-                        { value: 'Partial', label: 'Partial' },
-                        { value: 'Unpaid', label: 'Unpaid' },
+                        { value: "Paid", label: "Paid" },
+                        { value: "Partial", label: "Partial" },
+                        { value: "Unpaid", label: "Unpaid" },
                       ],
                     },
                     {
-                      key: 'class',
-                      label: 'Class',
-                      type: 'select',
+                      key: "class",
+                      label: "Class",
+                      type: "select",
                       options: [
-                        { value: '10th A', label: '10th A' },
-                        { value: '9th B', label: '9th B' },
-                        { value: '8th C', label: '8th C' },
+                        { value: "10th A", label: "10th A" },
+                        { value: "9th B", label: "9th B" },
+                        { value: "8th C", label: "8th C" },
                       ],
                     },
                   ]}
@@ -405,26 +500,81 @@ const FeeManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Student Details</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Class</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Fee Structure</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Payment Status</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Paid Amount</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Pending Amount</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Due Date</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Last Payment</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Student Details
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Class
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Fee Structure
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Payment Status
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Paid Amount
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Pending Amount
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Due Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Last Payment
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {studentFees
-                      .filter(fee =>
-                        fee.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        fee.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        fee.class.toLowerCase().includes(searchQuery.toLowerCase())
+                      .filter(
+                        (fee) =>
+                          fee.studentName
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase()) ||
+                          fee.studentId
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase()) ||
+                          fee.class
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase())
                       )
-                      .filter(fee => {
-                        if (filters.paymentStatus && fee.paymentStatus !== filters.paymentStatus) {
+                      .filter((fee) => {
+                        if (
+                          filters.paymentStatus &&
+                          fee.paymentStatus !== filters.paymentStatus
+                        ) {
                           return false;
                         }
                         if (filters.class && fee.class !== filters.class) {
@@ -433,42 +583,66 @@ const FeeManagement = () => {
                         return true;
                       })
                       .map((fee, index) => (
-                      <tr key={index} className="hover:bg-gray-800/70">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">{fee.studentName}</div>
-                          <div className="text-xs text-gray-400">{fee.studentId}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.class}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.feeStructure}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge
-                            className={
-                              fee.paymentStatus === "Paid"
-                                ? "bg-green-500/20 text-green-400"
-                                : fee.paymentStatus === "Partial"
-                                ? "bg-yellow-500/20 text-yellow-400"
-                                : "bg-red-500/20 text-red-400"
-                            }
-                          >
-                            {fee.paymentStatus}
-                          </Badge>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.paidAmount}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.pendingAmount}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.dueDate}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{fee.lastPayment}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleViewStudentFee(fee)}>
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleEditStudentFee(fee)}>
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                        <tr key={index} className="hover:bg-gray-800/70">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-white">
+                              {fee.studentName}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              {fee.studentId}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.class}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.feeStructure}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Badge
+                              className={
+                                fee.paymentStatus === "Paid"
+                                  ? "bg-green-500/20 text-green-400"
+                                  : fee.paymentStatus === "Partial"
+                                  ? "bg-yellow-500/20 text-yellow-400"
+                                  : "bg-red-500/20 text-red-400"
+                              }
+                            >
+                              {fee.paymentStatus}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.paidAmount}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.pendingAmount}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.dueDate}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                            {fee.lastPayment}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div className="flex items-center space-x-2">
+                              <Button
+                                variant="ghost"
+                                className="text-gray-400 hover:text-orange-500"
+                                onClick={() => handleViewStudentFee(fee)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                className="text-gray-400 hover:text-orange-500"
+                                onClick={() => handleEditStudentFee(fee)}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -481,11 +655,18 @@ const FeeManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">Fee Structures</CardTitle>
-                <p className="text-gray-400 text-sm">Define and manage fee structures for different classes</p>
+                <CardTitle className="text-lg text-white">
+                  Fee Structures
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Define and manage fee structures for different classes
+                </p>
               </div>
               <div className="flex space-x-2">
-                <Dialog open={showAddFeeStructureDialog} onOpenChange={setShowAddFeeStructureDialog}>
+                <Dialog
+                  open={showAddFeeStructureDialog}
+                  onOpenChange={setShowAddFeeStructureDialog}
+                >
                   <DialogTrigger asChild>
                     <Button className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2">
                       <Plus className="h-4 w-4" />
@@ -494,7 +675,9 @@ const FeeManagement = () => {
                   </DialogTrigger>
                   <DialogContent className="bg-gray-800 border-gray-700 text-white">
                     <DialogHeader>
-                      <DialogTitle className="text-white">Add New Fee Structure</DialogTitle>
+                      <DialogTitle className="text-white">
+                        Add New Fee Structure
+                      </DialogTitle>
                       <DialogDescription className="text-gray-400">
                         Enter the details for the new fee structure.
                       </DialogDescription>
@@ -533,8 +716,15 @@ const FeeManagement = () => {
                       />
                     </div>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setShowAddFeeStructureDialog(false)}>Cancel</Button>
-                      <Button onClick={handleAddFeeStructureSubmit}>Add Fee Structure</Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowAddFeeStructureDialog(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button onClick={handleAddFeeStructureSubmit}>
+                        Add Fee Structure
+                      </Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
@@ -545,28 +735,76 @@ const FeeManagement = () => {
                 <table className="min-w-full divide-y divide-gray-700">
                   <thead className="bg-gray-900">
                     <tr>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Class</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Tuition Fee</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Admission Fee</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Exam Fee</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Total Fee</th>
-                      <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Class
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Tuition Fee
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Admission Fee
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Exam Fee
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Total Fee
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                      >
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {feeStructures.map((structure, index) => (
                       <tr key={index} className="hover:bg-gray-800/70">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{structure.class}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{structure.tuitionFee}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{structure.admissionFee}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{structure.examFee}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{structure.totalFee}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                          {structure.class}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {structure.tuitionFee}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {structure.admissionFee}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {structure.examFee}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          {structure.totalFee}
+                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleViewFeeStructure(structure)}>
+                            <Button
+                              variant="ghost"
+                              className="text-gray-400 hover:text-orange-500"
+                              onClick={() => handleViewFeeStructure(structure)}
+                            >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="ghost" className="text-gray-400 hover:text-orange-500" onClick={() => handleEditFeeStructure(structure)}>
+                            <Button
+                              variant="ghost"
+                              className="text-gray-400 hover:text-orange-500"
+                              onClick={() => handleEditFeeStructure(structure)}
+                            >
                               <Pencil className="h-4 w-4" />
                             </Button>
                           </div>
@@ -593,28 +831,43 @@ const FeeManagement = () => {
 
       {/* View Student Fee Dialog */}
       {selectedStudentFee && (
-        <Dialog open={isViewStudentFeeDialogOpen} onOpenChange={setIsViewStudentFeeDialogOpen}>
+        <Dialog
+          open={isViewStudentFeeDialogOpen}
+          onOpenChange={setIsViewStudentFeeDialogOpen}
+        >
           <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">Student Fee Details</DialogTitle>
-              <DialogDescription className="text-gray-400">Viewing details for {selectedStudentFee.studentName}</DialogDescription>
+              <DialogTitle className="text-2xl font-bold text-white">
+                Student Fee Details
+              </DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Viewing details for {selectedStudentFee.studentName}
+              </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
               <div>
                 <p className="text-sm text-gray-400">Student Name:</p>
-                <p className="text-white font-medium">{selectedStudentFee.studentName}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.studentName}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Student ID:</p>
-                <p className="text-white font-medium">{selectedStudentFee.studentId}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.studentId}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Class:</p>
-                <p className="text-white font-medium">{selectedStudentFee.class}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.class}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Fee Structure:</p>
-                <p className="text-white font-medium">{selectedStudentFee.feeStructure}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.feeStructure}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Payment Status:</p>
@@ -632,23 +885,33 @@ const FeeManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">Paid Amount:</p>
-                <p className="text-white font-medium">{selectedStudentFee.paidAmount}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.paidAmount}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Pending Amount:</p>
-                <p className="text-white font-medium">{selectedStudentFee.pendingAmount}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.pendingAmount}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Due Date:</p>
-                <p className="text-white font-medium">{selectedStudentFee.dueDate}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.dueDate}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Last Payment:</p>
-                <p className="text-white font-medium">{selectedStudentFee.lastPayment}</p>
+                <p className="text-white font-medium">
+                  {selectedStudentFee.lastPayment}
+                </p>
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={() => setIsViewStudentFeeDialogOpen(false)}>Close</Button>
+              <Button onClick={() => setIsViewStudentFeeDialogOpen(false)}>
+                Close
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -656,25 +919,100 @@ const FeeManagement = () => {
 
       {/* Edit Student Fee Dialog */}
       {selectedStudentFee && (
-        <Dialog open={isEditStudentFeeDialogOpen} onOpenChange={setIsEditStudentFeeDialogOpen}>
+        <Dialog
+          open={isEditStudentFeeDialogOpen}
+          onOpenChange={setIsEditStudentFeeDialogOpen}
+        >
           <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">Edit Student Fee</DialogTitle>
-              <DialogDescription className="text-gray-400">Editing details for {selectedStudentFee.studentName}</DialogDescription>
+              <DialogTitle className="text-2xl font-bold text-white">
+                Edit Student Fee
+              </DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Editing details for {selectedStudentFee.studentName}
+              </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-              <Input id="editStudentFeeStudentName" type="text" placeholder="Student Name" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.studentName} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeeStudentId" type="text" placeholder="Student ID" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.studentId} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeeClass" type="text" placeholder="Class" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.class} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeeFeeStructure" type="text" placeholder="Fee Structure" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.feeStructure} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeePaymentStatus" type="text" placeholder="Payment Status" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.paymentStatus} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeePaidAmount" type="text" placeholder="Paid Amount" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.paidAmount} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeePendingAmount" type="text" placeholder="Pending Amount" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.pendingAmount} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeeDueDate" type="text" placeholder="Due Date" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.dueDate} onChange={handleStudentFeeInputChange} />
-              <Input id="editStudentFeeLastPayment" type="text" placeholder="Last Payment" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedStudentFee.lastPayment} onChange={handleStudentFeeInputChange} />
+              <Input
+                id="editStudentFeeStudentName"
+                type="text"
+                placeholder="Student Name"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.studentName}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeeStudentId"
+                type="text"
+                placeholder="Student ID"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.studentId}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeeClass"
+                type="text"
+                placeholder="Class"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.class}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeeFeeStructure"
+                type="text"
+                placeholder="Fee Structure"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.feeStructure}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeePaymentStatus"
+                type="text"
+                placeholder="Payment Status"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.paymentStatus}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeePaidAmount"
+                type="text"
+                placeholder="Paid Amount"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.paidAmount}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeePendingAmount"
+                type="text"
+                placeholder="Pending Amount"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.pendingAmount}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeeDueDate"
+                type="text"
+                placeholder="Due Date"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.dueDate}
+                onChange={handleStudentFeeInputChange}
+              />
+              <Input
+                id="editStudentFeeLastPayment"
+                type="text"
+                placeholder="Last Payment"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedStudentFee.lastPayment}
+                onChange={handleStudentFeeInputChange}
+              />
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditStudentFeeDialogOpen(false)}>Cancel</Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsEditStudentFeeDialogOpen(false)}
+              >
+                Cancel
+              </Button>
               <Button onClick={handleSaveEditedStudentFee}>Save Changes</Button>
             </DialogFooter>
           </DialogContent>
@@ -683,36 +1021,55 @@ const FeeManagement = () => {
 
       {/* View Fee Structure Dialog */}
       {selectedFeeStructure && (
-        <Dialog open={isViewFeeStructureDialogOpen} onOpenChange={setIsViewFeeStructureDialogOpen}>
+        <Dialog
+          open={isViewFeeStructureDialogOpen}
+          onOpenChange={setIsViewFeeStructureDialogOpen}
+        >
           <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">Fee Structure Details</DialogTitle>
-              <DialogDescription className="text-gray-400">Viewing details for {selectedFeeStructure.class}</DialogDescription>
+              <DialogTitle className="text-2xl font-bold text-white">
+                Fee Structure Details
+              </DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Viewing details for {selectedFeeStructure.class}
+              </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
               <div>
                 <p className="text-sm text-gray-400">Class:</p>
-                <p className="text-white font-medium">{selectedFeeStructure.class}</p>
+                <p className="text-white font-medium">
+                  {selectedFeeStructure.class}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Tuition Fee:</p>
-                <p className="text-white font-medium">{selectedFeeStructure.tuitionFee}</p>
+                <p className="text-white font-medium">
+                  {selectedFeeStructure.tuitionFee}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Admission Fee:</p>
-                <p className="text-white font-medium">{selectedFeeStructure.admissionFee}</p>
+                <p className="text-white font-medium">
+                  {selectedFeeStructure.admissionFee}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Exam Fee:</p>
-                <p className="text-white font-medium">{selectedFeeStructure.examFee}</p>
+                <p className="text-white font-medium">
+                  {selectedFeeStructure.examFee}
+                </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Total Fee:</p>
-                <p className="text-white font-medium">{selectedFeeStructure.totalFee}</p>
+                <p className="text-white font-medium">
+                  {selectedFeeStructure.totalFee}
+                </p>
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={() => setIsViewFeeStructureDialogOpen(false)}>Close</Button>
+              <Button onClick={() => setIsViewFeeStructureDialogOpen(false)}>
+                Close
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -720,22 +1077,71 @@ const FeeManagement = () => {
 
       {/* Edit Fee Structure Dialog */}
       {selectedFeeStructure && (
-        <Dialog open={isEditFeeStructureDialogOpen} onOpenChange={setIsEditFeeStructureDialogOpen}>
+        <Dialog
+          open={isEditFeeStructureDialogOpen}
+          onOpenChange={setIsEditFeeStructureDialogOpen}
+        >
           <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">Edit Fee Structure</DialogTitle>
-              <DialogDescription className="text-gray-400">Editing details for {selectedFeeStructure.class}</DialogDescription>
+              <DialogTitle className="text-2xl font-bold text-white">
+                Edit Fee Structure
+              </DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Editing details for {selectedFeeStructure.class}
+              </DialogDescription>
             </DialogHeader>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-              <Input id="editFeeStructureClass" type="text" placeholder="Class" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedFeeStructure.class} onChange={handleFeeStructureEditInputChange} />
-              <Input id="editFeeStructureTuitionFee" type="text" placeholder="Tuition Fee" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedFeeStructure.tuitionFee} onChange={handleFeeStructureEditInputChange} />
-              <Input id="editFeeStructureAdmissionFee" type="text" placeholder="Admission Fee" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedFeeStructure.admissionFee} onChange={handleFeeStructureEditInputChange} />
-              <Input id="editFeeStructureExamFee" type="text" placeholder="Exam Fee" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedFeeStructure.examFee} onChange={handleFeeStructureEditInputChange} />
-              <Input id="editFeeStructureTotalFee" type="text" placeholder="Total Fee" className="bg-gray-700 border-gray-600 text-white placeholder-gray-400" value={selectedFeeStructure.totalFee} onChange={handleFeeStructureEditInputChange} />
+              <Input
+                id="editFeeStructureClass"
+                type="text"
+                placeholder="Class"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedFeeStructure.class}
+                onChange={handleFeeStructureEditInputChange}
+              />
+              <Input
+                id="editFeeStructureTuitionFee"
+                type="text"
+                placeholder="Tuition Fee"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedFeeStructure.tuitionFee}
+                onChange={handleFeeStructureEditInputChange}
+              />
+              <Input
+                id="editFeeStructureAdmissionFee"
+                type="text"
+                placeholder="Admission Fee"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedFeeStructure.admissionFee}
+                onChange={handleFeeStructureEditInputChange}
+              />
+              <Input
+                id="editFeeStructureExamFee"
+                type="text"
+                placeholder="Exam Fee"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedFeeStructure.examFee}
+                onChange={handleFeeStructureEditInputChange}
+              />
+              <Input
+                id="editFeeStructureTotalFee"
+                type="text"
+                placeholder="Total Fee"
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                value={selectedFeeStructure.totalFee}
+                onChange={handleFeeStructureEditInputChange}
+              />
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setIsEditFeeStructureDialogOpen(false)}>Cancel</Button>
-              <Button onClick={handleSaveEditedFeeStructure}>Save Changes</Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsEditFeeStructureDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleSaveEditedFeeStructure}>
+                Save Changes
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -744,4 +1150,4 @@ const FeeManagement = () => {
   );
 };
 
-export default FeeManagement; 
+export default FeeManagement;

@@ -43,7 +43,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/Dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -65,6 +65,27 @@ import {
 } from "@/components/ui/AlertDailog";
 import { Textarea } from "@/components/ui/Textarea";
 
+// Add Ticket interface for full ticket shape
+interface Ticket {
+  id: string;
+  title: string;
+  institute: string;
+  priority: string;
+  status: string;
+  time: string;
+  assignee: string;
+  description?: string;
+  category?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  lastResponse?: string;
+  responseTime?: string;
+  resolutionTime?: string;
+  customerSatisfaction?: number;
+  attachments?: number;
+  comments?: number;
+}
+
 const SupportTickets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -74,6 +95,7 @@ const SupportTickets = () => {
   const [isActionDialogOpen, setIsActionDialogOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
   const [selectedAction, setSelectedAction] = useState("");
+  const [assignTo, setAssignTo] = useState<string>("");
   const [newTicket, setNewTicket] = useState({
     title: "",
     description: "",
@@ -82,7 +104,8 @@ const SupportTickets = () => {
     priority: "Medium",
   });
 
-  const [tickets, setTickets] = useState([
+  // Annotate tickets state to use Ticket[]
+  const [tickets, setTickets] = useState<Ticket[]>([
     {
       id: "TKT-001",
       title: "Fee collection not working",
@@ -218,11 +241,16 @@ const SupportTickets = () => {
       return;
     }
 
-    const ticket = {
+    const ticket: Ticket = {
       id: `TKT-${String(tickets.length + 1).padStart(3, "0")}`,
-      ...newTicket,
+      title: newTicket.title,
+      description: newTicket.description,
+      institute: newTicket.institute,
+      category: newTicket.category,
+      priority: newTicket.priority,
       status: "New",
-      assignedTo: "Unassigned",
+      time: "Just now",
+      assignee: "Unassigned",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       lastResponse: "Just now",
@@ -257,6 +285,8 @@ const SupportTickets = () => {
 
     setSelectedTicket(ticket);
     setSelectedAction(action);
+    // initialize assignTo for assign action
+    if (action === "assign") setAssignTo(ticket.assignee);
     setIsActionDialogOpen(true);
   };
 
@@ -267,7 +297,7 @@ const SupportTickets = () => {
       if (ticket.id === selectedTicket.id) {
         switch (selectedAction) {
           case "assign":
-            return { ...ticket, status: "In Progress", assignedTo: "John Doe" };
+            return { ...ticket, status: "In Progress", assignee: assignTo };
           case "escalate":
             return { ...ticket, priority: "High", status: "In Progress" };
           case "close":
@@ -360,9 +390,14 @@ const SupportTickets = () => {
               </div>
               <div>
                 <h3 className="font-semibold">New Assignee</h3>
-                <Select defaultValue="John Doe">
+                <Select
+                  value={assignTo}
+                  onValueChange={(value) => setAssignTo(value)}
+                >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select agent" />
+                    <SelectValue placeholder="Select agent">
+                      {assignTo}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="John Doe">John Doe</SelectItem>

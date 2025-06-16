@@ -1,4 +1,4 @@
-import React from "react";
+
 import { FiUser, FiMail, FiPhone, FiMessageCircle } from "react-icons/fi";
 
 const ScheduleDemoPage = () => {
