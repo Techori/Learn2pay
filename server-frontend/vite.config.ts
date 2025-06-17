@@ -23,10 +23,4 @@ export default defineConfig(() => ({
   optimizeDeps: {
     include: ["react-hook-form"],
   },
-  build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
-    chunkSizeWarningLimit: 1600
-  }
 }));
