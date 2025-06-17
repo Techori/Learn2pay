@@ -38,7 +38,7 @@ import {
   LockKeyhole,
   Database,
   ShieldCheck,
-  CirclePlay,
+  PlayCircle,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
