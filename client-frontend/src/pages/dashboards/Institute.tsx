@@ -5,8 +5,8 @@ import {
   TabsList,
   TabsTrigger,
   TabsContent,
-} from "../../components/ui/Tabs";
-import { Button } from "../../components/ui/Button";
+} from "@/components/ui/Tabs";
+import { Button } from "@/components/ui/Button";
 import {
   LayoutDashboard,
   Building2,
@@ -20,17 +20,17 @@ import {
   Briefcase,
   Settings,
 } from "lucide-react";
-import InstituteDashboardOverview from "../../components/institute-dashboard/dashboard/InstituteDashboardOverview";
-import MultiInstituteManagement from "../../components/institute-dashboard/multi-institute/MultiInstituteManagement";
-import FeeManagement from "../../components/institute-dashboard/finance/FeeManagement";
-import PaymentManagement from "../../components/institute-dashboard/finance/PaymentManagement";
-import PaymentLinksManagement from "../../components/institute-dashboard/finance/PaymentLinksManagement";
-import QRTransactionManagement from "../../components/institute-dashboard/finance/QRTransactionManagement";
-import ReportsAndAnalytics from "../../components/institute-dashboard/reports/ReportsAndAnalytics";
-import UserManagement from "../../components/institute-dashboard/users/UserManagement";
-import StudentManagement from "../../components/institute-dashboard/students/StudentManagement";
-import StaffManagement from "../../components/institute-dashboard/staff/StaffManagement";
-import InstituteSettings from "../../components/institute-dashboard/settings/InstituteSettings";
+import InstituteDashboardOverview from "@/components/institute-dashboard/dashboard/InstituteDashboardOverview";
+import MultiInstituteManagement from "@/components/institute-dashboard/multi-institute/MultiInstituteManagement";
+import FeeManagement from "@/components/institute-dashboard/finance/FeeManagement";
+import PaymentManagement from "@/components/institute-dashboard/finance/PaymentManagement";
+import PaymentLinksManagement from "@/components/institute-dashboard/finance/PaymentLinksManagement";
+import QRTransactionManagement from "@/components/institute-dashboard/finance/QRTransactionManagement";
+import ReportsAndAnalytics from "@/components/institute-dashboard/reports/ReportsAndAnalytics";
+import UserManagement from "@/components/institute-dashboard/users/UserManagement";
+import StudentManagement from "@/components/institute-dashboard/students/StudentManagement";
+import StaffManagement from "@/components/institute-dashboard/staff/StaffManagement";
+import InstituteSettings from "@/components/institute-dashboard/settings/InstituteSettings";
 import DashboardHeader from "@/components/shared/DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
 

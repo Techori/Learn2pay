@@ -11,7 +11,7 @@ const __dirname = dirname(__filename);
 export default defineConfig(() => ({
   server: {
     host: "::",
-    port: 8081,
+    port: 8080,
   },
   plugins: [react()].filter(Boolean),
   resolve: {

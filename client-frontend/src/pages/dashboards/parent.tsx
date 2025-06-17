@@ -5,12 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import DashboardHeader from "@/components/shared/DashboardHeader";
 
 // Import parent dashboard components
-import DashboardStats from "../../components/parent-dashboard/DashboardStats";
-import EmiSchedule from "../../components/parent-dashboard/EmiSchedule";
-import Payment from "../../components/parent-dashboard/Payment";
-import ChildProfile from "../../components/parent-dashboard/ChildProfile";
-import AttendanceTracker from "../../components/parent-dashboard/AttendanceTracker";
-import Settings from "../../components/parent-dashboard/Settings";
+import DashboardStats from "@/components/parent-dashboard/DashboardStats";
+import EmiSchedule from "@/components/parent-dashboard/EmiSchedule";
+import Payment from "@/components/parent-dashboard/Payment";
+import ChildProfile from "@/components/parent-dashboard/ChildProfile";
+import AttendanceTracker from "@/components/parent-dashboard/AttendanceTracker";
+import Settings from "@/components/parent-dashboard/Settings";
 
 const Parent = () => {
   const [selectedTab, setSelectedTab] = useState("dashboard");
