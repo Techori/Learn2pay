@@ -173,7 +173,7 @@ const Services = () => {
                   </ul>
                   <Button
                     className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
-                    onClick={() => navigate("/contact")}
+                    onClick={() => navigate("/LearnMore")}
                   >
                     <span>Learn More</span>
                     <ArrowRight className="h-5 w-5" />
