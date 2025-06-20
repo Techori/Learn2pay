@@ -52,6 +52,16 @@ const Register = () => {
   const onSubmit = (data: any) => {
     console.log(data);
   };
+const handleFileUpload = (
+  event: React.ChangeEvent<HTMLInputElement>,
+  field: string
+) => {
+  if (event.target.files && event.target.files.length > 0) {
+    const file = event.target.files[0];
+    console.log(`${field} uploaded:`, file.name);
+    // Additional processing can be added here (e.g., validation, uploading to a server)
+  }
+};
 
   return (
     <div className="min-h-screen bg-black text-white py-8 px-4">
@@ -148,7 +158,7 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     <FormField
                       control={form.control}
                       name="description"
@@ -163,7 +173,7 @@ const Register = () => {
                               placeholder="Brief description of your institute"
                               {...field}
                               rows={3}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                               className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -284,7 +294,28 @@ const Register = () => {
                     />
                   </div>
                 </div>
-
+                {/* Create Password */}
+  <div className="space-y-4">
+    <h2 className="text-xl font-semibold text-orange-400">Create Password</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <Label>Password *</Label>
+        <input
+          type="password"
+          className="w-full rounded-lg p-2 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Enter your password"
+        />
+      </div>
+      <div>
+        <Label>Confirm Password *</Label>
+        <input
+          type="password"
+          className="w-full rounded-lg p-2 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Re-enter your password"
+        />
+      </div>
+    </div>
+  </div>
                 {/* Address Information */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-orange-400">
@@ -306,7 +337,7 @@ const Register = () => {
                               placeholder="Street address, building name, etc."
                               {...field}
                               rows={2}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                               required
                             />
                           </FormControl>
@@ -384,37 +415,58 @@ const Register = () => {
                     </div>
                   </div>
                 </div>
-
                 {/* KYC Documents */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    KYC Documents
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Upload required documents for verification (PDF/JPG format,
-                    max 5MB each)
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>Institute Registration Certificate</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>PAN Card</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+<div className="space-y-4">
+  <h3 className="text-lg font-semibold text-orange-400">KYC Documents</h3>
+  <p className="text-sm text-gray-600">
+    Upload required documents for verification (PDF/JPG format, max 5MB each)
+  </p>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {/* Institute Registration Certificate */}
+    <div className="space-y-2">
+      <Label>Institute Registration Certificate</Label>
+      <div
+        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
+        onClick={() =>
+          document.getElementById("institute-upload")?.click()
+        }
+      >
+        <input
+          id="institute-upload"
+          type="file"
+          className="hidden"
+          onChange={(e) => handleFileUpload(e, "Institute Registration Certificate")}
+          accept=".pdf,.jpg,.jpeg,.png"
+        />
+        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
+        <p className="text-sm text-gray-600">
+          Click to upload or drag and drop
+        </p>
+      </div>
+    </div>
+    {/* PAN Card */}
+    <div className="space-y-2">
+      <Label>PAN Card</Label>
+      <div
+        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
+        onClick={() => document.getElementById("pan-upload")?.click()}
+      >
+        <input
+          id="pan-upload"
+          type="file"
+          className="hidden"
+          onChange={(e) => handleFileUpload(e, "PAN Card")}
+          accept=".pdf,.jpg,.jpeg,.png"
+        />
+        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
+        <p className="text-sm text-gray-600">
+          Click to upload or drag and drop
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 {/* Terms and Conditions */}
                 <div className="flex items-center space-x-2">
