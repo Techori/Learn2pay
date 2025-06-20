@@ -80,31 +80,31 @@ const SearchAndFilter = ({
             placeholder={searchPlaceholder}
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
           />
         </div>
 
         <Dialog open={isFilterOpen} onOpenChange={setIsFilterOpen}>
           <DialogTrigger asChild>
-            <Button variant="outline" className="relative">
+            <Button variant="outline" className="relative border-gray-700 text-gray-200 hover:bg-gray-700">
               <Filter className="h-4 w-4 mr-2" />
               Filters
               {activeFiltersCount > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs">
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs bg-orange-500 text-white">
                   {activeFiltersCount}
                 </Badge>
               )}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[425px] bg-gray-800 border-gray-700 text-white">
             <DialogHeader>
-              <DialogTitle >Filter Options</DialogTitle>
+              <DialogTitle className="text-white">Filter Options</DialogTitle>
             </DialogHeader>
 
             <div className="space-y-4">
               {filterOptions.map((option) => (
                 <div key={option.key} className="space-y-2">
-                  <label className="text-sm font-medium">{option.label}</label>
+                  <label className="text-sm font-medium text-gray-300">{option.label}</label>
                   {option.type === "select" && option.options ? (
                     <Select
                       value={filters[option.key] || ""}
@@ -112,12 +112,16 @@ const SearchAndFilter = ({
                         handleFilterChange(option.key, value)
                       }
                     >
-                      <option value="" disabled selected hidden>{`Select ${option.label.toLowerCase()}`}</option>
-                      {option.options.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
+                      <SelectTrigger className="bg-gray-700 border-gray-600 text-gray-200">
+                        <SelectValue placeholder={`Select ${option.label.toLowerCase()}`} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-700 border-gray-600">
+                        {option.options.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value} className="text-gray-200 focus:bg-gray-600">
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
                     </Select>
                   ) : option.type === "date" ? (
                     <Input
@@ -127,6 +131,7 @@ const SearchAndFilter = ({
                       onChange={(e) =>
                         handleFilterChange(option.key, e.target.value)
                       }
+                      className="bg-gray-700 border-gray-600 text-gray-200"
                     />
                   ) : (
                     <Input
@@ -136,6 +141,7 @@ const SearchAndFilter = ({
                         handleFilterChange(option.key, e.target.value)
                       }
                       placeholder={`Enter ${option.label.toLowerCase()}`}
+                      className="bg-gray-700 border-gray-600 text-gray-200"
                     />
                   )}
                 </div>
@@ -145,10 +151,15 @@ const SearchAndFilter = ({
                 <Button
                   variant="outline"
                   onClick={() => setIsFilterOpen(false)}
+                  className="border-gray-600 text-gray-200 hover:bg-gray-700"
                 >
                   Close
                 </Button>
-                <Button variant="destructive" onClick={clearAll}>
+                <Button 
+                  variant="destructive" 
+                  onClick={clearAll}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
                   Clear All
                 </Button>
               </div>
@@ -162,24 +173,38 @@ const SearchAndFilter = ({
         <div className="flex flex-wrap gap-2">
           {Object.entries(filters).map(([key, value]) => {
             const option = filterOptions.find((opt) => opt.key === key);
+            const displayValue = option?.type === 'select' && option?.options
+              ? option.options.find(opt => opt.value === value)?.label || value
+              : value;
+              
             return (
               <Badge
                 key={key}
                 variant="secondary"
-                className="flex items-center space-x-1"
+                className="flex items-center space-x-1 bg-gray-700 text-gray-200 border-gray-600"
               >
                 <span>
-                  {option?.label}: {value}
+                  {option?.label}: {displayValue}
                 </span>
                 <button
                   onClick={() => removeFilter(key)}
-                  className="ml-1 hover:bg-gray-200 rounded-full p-0.5"
+                  className="ml-1 hover:bg-gray-600 rounded-full p-0.5"
                 >
                   <X className="h-3 w-3" />
                 </button>
               </Badge>
             );
           })}
+          {activeFiltersCount > 1 && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={clearAll}
+              className="border-gray-700 text-gray-200 hover:bg-gray-700 text-xs py-0 h-6"
+            >
+              Clear All
+            </Button>
+          )}
         </div>
       )}
     </div>
