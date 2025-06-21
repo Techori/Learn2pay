@@ -43,11 +43,11 @@ const Hero = () => {
         </motion.h2>
 
         <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-2xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
           variants={itemVariants}
         >
-          Ready to Transform Your{" "}
-          <span className="text-orange-500">Fee Collection?</span>
+          Focus on Studies,{" "}
+          <span className="text-orange-500">We Handle the Fees</span>
         </motion.h1>
 
         <motion.p
@@ -72,7 +72,6 @@ const Hero = () => {
               to="/register"
               className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
             >
-              Start Your Free Trial Today
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -87,6 +86,7 @@ const Hero = () => {
                   d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
                 />
               </svg>
+              <span>Get Started</span>
             </Link>
           </motion.div>
 
@@ -99,7 +99,7 @@ const Hero = () => {
               to="/demo"
               className="border border-gray-400 hover:border-orange-400 w-full text-white hover:text-orange-400 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
             >
-              Schedule a Demo
+              <span> Schedule a demo</span>
             </Link>
           </motion.div>
         </motion.div>

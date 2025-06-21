@@ -134,87 +134,86 @@ const Contact = () => {
           </Button>
         </div>
       </section>
-
       {/* Compact Contact Form */}
-      <section
-        id="contact-form-section"
-        className="py-8 px-2 flex justify-center items-center"
-      >
-        <Card className="w-full max-w-xl mx-auto bg-gradient-to-br from-gray-900/90 to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Send className="h-6 w-6 text-orange-400" />
-              <CardTitle className="text-xl text-white">Contact Us</CardTitle>
-            </div>
-            <CardDescription className="text-gray-300">
-              We usually respond within a business day.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  placeholder="Full Name *"
-                  className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-                  required
-                />
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  placeholder="Email Address *"
-                  className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Input
-                  id="phone"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  placeholder="Phone"
-                  className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-                />
-                <Input
-                  id="institute"
-                  value={formData.institute}
-                  onChange={(e) =>
-                    handleInputChange("institute", e.target.value)
-                  }
-                  placeholder="Institute"
-                  className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <Textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => handleInputChange("message", e.target.value)}
-                placeholder="Your Message *"
-                rows={4}
-                className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-                required
-              />
-              <Button
-                type="submit"
-                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
-              >
-                <span>Send Message</span>
-                <Send className="h-5 w-5" />
-              </Button>
-              {submitted && (
-                <div className="text-center text-green-400 font-semibold mt-2 animate-fade-in">
-                  Thank you! Your message has been sent.
-                </div>
-              )}
-            </form>
-          </CardContent>
-        </Card>
-      </section>
+<section
+  id="contact-form-section"
+  className="py-8 px-2 flex justify-center items-center"
+>
+  <Card className="w-full max-w-xl mx-auto bg-gradient-to-br from-gray-900/90 to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
+    <CardHeader className="pb-3">
+      <div className="flex items-center gap-2 mb-1">
+        <Send className="h-6 w-6 text-orange-400" />
+        <CardTitle className="text-xl text-white">Contact Us</CardTitle>
+      </div>
+      <CardDescription className="text-gray-300">
+        We usually respond within a business day.
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Input
+            id="name"
+            value={formData.name}
+            onChange={(e) => handleInputChange("name", e.target.value)}
+            placeholder="Full Name *"
+            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            required
+          />
+          <Input
+            id="email"
+            type="email"
+            value={formData.email}
+            onChange={(e) => handleInputChange("email", e.target.value)}
+            placeholder="Email Address *"
+            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            required
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Input
+            id="phone"
+            value={formData.phone}
+            onChange={(e) => handleInputChange("phone", e.target.value)}
+            placeholder="Phone"
+            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+          />
+          <Input
+            id="institute"
+            value={formData.institute}
+            onChange={(e) =>
+              handleInputChange("institute", e.target.value)
+            }
+            placeholder="Institute"
+            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+        <Textarea
+  id="message"
+  value={formData.message}
+  onChange={(e) => handleInputChange("message", e.target.value)}
+  placeholder="Your Message *"
+  rows={3}
+   className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
+  required
+/>
 
+        <Button
+          type="submit"
+          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold py-2 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          <span>Send Message</span>
+          <Send className="h-5 w-5" />
+        </Button>
+        {submitted && (
+          <div className="text-center text-green-400 font-semibold mt-2 animate-fade-in">
+            Thank you! Your message has been sent.
+          </div>
+        )}
+      </form>
+    </CardContent>
+  </Card>
+</section>
       {/* Contact Info & Support Types */}
       <section className="py-10 px-4">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">

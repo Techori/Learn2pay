@@ -177,7 +177,7 @@ const Pricing = () => {
                     onClick={() =>
                       plan.name === "Enterprise"
                         ? navigate("/contact")
-                        : navigate("/register-institute")
+                        : navigate("/register")
                     }
                   >
                     <ArrowRight className="h-4 w-4" />
@@ -225,7 +225,7 @@ const Pricing = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 className="px-8 py-4 text-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2"
-                onClick={() => navigate("/register-institute")}
+                onClick={() => navigate("/register")}
               >
                 <ArrowRight className="h-5 w-5" />
                 <span>Start Free Trial</span>
@@ -235,7 +235,7 @@ const Pricing = () => {
                 onClick={() => navigate("/contact")}
               >
                 <ArrowRight className="h-5 w-5" />
-                <span>Talk to Sales</span>
+                <span>Talk to Sales Team</span>
               </Button>
             </div>
           </div>

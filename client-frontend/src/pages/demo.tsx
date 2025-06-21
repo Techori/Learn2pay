@@ -58,7 +58,7 @@ const ScheduleDemoPage = () => {
           >
             Submit Request
           </button>
-        </form>s
+        </form>
       </div>
     </div>
   );
