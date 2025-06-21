@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface ButtonProps
@@ -6,13 +6,7 @@ export interface ButtonProps
   children: React.ReactNode;
   className?: string;
   /** Button style variant */
-  variant?:
-    | "default"
-    | "ghost"
-    | "link"
-    | "outline"
-    | "destructive"
-    | "secondary";
+  variant?: "default" | "ghost" | "link" | "outline" | "destructive" | "secondary";
   size?: "default" | "lg" | "sm";
 }
 
@@ -32,20 +26,19 @@ const sizeClasses: Record<string, string> = {
   sm: "px-2 py-1 text-sm",
 };
 
-export const Button: React.FC<ButtonProps> = ({
-  children,
-  className = "",
-  variant = "default",
-  size = "default",
-  ...props
-}) => (
-  <button
-    className={`${variantClasses[variant]} ${sizeClasses[size]} rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ${className}`}
-    {...props}
-  >
-    {children}
-  </button>
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, className = "", variant = "default", size = "default", ...props }, ref) => (
+    <button
+      ref={ref}
+      className={`${variantClasses[variant]} ${sizeClasses[size]} rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  )
 );
+
+Button.displayName = "Button";
 
 // Export helper to extract button classes without needing children
 export function buttonVariants({

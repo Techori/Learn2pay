@@ -28,6 +28,7 @@ import {
 import { useToast } from "../../hooks/use-toast";
 import { Badge } from "../ui/Badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
+import { Textarea } from "../../components/ui/Textarea";
 
 // Enhanced interface for EMI data with status
 interface EnhancedEmi {
@@ -615,8 +616,8 @@ const EmiReminder: React.FC = () => {
                   <div className="text-sm font-medium text-gray-300">
                     Message:
                   </div>
-                  <textarea
-                    className="w-full bg-[#232b45] border border-[#232b45] text-white p-3 rounded resize-none h-40"
+                  <Textarea
+                    className="resize-none h-40"
                     value={reminderTemplate}
                     onChange={(e) => setReminderTemplate(e.target.value)}
                   />

@@ -1,8 +1,9 @@
-
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/Table';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable';
 
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, Download } from 'lucide-react';
 
@@ -29,6 +30,7 @@ interface DataTableProps {
   pagination?: boolean;
   pageSize?: number;
   title?: string;
+  exportFileName?: string;
 }
 
 const DataTable = ({
@@ -39,7 +41,8 @@ const DataTable = ({
   filterable = true,
   pagination = true,
   pageSize = 10,
-  title
+  title,
+  exportFileName = 'learn2pay-export'
 }: DataTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,6 +90,56 @@ const DataTable = ({
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
 
+  // Export data to PDF
+  const handleExport = () => {
+    const doc = new jsPDF();
+    
+    // Document title
+    const tableTitle = title || 'Data Export';
+    doc.setFontSize(16);
+    doc.text(tableTitle, 14, 15);
+    
+    // Document metadata
+    doc.setFontSize(11);
+    doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 22);
+    doc.text(`Total Records: ${sortedData.length}`, 14, 28);
+    
+    // Prepare table data
+    const tableHeaders = columns.map(column => column.label);
+    const tableData = sortedData.map(row => columns.map(column => {
+      const value = row[column.key];
+      // If the cell has a custom render function, we need to extract just the text value
+      if (column.render && typeof value !== 'undefined') {
+        // For badge or special components, just use the raw value
+        return String(value);
+      }
+      return value;
+    }));
+    
+    // Create table
+    autoTable(doc, {
+      startY: 35,
+      head: [tableHeaders],
+      body: tableData,
+      theme: 'grid',
+      headStyles: { fillColor: [41, 128, 185] },
+      didDrawPage: (data) => {
+        // Footer with page number
+        const pageSize = doc.internal.pageSize;
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+        doc.setFontSize(10);
+        
+        // Fixed the type issues with jsPDF internal methods
+        const pageNumber = (doc as any).internal.getCurrentPageInfo().pageNumber;
+        const totalPages = (doc as any).internal.getNumberOfPages();
+        doc.text(`Page ${pageNumber} of ${totalPages}`, pageSize.width / 2, pageHeight - 10, { align: 'center' });
+      }
+    });
+    
+    // Save the PDF
+    doc.save(`${exportFileName}-${new Date().toISOString().slice(0, 10)}.pdf`);
+  };
+
   return (
     <div className="space-y-4">
       {title && <h3 className="text-lg font-semibold">{title}</h3>}
@@ -112,7 +165,7 @@ const DataTable = ({
           </div>
           
           <div className="flex items-center space-x-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={handleExport}>
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
@@ -208,7 +261,7 @@ const DataTable = ({
               <ChevronLeft className="h-4 w-4" />
             </Button>
             
-            <span className="text-sm font-medium">
+            <span className="text-sm px-3 py-1">
               Page {currentPage} of {totalPages}
             </span>
             
