@@ -35,12 +35,9 @@ const Login = () => {
   };
 
   const roleOptions = [
+    { value: 'student', label: 'Student', icon: User },
+    { value: 'institute', label: 'Institute', icon: Building },
     { value: 'parent', label: 'Parent', icon: User },
-    { value: 'institute_admin', label: 'Institute Admin', icon: Building },
-    { value: 'super_admin', label: 'Super Admin', icon: User },
-    { value: 'sales', label: 'Sales Team', icon: User },
-    { value: 'support', label: 'Support Team', icon: User },
-    { value: 'referral', label: 'Referral Team', icon: User }
   ];
 
   return (
@@ -151,7 +148,6 @@ const Login = () => {
                   Forgot password?
                 </button>
               </div>
-
               {/* Sign In Button */}
               <Button 
                 type="submit" 
@@ -171,7 +167,6 @@ const Login = () => {
                 )}
               </Button>
             </form>
-
             {/* Demo Credentials */}
             <div className="mt-6 p-4 bg-gray-900/80 rounded-lg border border-orange-500/20">
               <h4 className="text-sm font-semibold text-orange-300 mb-2">Demo Credentials:</h4>
@@ -184,7 +179,6 @@ const Login = () => {
                 <div className="font-medium">Password: password123</div>
               </div>
             </div>
-
             {/* Sign Up Link */}
             <div className="text-center">
               <p className="text-sm text-orange-200">
@@ -202,6 +196,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;
