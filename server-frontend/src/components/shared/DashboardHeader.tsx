@@ -3,6 +3,7 @@ import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import UserProfile from "@/components/shared/UserProfile";
 import NotificationCenter from "@/components/shared/NotificationCenter";
+import ThemeToggle from "../ThemeToggle";
 
 interface Badge {
   text: string;
@@ -57,6 +58,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           </div>
         </div>
         <div className="flex items-center space-x-3">
+          <ThemeToggle />
           <NotificationCenter />
           <UserProfile user={user} onUpdate={onUserUpdate} />
           <Button
