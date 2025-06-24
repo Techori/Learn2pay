@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { instituteRegisterSchema } from "@/validations/instituteValidation";
-import Institute from "@/models/institute/insitituteModel";
+import Institute from "@/models/institute/instituteModel";
 import { hashPassword } from "@/utils/institute/hashAuth";
 
 export const registerInstitute = async (  req: Request, res: Response): Promise<void> => {
