@@ -4,8 +4,9 @@ import LeadsManagement from './LeadsManagement';
 import OnboardingManagement from './OnboardingManagement';
 import TargetsGoals from './TargetsGoals';
 import SalesReports from './SalesReports';
-import EmiReminder from './EmiReminder';
+import ReviewKYC from './ReviewKYC';
 import SalesDashboard from './SalesDashboard';
+import Settings from './Settings';
 
 const SalesTabContent = () => {
   return (
@@ -34,15 +35,12 @@ const SalesTabContent = () => {
         <SalesReports />
       </TabsContent>
 
-      <TabsContent value="emiReminder">  
-        <EmiReminder />
+      <TabsContent value="kyc">  
+        <ReviewKYC />
       </TabsContent>
 
       <TabsContent value="settings">
-        <div className="text-center py-12 bg-[#181f32] rounded-xl border border-[#232b45] shadow-none">
-          <h3 className="text-lg font-semibold mb-2 text-white">Sales Settings</h3>
-          <p className="text-gray-400">Configure sales team preferences and settings</p>
-        </div>
+        <Settings />
       </TabsContent>
     </>
   );

@@ -59,7 +59,7 @@ const Sales = () => {
               <TabsTrigger value="onboarding" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Onboarding</TabsTrigger>
               <TabsTrigger value="targets" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Targets</TabsTrigger>
               <TabsTrigger value="reports" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Reports</TabsTrigger>
-              <TabsTrigger value="emiReminder" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">EmiReminder</TabsTrigger>
+              <TabsTrigger value="kyc" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Review KYC</TabsTrigger>
               <TabsTrigger value="settings" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300">Settings</TabsTrigger>
             </TabsList>
 

@@ -38,8 +38,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <h1 className="text-xl font-semibold text-white">
-            <span className="text-orange-500">LEARN</span>
-            <span className="text-white">2PAY</span> | {dashboardName} Dashboard
+            <span className="text-orange-500">Larn</span>
+            <span className="text-white">2Pay</span> | {dashboardName} Dashboard
           </h1>
           <div className="flex items-center space-x-2">
             {badges.map((badge, index) => (
