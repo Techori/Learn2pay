@@ -23,6 +23,7 @@ function App() {
           <Route path="/referral-dashboard" element={<ReferralDashboard />} />
 
           <Route path="/support-dashboard" element={<SupportDashboard />} />
+          <Route path="/support-team-dashboard" element={<SupportDashboard role="member" />} />
           <Route path="/sales-dashboard" element={<SalesDashboard />} />
           <Route path="*" element={<Home />} />
         </Routes>

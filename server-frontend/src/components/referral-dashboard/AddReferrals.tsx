@@ -47,9 +47,9 @@ const AddReferrals = () => {
 
   // Add state for recent referrals
   const [recentReferrals, setRecentReferrals] = useState([
-    { name: "Modern Public School", contact: "Dr. Rajesh Kumar", status: "In Progress", date: "2024-01-20" },
-    { name: "Excel Coaching Center", contact: "Prof. Amit Singh", status: "Converted", date: "2024-01-18" },
-    { name: "Sunrise College", contact: "Dr. Meera Patel", status: "Follow-up", date: "2024-01-15" }
+    { name: "Modern Public School", contact: "Dr. Rajesh Kumar", status: "Submitted", date: "2024-01-20" },
+    { name: "Excel Coaching Center", contact: "Prof. Amit Singh", status: "Under Review", date: "2024-01-18" },
+    { name: "Sunrise College", contact: "Dr. Meera Patel", status: "Approved", date: "2024-01-15" }
   ]);
 
   const { handleSubmit, control, formState: { errors }, trigger, reset } = useForm<ReferralFormData>({
@@ -129,7 +129,7 @@ const AddReferrals = () => {
         { 
           name: data.instituteName, 
           contact: data.contactName, 
-          status: "Pending",
+          status: "Submitted",
           date: new Date().toISOString().slice(0, 10)
         }, 
         ...prevReferrals
@@ -696,10 +696,11 @@ const AddReferrals = () => {
                 </div>
                 <div className="text-right">
                   <Badge className={`text-xs ${
-                    referral.status === 'Converted' ? 'bg-green-100 text-green-800' :
-                    referral.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
-                    referral.status === 'Pending' ? 'bg-gray-100 text-gray-800' :
-                    'bg-yellow-100 text-yellow-800' // Fallback for other statuses
+                    referral.status === 'Submitted' ? 'bg-blue-100 text-blue-800' :
+                    referral.status === 'Under Review' ? 'bg-yellow-100 text-yellow-800' :
+                    referral.status === 'Approved' ? 'bg-green-100 text-green-800' :
+                    referral.status === 'Onboarded' ? 'bg-purple-100 text-purple-800' :
+                    'bg-gray-100 text-gray-800' // fallback
                   }`}>
                     {referral.status}
                   </Badge>
