@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 import SuperAdminDashboard from "./pages/superAdmin";
 import Home from "./pages/home";
+import Login from "./pages/Login";
 function App() {
   return (
     <>
@@ -23,7 +24,10 @@ function App() {
           <Route path="/referral-dashboard" element={<ReferralDashboard />} />
 
           <Route path="/support-dashboard" element={<SupportDashboard />} />
-          <Route path="/sales-dashboard" element={<SalesDashboard />} />
+          {/* <Route path="/sales-dashboard" element={<SalesDashboard />} /> */}
+          <Route path="/login" element={<Login />} />
+        <Route path="/sales/salesperson" element={<SalesDashboard />} />
+        <Route path="/sales/manager" element={<SalesDashboard />} />
           <Route path="*" element={<Home />} />
         </Routes>
         <Toaster />

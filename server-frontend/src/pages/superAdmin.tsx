@@ -17,7 +17,7 @@ interface GlobalFilter {
 
 const SuperAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [globalFilters, setGlobalFilters] = useState<GlobalFilter>({
     section: 'all',
     timeframe: 'all',
@@ -112,18 +112,18 @@ const SuperAdmin = () => {
           <AdminStats filters={globalFilters} />
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-12 bg-[#232b45] border border-[#232b45] rounded-lg mb-4">
+            <TabsList className="grid w-full grid-cols-9 gap-x-2 bg-[#232b45] border border-[#232b45] rounded-lg mb-4 ">
               <TabsTrigger 
-                value="overview"
+                value="dashboard"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
-                Overview
+                dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="institutes"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
-                Institutes
+                Institutes & Franchise
               </TabsTrigger>
               <TabsTrigger 
                 value="users"
@@ -132,12 +132,18 @@ const SuperAdmin = () => {
                 Users
               </TabsTrigger>
               <TabsTrigger 
+                value="kyc-approvals"
+                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+              >
+                KYC Approvals
+              </TabsTrigger>
+              <TabsTrigger 
                 value="transactions"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
                 Transactions
               </TabsTrigger>
-              <TabsTrigger 
+              {/* <TabsTrigger 
                 value="vendors"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
@@ -148,37 +154,32 @@ const SuperAdmin = () => {
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
                 Franchise
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger 
                 value="reports"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
-                Reports
+                Reports & Analytics
               </TabsTrigger>
               <TabsTrigger 
                 value="notifications"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
-                Notifications
+                Notifications & Broadcast
               </TabsTrigger>
-              <TabsTrigger 
-                value="kyc-approvals"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
-              >
-                KYC Approvals
-              </TabsTrigger>
+
               <TabsTrigger 
                 value="security"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
                 Security
               </TabsTrigger>
-              <TabsTrigger 
+              {/* <TabsTrigger 
                 value="broadcast"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
               >
                 Broadcast
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger 
                 value="settings"
                 className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
