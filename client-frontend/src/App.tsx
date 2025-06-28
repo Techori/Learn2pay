@@ -36,6 +36,10 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
+            <Route path="/applynow" element={<Applynow />} />
+            <Route path="/cookies-policy" element={<CookiesPolicy />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/terms-of-service" element={<Terms />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/career" element={<Career />} />
