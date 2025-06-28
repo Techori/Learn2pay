@@ -4,7 +4,7 @@ import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Badge } from "../../components/ui/Badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
-import { Search, Filter, Building2, Plus, Eye, Edit, Ban, CheckCircle, XCircle, Phone, Mail, Download } from 'lucide-react';
+import { Search, Filter, Building2, Plus, Eye, Edit, Ban, CheckCircle, XCircle, Phone, Mail, Download, Building, DollarSign, Target, TrendingUp } from 'lucide-react';
 import SearchAndFilter from "../shared/SearchAndFilter";
 import { useToast } from "../../hooks/use-toast";
 import { jsPDF } from "jspdf";
@@ -34,6 +34,22 @@ interface InstituteFormData {
   principal: string;
   phone: string;
   email: string;
+}
+
+interface FranchiseData {
+  id: number;
+  name: string;
+  owner: string;
+  location: string;
+  phone: string;
+  email: string;
+  status: string;
+  performance: string;
+  revenue: number;
+  target: number;
+  institutes: number;
+  students: number;
+  joinDate: string;
 }
 
 const InstituteManagement = () => {
@@ -119,12 +135,59 @@ const InstituteManagement = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5);
-  
+  const [franchises, setFranchises] = useState<FranchiseData[]>([
+    {
+      id: 1,
+      name: "Mumbai Central",
+      owner: "Rajesh Patel",
+      location: "Mumbai, Maharashtra",
+      phone: "9876543210",
+      email: "mumbai@learn2pay.com",
+      status: "Active",
+      performance: "Excellent",
+      revenue: 450000,
+      target: 500000,
+      institutes: 25,
+      students: 1250,
+      joinDate: "2024-01-15"
+    },
+    {
+      id: 2,
+      name: "Delhi North",
+      owner: "Priya Sharma",
+      location: "Delhi, NCR",
+      phone: "9876543211",
+      email: "delhi@learn2pay.com",
+      status: "Active",
+      performance: "Good",
+      revenue: 380000,
+      target: 400000,
+      institutes: 20,
+      students: 980,
+      joinDate: "2024-01-20"
+    },
+    {
+      id: 3,
+      name: "Bangalore Tech",
+      owner: "Amit Singh",
+      location: "Bangalore, Karnataka",
+      phone: "9876543212",
+      email: "bangalore@learn2pay.com",
+      status: "Under Review",
+      performance: "Average",
+      revenue: 250000,
+      target: 350000,
+      institutes: 15,
+      students: 650,
+      joinDate: "2024-01-10"
+    }
+  ]);
+  const [filteredFranchises, setFilteredFranchises] = useState<FranchiseData[]>(franchises);
+
   // Update filtered institutes when search term or filters change
   useEffect(() => {
     let filtered = [...institutes];
     
-    // Apply search term filter
     if (searchTerm) {
       filtered = filtered.filter(institute => 
         institute.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -134,7 +197,6 @@ const InstituteManagement = () => {
       );
     }
     
-    // Apply other filters
     if (filters.type && filters.type !== 'all') {
       filtered = filtered.filter(institute => institute.type === filters.type);
     }
@@ -154,18 +216,40 @@ const InstituteManagement = () => {
     setFilteredInstitutes(filtered);
   }, [searchTerm, filters, institutes]);
 
+  // Update filtered franchises
+  useEffect(() => {
+    let filtered = [...franchises];
+    if (searchTerm) {
+      filtered = filtered.filter(franchise =>
+        franchise.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        franchise.owner.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        franchise.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        franchise.phone.includes(searchTerm) ||
+        franchise.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    if (filters.status && filters.status !== 'all') {
+      filtered = filtered.filter(franchise => franchise.status === filters.status);
+    }
+    if (filters.performance && filters.performance !== 'all') {
+      filtered = filtered.filter(franchise => franchise.performance === filters.performance);
+    }
+    if (filters.location && filters.location !== 'all') {
+      filtered = filtered.filter(franchise => franchise.location === filters.location);
+    }
+    setFilteredFranchises(filtered);
+  }, [searchTerm, filters, franchises]);
+
   // Calculate pagination
   const totalPages = Math.ceil(filteredInstitutes.length / pageSize);
-  const paginatedInstitutes = filteredInstitutes.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const paginatedInstitutes = filteredInstitutes.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Active': return 'bg-green-500 text-white';
       case 'Suspended': return 'bg-red-500 text-white';
       case 'Pending': return 'bg-yellow-500 text-white';
+      case 'Under Review': return 'bg-yellow-500 text-white';
       default: return 'bg-gray-500 text-white';
     }
   };
@@ -175,6 +259,16 @@ const InstituteManagement = () => {
       case 'Approved': return 'bg-green-500 text-white';
       case 'Rejected': return 'bg-red-500 text-white';
       case 'Pending': return 'bg-yellow-500 text-white';
+      default: return 'bg-gray-500 text-white';
+    }
+  };
+
+  const getPerformanceColor = (performance: string) => {
+    switch (performance) {
+      case 'Excellent': return 'bg-green-500 text-white';
+      case 'Good': return 'bg-blue-500 text-white';
+      case 'Average': return 'bg-yellow-500 text-white';
+      case 'Poor': return 'bg-red-500 text-white';
       default: return 'bg-gray-500 text-white';
     }
   };
@@ -199,7 +293,8 @@ const InstituteManagement = () => {
         { value: 'all', label: 'All Statuses' },
         { value: 'Active', label: 'Active' },
         { value: 'Suspended', label: 'Suspended' },
-        { value: 'Pending', label: 'Pending' }
+        { value: 'Pending', label: 'Pending' },
+        { value: 'Under Review', label: 'Under Review' }
       ]
     },
     {
@@ -211,7 +306,10 @@ const InstituteManagement = () => {
         { value: 'Delhi', label: 'Delhi' },
         { value: 'Mumbai', label: 'Mumbai' },
         { value: 'Bangalore', label: 'Bangalore' },
-        { value: 'Chennai', label: 'Chennai' }
+        { value: 'Chennai', label: 'Chennai' },
+        { value: 'Mumbai, Maharashtra', label: 'Mumbai, Maharashtra' },
+        { value: 'Delhi, NCR', label: 'Delhi, NCR' },
+        { value: 'Bangalore, Karnataka', label: 'Bangalore, Karnataka' }
       ]
     },
     {
@@ -223,6 +321,18 @@ const InstituteManagement = () => {
         { value: 'Approved', label: 'Approved' },
         { value: 'Pending', label: 'Pending' },
         { value: 'Rejected', label: 'Rejected' }
+      ]
+    },
+    {
+      key: 'performance',
+      label: 'Performance',
+      type: 'select' as const,
+      options: [
+        { value: 'all', label: 'All Performances' },
+        { value: 'Excellent', label: 'Excellent' },
+        { value: 'Good', label: 'Good' },
+        { value: 'Average', label: 'Average' },
+        { value: 'Poor', label: 'Poor' }
       ]
     }
   ];
@@ -249,10 +359,8 @@ const InstituteManagement = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Generate a new ID (in a real app, this would come from the backend)
     const newId = Math.max(...institutes.map(i => i.id)) + 1;
     
-    // Create new institute object
     const newInstitute: Institute = {
       id: newId,
       name: formData.name,
@@ -261,16 +369,14 @@ const InstituteManagement = () => {
       principal: formData.principal,
       phone: formData.phone,
       email: formData.email,
-      students: 0, // New institute starts with 0 students
-      status: 'Active', // Default to active
-      kycStatus: 'Pending', // Default to pending KYC
-      joinDate: new Date().toISOString().split('T')[0] // Today's date
+      students: 0,
+      status: 'Active',
+      kycStatus: 'Pending',
+      joinDate: new Date().toISOString().split('T')[0]
     };
     
-    // Add to institutes array
     setInstitutes(prev => [newInstitute, ...prev]);
     
-    // Close the dialog and reset form
     setIsAddInstituteOpen(false);
     setFormData({
       name: '',
@@ -281,7 +387,6 @@ const InstituteManagement = () => {
       email: ''
     });
     
-    // Show success notification
     toast({
       title: "Institute Added",
       description: `${formData.name} has been successfully added to the platform.`,
@@ -289,21 +394,17 @@ const InstituteManagement = () => {
   };
   
   const handleExport = () => {
-    // Create PDF document
     const doc = new jsPDF();
     
-    // Set title
     doc.setFontSize(16);
     doc.text("Learn2Pay - Institutes Report", 14, 22);
     
-    // Add timestamp and filters
     doc.setFontSize(11);
     doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
     doc.text(`Filters applied: ${Object.keys(filters).length > 0 ? 
       Object.entries(filters).map(([key, value]) => `${key}: ${value}`).join(', ') : 
       'None'}`, 14, 36);
     
-    // Prepare table data
     const tableData = filteredInstitutes.map(institute => [
       institute.id.toString(),
       institute.name,
@@ -318,7 +419,6 @@ const InstituteManagement = () => {
       institute.joinDate
     ]);
     
-    // Create table
     autoTable(doc, {
       startY: 45,
       head: [['ID', 'Name', 'Type', 'Location', 'Principal', 'Phone', 'Email', 'Students', 'Status', 'KYC', 'Join Date']],
@@ -326,19 +426,15 @@ const InstituteManagement = () => {
       theme: 'grid',
       headStyles: { fillColor: [41, 128, 185] },
       didDrawPage: (data) => {
-        // Footer with page number
         const pageSize = doc.internal.pageSize;
         const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
         doc.setFontSize(10);
-        
-        // Fixed type issues with jsPDF internal methods
         const pageNumber = (doc as any).internal.getCurrentPageInfo().pageNumber;
         const totalPages = (doc as any).internal.getNumberOfPages();
         doc.text(`Page ${pageNumber} of ${totalPages}`, pageSize.width / 2, pageHeight - 10, { align: 'center' });
       }
     });
     
-    // Save the PDF
     doc.save(`learn2pay-institutes-report-${new Date().toISOString().slice(0, 10)}.pdf`);
     
     toast({
@@ -360,10 +456,56 @@ const InstituteManagement = () => {
   };
   
   const handleAction = (action: string, institute: Institute) => {
+    switch (action) {
+      case 'View':
+        toast({ title: "View Institute", description: `Viewing details for ${institute.name}` });
+        break;
+      case 'Edit':
+        toast({ title: "Edit Institute", description: `Editing ${institute.name}` });
+        break;
+      case 'Suspend':
+        if (institute.status !== "Suspended") {
+          setInstitutes(institutes.map(i => i.id === institute.id ? { ...i, status: "Suspended" } : i));
+          toast({ title: "Suspended", description: `${institute.name} has been suspended.` });
+        }
+        break;
+      case 'Activate':
+        if (institute.status === "Suspended") {
+          setInstitutes(institutes.map(i => i.id === institute.id ? { ...i, status: "Active" } : i));
+          toast({ title: "Activated", description: `${institute.name} has been activated.` });
+        }
+        break;
+    }
+  };
+
+  const handleStudentUpdate = (instituteId: number, operation: 'add' | 'subtract', value: number) => {
+    setInstitutes(institutes.map(i => 
+      i.id === instituteId 
+        ? { ...i, students: Math.max(0, operation === 'add' ? i.students + value : i.students - value) } 
+        : i
+    ));
     toast({
-      title: `${action} Institute`,
-      description: `${action} action triggered for ${institute.name}`
+      title: `Student Count Updated`,
+      description: `Updated student count for ${institutes.find(i => i.id === instituteId)?.name} by ${operation === 'add' ? '+' : '-'}${value}.`,
     });
+  };
+
+  const handleFranchiseAction = (action: string, franchise: FranchiseData) => {
+    switch (action) {
+      case "View":
+        toast({ title: "View Franchise", description: `Viewing details for ${franchise.name}.`, variant: "info" });
+        break;
+      case "Edit":
+        toast({ title: "Edit Franchise", description: `Editing ${franchise.name}.`, variant: "info" });
+        break;
+      case "Performance":
+        toast({ title: "Performance Analytics", description: `Checking performance for ${franchise.name}.`, variant: "info" });
+        break;
+    }
+  };
+
+  const handleAddFranchise = () => {
+    toast({ title: "Add Franchise", description: "Franchise addition feature coming soon!", variant: "info" });
   };
 
   return (
@@ -485,7 +627,27 @@ const InstituteManagement = () => {
                         </div>
                       </TableCell>
                       <TableCell className="text-gray-200">
-                        <div className="text-lg font-semibold">{institute.students.toLocaleString()}</div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg font-semibold">{institute.students.toLocaleString()}</span>
+                          <div className="flex gap-1">
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="border-gray-700 hover:bg-gray-700 text-white"
+                              onClick={() => handleStudentUpdate(institute.id, 'add', 10)}
+                            >
+                              +10
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className="border-gray-700 hover:bg-gray-700 text-white"
+                              onClick={() => handleStudentUpdate(institute.id, 'subtract', 10)}
+                            >
+                              -10
+                            </Button>
+                          </div>
+                        </div>
                       </TableCell>
                       <TableCell>
                         <Badge className={getStatusColor(institute.status)}>
@@ -522,9 +684,9 @@ const InstituteManagement = () => {
                             size="sm" 
                             variant="outline" 
                             className="border-gray-700 hover:bg-gray-700"
-                            onClick={() => handleAction('Suspend', institute)}
+                            onClick={() => handleAction(institute.status === "Suspended" ? "Activate" : "Suspend", institute)}
                           >
-                            <Ban className="h-3 w-3 text-gray-200" />
+                            {institute.status === "Suspended" ? <CheckCircle className="h-3 w-3 text-gray-200" /> : <Ban className="h-3 w-3 text-gray-200" />}
                           </Button>
                         </div>
                       </TableCell>
@@ -562,6 +724,162 @@ const InstituteManagement = () => {
               </Button>
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Franchise Management Panel (Merged from FranchiseManagement) */}
+      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm mt-6">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div>
+              <CardTitle className="text-white flex items-center">
+                <Building className="h-5 w-5 mr-2 text-blue-400" />
+                Franchise Management
+              </CardTitle>
+              <CardDescription className="text-gray-400">Monitor and manage all Learn2Pay franchise operations</CardDescription>
+            </div>
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddFranchise}>
+              <Plus className="h-4 w-4 mr-2" /> Add Franchise
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {/* Search and Filters */}
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Search franchises..."
+                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="relative">
+              <select
+                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                value={filters.status || 'all'}
+                onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+              >
+                <option value="all">Status</option>
+                <option value="Active">Active</option>
+                <option value="Under Review">Under Review</option>
+                <option value="Suspended">Suspended</option>
+              </select>
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+            </div>
+            <div className="relative">
+              <select
+                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                value={filters.performance || 'all'}
+                onChange={(e) => setFilters({ ...filters, performance: e.target.value })}
+              >
+                <option value="all">Performance</option>
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+              </select>
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+            </div>
+            <div className="relative">
+              <select
+                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                value={filters.location || 'all'}
+                onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+              >
+                <option value="all">Location</option>
+                <option value="Mumbai, Maharashtra">Mumbai, Maharashtra</option>
+                <option value="Delhi, NCR">Delhi, NCR</option>
+                <option value="Bangalore, Karnataka">Bangalore, Karnataka</option>
+              </select>
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+            </div>
+          </div>
+
+          {/* Franchises Table */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-gray-200">Franchise Details</TableHead>
+                <TableHead className="text-gray-200">Owner & Contact</TableHead>
+                <TableHead className="text-gray-200">Performance</TableHead>
+                <TableHead className="text-gray-200">Revenue vs Target</TableHead>
+                <TableHead className="text-gray-200">Coverage</TableHead>
+                <TableHead className="text-gray-200">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredFranchises.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center py-6 text-gray-400">
+                    No franchises found matching the search criteria
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredFranchises.map((franchise) => (
+                  <TableRow key={franchise.id} className="hover:bg-[#2A2F3A]">
+                    <TableCell className="text-white">
+                      <div>
+                        <div className="font-medium">{franchise.name}</div>
+                        <div className="text-sm text-gray-400">{franchise.location}</div>
+                        <Badge className={getStatusColor(franchise.status)}>
+                          {franchise.status}
+                        </Badge>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white">
+                      <div>
+                        <div className="font-medium">{franchise.owner}</div>
+                        <div className="text-sm text-gray-400">{franchise.phone}</div>
+                        <div className="text-sm text-gray-400">{franchise.email}</div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white">
+                      <Badge className={getPerformanceColor(franchise.performance)}>
+                        {franchise.performance}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-white">
+                      <div>
+                        <div className="font-semibold">₹{franchise.revenue.toLocaleString()}</div>
+                        <div className="text-sm text-gray-400">Target: ₹{franchise.target.toLocaleString()}</div>
+                        <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
+                          <div 
+                            className="bg-blue-500 h-2 rounded-full" 
+                            style={{ width: `${(franchise.revenue / franchise.target) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-white">
+                      <div>
+                        <div className="text-sm">
+                          <span className="font-medium">{franchise.institutes}</span> Institutes
+                        </div>
+                        <div className="text-sm">
+                          <span className="font-medium">{franchise.students}</span> Students
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex space-x-1">
+                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("View", franchise)}>
+                          <Eye className="h-3 w-3" />
+                        </Button>
+                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Edit", franchise)}>
+                          <Edit className="h-3 w-3" />
+                        </Button>
+                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Performance", franchise)}>
+                          <TrendingUp className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
 

@@ -1,15 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const dashboards = [
-    { label: 'Super Admin', path: '/superAdmin-dashboard' },
-    { label: 'Referral', path: '/referral-dashboard' },
-    { label: 'Support', path: '/support-dashboard' },
-    { label: 'Sales', path: '/sales-dashboard' },
+    { label: "Super Admin", path: "/superAdmin-dashboard" },
+    { label: "Referral", path: "/referral-dashboard" },
+    { label: "Support", path: "/support-dashboard" },
+    { label: "Sales", path: "/login" }, // i m currenlty redirecting it to login for Sales
   ];
 
   return (
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.4 }}
-        transition={{ duration: 2, repeat: Infinity, repeatType: 'reverse' }}
+        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
         className="absolute top-10 left-1/4 w-64 h-64 -z-10 pointer-events-none"
       >
         <div className="w-full h-full bg-orange-500 rounded-full filter blur-3xl" />
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.3 }}
-        transition={{ duration: 2, delay: 1, repeat: Infinity, repeatType: 'reverse' }}
+        transition={{ duration: 2, delay: 1, repeat: Infinity, repeatType: "reverse" }}
         className="absolute bottom-10 right-1/3 w-80 h-80 -z-10 pointer-events-none"
       >
         <div className="w-full h-full bg-blue-500 rounded-full filter blur-2xl" />
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         transition={{ delay: 0.3 }}
         className="text-4xl md:text-5xl font-extrabold text-white mb-4 text-center"
       >
-        Welcome to Learn2Pay Dashboard
+        Welcome to Larn2Pay Dashboard
       </motion.h1>
       <motion.p
         initial={{ y: 20, opacity: 0 }}
