@@ -2,12 +2,9 @@ import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import MobileMenu from "./MobileMenu";
-<<<<<<< HEAD
 import ThemeToggle from "./Themetoggle";
-=======
 import { useAuth } from "../contexts/AuthContext";
 
->>>>>>> 754b74ac3ed890d910f4df9aec9eef8b3d3f21ac
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -24,20 +21,6 @@ const Navbar = () => {
   return (
     <>
       <motion.header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
-<<<<<<< HEAD
-  <div className="container mx-auto flex items-center justify-between px-6 py-4">
-    {/* Logo Section */}
-    <Link to="/" className="flex items-center">
-      <motion.div
-        className="text-2xl font-bold"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300 }}
-      >
-        <span className="text-orange-500">LARN</span>
-        <span className="text-white">2PAY</span>
-      </motion.div>
-    </Link>
-=======
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center">
             <motion.div
@@ -49,45 +32,31 @@ const Navbar = () => {
               <span className="text-white">2PAY</span>
             </motion.div>
           </Link>
->>>>>>> 754b74ac3ed890d910f4df9aec9eef8b3d3f21ac
 
-    {/* Desktop Navigation */}
-    <div className="hidden md:flex items-center space-x-10">
-      <NavLink to="/" isActive={location.pathname === "/"}>
-        Home
-      </NavLink>
-      <NavLink to="/about" isActive={location.pathname === "/about"}>
-        About
-      </NavLink>
-      <NavLink to="/services" isActive={location.pathname === "/services"}>
-        Services
-      </NavLink>
-      <NavLink to="/pricing" isActive={location.pathname === "/pricing"}>
-        Pricing
-      </NavLink>
-      <NavLink to="/contact" isActive={location.pathname === "/contact"}>
-        Contact
-      </NavLink>
-    </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-10">
+            <NavLink to="/" isActive={location.pathname === "/"}>
+              Home
+            </NavLink>
+            <NavLink to="/about" isActive={location.pathname === "/about"}>
+              About
+            </NavLink>
+            <NavLink
+              to="/services"
+              isActive={location.pathname === "/services"}
+            >
+              Services
+            </NavLink>
+            <NavLink to="/pricing" isActive={location.pathname === "/pricing"}>
+              Pricing
+            </NavLink>
+            <NavLink to="/contact" isActive={location.pathname === "/contact"}>
+              Contact
+            </NavLink>
+          </div>
 
-<<<<<<< HEAD
-    {/* Theme Toggle */}
-    <div className="flex items-center space-x-4">
-      <ThemeToggle />
-    </div>
-
-    {/* Desktop Actions */}
-    <div className="hidden md:flex items-center space-x-4">
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link
-          to="/login"
-          className="text-white hover:text-orange-400 transition-colors duration-300"
-        >
-          Login
-        </Link>
-      </motion.div>
-=======
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             {isLoading ? (
               // Loading state
               <div className="flex items-center space-x-2">
@@ -180,50 +149,46 @@ const Navbar = () => {
               </>
             )}
           </div>
->>>>>>> 754b74ac3ed890d910f4df9aec9eef8b3d3f21ac
 
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link
-          to="/register"
-          className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md transition-colors duration-300"
-        >
-          Get Started
-        </Link>
-      </motion.div>
-    </div>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
+            <button
+              onClick={toggleMenu}
+              className="text-white focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              <motion.div
+                animate={isMenuOpen ? "open" : "closed"}
+                className="w-6 h-6 flex flex-col justify-center items-center"
+              >
+                <motion.span
+                  variants={{
+                    closed: { rotate: 0, y: 0 },
+                    open: { rotate: 45, y: 6 },
+                  }}
+                  className="w-6 h-0.5 bg-white block transition-all duration-300 origin-center"
+                />
+                <motion.span
+                  variants={{
+                    closed: { opacity: 1 },
+                    open: { opacity: 0 },
+                  }}
+                  className="w-6 h-0.5 bg-white block transition-all duration-300 mt-1"
+                />
+                <motion.span
+                  variants={{
+                    closed: { rotate: 0, y: 0 },
+                    open: { rotate: -45, y: -6 },
+                  }}
+                  className="w-6 h-0.5 bg-white block transition-all duration-300 mt-1 origin-center"
+                />
+              </motion.div>
+            </button>
+          </div>
+        </div>
+      </motion.header>
 
-<<<<<<< HEAD
-    {/* Mobile Menu Button */}
-    <button
-      className="md:hidden text-white"
-      onClick={toggleMenu}
-      aria-label="Toggle menu"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-        />
-      </svg>
-    </button>
-  </div>
-
-  {/* Mobile Menu */}
-  <MobileMenu
-    isOpen={isMenuOpen}
-    toggleMenu={toggleMenu}
-    currentPath={location.pathname}
-  />
-</motion.header>
-=======
       {/* Mobile Menu */}
       <MobileMenu
         isOpen={isMenuOpen}
@@ -234,7 +199,6 @@ const Navbar = () => {
         onLogout={handleLogout}
         isLoading={isLoading}
       />
->>>>>>> 754b74ac3ed890d910f4df9aec9eef8b3d3f21ac
     </>
   );
 };

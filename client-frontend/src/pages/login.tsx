@@ -9,17 +9,17 @@ import {
 } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { Label } from "../components/ui/Label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/Select";
-import { 
-  User, 
-  Lock, 
-  Eye, 
-  EyeOff, 
-  LogIn,
-  Building
-} from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/Select";
+import { User, Lock, Eye, EyeOff, LogIn, Building } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../components/ui/Checkbox";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
