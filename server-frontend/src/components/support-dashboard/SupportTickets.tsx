@@ -86,7 +86,12 @@ interface Ticket {
   comments?: number;
 }
 
-const SupportTickets = () => {
+interface SupportTicketsProps {
+  role?: string;
+  user?: { name: string };
+}
+
+const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
@@ -150,6 +155,16 @@ const SupportTickets = () => {
       status: "In Progress",
       time: "5 hours ago",
       assignee: "Vikram Patel",
+    },
+    // Added for team member filtering test
+    {
+      id: "TKT-006",
+      title: "Test ticket for team member",
+      institute: "Test Institute",
+      priority: "Medium",
+      status: "Open",
+      time: "Just now",
+      assignee: "Support Team Member",
     },
   ]);
 
@@ -456,7 +471,8 @@ const SupportTickets = () => {
     }
   };
 
-  const filteredTickets = tickets.filter((ticket) => {
+  // Filtering logic for team members
+  let filteredTickets = tickets.filter((ticket) => {
     const matchesSearch =
       ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       ticket.institute.toLowerCase().includes(searchQuery.toLowerCase());
@@ -466,8 +482,11 @@ const SupportTickets = () => {
       priorityFilter === "all" || ticket.priority === priorityFilter;
     const matchesCategory =
       categoryFilter === "all" || ticket.category === categoryFilter;
-
-    return matchesSearch && matchesStatus && matchesPriority && matchesCategory;
+    let matchesAssignee = true;
+    if (role === "member" && user?.name) {
+      matchesAssignee = ticket.assignee === user.name;
+    }
+    return matchesSearch && matchesStatus && matchesPriority && matchesCategory && matchesAssignee;
   });
 
   const handleTicketClick = (ticketId: string) => {
@@ -560,12 +579,28 @@ const SupportTickets = () => {
                     ticket.assignee
                   )}
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1">
                   <Badge
                     className={`${getStatusColor(ticket.status)} text-white`}
                   >
                     {ticket.status}
                   </Badge>
+                </div>
+                <div className="col-span-1 flex gap-2 justify-end">
+                  <button
+                    className="p-1 rounded hover:bg-gray-700"
+                    title="Reassign"
+                    onClick={e => { e.stopPropagation(); handleTicketAction(ticket.id, 'assign'); }}
+                  >
+                    <Users className="h-5 w-5 text-blue-400" />
+                  </button>
+                  <button
+                    className="p-1 rounded hover:bg-gray-700"
+                    title="Escalate"
+                    onClick={e => { e.stopPropagation(); handleTicketAction(ticket.id, 'escalate'); }}
+                  >
+                    <ArrowUpRight className="h-5 w-5 text-orange-400" />
+                  </button>
                 </div>
               </div>
             ))}

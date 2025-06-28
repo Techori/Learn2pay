@@ -23,6 +23,9 @@ import {
   MessageSquare,
   Activity,
   Circle,
+  Wallet,
+  Landmark,
+  Hourglass,
 } from "lucide-react";
 import {
   Popover,
@@ -32,6 +35,7 @@ import {
 import { Calendar } from "@/components/ui/Calendar";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import jsPDF from "jspdf";
 
 // Assuming recharts or a similar library is used based on shadcn/ui examples
 import {
@@ -54,43 +58,26 @@ const SupportReports = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const { toast } = useToast();
 
-  // Static data based on images
-  const keyMetrics = [
+  const collectionMetrics = [
     {
-      title: "Average Response Time",
-      value: "2.3 hours",
-      status: "needs improvement",
-      change: "-15%",
-      changeDirection: "down", // Use 'up' or 'down' for arrow direction
-      target: "< 2 hours",
-      icon: <Clock className="h-4 w-4 text-orange-400" />,
+      title: "Today's Collection",
+      value: "₹1,20,500",
+      icon: <Wallet className="h-6 w-6 text-blue-400" />,
     },
     {
-      title: "Resolution Rate",
-      value: "94%",
-      status: "good",
-      change: "+2%",
-      changeDirection: "up",
-      target: "> 90%",
-      icon: <CheckCircle className="h-4 w-4 text-green-400" />,
+      title: "This Week's Collection",
+      value: "₹8,50,000",
+      icon: <CalendarDays className="h-6 w-6 text-green-400" />,
     },
     {
-      title: "Customer Satisfaction",
-      value: "4.4/5",
-      status: "excellent",
-      change: "+0.2",
-      changeDirection: "up",
-      target: "> 4.0",
-      icon: <Smile className="h-4 w-4 text-blue-400" />,
+      title: "This Month's Collection",
+      value: "₹34,75,000",
+      icon: <Landmark className="h-6 w-6 text-purple-400" />,
     },
     {
-      title: "First Contact Resolution",
-      value: "78%",
-      status: "good",
-      change: "+5%",
-      changeDirection: "up",
-      target: "> 75%",
-      icon: <PhoneCall className="h-4 w-4 text-purple-400" />,
+      title: "Pending Collections",
+      value: "₹5,60,000",
+      icon: <Hourglass className="h-6 w-6 text-orange-400" />,
     },
   ];
 
@@ -152,18 +139,59 @@ const SupportReports = () => {
     { name: "Jun", rating: 4.8 },
   ];
 
-  const getStatusBadgeColor = (status: string) => {
-    switch (status) {
-      case "good":
-        return "bg-green-500";
-      case "excellent":
-        return "bg-blue-500";
-      case "needs improvement":
-        return "bg-orange-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
+  const institutes = [
+    {
+      id: "INST-001",
+      name: "ABC International School",
+      location: "Mumbai, Maharashtra",
+      students: 1250,
+      joinedDate: "2024-01-15",
+      phone: "+91 9876543210",
+      email: "admin@abcschool.com",
+      monthlyRevenue: "₹1,25,000",
+      status: "Active",
+      plan: "Premium",
+      payment: "Paid",
+      teachers: 85,
+      totalTickets: 5,
+      openTickets: 2,
+    },
+    {
+      id: "INST-002",
+      name: "XYZ Academy",
+      location: "Delhi, India",
+      students: 800,
+      joinedDate: "2024-02-20",
+      phone: "+91 9876543210",
+      email: "info@xyzacademy.com",
+      monthlyRevenue: "₹80,000",
+      status: "Active",
+      plan: "Standard",
+      payment: "Pending",
+      teachers: 45,
+      totalTickets: 3,
+      openTickets: 1,
+    },
+    {
+      id: "INST-003",
+      name: "Success Coaching Institute",
+      location: "Bangalore, Karnataka",
+      students: 350,
+      joinedDate: "2024-03-10",
+      phone: "+91 9876543210",
+      email: "contact@successinstitute.com",
+      monthlyRevenue: "₹35,000",
+      status: "Inactive",
+      plan: "Basic",
+      payment: "Overdue",
+      teachers: 20,
+      totalTickets: 8,
+      openTickets: 0,
+    },
+  ];
+
+  const [selectedInstituteId, setSelectedInstituteId] = useState<string>(institutes[0].id);
+  const selectedInstitute = institutes.find(inst => inst.id === selectedInstituteId);
 
   const handleExportReport = () => {
     // Example: Exporting Ticket Volume Data to CSV
@@ -196,6 +224,29 @@ const SupportReports = () => {
       title: "Report Exported",
       description: "The report has been successfully exported as a CSV file.",
     });
+  };
+
+  const handleDownloadInstitutePDF = () => {
+    if (!selectedInstitute) return;
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Institute Report", 14, 20);
+    doc.setFontSize(12);
+    doc.text(`Name: ${selectedInstitute.name}`, 14, 35);
+    doc.text(`ID: ${selectedInstitute.id}`, 14, 45);
+    doc.text(`Location: ${selectedInstitute.location}`, 14, 55);
+    doc.text(`Students: ${selectedInstitute.students}`, 14, 65);
+    doc.text(`Teachers: ${selectedInstitute.teachers}`, 14, 75);
+    doc.text(`Joined: ${selectedInstitute.joinedDate}`, 14, 85);
+    doc.text(`Phone: ${selectedInstitute.phone}`, 14, 95);
+    doc.text(`Email: ${selectedInstitute.email}`, 14, 105);
+    doc.text(`Monthly Revenue: ${selectedInstitute.monthlyRevenue}`, 14, 115);
+    doc.text(`Status: ${selectedInstitute.status}`, 14, 125);
+    doc.text(`Plan: ${selectedInstitute.plan}`, 14, 135);
+    doc.text(`Payment: ${selectedInstitute.payment}`, 14, 145);
+    doc.text(`Total Tickets: ${selectedInstitute.totalTickets}`, 14, 155);
+    doc.text(`Open Tickets: ${selectedInstitute.openTickets}`, 14, 165);
+    doc.save(`${selectedInstitute.name.replace(/\s+/g, "_")}_Report.pdf`);
   };
 
   return (
@@ -242,46 +293,41 @@ const SupportReports = () => {
           </div>
         </CardHeader>
         <CardContent>
-          {/* Key Metrics */}
+          {/* Institute PDF Download Section */}
+          <div className="mb-8 p-4 bg-slate-900 rounded-lg flex flex-col md:flex-row items-center gap-4">
+            <label htmlFor="institute-select" className="text-gray-200 font-medium mr-2">Download Institute Report:</label>
+            <select
+              id="institute-select"
+              className="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2 focus:outline-none focus:border-orange-500"
+              value={selectedInstituteId}
+              onChange={e => setSelectedInstituteId(e.target.value)}
+            >
+              {institutes.map(inst => (
+                <option key={inst.id} value={inst.id}>{inst.name}</option>
+              ))}
+            </select>
+            <Button
+              className="bg-orange-500 hover:bg-orange-600 text-white flex items-center"
+              onClick={handleDownloadInstitutePDF}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download PDF
+            </Button>
+          </div>
+
+          {/* Collection Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            {keyMetrics.map((metric, index) => (
+            {collectionMetrics.map((metric, index) => (
               <Card key={index} className="bg-slate-800/30 border-gray-700">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium text-gray-200">
                     {metric.title}
                   </CardTitle>
-                  <Badge
-                    className={`${getStatusBadgeColor(
-                      metric.status
-                    )} text-white`}
-                  >
-                    {metric.status}
-                  </Badge>
+                  {metric.icon}
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-white">
                     {metric.value}
-                  </div>
-                  <div className="flex items-center mt-2 justify-between">
-                    <div className="flex items-center">
-                      {metric.changeDirection === "up" ? (
-                        <TrendingUp className="h-4 w-4 text-green-400 mr-1" />
-                      ) : (
-                        <ArrowDown className="h-4 w-4 text-red-400 mr-1" />
-                      )}
-                      <span
-                        className={
-                          metric.changeDirection === "up"
-                            ? "text-green-400 text-sm"
-                            : "text-red-400 text-sm"
-                        }
-                      >
-                        {metric.change}
-                      </span>
-                    </div>
-                    <div className="text-gray-400 text-xs">
-                      Target: {metric.target}
-                    </div>
                   </div>
                 </CardContent>
               </Card>

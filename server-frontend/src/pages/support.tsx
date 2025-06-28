@@ -6,15 +6,15 @@ import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 import DashboardHeader from "@/components/shared/DashboardHeader";
 
-const SupportDashboard = () => {
+const SupportDashboard = ({ role = "lead" }) => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const { toast } = useToast();
 
   const mockUser = {
-    name: "Support Team Lead",
-    email: "support@edutech.com",
+    name: role === "lead" ? "Support Team Lead" : "Support Team Member",
+    email: role === "lead" ? "support@edutech.com" : "member@edutech.com",
     phone: "+91 9876543210",
-    role: "Support Team",
+    role: role === "lead" ? "Support Team" : "Support Team Member",
     avatar: "",
     address: "Support Center, Mumbai",
   };
@@ -63,7 +63,7 @@ const SupportDashboard = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-6 bg-gray-800 p-1 rounded-md">
+          <TabsList className="grid w-full grid-cols-7 bg-gray-800 p-1 rounded-md">
             <TabsTrigger
               value="dashboard"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -82,12 +82,14 @@ const SupportDashboard = () => {
             >
               Institutes
             </TabsTrigger>
-            <TabsTrigger
-              value="users"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-            >
-              Users
-            </TabsTrigger>
+            {role === "lead" && (
+              <TabsTrigger
+                value="users"
+                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              >
+                Users
+              </TabsTrigger>
+            )}
             <TabsTrigger
               value="reports"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -100,9 +102,15 @@ const SupportDashboard = () => {
             >
               Settings
             </TabsTrigger>
+            <TabsTrigger
+              value="emi-reminders"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              EMI Collection Reminders
+            </TabsTrigger>
           </TabsList>
 
-          <SupportTabContent />
+          <SupportTabContent role={role} user={mockUser} />
         </Tabs>
       </div>
     </motion.div>

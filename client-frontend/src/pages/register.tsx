@@ -1,4 +1,3 @@
-
 import { Button } from "../components/ui/Button";
 import {
   Card,
@@ -29,9 +28,36 @@ import {
   FormControl,
   FormMessage,
 } from "../components/ui/Form";
+import { authAPI } from "../utils/api";
+import { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
+
+  // Show loading if checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="flex items-center space-x-2 text-orange-400">
+          <div className="w-6 h-6 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
+          <span>Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   const form = useForm({
     defaultValues: {
       instituteName: "",
@@ -45,12 +71,65 @@ const Register = () => {
       city: "",
       state: "",
       pincode: "",
+      password: "",
+      confirmPassword: "",
       agreeTerms: false,
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
+    setError("");
+    setSuccess("");
+
+    // Validate passwords match
+    if (data.password !== data.confirmPassword) {
+      setError("Passwords do not match");
+      setIsLoading(false);
+      return;
+    }
+
+    // Prepare data for backend
+    const registrationData = {
+      institute_name: data.instituteName,
+      institute_type: data.instituteType,
+      description: data.description,
+      contact_person: data.contactPerson,
+      contactEmail: data.email,
+      contactNumber: data.phone,
+      website: data.website,
+      address: {
+        street: data.address,
+        city: data.city,
+        state: data.state,
+        pincode: data.pincode,
+      },
+      password: data.password,
+    };
+
+    try {
+      await authAPI.register(registrationData);
+      setSuccess("Registration successful! You can now login.");
+
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err: any) {
+      setError(err.message || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handleFileUpload = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    field: string
+  ) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      console.log(`${field} uploaded:`, file.name);
+      // Additional processing can be added here (e.g., validation, uploading to a server)
+    }
   };
 
   return (
@@ -71,6 +150,20 @@ const Register = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {/* Success Message */}
+            {success && (
+              <div className="mb-6 p-4 bg-green-900/50 border border-green-500 rounded-md">
+                <p className="text-green-300 text-sm">{success}</p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-900/50 border border-red-500 rounded-md">
+                <p className="text-red-300 text-sm">{error}</p>
+              </div>
+            )}
+
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -87,7 +180,7 @@ const Register = () => {
                         control={form.control}
                         name="instituteName"
                         rules={{ required: "Institute Name is required" }}
-                        render={({ field}) => (
+                        render={({ field }) => (
                           <FormItem>
                             <FormLabel htmlFor="instituteName">
                               Institute Name *
@@ -148,7 +241,7 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     <FormField
                       control={form.control}
                       name="description"
@@ -163,7 +256,7 @@ const Register = () => {
                               placeholder="Brief description of your institute"
                               {...field}
                               rows={3}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -284,7 +377,68 @@ const Register = () => {
                     />
                   </div>
                 </div>
-
+                {/* Create Password */}
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-orange-400">
+                    Create Password
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <FormField
+                        control={form.control}
+                        name="password"
+                        rules={{
+                          required: "Password is required",
+                          minLength: {
+                            value: 6,
+                            message: "Password must be at least 6 characters",
+                          },
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="password">Password *</FormLabel>
+                            <FormControl>
+                              <Input
+                                id="password"
+                                type="password"
+                                placeholder="Enter your password"
+                                {...field}
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                required
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        rules={{ required: "Please confirm your password" }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel htmlFor="confirmPassword">
+                              Confirm Password *
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                id="confirmPassword"
+                                type="password"
+                                placeholder="Re-enter your password"
+                                {...field}
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                required
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </div>
                 {/* Address Information */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-orange-400">
@@ -306,7 +460,7 @@ const Register = () => {
                               placeholder="Street address, building name, etc."
                               {...field}
                               rows={2}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                               required
                             />
                           </FormControl>
@@ -384,7 +538,6 @@ const Register = () => {
                     </div>
                   </div>
                 </div>
-
                 {/* KYC Documents */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-orange-400">
@@ -395,18 +548,49 @@ const Register = () => {
                     max 5MB each)
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Institute Registration Certificate */}
                     <div className="space-y-2">
                       <Label>Institute Registration Certificate</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                      <div
+                        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
+                        onClick={() =>
+                          document.getElementById("institute-upload")?.click()
+                        }
+                      >
+                        <input
+                          id="institute-upload"
+                          type="file"
+                          className="hidden"
+                          onChange={(e) =>
+                            handleFileUpload(
+                              e,
+                              "Institute Registration Certificate"
+                            )
+                          }
+                          accept=".pdf,.jpg,.jpeg,.png"
+                        />
                         <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
                         <p className="text-sm text-gray-600">
                           Click to upload or drag and drop
                         </p>
                       </div>
                     </div>
+                    {/* PAN Card */}
                     <div className="space-y-2">
                       <Label>PAN Card</Label>
-                      <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                      <div
+                        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
+                        onClick={() =>
+                          document.getElementById("pan-upload")?.click()
+                        }
+                      >
+                        <input
+                          id="pan-upload"
+                          type="file"
+                          className="hidden"
+                          onChange={(e) => handleFileUpload(e, "PAN Card")}
+                          accept=".pdf,.jpg,.jpeg,.png"
+                        />
                         <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
                         <p className="text-sm text-gray-600">
                           Click to upload or drag and drop
@@ -453,10 +637,18 @@ const Register = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  disabled={isLoading}
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   size="lg"
                 >
-                  Register Institute
+                  {isLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      <span>Registering...</span>
+                    </div>
+                  ) : (
+                    "Register Institute"
+                  )}
                 </Button>
                 <Button
                   variant="ghost"

@@ -106,7 +106,7 @@ const Footer = () => {
             variants={itemVariants}
             links={[
               { name: "About Us", url: "/about" },
-              { name: "Careers", url: "/careers" },
+              { name: "Careers", url: "/career" },
               { name: "Blog", url: "/blog" },
               { name: "Press", url: "/press" },
             ]}

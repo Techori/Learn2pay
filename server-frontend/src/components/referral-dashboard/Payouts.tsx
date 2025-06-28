@@ -246,64 +246,49 @@ const Payouts = () => {
       {/* Payout History */}
       <Card className="shadow-sm">
         <CardHeader className="pb-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <CardTitle className="text-lg">Payout History</CardTitle>
-              <CardDescription>Track your past payouts and transactions</CardDescription>
-            </div>
-            <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-100" onClick={onExportPayoutHistory}>
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-          </div>
+          <CardTitle className="text-lg">Payout History</CardTitle>
+          <CardDescription>View all completed and pending payouts</CardDescription>
         </CardHeader>
         <CardContent className="pt-0">
           <div className="overflow-x-auto">
-            <Table className="min-w-full leading-normal">
-            <TableHeader>
-                <TableRow className="bg-gray-100">
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Payout ID</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Amount</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Date</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Payment Method</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Processing Time</TableHead>
-                  <TableHead className="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {payoutHistory.map((payout) => (
-                  <TableRow key={payout.id} className="hover:bg-gray-50 transition-colors duration-200">
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="font-medium text-gray-900">{payout.id}</div>
-                    <div className="text-sm text-gray-500">{payout.transactionId}</div>
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="font-medium text-gray-900">{payout.amount}</div>
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <div className="text-sm text-gray-900">{payout.date}</div>
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <Badge className={`text-xs ${getStatusColor(payout.status)}`}>
-                      {payout.status}
-                    </Badge>
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {payout.method}
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      {payout.processingTime}
-                  </TableCell>
-                    <TableCell className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-100" onClick={() => onViewPayoutDetails(payout.id)}>
-                        <Eye className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Payout Date</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Payment Method</TableHead>
+                  <TableHead>Transaction ID</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Action</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {payoutHistory.map((payout) => (
+                  <TableRow key={payout.id}>
+                    <TableCell>{payout.date}</TableCell>
+                    <TableCell>{payout.amount}</TableCell>
+                    <TableCell>{payout.method}</TableCell>
+                    <TableCell>{payout.transactionId}</TableCell>
+                    <TableCell>
+                      <Badge className={`text-xs ${
+                        payout.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                        payout.status === 'Processing' ? 'bg-blue-100 text-blue-800' :
+                        payout.status === 'Failed' ? 'bg-red-100 text-red-800' :
+                        payout.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {payout.status === 'Completed' ? 'Paid' : payout.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button size="sm" variant="outline" onClick={() => onViewPayoutDetails(payout.id)}>
+                        <Eye className="h-4 w-4 mr-1" /> View
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         </CardContent>
       </Card>

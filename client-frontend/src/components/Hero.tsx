@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Hero = () => {
+  const { isAuthenticated, institute, isLoading } = useAuth();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -43,11 +46,11 @@ const Hero = () => {
         </motion.h2>
 
         <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+          className="text-2xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
           variants={itemVariants}
         >
-          Ready to Transform Your{" "}
-          <span className="text-orange-500">Fee Collection?</span>
+          Focus on Studies,{" "}
+          <span className="text-orange-500">We Handle the Fees</span>
         </motion.h1>
 
         <motion.p
@@ -60,48 +63,109 @@ const Hero = () => {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row justify-center gap-4 md:gap-6"
+          className="flex flex-row sm:flex-row justify-center gap-4"
           variants={itemVariants}
         >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex-1 max-w-xs mx-auto sm:mx-0"
-          >
-            <Link
-              to="/register"
-              className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
-            >
-              Start Your Free Trial Today
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-5 h-5"
+          {isLoading ? (
+            // Loading state
+            <div className="flex items-center justify-center">
+              <div className="w-6 h-6 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
+            </div>
+          ) : isAuthenticated ? (
+            // Authenticated state - show dashboard and welcome message
+            <div className="flex-1 max-w-xs mx-auto sm:mx-0 flex flex-col sm:flex-col gap-4">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 max-w-xs mx-auto sm:mx-0"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                />
-              </svg>
-            </Link>
-          </motion.div>
+                <Link
+                  to="/dashboard"
+                  className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                    />
+                  </svg>
+                  Go to Dashboard
+                </Link>
+              </motion.div>
 
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex-1 max-w-xs mx-auto sm:mx-0"
-          >
-            <Link
-              to="/demo"
-              className="border border-gray-400 hover:border-orange-400 w-full text-white hover:text-orange-400 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
-            >
-              Schedule a Demo
-            </Link>
-          </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 max-w-xs mx-auto sm:mx-0"
+              >
+                <Link
+                  to="/demo"
+                  className="border border-orange-200 hover:border-orange-500 w-full text-orange-200 hover:text-orange-500 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
+                >
+                  <span>Schedule a Demo</span>
+                </Link>
+              </motion.div>
+
+              <motion.div
+                className="text-gray-300 mt-6"
+                variants={itemVariants}
+              >
+                Welcome,{" "}
+                <span className="text-orange-400">{institute?.name}</span>!
+              </motion.div>
+            </div>
+          ) : (
+            // Not authenticated - show get started and demo buttons
+            <>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 max-w-xs mx-auto sm:mx-0"
+              >
+                <Link
+                  to="/register"
+                  className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                  Get Started Free
+                </Link>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex-1 max-w-xs mx-auto sm:mx-0"
+              >
+                <Link
+                  to="/demo"
+                  className="border border-orange-200 hover:border-orange-500 w-full text-orange-200 hover:text-orange-500 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
+                >
+                  <span>Schedule a Demo</span>
+                </Link>
+              </motion.div>
+            </>
+          )}
         </motion.div>
 
         <motion.div

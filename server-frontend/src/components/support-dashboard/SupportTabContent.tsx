@@ -6,12 +6,14 @@ import SupportInstitutes from './SupportInstitutes';
 import SupportUsers from './SupportUsers';
 import SupportReports from './SupportReports';
 import SupportSettings from './SupportSettings';
+import SupportEmiReminders from './SupportEmiReminders';
 
 interface SupportTabContentProps {
-  activeTab: string;
+  role: string;
+  user: { name: string };
 }
 
-const SupportTabContent = () => {
+const SupportTabContent = ({ role, user }: SupportTabContentProps) => {
   // We will pass activeTab as a prop here later
   // For now, it will use the Tabs context
 
@@ -22,16 +24,18 @@ const SupportTabContent = () => {
       </TabsContent>
       
       <TabsContent value="tickets" className="space-y-6">
-        <SupportTickets />
+        <SupportTickets role={role} user={user} />
       </TabsContent>
       
       <TabsContent value="institutes" className="space-y-6">
-        <SupportInstitutes />
+        <SupportInstitutes role={role} user={user} />
       </TabsContent>
       
-      <TabsContent value="users" className="space-y-6">
-        <SupportUsers />
-      </TabsContent>
+      {role === "lead" && (
+        <TabsContent value="users" className="space-y-6">
+          <SupportUsers />
+        </TabsContent>
+      )}
       
       <TabsContent value="reports" className="space-y-6">
         <SupportReports />
@@ -39,6 +43,10 @@ const SupportTabContent = () => {
       
       <TabsContent value="settings" className="space-y-6">
         <SupportSettings />
+      </TabsContent>
+      
+      <TabsContent value="emi-reminders" className="space-y-6">
+        <SupportEmiReminders role={role} />
       </TabsContent>
     </>
   );

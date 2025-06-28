@@ -42,7 +42,7 @@ const RevenueTracking = () => {
           <CardContent className="p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Revenue</p>
+                <p className="text-sm text-gray-600">Total School Revenue</p>
                 <p className="text-2xl font-bold text-gray-900">₹14,60,000</p>
                 <p className="text-xs text-green-600">+18% from last month</p>
               </div>
@@ -86,6 +86,20 @@ const RevenueTracking = () => {
                 <p className="text-xs text-gray-600">Standard rate</p>
               </div>
               <TrendingUp className="h-8 w-8 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Remaining / Upcoming Earnings */}
+        <Card className="shadow-sm hover:shadow-md transition-shadow duration-200">
+          <CardContent className="p-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Remaining / Upcoming Earnings</p>
+                <p className="text-2xl font-bold text-gray-900">₹54,000</p>
+                <p className="text-xs text-gray-600">Expected Commission: ₹2,00,000</p>
+              </div>
+              <DollarSign className="h-8 w-8 text-yellow-500" />
             </div>
           </CardContent>
         </Card>
