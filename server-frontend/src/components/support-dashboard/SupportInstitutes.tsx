@@ -47,7 +47,12 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 
-const SupportInstitutes = () => {
+interface SupportInstitutesProps {
+  role?: string;
+  user?: { name: string };
+}
+
+const SupportInstitutes = ({ role = "lead", user }: SupportInstitutesProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [planFilter, setPlanFilter] = useState("all"); // Changed from typeFilter to planFilter
@@ -86,6 +91,7 @@ const SupportInstitutes = () => {
       teachers: 85,
       totalTickets: 5,
       openTickets: 2,
+      assignedTo: "Support Team Lead",
     },
     {
       id: "INST-002",
@@ -93,7 +99,7 @@ const SupportInstitutes = () => {
       location: "Delhi, India",
       students: 800,
       joinedDate: "2024-02-20",
-      phone: "+91 9876543210", // Static number for now
+      phone: "+91 9876543210",
       email: "info@xyzacademy.com",
       monthlyRevenue: "₹80,000",
       status: "Active",
@@ -102,6 +108,7 @@ const SupportInstitutes = () => {
       teachers: 45,
       totalTickets: 3,
       openTickets: 1,
+      assignedTo: "Support Team Lead",
     },
     {
       id: "INST-003",
@@ -109,7 +116,7 @@ const SupportInstitutes = () => {
       location: "Bangalore, Karnataka",
       students: 350,
       joinedDate: "2024-03-10",
-      phone: "+91 9876543210", // Static number for now
+      phone: "+91 9876543210",
       email: "contact@successinstitute.com",
       monthlyRevenue: "₹35,000",
       status: "Inactive",
@@ -118,6 +125,24 @@ const SupportInstitutes = () => {
       teachers: 20,
       totalTickets: 8,
       openTickets: 0,
+      assignedTo: "Support Team Lead",
+    },
+    {
+      id: "INST-004",
+      name: "Test Institute for Team Member",
+      location: "Test City",
+      students: 100,
+      joinedDate: "2024-06-01",
+      phone: "+91 9000000000",
+      email: "test@institute.com",
+      monthlyRevenue: "₹10,000",
+      status: "Active",
+      plan: "Basic",
+      payment: "Paid",
+      teachers: 10,
+      totalTickets: 1,
+      openTickets: 1,
+      assignedTo: "Support Team Member",
     },
   ]);
 
@@ -571,8 +596,11 @@ const SupportInstitutes = () => {
     const matchesStatus =
       statusFilter === "all" || institute.status === statusFilter;
     const matchesPlan = planFilter === "all" || institute.plan === planFilter;
-
-    return matchesSearch && matchesStatus && matchesPlan;
+    let matchesAssignee = true;
+    if (role === "member" && user?.name) {
+      matchesAssignee = institute.assignedTo === user.name;
+    }
+    return matchesSearch && matchesStatus && matchesPlan && matchesAssignee;
   });
 
   return (
@@ -757,8 +785,7 @@ const SupportInstitutes = () => {
               <div className="col-span-2">Location</div>
               <div className="col-span-2">Type</div>
               <div className="col-span-1">Students</div>
-              <div className="col-span-2">Subscription</div>
-              <div className="col-span-1">Tickets</div>
+              <div className="col-span-2">Tickets</div>
               <div className="col-span-1">Status</div>
             </div>
 
@@ -779,13 +806,6 @@ const SupportInstitutes = () => {
                   {institute.students.toLocaleString()}
                 </div>
                 <div className="col-span-2">
-                  <Badge
-                    className={`${getPlanColor(institute.plan)} text-white`}
-                  >
-                    {institute.plan}
-                  </Badge>
-                </div>
-                <div className="col-span-1">
                   {institute.openTickets > 0 ? (
                     <Badge className="bg-red-500 text-white">
                       {institute.openTickets}

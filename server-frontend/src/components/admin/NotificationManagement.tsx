@@ -4,9 +4,10 @@ import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Badge } from "../../components/ui/Badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
-import { Search, Filter, Bell, Send, Plus, Eye, Edit, Trash2, MessageSquare, Mail, Smartphone } from 'lucide-react';
+import { Search, Filter, Bell, Send, Plus, Eye, Edit, Trash2, MessageSquare, Mail, Smartphone, Calendar, Users, Phone } from 'lucide-react';
 import { useToast } from "../../hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../../components/ui/Dialog";
+import BroadcastCenter from './BroadcastCenter'; // Importing BroadcastCenter component
 
 // Define interfaces for TypeScript
 interface Notification {
@@ -23,9 +24,30 @@ interface Notification {
 }
 
 interface Template {
+  id?: number; // Optional for notification templates
   title: string;
-  description: string;
+  description: string | null; // Nullable for broadcast templates
   type: string;
+  usage?: number; // Optional for broadcast templates
+}
+
+interface BroadcastForm {
+  channel: string;
+  message: string;
+  recipients: string;
+}
+
+interface BroadcastCenterProps {
+  showScheduleDialog: boolean;
+  setShowScheduleDialog: (value: boolean) => void;
+  scheduleDate: string;
+  setScheduleDate: (value: string) => void;
+  showBroadcastDialog: boolean;
+  setShowBroadcastDialog: (value: boolean) => void;
+  broadcastForm: BroadcastForm;
+  setBroadcastForm: (value: BroadcastForm) => void;
+  selectedTemplate: string;
+  setSelectedTemplate: (value: string) => void;
 }
 
 const NotificationManagement: React.FC = () => {
@@ -45,6 +67,11 @@ const NotificationManagement: React.FC = () => {
     opened: 0,
     clicked: 0
   });
+  const [showScheduleDialog, setShowScheduleDialog] = useState<boolean>(false);
+  const [scheduleDate, setScheduleDate] = useState<string>('');
+  const [showBroadcastDialog, setShowBroadcastDialog] = useState<boolean>(false);
+  const [broadcastForm, setBroadcastForm] = useState<BroadcastForm>({ channel: '', message: '', recipients: '' });
+  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
 
   const notifications: Notification[] = [
     {
@@ -222,7 +249,7 @@ const NotificationManagement: React.FC = () => {
     setNewNotification({
       id: 0,
       title: template.title,
-      message: template.description,
+      message: template.description || '',
       type: template.type,
       audience: 'All Students',
       status: 'Draft',
@@ -490,6 +517,20 @@ const NotificationManagement: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Broadcast Center Section */}
+      <BroadcastCenter
+        showScheduleDialog={showScheduleDialog}
+        setShowScheduleDialog={setShowScheduleDialog}
+        scheduleDate={scheduleDate}
+        setScheduleDate={setScheduleDate}
+        showBroadcastDialog={showBroadcastDialog}
+        setShowBroadcastDialog={setShowBroadcastDialog}
+        broadcastForm={broadcastForm}
+        setBroadcastForm={setBroadcastForm}
+        selectedTemplate={selectedTemplate}
+        setSelectedTemplate={setSelectedTemplate}
+      />
 
       {/* Create Notification Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>

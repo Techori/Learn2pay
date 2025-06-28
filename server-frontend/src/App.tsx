@@ -9,6 +9,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 import SuperAdminDashboard from "./pages/superAdmin";
 import Home from "./pages/home";
+import Login from "./pages/Login";
 function App() {
   return (
     <>
@@ -16,15 +17,14 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/superAdmin-dashboard"
-            element={<SuperAdminDashboard />}
-          />
+          <Route path="/superAdmin-dashboard" element={<SuperAdminDashboard />}/>
           <Route path="/referral-dashboard" element={<ReferralDashboard />} />
-
           <Route path="/support-dashboard" element={<SupportDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/sales-dashboard/salesperson" element={<SalesDashboard />} />
+          <Route path="/sales-dashbaord/manager" element={<SalesDashboard />} />
+          <Route path="/support-team-dashboard" element={<SupportDashboard role="member" />} />
           <Route path="/sales-dashboard" element={<SalesDashboard />} />
-          <Route path="*" element={<Home />} />
         </Routes>
         <Toaster />
       </BrowserRouter>

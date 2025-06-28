@@ -41,13 +41,32 @@ interface BroadcastForm {
   recipients: string;
 }
 
-const BroadcastCenter: React.FC = () => {
+interface BroadcastCenterProps {
+  showScheduleDialog: boolean;
+  setShowScheduleDialog: (value: boolean) => void;
+  scheduleDate: string;
+  setScheduleDate: (value: string) => void;
+  showBroadcastDialog: boolean;
+  setShowBroadcastDialog: (value: boolean) => void;
+  broadcastForm: BroadcastForm;
+  setBroadcastForm: (value: BroadcastForm) => void;
+  selectedTemplate: string;
+  setSelectedTemplate: (value: string) => void;
+}
+
+const BroadcastCenter: React.FC<BroadcastCenterProps> = ({
+  showScheduleDialog,
+  setShowScheduleDialog,
+  scheduleDate,
+  setScheduleDate,
+  showBroadcastDialog,
+  setShowBroadcastDialog,
+  broadcastForm,
+  setBroadcastForm,
+  selectedTemplate,
+  setSelectedTemplate
+}) => {
   const { toast } = useToast();
-  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
-  const [showScheduleDialog, setShowScheduleDialog] = useState<boolean>(false);
-  const [scheduleDate, setScheduleDate] = useState<string>('');
-  const [showBroadcastDialog, setShowBroadcastDialog] = useState<boolean>(false);
-  const [broadcastForm, setBroadcastForm] = useState<BroadcastForm>({ channel: '', message: '', recipients: '' });
 
   const broadcastStats: BroadcastStat[] = [
     { type: "SMS", sent: "12,450", delivered: "12,234", opened: "10,890", cost: "₹2,490" },
@@ -149,8 +168,13 @@ const BroadcastCenter: React.FC = () => {
     setSelectedTemplate(templateName);
     const template = templates.find(t => t.name === templateName);
     if (template) {
-      setBroadcastForm(prev => ({ ...prev, message: `Using template: ${templateName}` }));
+      setBroadcastForm(prev => ({
+        ...prev,
+        message: `Using template: ${template.name} - ${template.type} message`,
+        channel: template.type
+      }));
     }
+    setShowBroadcastDialog(true);
     toast({
       title: "Template Selected",
       description: `Using template "${templateName}" at ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }).replace(',', ' ')}.`
@@ -165,7 +189,7 @@ const BroadcastCenter: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
+    <div className="space-y-6">
       {/* Broadcast Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {broadcastStats.map((stat, index) => (
@@ -309,68 +333,6 @@ const BroadcastCenter: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-
-      {/* Schedule Dialog */}
-      <Dialog open={showScheduleDialog} onOpenChange={setShowScheduleDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle>Schedule Message</DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Schedule your broadcast message for a specific date and time.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <Input
-              type="datetime-local"
-              value={scheduleDate}
-              onChange={(e) => setScheduleDate(e.target.value)}
-              className="bg-[#232b45] border border-[#232b45] text-white"
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowScheduleDialog(false)}>
-              Cancel
-            </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleScheduleMessage}>
-              Schedule
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Broadcast Dialog */}
-      <Dialog open={showBroadcastDialog} onOpenChange={setShowBroadcastDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
-          <DialogHeader>
-            <DialogTitle>New {broadcastForm.channel} Broadcast</DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Compose and send a broadcast message for {broadcastForm.channel}.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <Input
-              placeholder="Enter message content"
-              value={broadcastForm.message}
-              onChange={(e) => setBroadcastForm({ ...broadcastForm, message: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
-            />
-            <Input
-              placeholder="Enter recipient list (e.g., phone numbers, emails)"
-              value={broadcastForm.recipients}
-              onChange={(e) => setBroadcastForm({ ...broadcastForm, recipients: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowBroadcastDialog(false)}>
-              Cancel
-            </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleSendBroadcast}>
-              Send
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
