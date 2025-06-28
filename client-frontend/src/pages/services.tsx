@@ -36,6 +36,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "@/components/Navbar";
+import LearnMore from "./LearnMore";
 const featureIcons: Record<string, any> = {
   "Student registration & management": Users,
   "Class-wise fee structure": ClipboardList,
@@ -172,7 +173,7 @@ const Services = () => {
                     })}
                   </ul>
                   <Button
-                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transform hover:scale-105 transition-all duration-300 font-semibold text-lg py-3 rounded-xl shadow-lg"
+                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-lg py-3 rounded-xl shadow-lg"
                     onClick={() => navigate("/LearnMore")}
                   >
                     <span>Learn More</span>

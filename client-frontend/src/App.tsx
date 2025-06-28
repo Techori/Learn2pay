@@ -9,14 +9,17 @@ import About from "./pages/about";
 import Demo from "./pages/demo";
 import Blog from "./pages/Blog";
 import Career from "./pages/Career";
+import Applynow from "./pages/Applynow";
 import Press from "./pages/Press";
 import Help from "./pages/Help";
 import Privacy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
+import CookiesPolicy from "./pages/CookiesPolicy";
+import Teams from "./pages/Teams";
 import Pricing from "./pages/Pricing";
 import ParentDashboard from "./pages/dashboards/parent";
 import InstituteDashboard from "./pages/dashboards/Institute";
-import LearnMore from "./components/LearnMore";
+import LearnMore from "./pages/LearnMore";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 function App() {
@@ -34,12 +37,15 @@ function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/blog" element={<Blog />} />
           <Route path ="/career" element={<Career />} />
-           <Route path ="/help" element={<Help/>} />
+          <Route path ="/applynow" element={<Applynow />} />
+          <Route path ="/help" element={<Help/>} />
           <Route path ="/press" element={<Press/>} />
-           <Route path ="/terms" element={<Terms/>} />
-            <Route path ="/demo" element={<Demo/>} />
+          <Route path ="/terms" element={<Terms/>} />
+          <Route path ="/CookiesPolicy" element={<CookiesPolicy/>} />
+          <Route path ="/teams" element={<Teams/>} />
+          <Route path ="/demo" element={<Demo/>} />
           <Route path ="/privacy" element={<Privacy />} />
-           <Route path="/learn-more/:type" element={<LearnMore />} />
+          <Route path="/learnmore" element={<LearnMore />} />
           <Route path="/parent-dashboard" element={<ParentDashboard />} />
           <Route path="/institute-dashboard" element={<InstituteDashboard />} />
 

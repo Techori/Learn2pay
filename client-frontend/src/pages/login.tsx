@@ -10,11 +10,10 @@ import {
   Eye, 
   EyeOff, 
   LogIn,
-  Building
+  Building,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox } from "../components/ui/Checkbox";
-
 const Login = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState('');

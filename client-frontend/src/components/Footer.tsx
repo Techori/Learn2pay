@@ -119,7 +119,8 @@ const Footer = () => {
               { name: "Help Center", url: "/help" },
               { name: "Contact Us", url: "/contact" },
               { name: "Privacy Policy", url: "/privacy" },
-              { name: "Terms of Service", url: "/terms" },
+              { name: "Terms of Service", url: "/Terms" },
+               { name: "Teams", url: "/teams" }, 
             ]}
           />
 
@@ -169,7 +170,7 @@ const Footer = () => {
               Terms of Service
             </Link>
             <Link
-              to="/cookies"
+              to="/CookiesPolicy"
               className="hover:text-orange-500 transition-colors"
             >
               Cookie Policy

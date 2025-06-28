@@ -9,6 +9,8 @@ export default {
           dark: "var(--primary-dark)",
         },
         secondary: "var(--secondary)",
+        background: 'var(--background-color)',
+        text: 'var(--text-color)',
         success: "var(--success)",
         warning: "var(--warning)",
         danger: "var(--danger)",

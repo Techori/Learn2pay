@@ -15,6 +15,24 @@
   --warning: #ffb946;
   --danger: #f05252;
 }
+[data-theme="bright"] {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+[data-theme="dark"] {
+  --background-color: #0f1222;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+html {
+  font-size: clamp(14px, 1.5vw, 16px);
+  line-height: 1.5;
+}
 
 /* Custom utility classes */
 .btn {
@@ -45,18 +63,22 @@
 .btn-secondary:hover {
   background-color: #f9fafb;
 }
+
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
 .container-custom {
   width: 100%;
   max-width: 80rem;
@@ -93,7 +115,8 @@
 }
 
 .card {
-  background-color: white;
+  background-color: var(--bg-gray);
+  color: var(--text-color);
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -115,51 +138,44 @@
 }
 
 .heading-xl {
-  font-size: 2.25rem;
+  font-size: clamp(2rem, 5vw, 3.75rem);
   font-weight: 700;
-}
-
-@media (min-width: 768px) {
-  .heading-xl {
-    font-size: 3.75rem;
-  }
 }
 
 .heading-lg {
-  font-size: 1.875rem;
+  font-size: clamp(1.5rem, 4vw, 3rem);
   font-weight: 700;
-}
-
-@media (min-width: 768px) {
-  .heading-lg {
-    font-size: 3rem;
-  }
 }
 
 .heading-md {
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3vw, 2.25rem);
   font-weight: 700;
-}
-
-@media (min-width: 768px) {
-  .heading-md {
-    font-size: 2.25rem;
-  }
 }
 
 .heading-sm {
-  font-size: 1.25rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 700;
 }
 
-@media (min-width: 768px) {
-  .heading-sm {
-    font-size: 1.5rem;
-  }
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
 }
 
-/* Dark mode styles */
-.dark {
-  --bg-primary: var(--bg-dark);
-  --text-primary: var(--text-light);
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .nav-menu {
+    flex-direction: row;
+  }
 }

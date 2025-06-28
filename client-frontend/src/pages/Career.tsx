@@ -19,12 +19,6 @@ return (
       <section className="py-16 text-center bg-orange-600 text-white">
         <h1 className="text-4xl font-bold mb-4">Join Our Team</h1>
         <p className="text-lg mb-8">Be a part of the Learn2Pay family and help revolutionize fee payments.</p>
-        <Button
-          onClick={() => navigate('/apply')}
-          className="bg-orange-700 hover:bg-orange-500 px-6 py-3 rounded-lg"
-        >
-          Apply Now
-        </Button>
       </section>
 
       {/* Open Positions Section */}
@@ -39,12 +33,12 @@ return (
               <CardDescription className="text-gray-400">
                 Build and maintain our cutting-edge payment platform. Experience in React and Node.js required.
               </CardDescription>
-              <Button
-                onClick={() => navigate('/apply?role=software-developer')}
-                className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
-              >
-                Apply Now
-              </Button>
+               <button
+      onClick={() => navigate('/Applynow')}
+      className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
+    >
+      Apply Now
+    </button>
             </CardContent>
           </Card>
 
@@ -56,12 +50,12 @@ return (
               <CardDescription className="text-gray-400">
                 Drive our marketing campaigns and help expand our brand reach. Digital marketing experience preferred.
               </CardDescription>
-              <Button
-                onClick={() => navigate('/apply?role=marketing-specialist')}
-                className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
-              >
-                Apply Now
-              </Button>
+              <button
+      onClick={() => navigate('/Applynow')}
+      className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
+    >
+      Apply Now
+    </button>
             </CardContent>
           </Card>
 
@@ -73,12 +67,12 @@ return (
               <CardDescription className="text-gray-400">
                 Assist our customers and ensure a smooth user experience. Strong communication skills required.
               </CardDescription>
-              <Button
-                onClick={() => navigate('/apply?role=customer-support')}
-                className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
-              >
-                Apply Now
-              </Button>
+              <button
+      onClick={() => navigate('/Applynow')}
+      className="mt-4 bg-orange-700 hover:bg-orange-500 w-full text-white"
+    >
+      Apply Now
+    </button>
             </CardContent>
           </Card>
         </div>
@@ -111,12 +105,6 @@ return (
       <section className="py-12 bg-orange-600 text-white text-center">
         <h2 className="text-2xl font-bold mb-4">Ready to Make an Impact?</h2>
         <p className="mb-6">Join us in revolutionizing fee payments and empowering education.</p>
-        <Button
-          onClick={() => navigate('/apply')}
-          className="bg-orange-700 hover:bg-orange-500 px-6 py-3 rounded-lg"
-        >
-          See All Openings
-        </Button>
       </section>
     </div>
   );
