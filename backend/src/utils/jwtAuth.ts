@@ -2,11 +2,13 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 
 interface TokenPayload {
-  instituteId: string;
+  studentId?: string,
+  instituteId?: string;
   email: string;
   instituteName: string;
 }
 
+// access token generator
 export const generateAccessToken = (payload: TokenPayload): string => {
   if (!process.env.JWT_ACCESS_SECRET) {
     throw new Error(
@@ -19,6 +21,7 @@ export const generateAccessToken = (payload: TokenPayload): string => {
   });
 };
 
+// refresh token generator
 export const generateRefreshToken = (payload: TokenPayload): string => {
   if (!process.env.JWT_REFRESH_SECRET) {
     throw new Error(
@@ -31,6 +34,7 @@ export const generateRefreshToken = (payload: TokenPayload): string => {
   });
 };
 
+// access token verificaton
 export const verifyAccessToken = (token: string): TokenPayload | null => {
   try {
     if (!process.env.JWT_ACCESS_SECRET) {
@@ -42,6 +46,7 @@ export const verifyAccessToken = (token: string): TokenPayload | null => {
   }
 };
 
+// refresh token verification
 export const verifyRefreshToken = (token: string): TokenPayload | null => {
   try {
     if (!process.env.JWT_REFRESH_SECRET) {

@@ -1,6 +1,6 @@
 import { registerInstitute } from "@/controllers/institute/regInstitute";
 import { logInstitute } from "@/controllers/institute/logInstitute";
-import { getSession, refreshToken, logout } from "@/controllers/institute/auth";
+import { getSession, refreshToken, logout } from "@/controllers/session";
 import { authenticateToken } from "@/middleware/auth";
 import express from "express";
 

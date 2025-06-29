@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const InstituteSchema = new mongoose.Schema({
-  institute_name: { type: String, required: true },
-  institute_type : {type: String, required: true, enum: ['school', 'college', 'university', 'other'] },
+  instituteName: { type: String, required: true },
+  instituteType : {type: String, required: true, enum: ['school', 'college', 'university', 'other'] },
   description  :{ type: String, required: false },
-  contact_person: {
+  contactPerson: {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
   },

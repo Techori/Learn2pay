@@ -1,12 +1,12 @@
 import Institute from "@/models/institute/instituteModel";
 import { Request, Response } from "express";
-import { comparePassword } from "@/utils/institute/hashAuth";
+import { comparePassword } from "@/utils/hashAuth";
 import { instituteLoginSchema } from "@/validations/instituteValidation";
 import {
   generateAccessToken,
   generateRefreshToken,
   setTokenCookies,
-} from "@/utils/institute/jwtAuth";
+} from "@/utils/jwtAuth";
 
 export const logInstitute = async (
   req: Request,
@@ -39,7 +39,7 @@ export const logInstitute = async (
     const tokenPayload = {
       instituteId: institute._id.toString(),
       email: institute.contactEmail,
-      instituteName: institute.institute_name,
+      instituteName: institute.instituteName,
     };
 
     // Generate tokens
@@ -54,10 +54,10 @@ export const logInstitute = async (
       message: "Login successful",
       institute: {
         id: institute._id,
-        name: institute.institute_name,
+        name: institute.instituteName,
         email: institute.contactEmail,
-        type: institute.institute_type,
-        contactPerson: institute.contact_person,
+        type: institute.instituteType,
+        contactPerson: institute.contactPerson,
       },
     });
   } catch (error) {

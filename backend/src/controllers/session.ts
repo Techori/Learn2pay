@@ -4,7 +4,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   setTokenCookies,
-} from "@/utils/institute/jwtAuth";
+} from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
 
 // Get current session info

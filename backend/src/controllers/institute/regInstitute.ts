@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { instituteRegisterSchema } from "@/validations/instituteValidation";
 import Institute from "@/models/institute/instituteModel";
-import { hashPassword } from "@/utils/institute/hashAuth";
+import { hashPassword } from "@/utils/hashAuth";
 
-export const registerInstitute = async (  req: Request, res: Response): Promise<void> => {
+export const registerInstitute = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const parsed = instituteRegisterSchema.safeParse(req.body);
     if (!parsed.success) {

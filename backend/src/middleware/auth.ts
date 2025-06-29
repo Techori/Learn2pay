@@ -3,7 +3,7 @@ import {
   verifyAccessToken,
   verifyRefreshToken,
   generateAccessToken,
-} from "@/utils/institute/jwtAuth";
+} from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
 
 // Extend Request interface to include institute data
@@ -34,7 +34,7 @@ export const authenticateToken = async (
       if (decoded) {
         // Token is valid, attach institute data to request
         req.institute = {
-          id: decoded.instituteId,
+          id: decoded.instituteId || decoded.studentId,
           email: decoded.email,
           instituteName: decoded.instituteName,
         };
