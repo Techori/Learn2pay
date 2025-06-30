@@ -1,3 +1,4 @@
+/// <reference path="../types/express.d.ts" />
 import { Request, Response } from "express";
 import {
   verifyRefreshToken,
@@ -15,13 +16,21 @@ export const getSession = async (
 ): Promise<void> => {
   try {
     if (req.user?.role === "institute") {
+      if (!req.institute) {
+        res.status(401).json({ message: "Institute data not found" });
+        return;
+      }
+
       res.json({
         institute: {
           id: req.institute._id,
           name: req.institute.instituteName,
           email: req.institute.contactEmail,
           type: req.institute.instituteType,
-          contactPerson: req.institute.contactPerson,
+          contactPerson: req.institute.contactPerson || {
+            firstName: "",
+            lastName: "",
+          },
         },
         message: "Institute session active",
       });
@@ -29,6 +38,11 @@ export const getSession = async (
     }
 
     if (req.user?.role === "parent") {
+      if (!req.parent) {
+        res.status(401).json({ message: "Parent data not found" });
+        return;
+      }
+
       res.json({
         parent: {
           id: req.parent._id,

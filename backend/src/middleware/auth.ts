@@ -1,8 +1,8 @@
+/// <reference path="../types/express.d.ts" />
 import { Request, Response, NextFunction } from "express";
 import { verifyAccessToken } from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
 import Student from "@/models/parents/studentsModel";
-
 
 const authenticateToken = async (
   req: Request,
