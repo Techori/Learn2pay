@@ -25,8 +25,11 @@ const studentRegisterSchema = z.object({
 });
 
 const parentLoginSchema = z.object({
-  parentEmail: z.string().min(1, "Email is required").email("Invalid email format"),
-  password: z.string().min(1, "Password is required")
+  parentEmail: z
+    .string()
+    .min(1, "Email is required")
+    .email("Invalid email format"),
+  password: z.string().min(1, "Password is required"),
 });
 
 export { studentRegisterSchema, parentLoginSchema };

@@ -31,15 +31,13 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
       rollNumber,
     });
     if (existingStudent) {
-      res
-        .status(400)
-        .json({
-          message:
-            "Student with this parent email and student name already exists in this institute",
-        });
+      res.status(400).json({
+        message:
+          "Student with this parent email and student name already exists in this institute",
+      });
       return;
     } else {
-      const hashedPassword = hashPassword(password);
+      const hashedPassword = await hashPassword(password);
       const newStudent = await Student.create({
         name,
         parentName,

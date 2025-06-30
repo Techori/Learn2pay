@@ -3,6 +3,7 @@ import { instituteRegisterSchema } from "@/validations/instituteValidation";
 import Institute from "@/models/institute/instituteModel";
 import { hashPassword } from "@/utils/hashAuth";
 
+
 export const registerInstitute = async (
   req: Request,
   res: Response
@@ -37,10 +38,10 @@ export const registerInstitute = async (
     const hashedPassword = await hashPassword(password);
 
     const newInstitute = await Institute.create({
-      institute_name,
-      institute_type,
+      instituteName: institute_name,
+      instituteType: institute_type,
       description,
-      contact_person,
+      contactPerson: contact_person,
       contactEmail,
       contactPhone,
       address,

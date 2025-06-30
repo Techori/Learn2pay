@@ -8,6 +8,7 @@ import {
   setTokenCookies,
 } from "@/utils/jwtAuth";
 
+
 export const logInstitute = async (
   req: Request,
   res: Response
@@ -37,6 +38,7 @@ export const logInstitute = async (
 
     // Create token payload with institute information
     const tokenPayload = {
+      role: "institute" as const,
       instituteId: institute._id.toString(),
       email: institute.contactEmail,
       instituteName: institute.instituteName,

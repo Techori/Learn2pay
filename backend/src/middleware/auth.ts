@@ -1,114 +1,59 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  verifyAccessToken,
-  verifyRefreshToken,
-  generateAccessToken,
-} from "@/utils/jwtAuth";
+import { verifyAccessToken } from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
+import Student from "@/models/parents/studentsModel";
 
-// Extend Request interface to include institute data
-declare global {
-  namespace Express {
-    interface Request {
-      institute?: {
-        id: string;
-        email: string;
-        instituteName: string;
-      };
-    }
-  }
-}
 
-export const authenticateToken = async (
+const authenticateToken = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const accessToken = req.cookies.accessToken;
-    const refreshToken = req.cookies.refreshToken;
-
-    // Check if access token exists and is valid
-    if (accessToken) {
-      const decoded = verifyAccessToken(accessToken);
-      if (decoded) {
-        // Token is valid, attach institute data to request
-        req.institute = {
-          id: decoded.instituteId || decoded.studentId,
-          email: decoded.email,
-          instituteName: decoded.instituteName,
-        };
-        next();
-        return;
-      }
+    const token =
+      req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      res.status(401).json({ message: "Authentication token required" });
+      return;
     }
 
-    // Access token invalid/expired, try refresh token
-    if (refreshToken) {
-      const decoded = verifyRefreshToken(refreshToken);
-      if (decoded) {
-        // Verify institute still exists in database
-        const institute = await Institute.findById(decoded.instituteId);
-        if (!institute) {
-          res.status(401).json({ error: "Institute not found" });
-          return;
-        }
-
-        // Generate new access token
-        const newAccessToken = generateAccessToken({
-          instituteId: decoded.instituteId,
-          email: decoded.email,
-          instituteName: decoded.instituteName,
-        });
-
-        // Set new access token cookie
-        res.cookie("accessToken", newAccessToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
-          maxAge: 15 * 60 * 1000, // 15 minutes
-        });
-
-        // Attach institute data to request
-        req.institute = {
-          id: decoded.instituteId,
-          email: decoded.email,
-          instituteName: decoded.instituteName,
-        };
-
-        next();
-        return;
-      }
+    const decoded = verifyAccessToken(token);
+    if (!decoded) {
+      res.status(401).json({ message: "Invalid token" });
+      return;
     }
 
-    // No valid tokens
-    res.status(401).json({ error: "Authentication required" });
+    if (decoded.role === "institute") {
+      const institute = await Institute.findById(decoded.instituteId).select(
+        "-password"
+      );
+      if (!institute) {
+        res.status(401).json({ message: "Institute not found" });
+        return;
+      }
+      req.institute = institute;
+    } else if (decoded.role === "parent") {
+      const student = await Student.findById(decoded.studentId).select(
+        "-password"
+      );
+      if (!student) {
+        res.status(401).json({ message: "Parent/Student not found" });
+        return;
+      }
+      req.parent = student;
+    } else {
+      res.status(401).json({ message: "Invalid role" });
+      return;
+    }
+
+    req.user = decoded;
+    next();
   } catch (error) {
     console.error("Auth middleware error:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
 
-// Optional: Middleware for routes that work with or without auth
-export const optionalAuth = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
-  try {
-    const accessToken = req.cookies.accessToken;
-    if (accessToken) {
-      const decoded = verifyAccessToken(accessToken);
-      if (decoded) {
-        req.institute = {
-          id: decoded.instituteId,
-          email: decoded.email,
-          instituteName: decoded.instituteName,
-        };
-      }
-    }
-    next(); // Continue regardless of auth status
-  } catch (error) {
-    next(); // Continue even if there's an error
-  }
-};
+export { authenticateToken };
+
+export default authenticateToken;

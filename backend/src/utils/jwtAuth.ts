@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 
 interface TokenPayload {
-  studentId?: string,
+  role: "institute" | "parent";
+  studentId?: string;
   instituteId?: string;
   email: string;
   instituteName: string;

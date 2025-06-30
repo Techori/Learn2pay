@@ -1,8 +1,9 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import connectDB from "@/config/db";
-import instituteRoutes from "@/routes/instituteRoute";
+import connectDB from "./config/db";
+import instituteRoutes from "./routes/instituteRoute";
+import parentRoutes from "./routes/parentRoutes";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.use(
 
 // Routes
 app.use("/api/institute", instituteRoutes);
+app.use("/api/parent", parentRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

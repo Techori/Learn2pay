@@ -6,6 +6,7 @@ import {
   setTokenCookies,
 } from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
+import Student from "@/models/parents/studentsModel";
 
 // Get current session info
 export const getSession = async (
@@ -13,34 +14,37 @@ export const getSession = async (
   res: Response
 ): Promise<void> => {
   try {
-    if (!req.institute) {
-      res.status(401).json({ error: "Not authenticated" });
+    if (req.user?.role === "institute") {
+      res.json({
+        institute: {
+          id: req.institute._id,
+          name: req.institute.instituteName,
+          email: req.institute.contactEmail,
+          type: req.institute.instituteType,
+          contactPerson: req.institute.contactPerson,
+        },
+        message: "Institute session active",
+      });
       return;
     }
 
-    // Fetch fresh institute data from database
-    const institute = await Institute.findById(req.institute.id).select(
-      "-password"
-    );
-
-    if (!institute) {
-      res.status(404).json({ error: "Institute not found" });
+    if (req.user?.role === "parent") {
+      res.json({
+        parent: {
+          id: req.parent._id,
+          parentName: req.parent.parentName,
+          parentEmail: req.parent.parentEmail,
+          studentName: req.parent.name,
+          instituteName: req.parent.instituteName,
+        },
+        message: "Parent session active",
+      });
       return;
     }
 
-    res.status(200).json({
-      institute: {
-        id: institute._id,
-        name: institute.institute_name,
-        email: institute.contactEmail,
-        type: institute.institute_type,
-        contactPerson: institute.contact_person,
-        address: institute.address,
-      },
-    });
+    res.status(401).json({ message: "Invalid session" });
   } catch (error) {
-    console.error("Get session error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Session error" });
   }
 };
 
@@ -63,19 +67,40 @@ export const refreshToken = async (
       return;
     }
 
-    // Verify institute still exists
-    const institute = await Institute.findById(decoded.instituteId);
-    if (!institute) {
-      res.status(401).json({ error: "Institute not found" });
+    let tokenPayload;
+
+    if (decoded.role === "institute") {
+      // Verify institute still exists
+      const institute = await Institute.findById(decoded.instituteId);
+      if (!institute) {
+        res.status(401).json({ error: "Institute not found" });
+        return;
+      }
+
+      tokenPayload = {
+        role: "institute" as const,
+        instituteId: decoded.instituteId,
+        email: decoded.email,
+        instituteName: decoded.instituteName,
+      };
+    } else if (decoded.role === "parent") {
+      // Verify student still exists
+      const student = await Student.findById(decoded.studentId);
+      if (!student) {
+        res.status(401).json({ error: "Student not found" });
+        return;
+      }
+
+      tokenPayload = {
+        role: "parent" as const,
+        studentId: decoded.studentId,
+        email: decoded.email,
+        instituteName: decoded.instituteName,
+      };
+    } else {
+      res.status(401).json({ error: "Invalid role in token" });
       return;
     }
-
-    // Generate new tokens
-    const tokenPayload = {
-      instituteId: decoded.instituteId,
-      email: decoded.email,
-      instituteName: decoded.instituteName,
-    };
 
     const newAccessToken = generateAccessToken(tokenPayload);
     const newRefreshToken = generateRefreshToken(tokenPayload);
