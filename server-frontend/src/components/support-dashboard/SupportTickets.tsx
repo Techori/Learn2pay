@@ -206,26 +206,29 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-500";
+        return "bg-danger";
       case "Medium":
-        return "bg-yellow-500";
+        return "bg-warning";
       case "Low":
-        return "bg-green-500";
+        return "bg-success";
       default:
-        return "bg-gray-500";
+        return "bg-secondary";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "New":
-        return "bg-blue-500";
+        return "bg-secondary";
       case "In Progress":
-        return "bg-orange-500";
+      case "Open":
+        return "bg-primary";
       case "Resolved":
-        return "bg-green-500";
+        return "bg-success";
+      case "Escalated":
+        return "bg-danger";
       default:
-        return "bg-gray-500";
+        return "bg-secondary";
     }
   };
 
@@ -375,7 +378,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
                 </div>
                 <div>
                   <h3 className="font-semibold">Assigned To</h3>
-                  <p>{selectedTicket.assignedTo}</p>
+                  <p>{selectedTicket.assignee}</p>
                 </div>
                 <div>
                   <h3 className="font-semibold">Created</h3>
@@ -401,7 +404,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
               </div>
               <div>
                 <h3 className="font-semibold">Current Assignee</h3>
-                <p>{selectedTicket.assignedTo}</p>
+                <p>{selectedTicket.assignee}</p>
               </div>
               <div>
                 <h3 className="font-semibold">New Assignee</h3>
@@ -496,177 +499,308 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="text-white">Support Tickets</CardTitle>
-          <CardDescription className="text-gray-400">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold">Support Tickets</h2>
+          <p className="text-text-secondary">
             Manage and respond to support requests from institutes
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-6">
-            <div className="relative w-full md:w-1/3">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search tickets..."
-                className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
-              />
-            </div>
-            <div className="flex space-x-2 w-full md:w-auto">
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-              >
-                <Filter className="h-4 w-4 mr-2 text-gray-400" />
-                Filter
-              </Button>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-              >
-                <ArrowUpDown className="h-4 w-4 mr-2 text-gray-400" />
-                Sort
-              </Button>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-              >
-                <SlidersHorizontal className="h-4 w-4 mr-2 text-gray-400" />
-                Advanced
-              </Button>
-            </div>
-          </div>
+          </p>
+        </div>
+        <Button onClick={() => setIsCreateDialogOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          Create Ticket
+        </Button>
+      </div>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-12 text-xs font-semibold text-gray-400 pb-2 border-b border-gray-700">
-              <div className="col-span-1">ID</div>
-              <div className="col-span-4">Title</div>
-              <div className="col-span-2">Institute</div>
-              <div className="col-span-1">Priority</div>
-              <div className="col-span-2">Assignee</div>
-              <div className="col-span-2">Status</div>
-            </div>
-
-            {filteredTickets.map((ticket) => (
-              <div
-                key={ticket.id}
-                className="grid grid-cols-12 items-center py-3 px-2 border border-gray-700 rounded-lg hover:bg-slate-700/50 cursor-pointer"
-                onClick={() => handleTicketClick(ticket.id)}
-              >
-                <div className="col-span-1 font-medium text-gray-200">
-                  {ticket.id}
-                </div>
-                <div className="col-span-4">
-                  <p className="font-medium text-white">{ticket.title}</p>
-                  <p className="text-xs text-gray-400">{ticket.time}</p>
-                </div>
-                <div className="col-span-2 text-gray-300">
-                  {ticket.institute}
-                </div>
-                <div className="col-span-1">
-                  <Badge
-                    className={`${getPriorityColor(
-                      ticket.priority
-                    )} text-white`}
-                  >
-                    {ticket.priority}
-                  </Badge>
-                </div>
-                <div className="col-span-2 text-gray-300">
-                  {ticket.assignee === "Unassigned" ? (
-                    <span className="text-gray-400">Unassigned</span>
-                  ) : (
-                    ticket.assignee
-                  )}
-                </div>
-                <div className="col-span-1">
-                  <Badge
-                    className={`${getStatusColor(ticket.status)} text-white`}
-                  >
-                    {ticket.status}
-                  </Badge>
-                </div>
-                <div className="col-span-1 flex gap-2 justify-end">
-                  <button
-                    className="p-1 rounded hover:bg-gray-700"
-                    title="Reassign"
-                    onClick={e => { e.stopPropagation(); handleTicketAction(ticket.id, 'assign'); }}
-                  >
-                    <Users className="h-5 w-5 text-blue-400" />
-                  </button>
-                  <button
-                    className="p-1 rounded hover:bg-gray-700"
-                    title="Escalate"
-                    onClick={e => { e.stopPropagation(); handleTicketAction(ticket.id, 'escalate'); }}
-                  >
-                    <ArrowUpRight className="h-5 w-5 text-orange-400" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-between items-center mt-6">
-            <p className="text-sm text-gray-400">
-              Showing {filteredTickets.length} of {tickets.length} tickets
-            </p>
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-              >
-                Previous
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-              >
-                Next
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {summaryStats.map((stat, index) => (
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                {stat.title}
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
               <div className={stat.color}>{stat.icon}</div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="flex items-center text-xs text-muted-foreground">
+              <div className="flex items-center">
                 {stat.changeDirection === "up" ? (
-                  <ArrowUpRight className="h-4 w-4 text-green-500" />
+                  <ArrowUpRight className="h-4 w-4 text-success mr-1" />
                 ) : (
-                  <ArrowDownRight className="h-4 w-4 text-red-500" />
+                  <ArrowDownRight className="h-4 w-4 text-success mr-1" />
                 )}
-                <span
-                  className={
-                    stat.changeDirection === "up"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }
-                >
-                  {stat.change}
-                </span>
-                <span className="ml-1">from last month</span>
+                <p className="text-xs text-text-secondary">{stat.change}</p>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
+      {/* Filters */}
+      <Card>
+        <CardContent className="p-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-text-secondary" />
+              <Input
+                placeholder="Search tickets..."
+                value={searchQuery}
+                onChange={handleSearch}
+                className="pl-9"
+              />
+            </div>
+            <Select value={statusFilter} onValueChange={handleStatusChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Status: All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="new">New</SelectItem>
+                <SelectItem value="in-progress">In Progress</SelectItem>
+                <SelectItem value="resolved">Resolved</SelectItem>
+                <SelectItem value="escalated">Escalated</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={priorityFilter} onValueChange={handlePriorityChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Priority: All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Priorities</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={categoryFilter} onValueChange={handleCategoryChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Category: All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Categories</SelectItem>
+                <SelectItem value="technical">Technical</SelectItem>
+                <SelectItem value="billing">Billing</SelectItem>
+                <SelectItem value="account">Account</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tickets Table */}
+      <Card>
+        <CardHeader className="pb-1">
+          <div className="flex items-center justify-between">
+            <CardTitle>Tickets</CardTitle>
+            <Button variant="outline" size="sm">
+              <SlidersHorizontal className="h-4 w-4 mr-2" />
+              Advanced Filters
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="border border-card-border rounded-md overflow-hidden">
+            <div className="grid grid-cols-12 gap-2 p-3 bg-card-bg/80">
+              <div className="col-span-1 flex items-center">ID</div>
+              <div className="col-span-4 flex items-center">
+                Title
+                <ArrowUpDown className="ml-2 h-3 w-3" />
+              </div>
+              <div className="col-span-1 flex items-center">Priority</div>
+              <div className="col-span-2 flex items-center">Status</div>
+              <div className="col-span-2 flex items-center">Assignee</div>
+              <div className="col-span-1 flex items-center">Time</div>
+              <div className="col-span-1 flex items-center text-right">Actions</div>
+            </div>
+
+            {/* Ticket rows */}
+            {filteredTickets.map((ticket) => (
+              <div
+                key={ticket.id}
+                className="grid grid-cols-12 gap-2 p-3 border-t border-card-border hover:bg-card-bg/50 cursor-pointer"
+                onClick={() => handleTicketClick(ticket.id)}
+              >
+                <div className="col-span-1 flex items-center font-mono text-sm">
+                  {ticket.id}
+                </div>
+                <div className="col-span-4 flex items-center font-medium">
+                  {ticket.title}
+                </div>
+                <div className="col-span-1">
+                  <Badge className={`${getPriorityColor(ticket.priority)}`}>
+                    {ticket.priority}
+                  </Badge>
+                </div>
+                <div className="col-span-2">
+                  <Badge className={`${getStatusColor(ticket.status)}`}>
+                    {ticket.status}
+                  </Badge>
+                </div>
+                <div className="col-span-2 flex items-center text-text-secondary">
+                  {ticket.assignee}
+                </div>
+                <div className="col-span-1 flex items-center text-sm text-text-secondary">
+                  {ticket.time}
+                </div>
+                <div className="col-span-1 flex justify-end">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MoreVertical className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTicketAction(ticket.id, "view");
+                        }}
+                      >
+                        <Eye className="mr-2 h-4 w-4" />
+                        View Details
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTicketAction(ticket.id, "assign");
+                        }}
+                      >
+                        <Users className="mr-2 h-4 w-4" />
+                        Assign
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleTicketAction(ticket.id, "escalate");
+                        }}
+                        className="text-danger"
+                      >
+                        <AlertTriangle className="mr-2 h-4 w-4" />
+                        Escalate
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Create ticket dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create New Support Ticket</DialogTitle>
+            <DialogDescription>
+              Create a new support ticket for an institute
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label htmlFor="title" className="text-sm font-medium">
+                Title
+              </label>
+              <Input
+                id="title"
+                value={newTicket.title}
+                onChange={(e) =>
+                  handleNewTicketChange("title", e.target.value)
+                }
+                placeholder="Brief description of the issue"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="description" className="text-sm font-medium">
+                Description
+              </label>
+              <Textarea
+                id="description"
+                value={newTicket.description}
+                onChange={(e) =>
+                  handleNewTicketChange("description", e.target.value)
+                }
+                placeholder="Detailed explanation of the problem"
+                rows={4}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label htmlFor="institute" className="text-sm font-medium">
+                  Institute
+                </label>
+                <Select
+                  value={newTicket.institute}
+                  onValueChange={(value) =>
+                    handleNewTicketChange("institute", value)
+                  }
+                >
+                  <SelectTrigger id="institute">
+                    <SelectValue placeholder="Select institute" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ABC School">ABC School</SelectItem>
+                    <SelectItem value="XYZ Academy">XYZ Academy</SelectItem>
+                    <SelectItem value="Success Institute">
+                      Success Institute
+                    </SelectItem>
+                    <SelectItem value="Global School">Global School</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="priority" className="text-sm font-medium">
+                  Priority
+                </label>
+                <Select
+                  value={newTicket.priority}
+                  onValueChange={(value) =>
+                    handleNewTicketChange("priority", value)
+                  }
+                >
+                  <SelectTrigger id="priority">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setIsCreateDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleCreateTicket}>Create Ticket</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Action Dialog */}
       <Dialog open={isActionDialogOpen} onOpenChange={setIsActionDialogOpen}>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {selectedAction === "view"
+                ? "Ticket Details"
+                : selectedAction === "assign"
+                ? "Assign Ticket"
+                : "Escalate Ticket"}
+            </DialogTitle>
+          </DialogHeader>
           {getActionDialogContent()}
           <DialogFooter>
             <Button
@@ -677,13 +811,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
             </Button>
             {selectedAction !== "view" && (
               <Button onClick={confirmTicketAction}>
-                {selectedAction === "assign"
-                  ? "Assign"
-                  : selectedAction === "escalate"
-                  ? "Escalate"
-                  : selectedAction === "close"
-                  ? "Close"
-                  : "Confirm"}
+                {selectedAction === "assign" ? "Assign" : "Escalate"}
               </Button>
             )}
           </DialogFooter>

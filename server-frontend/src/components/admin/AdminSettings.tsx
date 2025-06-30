@@ -95,10 +95,10 @@ const AdminSettings: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'bg-green-500 text-white';
-      case 'Inactive': return 'bg-red-500 text-white';
-      case 'Suspended': return 'bg-yellow-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Active': return 'bg-success text-white';
+      case 'Inactive': return 'bg-danger text-white';
+      case 'Suspended': return 'bg-warning text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
@@ -174,47 +174,47 @@ const AdminSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
       {/* Platform Settings */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="flex items-center text-white">
-            <Settings className="h-5 w-5 mr-2 text-blue-400" />
+          <CardTitle className="flex items-center text-text-color">
+            <Settings className="h-5 w-5 mr-2 text-secondary" />
             Global Platform Settings
           </CardTitle>
-          <CardDescription className="text-gray-400">Configure core platform settings and preferences</CardDescription>
+          <CardDescription className="text-text-secondary">Configure core platform settings and preferences</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium text-gray-300">Platform Name</label>
+              <label className="text-sm font-medium text-text-secondary">Platform Name</label>
               <Input
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 value={globalSettings.platformName}
                 onChange={(e) => handleGlobalSettingChange('platformName', e.target.value)}
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-300">Support Email</label>
+              <label className="text-sm font-medium text-text-secondary">Support Email</label>
               <Input
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 value={globalSettings.supportEmail}
                 onChange={(e) => handleGlobalSettingChange('supportEmail', e.target.value)}
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-300">Max File Size (MB)</label>
+              <label className="text-sm font-medium text-text-secondary">Max File Size (MB)</label>
               <Input
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 type="number"
                 value={globalSettings.maxFileSize}
                 onChange={(e) => handleGlobalSettingChange('maxFileSize', parseInt(e.target.value))}
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-300">Session Timeout (minutes)</label>
+              <label className="text-sm font-medium text-text-secondary">Session Timeout (minutes)</label>
               <Input
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 type="number"
                 value={globalSettings.sessionTimeout}
                 onChange={(e) => handleGlobalSettingChange('sessionTimeout', parseInt(e.target.value))}
@@ -225,8 +225,8 @@ const AdminSettings: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Maintenance Mode</h4>
-                <p className="text-sm text-gray-400">Temporarily disable platform access</p>
+                <h4 className="font-medium text-text-color">Maintenance Mode</h4>
+                <p className="text-sm text-text-secondary">Temporarily disable platform access</p>
               </div>
               <Switch
                 checked={globalSettings.maintenanceMode}
@@ -236,8 +236,8 @@ const AdminSettings: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">New Registrations</h4>
-                <p className="text-sm text-gray-400">Allow new user registrations</p>
+                <h4 className="font-medium text-text-color">New Registrations</h4>
+                <p className="text-sm text-text-secondary">Allow new user registrations</p>
               </div>
               <Switch
                 checked={globalSettings.newRegistrations}
@@ -247,8 +247,8 @@ const AdminSettings: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Email Verification</h4>
-                <p className="text-sm text-gray-400">Require email verification for new accounts</p>
+                <h4 className="font-medium text-text-color">Email Verification</h4>
+                <p className="text-sm text-text-secondary">Require email verification for new accounts</p>
               </div>
               <Switch
                 checked={globalSettings.emailVerification}
@@ -258,8 +258,8 @@ const AdminSettings: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">SMS Verification</h4>
-                <p className="text-sm text-gray-400">Require SMS OTP for account verification</p>
+                <h4 className="font-medium text-text-color">SMS Verification</h4>
+                <p className="text-sm text-text-secondary">Require SMS OTP for account verification</p>
               </div>
               <Switch
                 checked={globalSettings.smsVerification}
@@ -269,7 +269,7 @@ const AdminSettings: React.FC = () => {
           </div>
 
           <div className="flex justify-end">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleSaveSettings}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleSaveSettings}>
               <Save className="h-4 w-4 mr-2" />
               Save Settings
             </Button>
@@ -278,17 +278,17 @@ const AdminSettings: React.FC = () => {
       </Card>
 
       {/* Admin User Management */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="flex items-center text-white">
-                <Users className="h-5 w-5 mr-2 text-blue-400" />
+              <CardTitle className="flex items-center text-text-color">
+                <Users className="h-5 w-5 mr-2 text-secondary" />
                 Admin User Management
               </CardTitle>
-              <CardDescription className="text-gray-400">Manage admin users and their permissions</CardDescription>
+              <CardDescription className="text-text-secondary">Manage admin users and their permissions</CardDescription>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddAdminUser}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleAddAdminUser}>
               <Plus className="h-4 w-4 mr-2" />
               Add Admin User
             </Button>
@@ -298,48 +298,48 @@ const AdminSettings: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200">Admin Details</TableHead>
-                <TableHead className="text-gray-200">Role & Permissions</TableHead>
-                <TableHead className="text-gray-200">Status</TableHead>
-                <TableHead className="text-gray-200">Last Login</TableHead>
-                <TableHead className="text-gray-200">Actions</TableHead>
+                <TableHead className="text-text-color">Admin Details</TableHead>
+                <TableHead className="text-text-color">Role & Permissions</TableHead>
+                <TableHead className="text-text-color">Status</TableHead>
+                <TableHead className="text-text-color">Last Login</TableHead>
+                <TableHead className="text-text-color">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {adminUsers.map((admin) => (
-                <TableRow key={admin.id} className="hover:bg-[#2A2F3A]">
-                  <TableCell className="text-white">
+                <TableRow key={admin.id} className="hover:bg-surface-color">
+                  <TableCell className="text-text-color">
                     <div>
                       <div className="font-medium">{admin.name}</div>
-                      <div className="text-sm text-gray-400">{admin.email}</div>
+                      <div className="text-sm text-text-secondary">{admin.email}</div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div>
-                      <Badge variant="outline" className="border-gray-500 text-gray-300 mb-2">{admin.role}</Badge>
-                      <div className="text-sm text-gray-400">
+                      <Badge variant="outline" className="border-border-color text-text-secondary mb-2">{admin.role}</Badge>
+                      <div className="text-sm text-text-secondary">
                         {admin.permissions.join(', ')}
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <Badge className={getStatusColor(admin.status)}>
                       {admin.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div className="text-sm font-mono">{admin.lastLogin}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleEditAdmin(admin.id)}>
-                        <Edit className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleEditAdmin(admin.id)}>
+                        <Edit className="h-3 w-3 text-secondary" />
                       </Button>
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleSecureAdmin(admin.id)}>
-                        <Shield className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleSecureAdmin(admin.id)}>
+                        <Shield className="h-3 w-3 text-secondary" />
                       </Button>
-                      <Button size="sm" variant="outline" className="text-white border-red-500 hover:bg-red-500" onClick={() => handleDeleteAdmin(admin.id)}>
-                        <Trash2 className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleDeleteAdmin(admin.id)}>
+                        <Trash2 className="h-3 w-3 text-danger" />
                       </Button>
                     </div>
                   </TableCell>
@@ -352,10 +352,10 @@ const AdminSettings: React.FC = () => {
 
       {/* System Integration Settings */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <Globe className="h-5 w-5 mr-2 text-blue-400" />
+            <CardTitle className="flex items-center text-text-color">
+              <Globe className="h-5 w-5 mr-2 text-secondary" />
               API Integrations
             </CardTitle>
           </CardHeader>
@@ -366,17 +366,17 @@ const AdminSettings: React.FC = () => {
               { service: "Email Service", provider: "SendGrid", status: "Connected", lastSync: "1 hour ago" },
               { service: "WhatsApp API", provider: "Meta Business", status: "Error", lastSync: "3 hours ago" }
             ].map((integration, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-[#232b45] rounded">
+              <div key={index} className="flex items-center justify-between p-3 bg-surface-color rounded">
                 <div>
-                  <div className="font-medium text-white">{integration.service}</div>
-                  <div className="text-sm text-gray-400">{integration.provider}</div>
-                  <div className="text-xs text-gray-500">Last sync: {integration.lastSync}</div>
+                  <div className="font-medium text-text-color">{integration.service}</div>
+                  <div className="text-sm text-text-secondary">{integration.provider}</div>
+                  <div className="text-xs text-text-secondary/70">Last sync: {integration.lastSync}</div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Badge className={integration.status === 'Connected' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}>
+                  <Badge className={integration.status === 'Connected' ? 'bg-success text-white' : 'bg-danger text-white'}>
                     {integration.status}
                   </Badge>
-                  <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500">
+                  <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white">
                     <Key className="h-3 w-3" />
                   </Button>
                 </div>
@@ -385,10 +385,10 @@ const AdminSettings: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <Database className="h-5 w-5 mr-2 text-blue-400" />
+            <CardTitle className="flex items-center text-text-color">
+              <Database className="h-5 w-5 mr-2 text-secondary" />
               System Status
             </CardTitle>
           </CardHeader>
@@ -399,16 +399,16 @@ const AdminSettings: React.FC = () => {
               { component: "File Storage", status: "Warning", uptime: "98.5%", response: "300ms" },
               { component: "Cache System", status: "Healthy", uptime: "99.9%", response: "12ms" }
             ].map((system, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-[#232b45] rounded">
+              <div key={index} className="flex items-center justify-between p-3 bg-surface-color rounded">
                 <div>
-                  <div className="font-medium text-white">{system.component}</div>
-                  <div className="text-sm text-gray-400">Uptime: {system.uptime}</div>
-                  <div className="text-xs text-gray-500">Response: {system.response}</div>
+                  <div className="font-medium text-text-color">{system.component}</div>
+                  <div className="text-sm text-text-secondary">Uptime: {system.uptime}</div>
+                  <div className="text-xs text-text-secondary/70">Response: {system.response}</div>
                 </div>
                 <Badge className={
-                  system.status === 'Healthy' ? 'bg-green-500 text-white' :
-                  system.status === 'Warning' ? 'bg-yellow-500 text-white' :
-                  'bg-red-500 text-white'
+                  system.status === 'Healthy' ? 'bg-success text-white' :
+                  system.status === 'Warning' ? 'bg-warning text-white' :
+                  'bg-danger text-white'
                 }>
                   {system.status}
                 </Badge>
@@ -419,21 +419,21 @@ const AdminSettings: React.FC = () => {
       </div>
 
       {/* Security Settings */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="flex items-center text-white">
-            <Shield className="h-5 w-5 mr-2 text-blue-400" />
+          <CardTitle className="flex items-center text-text-color">
+            <Shield className="h-5 w-5 mr-2 text-secondary" />
             Security Settings
           </CardTitle>
-          <CardDescription className="text-gray-400">Configure platform security and access controls</CardDescription>
+          <CardDescription className="text-text-secondary">Configure platform security and access controls</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-white">Two-Factor Authentication</h4>
-                  <p className="text-sm text-gray-400">Require 2FA for admin accounts</p>
+                  <h4 className="font-medium text-text-color">Two-Factor Authentication</h4>
+                  <p className="text-sm text-text-secondary">Require 2FA for admin accounts</p>
                 </div>
                 <Switch
                   checked={false} // Default state, can be dynamic
@@ -443,8 +443,8 @@ const AdminSettings: React.FC = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-white">IP Whitelist</h4>
-                  <p className="text-sm text-gray-400">Restrict admin access to specific IPs</p>
+                  <h4 className="font-medium text-text-color">IP Whitelist</h4>
+                  <p className="text-sm text-text-secondary">Restrict admin access to specific IPs</p>
                 </div>
                 <Switch
                   checked={false} // Default state, can be dynamic
@@ -454,8 +454,8 @@ const AdminSettings: React.FC = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-white">Audit Logging</h4>
-                  <p className="text-sm text-gray-400">Log all admin actions</p>
+                  <h4 className="font-medium text-text-color">Audit Logging</h4>
+                  <p className="text-sm text-text-secondary">Log all admin actions</p>
                 </div>
                 <Switch
                   checked={true} // Default state, can be dynamic
@@ -466,8 +466,8 @@ const AdminSettings: React.FC = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-gray-300">Password Policy</label>
-                <div className="text-sm text-gray-400 mt-1">
+                <label className="text-sm font-medium text-text-secondary">Password Policy</label>
+                <div className="text-sm text-text-secondary mt-1">
                   <div>• Minimum 8 characters</div>
                   <div>• At least 1 uppercase letter</div>
                   <div>• At least 1 number</div>
@@ -476,8 +476,8 @@ const AdminSettings: React.FC = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-gray-300">Session Settings</label>
-                <div className="text-sm text-gray-400 mt-1">
+                <label className="text-sm font-medium text-text-secondary">Session Settings</label>
+                <div className="text-sm text-text-secondary mt-1">
                   <div>• Auto logout after 30 minutes</div>
                   <div>• Force logout on browser close</div>
                   <div>• Single session per user</div>
@@ -490,10 +490,10 @@ const AdminSettings: React.FC = () => {
 
       {/* Add Admin Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-card-bg border-border-color text-text-color max-w-md">
           <DialogHeader>
             <DialogTitle>Add New Admin User</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogDescription className="text-text-secondary">
               Enter details for the new admin user.
             </DialogDescription>
           </DialogHeader>
@@ -502,34 +502,34 @@ const AdminSettings: React.FC = () => {
               placeholder="Name"
               value={newAdminForm.name}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <Input
               placeholder="Email"
               value={newAdminForm.email}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, email: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <Input
               placeholder="Role"
               value={newAdminForm.role}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, role: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <select
               value={newAdminForm.status}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, status: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full p-2 rounded"
+              className="bg-input-bg border-input-border text-input-text w-full p-2 rounded"
             >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
           </div>
           <DialogFooter>
-            <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowAddDialog(false)}>
+            <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={() => setShowAddDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddSubmit}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleAddSubmit}>
               Add User
             </Button>
           </DialogFooter>

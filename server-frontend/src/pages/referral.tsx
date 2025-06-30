@@ -43,7 +43,7 @@ const ReferralDashboard = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
+      className="min-h-screen bg-background-color text-text-color"
     >
       <DashboardHeader
         dashboardName="Referral"
@@ -63,46 +63,46 @@ const ReferralDashboard = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-7 bg-gray-800 p-1 rounded-md">
+          <TabsList className="grid w-full grid-cols-7 bg-card-bg p-1 rounded-md border-border-color">
             <TabsTrigger
               value="dashboard"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Dashboard
             </TabsTrigger>
             <TabsTrigger
               value="add-referrals"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Add Referrals
             </TabsTrigger>
             <TabsTrigger
               value="revenue-tracking"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Revenue
             </TabsTrigger>
             <TabsTrigger
               value="payouts"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Payouts
             </TabsTrigger>
             <TabsTrigger
               value="reports"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Reports
             </TabsTrigger>
             <TabsTrigger
               value="notifications"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Notifications
             </TabsTrigger>
             <TabsTrigger
               value="settings"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
             >
               Settings
             </TabsTrigger>

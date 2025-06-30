@@ -207,32 +207,32 @@ const TransactionManagement = () => {
 
       {/* Transaction Stats */}
       <div className="grid grid-cols-4 gap-4">
-        <Card>
+        <Card className="bg-card-bg border-border-color">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">₹12,45,000</div>
-            <div className="text-sm text-gray-600">Total Revenue</div>
-            <div className="text-xs text-green-600">+23% this month</div>
+            <div className="text-2xl font-bold text-text-color">₹12,45,000</div>
+            <div className="text-sm text-text-secondary">Total Revenue</div>
+            <div className="text-xs text-success">+23% this month</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-card-bg border-border-color">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">1,234</div>
-            <div className="text-sm text-gray-600">Total Transactions</div>
-            <div className="text-xs text-blue-600">+156 today</div>
+            <div className="text-2xl font-bold text-text-color">1,234</div>
+            <div className="text-sm text-text-secondary">Total Transactions</div>
+            <div className="text-xs text-info">+156 today</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-card-bg border-border-color">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">98.5%</div>
-            <div className="text-sm text-gray-600">Success Rate</div>
-            <div className="text-xs text-green-600">Above industry average</div>
+            <div className="text-2xl font-bold text-text-color">98.5%</div>
+            <div className="text-sm text-text-secondary">Success Rate</div>
+            <div className="text-xs text-success">Above industry average</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-card-bg border-border-color">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">23</div>
-            <div className="text-sm text-gray-600">Failed Transactions</div>
-            <div className="text-xs text-red-600">Needs attention</div>
+            <div className="text-2xl font-bold text-text-color">23</div>
+            <div className="text-sm text-text-secondary">Failed Transactions</div>
+            <div className="text-xs text-danger">Needs attention</div>
           </CardContent>
         </Card>
       </div>

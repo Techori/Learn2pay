@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { Progress } from "../../components/ui/Progress";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "../../components/ui/Dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../../components/ui/Dialog";
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend  } from 'chart.js';
 import type { ChartOptions } from 'chart.js';
@@ -30,14 +30,14 @@ const MySalesTeam: React.FC = () => {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   const getColorClass = (percentage: number) => {
-    if (percentage >= 80) return 'bg-green-500';
-    if (percentage >= 50) return 'bg-yellow-500';
-    return 'bg-red-500';
+    if (percentage >= 80) return 'bg-success';
+    if (percentage >= 50) return 'bg-warning';
+    return 'bg-danger';
   };
 
   const handleViewPerformance = (member: TeamMember) => {
     setSelectedMember(member);
-    console.log(`Viewing performance for ${member.name} at ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true })}`); // 02:03 PM IST, June 27, 2025
+    console.log(`Viewing performance for ${member.name} at ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true })}`);
   };
 
   const getRingChartData = (member: TeamMember | null) => {
@@ -46,7 +46,7 @@ const MySalesTeam: React.FC = () => {
       labels: ['KYC Completed', 'Pending KYC'],
       datasets: [{
         data: [member.kycCompleted, member.kycPending],
-        backgroundColor: ['#22c55e', '#ef4444'],
+        backgroundColor: ['var(--success)', 'var(--danger)'],
         borderWidth: 1,
       }],
     };
@@ -57,7 +57,7 @@ const MySalesTeam: React.FC = () => {
     plugins: {
       legend: {
         position: 'top' as const,
-        labels: { color: '#ffffff' },
+        labels: { color: 'var(--text-color)' },
       },
       title: { display: false },
     },
@@ -65,46 +65,46 @@ const MySalesTeam: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-white">My Sales Team</CardTitle>
+          <CardTitle>My Sales Team</CardTitle>
         </CardHeader>
         <CardContent>
           {teamMembers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {teamMembers.map((member) => (
-                <Card key={member.id} className="bg-gray-800/70 border-gray-700 rounded-lg overflow-hidden">
+                <Card key={member.id}>
                   <CardContent className="p-4">
                     <div className="flex items-center space-x-4 mb-4">
-                      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold">
                         {member.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                       </div>
                       <div>
-                        <h3 className="text-white font-semibold">{member.name}</h3>
-                        <p className="text-gray-400 text-sm">{member.email}</p>
-                        <p className="text-gray-400 text-sm">{member.phone}</p>
+                        <h3 className="font-semibold">{member.name}</h3>
+                        <p className="text-text-secondary text-sm">{member.email}</p>
+                        <p className="text-text-secondary text-sm">{member.phone}</p>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Leads Assigned</span>
-                        <span className="text-white">{member.leadsAssigned}</span>
+                        <span className="text-text-secondary">Leads Assigned</span>
+                        <span>{member.leadsAssigned}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Target Completion</span>
-                        <span className="text-white">{member.targetCompletion}%</span>
+                        <span className="text-text-secondary">Target Completion</span>
+                        <span>{member.targetCompletion}%</span>
                       </div>
                       <Progress value={member.targetCompletion} className={getColorClass(member.targetCompletion)} />
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Pending KYC</span>
-                        <span className="text-white">{member.kycPending}</span>
+                        <span className="text-text-secondary">Pending KYC</span>
+                        <span>{member.kycPending}</span>
                       </div>
                     </div>
                     <div className="flex space-x-2 mt-4">
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full border-gray-700 text-gray-200 hover:bg-gray-700"
+                        className="w-full"
                         onClick={() => handleViewPerformance(member)}
                       >
                         View Performance
@@ -115,7 +115,7 @@ const MySalesTeam: React.FC = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center text-gray-400 py-10">
+            <div className="text-center text-text-secondary py-10">
               No team members assigned yet. Add members to get started!
             </div>
           )}
@@ -123,7 +123,7 @@ const MySalesTeam: React.FC = () => {
       </Card>
 
       <Dialog open={!!selectedMember} onOpenChange={() => setSelectedMember(null)}>
-        <DialogContent className="bg-slate-800 border-gray-700 text-white">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>{selectedMember?.name}'s Performance</DialogTitle>
             <DialogDescription>View detailed performance metrics including KYC completion ratio.</DialogDescription>

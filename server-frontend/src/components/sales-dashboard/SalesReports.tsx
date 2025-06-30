@@ -91,25 +91,25 @@ const SalesReports = () => {
       source: "Direct Sales",
       amount: "₹12,50,000",
       percentage: 52,
-      color: "bg-blue-500",
+      color: "bg-primary",
     },
     {
       source: "Referral Program",
       amount: "₹6,20,000",
       percentage: 26,
-      color: "bg-green-500",
+      color: "bg-success",
     },
     {
       source: "Partner Channel",
       amount: "₹3,80,000",
       percentage: 16,
-      color: "bg-purple-500",
+      color: "bg-secondary",
     },
     {
       source: "Digital Marketing",
       amount: "₹1,50,000",
       percentage: 6,
-      color: "bg-orange-500",
+      color: "bg-warning",
     },
   ];
 
@@ -127,26 +127,26 @@ const SalesReports = () => {
       {
         label: "Leads",
         data: [200, 300, 400, 350, 500, 600],
-        backgroundColor: "#f97316",
+        backgroundColor: "var(--primary)",
         borderRadius: 6,
       },
       {
         label: "Conversions",
         data: [50, 80, 120, 100, 150, 180],
-        backgroundColor: "#38bdf8",
+        backgroundColor: "var(--secondary)",
         borderRadius: 6,
       },
       {
         label: "Revenue (k)",
         data: [80, 120, 160, 140, 200, 240],
-        backgroundColor: "#a78bfa",
+        backgroundColor: "var(--accent)",
         borderRadius: 6,
       },
     ],
   };
 
   const getTrendColor = (trend: string) => {
-    return trend === "up" ? "text-green-400" : "text-red-400";
+    return trend === "up" ? "text-success" : "text-danger";
   };
 
   const getTrendIcon = (trend: string) => {

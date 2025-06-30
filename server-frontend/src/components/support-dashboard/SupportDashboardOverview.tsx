@@ -30,28 +30,28 @@ const SupportDashboardOverview = () => {
       value: "23",
       change: "-15% from yesterday",
       icon: <Ticket className="h-5 w-5" />,
-      color: "text-orange-500",
+      color: "text-primary",
     },
     {
       title: "Active Institutes",
       value: "1,247",
       change: "+12% from last month",
       icon: <School className="h-5 w-5" />,
-      color: "text-green-500",
+      color: "text-success",
     },
     {
       title: "Response Time",
       value: "2.3h",
       change: "-30min from last week",
       icon: <Clock className="h-5 w-5" />,
-      color: "text-blue-500",
+      color: "text-secondary",
     },
     {
       title: "Resolution Rate",
       value: "94%",
       change: "+2% from last month",
       icon: <CheckCircle className="h-5 w-5" />,
-      color: "text-green-500",
+      color: "text-success",
     },
   ]);
 
@@ -106,26 +106,26 @@ const SupportDashboardOverview = () => {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-500";
+        return "bg-danger";
       case "Medium":
-        return "bg-yellow-500";
+        return "bg-warning";
       case "Low":
-        return "bg-green-500";
+        return "bg-success";
       default:
-        return "bg-gray-500";
+        return "bg-secondary";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "New":
-        return "bg-blue-500";
+        return "bg-secondary";
       case "In Progress":
-        return "bg-orange-500";
+        return "bg-primary";
       case "Resolved":
-        return "bg-green-500";
+        return "bg-success";
       default:
-        return "bg-gray-500";
+        return "bg-secondary";
     }
   };
 
@@ -154,19 +154,14 @@ const SupportDashboardOverview = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
-          <Card
-            key={index}
-            className="bg-slate-800/50 border-gray-700 backdrop-blur-sm"
-          >
+          <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-200">
-                {stat.title}
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
               <div className={stat.color}>{stat.icon}</div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{stat.value}</div>
-              <p className="text-xs text-gray-400">{stat.change}</p>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-text-secondary">{stat.change}</p>
             </CardContent>
           </Card>
         ))}
@@ -174,13 +169,13 @@ const SupportDashboardOverview = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Tickets */}
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-white">
-              <Ticket className="h-5 w-5 text-orange-400" />
+            <CardTitle className="flex items-center space-x-2">
+              <Ticket className="h-5 w-5 text-primary" />
               <span>Recent Support Tickets</span>
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription>
               Latest support requests from institutes
             </CardDescription>
           </CardHeader>
@@ -189,12 +184,12 @@ const SupportDashboardOverview = () => {
               {recentTickets.map((ticket, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg cursor-pointer hover:bg-slate-700/50"
+                  className="flex items-center justify-between p-4 border border-card-border rounded-lg cursor-pointer hover:bg-card-bg/80"
                   onClick={() => handleTicketClick(ticket.id)}
                 >
                   <div className="space-y-1">
                     <div className="flex items-center space-x-2">
-                      <span className="font-medium text-gray-200">
+                      <span className="font-medium">
                         {ticket.id}
                       </span>
                       <Badge
@@ -205,10 +200,10 @@ const SupportDashboardOverview = () => {
                         {ticket.priority}
                       </Badge>
                     </div>
-                    <p className="text-sm font-medium text-white">
+                    <p className="text-sm font-medium">
                       {ticket.title}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-text-secondary">
                       {ticket.institute} • {ticket.time}
                     </p>
                   </div>
@@ -222,7 +217,7 @@ const SupportDashboardOverview = () => {
             </div>
             <Button
               variant="outline"
-              className="w-full mt-4 border-gray-700 text-gray-200 hover:bg-gray-700"
+              className="w-full mt-4"
               onClick={handleViewAllTickets}
             >
               View All Tickets
@@ -231,13 +226,13 @@ const SupportDashboardOverview = () => {
         </Card>
 
         {/* Support Channels */}
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-white">
-              <MessageSquare className="h-5 w-5 text-orange-400" />
+            <CardTitle className="flex items-center space-x-2">
+              <MessageSquare className="h-5 w-5 text-primary" />
               <span>Support Channels</span>
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription>
               Performance across different support channels
             </CardDescription>
           </CardHeader>
@@ -246,47 +241,118 @@ const SupportDashboardOverview = () => {
               {supportChannels.map((channel, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:bg-slate-700/50"
+                  className="flex items-center justify-between p-4 border border-card-border rounded-lg hover:bg-card-bg/80"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className="text-orange-400">{channel.icon}</div>
+                    <div className="bg-card-bg/80 p-2 rounded-full text-primary">
+                      {channel.icon}
+                    </div>
                     <div>
-                      <p className="font-medium text-gray-200">
-                        {channel.channel}
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        {channel.requests} requests today
+                      <p className="font-medium">{channel.channel}</p>
+                      <p className="text-xs text-text-secondary">
+                        {channel.requests} requests
                       </p>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-lg font-bold text-white">
-                      {channel.avgTime}
-                    </p>
-                    <p className="text-xs text-gray-400 text-right">
-                      avg. response
-                    </p>
+                  <div className="text-right">
+                    <p className="text-sm font-medium">Avg Response</p>
+                    <p className="text-text-secondary text-sm">{channel.avgTime}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-                onClick={handleEscalatedIssues}
-              >
-                <AlertTriangle className="h-4 w-4 mr-2 text-red-400" />
-                Escalated Issues
-              </Button>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
-                onClick={handlePerformanceReports}
-              >
-                <TrendingUp className="h-4 w-4 mr-2 text-green-400" />
-                Performance Reports
-              </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <AlertTriangle className="h-5 w-5 text-primary" />
+              <span>Quick Actions</span>
+            </CardTitle>
+            <CardDescription>
+              Common support tasks and escalations
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-4">
+            <Button
+              variant="outline"
+              className="text-left justify-start h-auto py-4"
+              onClick={handleEscalatedIssues}
+            >
+              <div>
+                <h3 className="font-medium">Escalated Issues</h3>
+                <p className="text-xs text-text-secondary">3 pending escalations</p>
+              </div>
+            </Button>
+            <Button
+              variant="outline"
+              className="text-left justify-start h-auto py-4"
+              onClick={handleViewAllInstitutes}
+            >
+              <div>
+                <h3 className="font-medium">Institute Management</h3>
+                <p className="text-xs text-text-secondary">
+                  View all institutes
+                </p>
+              </div>
+            </Button>
+            <Button
+              variant="outline"
+              className="text-left justify-start h-auto py-4"
+              onClick={handlePerformanceReports}
+            >
+              <div>
+                <h3 className="font-medium">Performance Reports</h3>
+                <p className="text-xs text-text-secondary">
+                  Support team metrics
+                </p>
+              </div>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Support Team Performance */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <TrendingUp className="h-5 w-5 text-primary" />
+              <span>Team Performance</span>
+            </CardTitle>
+            <CardDescription>
+              Support team productivity metrics
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="font-medium">Tickets Resolved</p>
+                <p className="text-success">92%</p>
+              </div>
+              <div className="h-2 bg-card-bg/50 rounded-full mt-2">
+                <div className="h-2 bg-success rounded-full" style={{ width: "92%" }}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="font-medium">Response Time</p>
+                <p className="text-primary">87%</p>
+              </div>
+              <div className="h-2 bg-card-bg/50 rounded-full mt-2">
+                <div className="h-2 bg-primary rounded-full" style={{ width: "87%" }}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="font-medium">User Satisfaction</p>
+                <p className="text-success">95%</p>
+              </div>
+              <div className="h-2 bg-card-bg/50 rounded-full mt-2">
+                <div className="h-2 bg-success rounded-full" style={{ width: "95%" }}></div>
+              </div>
             </div>
           </CardContent>
         </Card>

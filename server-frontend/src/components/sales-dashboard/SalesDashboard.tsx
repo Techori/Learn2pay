@@ -54,7 +54,7 @@ const SalesDashboard = () => {
       {
         label: "Revenue (in lakhs ₹)",
         data: [12, 15, 18, 14, 21, 24],
-        backgroundColor: "#f97316",
+        backgroundColor: "var(--primary)",
         borderRadius: 6,
       },
     ],
@@ -66,7 +66,7 @@ const SalesDashboard = () => {
       {
         label: "Target",
         data: [15, 15, 15, 20, 20, 20],
-        borderColor: "#fff",
+        borderColor: "var(--text-color)",
         borderDash: [5, 5],
         pointRadius: 0,
         borderWidth: 2,
@@ -82,12 +82,12 @@ const SalesDashboard = () => {
       {
         label: "Conversion Rate (%)",
         data: [22, 24, 25, 24, 26, 28],
-        borderColor: "#10b981",
-        backgroundColor: "rgba(16, 185, 129, 0.1)",
+        borderColor: "var(--success)",
+        backgroundColor: "rgba(var(--success-rgb), 0.1)",
         fill: true,
         tension: 0.3,
         pointRadius: 3,
-        pointBackgroundColor: "#10b981",
+        pointBackgroundColor: "var(--success)",
       },
     ],
   };
@@ -104,11 +104,11 @@ const SalesDashboard = () => {
       {
         data: [32, 25, 18, 15, 10],
         backgroundColor: [
-          "#3b82f6",
-          "#10b981",
-          "#f59e0b",
-          "#8b5cf6",
-          "#f43f5e",
+          "var(--secondary)",
+          "var(--success)",
+          "var(--warning)",
+          "var(--primary)",
+          "var(--danger)",
         ],
         borderWidth: 0,
       },
@@ -165,26 +165,26 @@ const SalesDashboard = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Hot":
-        return "bg-red-600 text-white";
+        return "bg-danger text-white";
       case "Warm":
-        return "bg-yellow-400 text-black";
+        return "bg-warning text-text";
       case "Cold":
-        return "bg-blue-500 text-white";
+        return "bg-secondary text-white";
       default:
-        return "bg-gray-500 text-white";
+        return "bg-text-secondary text-text";
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-900/60 text-red-300";
+        return "bg-danger/20 text-danger";
       case "Medium":
-        return "bg-yellow-900/60 text-yellow-300";
+        return "bg-warning/20 text-warning";
       case "Low":
-        return "bg-blue-900/60 text-blue-300";
+        return "bg-secondary/20 text-secondary";
       default:
-        return "bg-gray-800 text-gray-300";
+        return "bg-text-secondary/20 text-text-secondary";
     }
   };
 
@@ -192,281 +192,262 @@ const SalesDashboard = () => {
     <div className="space-y-6">
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+        <Card>
           <CardContent className="p-4">
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm text-gray-400">Monthly Revenue</p>
-                <h3 className="text-2xl font-bold text-white mt-1">₹24.5L</h3>
-                <p className="text-sm mt-1 text-green-400 flex items-center">
-                  <ArrowUpRight className="h-3 w-3 mr-1" /> 15% vs last month
-                </p>
-              </div>
-              <div className="bg-orange-500/20 p-2 rounded-full">
-                <TrendingUp className="h-5 w-5 text-orange-400" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-400">New Leads</p>
-                <h3 className="text-2xl font-bold text-white mt-1">156</h3>
-                <p className="text-sm mt-1 text-green-400 flex items-center">
-                  <ArrowUpRight className="h-3 w-3 mr-1" /> 8% vs last month
-                </p>
-              </div>
-              <div className="bg-blue-500/20 p-2 rounded-full">
-                <Phone className="h-5 w-5 text-blue-400" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-400">Institutes Onboarded</p>
-                <h3 className="text-2xl font-bold text-white mt-1">42</h3>
-                <p className="text-sm mt-1 text-green-400 flex items-center">
-                  <ArrowUpRight className="h-3 w-3 mr-1" /> 12% vs last month
-                </p>
-              </div>
-              <div className="bg-green-500/20 p-2 rounded-full">
-                <CheckCircle2 className="h-5 w-5 text-green-400" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-          <CardContent className="p-4">
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm text-gray-400">Conversion Rate</p>
-                <h3 className="text-2xl font-bold text-white mt-1">26.8%</h3>
-                <p className="text-sm mt-1 text-green-400 flex items-center">
-                  <ArrowUpRight className="h-3 w-3 mr-1" /> 2.4% vs last month
-                </p>
-              </div>
-              <div className="bg-purple-500/20 p-2 rounded-full">
-                <TrendingUp className="h-5 w-5 text-purple-400" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Charts Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-          <CardHeader>
-            <div className="flex justify-between items-center">
-              <div>
-                <CardTitle className="text-white">
-                  Revenue Performance
-                </CardTitle>
-                <CardDescription className="text-gray-400">
-                  Monthly revenue vs targets
-                </CardDescription>
-              </div>
-              <Badge className="bg-green-500/20 text-green-400 border-green-500/50">
-                +15% YOY
-              </Badge>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="h-72 flex items-center justify-center">
-              <div className="relative w-full h-full">
-                <Bar
-                  key="revenue-bar-chart"
-                  data={revenueData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { labels: { color: "#fff" } },
-                    },
-                    scales: {
-                      x: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                      y: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                    },
-                  }}
-                />
-                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                  <Line
-                    key="revenue-target-line"
-                    data={targetData}
-                    options={{
-                      responsive: true,
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: { display: false },
-                      },
-                      scales: {
-                        x: { display: false },
-                        y: { display: false },
-                      },
-                    }}
-                  />
+                <p className="text-sm text-text-secondary">Monthly Revenue</p>
+                <h3 className="text-2xl font-bold mt-1">₹24.5L</h3>
+                <div className="flex items-center mt-2 text-success text-xs">
+                  <ArrowUpRight className="h-3 w-3 mr-1" />
+                  <span>12% vs last month</span>
                 </div>
               </div>
+              <div className="bg-primary/10 p-2 rounded-full">
+                <TrendingUp className="h-5 w-5 text-primary" />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 gap-6">
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-            <CardHeader>
-              <CardTitle className="text-white">
-                Conversion Rate Trend
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-36 flex items-center justify-center">
-                <Line
-                  key="conversion-line-chart"
-                  data={conversionData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: { display: false },
-                    },
-                    scales: {
-                      x: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                      y: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                    },
-                  }}
-                />
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm text-text-secondary">New Leads</p>
+                <h3 className="text-2xl font-bold mt-1">48</h3>
+                <div className="flex items-center mt-2 text-success text-xs">
+                  <ArrowUpRight className="h-3 w-3 mr-1" />
+                  <span>8% vs last month</span>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="bg-secondary/10 p-2 rounded-full">
+                <AlertCircle className="h-5 w-5 text-secondary" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-            <CardHeader>
-              <CardTitle className="text-white">Leads by Stage</CardTitle>
-            </CardHeader>
-            <CardContent className="flex justify-center">
-              <div style={{ width: "200px", height: "140px" }}>
-                <Doughnut
-                  key="leads-doughnut-chart"
-                  data={stageDistributionData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        position: "right",
-                        labels: { color: "#fff", padding: 10 },
-                      },
-                    },
-                    cutout: "65%",
-                  }}
-                />
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm text-text-secondary">Conversion Rate</p>
+                <h3 className="text-2xl font-bold mt-1">28%</h3>
+                <div className="flex items-center mt-2 text-success text-xs">
+                  <ArrowUpRight className="h-3 w-3 mr-1" />
+                  <span>3% vs last month</span>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+              <div className="bg-success/10 p-2 rounded-full">
+                <CheckCircle2 className="h-5 w-5 text-success" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm text-text-secondary">Tasks Completed</p>
+                <h3 className="text-2xl font-bold mt-1">86%</h3>
+                <div className="flex items-center mt-2 text-success text-xs">
+                  <ArrowUpRight className="h-3 w-3 mr-1" />
+                  <span>5% vs last month</span>
+                </div>
+              </div>
+              <div className="bg-primary/10 p-2 rounded-full">
+                <CheckCircle2 className="h-5 w-5 text-primary" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Recent Leads and Tasks */}
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+        <Card>
           <CardHeader>
-            <CardTitle className="text-white">Recent Leads</CardTitle>
+            <CardTitle>Revenue vs Target</CardTitle>
+            <CardDescription>Monthly revenue performance</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
+            <div className="h-80">
+              <Bar
+                data={revenueData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      grid: {
+                        color: "rgba(var(--border-color-rgb), 0.1)",
+                      },
+                    },
+                    y: {
+                      grid: {
+                        color: "rgba(var(--border-color-rgb), 0.1)",
+                      },
+                      ticks: {
+                        callback: function (value) {
+                          return "₹" + value + "L";
+                        },
+                      },
+                    },
+                  },
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Lead Conversion Rate</CardTitle>
+            <CardDescription>Percentage of leads converted to sales</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80">
+              <Line
+                data={conversionData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      grid: {
+                        color: "rgba(var(--border-color-rgb), 0.1)",
+                      },
+                    },
+                    y: {
+                      grid: {
+                        color: "rgba(var(--border-color-rgb), 0.1)",
+                      },
+                      min: 0,
+                      max: 40,
+                      ticks: {
+                        callback: function (value) {
+                          return value + "%";
+                        },
+                      },
+                    },
+                  },
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Sales Pipeline and Recent Leads */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-1">
+          <CardHeader>
+            <CardTitle>Sales Pipeline</CardTitle>
+            <CardDescription>Lead distribution by stage</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-64">
+              <Doughnut
+                data={stageDistributionData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  cutout: "65%",
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      labels: {
+                        boxWidth: 12,
+                        padding: 15,
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Recent Leads</CardTitle>
+            <CardDescription>Your latest prospect activity</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
               {recentLeads.map((lead, index) => (
-                <div
-                  key={index}
-                  className="p-3 border border-[#232b45] rounded-lg bg-[#232b45] flex justify-between items-center"
-                >
-                  <div>
-                    <div className="font-medium">{lead.name}</div>
-                    <div className="text-sm text-gray-400">
-                      {lead.contact} • {lead.date}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Badge className={getStatusColor(lead.status)}>
-                      {lead.status}
-                    </Badge>
-                    <div className="text-sm text-gray-300">{lead.value}</div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="px-0 hover:bg-transparent hover:text-orange-400"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-              <div className="text-center pt-2">
-                <Button variant="link" className="text-orange-400">
-                  View All Leads
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
-          <CardHeader>
-            <CardTitle className="text-white">Upcoming Tasks</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {upcomingTasks.map((task, index) => (
-                <div
-                  key={index}
-                  className="p-3 border border-[#232b45] rounded-lg bg-[#232b45]"
-                >
+                <div key={index} className="border-b border-border pb-4 last:border-0 last:pb-0">
                   <div className="flex justify-between items-start">
-                    <div className="flex items-start space-x-3">
-                      <div className="mt-1">
-                        <AlertCircle className="h-4 w-4 text-orange-400" />
-                      </div>
-                      <div>
-                        <div className="font-medium">{task.task}</div>
-                        <div className="text-sm text-gray-400 flex items-center mt-1">
-                          <CalendarDays className="h-3 w-3 mr-1" />
-                          {task.deadline}
-                        </div>
+                    <div>
+                      <h4 className="font-medium">{lead.name}</h4>
+                      <p className="text-sm text-text-secondary mt-0.5">{lead.contact}</p>
+                      <div className="flex items-center mt-1.5 text-sm">
+                        <Mail className="h-3.5 w-3.5 mr-1 text-text-secondary" />
+                        <span className="text-text-secondary mr-3">Email</span>
+                        <Phone className="h-3.5 w-3.5 mr-1 text-text-secondary" />
+                        <span className="text-text-secondary">Call</span>
                       </div>
                     </div>
-                    <Badge className={getPriorityColor(task.priority)}>
-                      {task.priority}
-                    </Badge>
+                    <div className="flex flex-col items-end">
+                      <Badge className={getStatusColor(lead.status)}>{lead.status}</Badge>
+                      <p className="text-sm mt-1">{lead.value}</p>
+                      <p className="text-xs text-text-secondary mt-0.5">{lead.date}</p>
+                    </div>
                   </div>
                 </div>
               ))}
-              <div className="text-center pt-2">
-                <Button variant="link" className="text-orange-400">
-                  View All Tasks
-                </Button>
-              </div>
+              <Button variant="ghost" className="w-full justify-between">
+                View All Leads <ChevronRight className="h-4 w-4" />
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Upcoming Tasks */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Upcoming Tasks</CardTitle>
+            <CardDescription>Schedule for the next few days</CardDescription>
+          </div>
+          <Button variant="outline" size="sm">
+            <CalendarDays className="h-4 w-4 mr-2" /> View Calendar
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <div className="divide-y divide-border">
+            {upcomingTasks.map((task, index) => (
+              <div key={index} className="py-3 first:pt-0 last:pb-0">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-medium">{task.task}</p>
+                    <p className="text-sm text-text-secondary mt-1 flex items-center">
+                      <CalendarDays className="h-3.5 w-3.5 mr-1.5" />
+                      {task.deadline}
+                    </p>
+                  </div>
+                  <Badge className={getPriorityColor(task.priority)}>
+                    {task.priority}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -94,7 +94,7 @@ const SuperAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#101624] flex flex-col">
+    <div className="min-h-screen bg-[var(--background-color)] flex flex-col">
       <DashboardHeader
         dashboardName="Super Admin"
         badges={[{ text: 'This Month' }, { text: 'Nov 2024', isPrimary: true }]}
@@ -112,77 +112,58 @@ const SuperAdmin = () => {
           <AdminStats filters={globalFilters} />
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-9 gap-x-2 bg-[#232b45] border border-[#232b45] rounded-lg mb-4 ">
+            <TabsList className="grid w-full grid-cols-9 gap-x-2 bg-[var(--input-bg)] border border-[var(--border-color)] rounded-lg mb-4">
               <TabsTrigger 
                 value="dashboard"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
-                dashboard
+                Dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="institutes"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Institutes & Franchise
               </TabsTrigger>
               <TabsTrigger 
                 value="users"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Users
               </TabsTrigger>
               <TabsTrigger 
                 value="kyc-approvals"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 KYC Approvals
               </TabsTrigger>
               <TabsTrigger 
                 value="transactions"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Transactions
               </TabsTrigger>
-              {/* <TabsTrigger 
-                value="vendors"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
-              >
-                Vendors
-              </TabsTrigger>
-              <TabsTrigger 
-                value="franchise"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
-              >
-                Franchise
-              </TabsTrigger> */}
               <TabsTrigger 
                 value="reports"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Reports & Analytics
               </TabsTrigger>
               <TabsTrigger 
                 value="notifications"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Notifications & Broadcast
               </TabsTrigger>
-
               <TabsTrigger 
                 value="security"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Security
               </TabsTrigger>
-              {/* <TabsTrigger 
-                value="broadcast"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
-              >
-                Broadcast
-              </TabsTrigger> */}
               <TabsTrigger 
                 value="settings"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
+                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
               >
                 Settings
               </TabsTrigger>

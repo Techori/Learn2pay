@@ -1,4 +1,3 @@
-
 import type { FC, ReactNode, CSSProperties } from 'react';
 
 interface CardProps {
@@ -9,8 +8,7 @@ interface CardProps {
 
 export const Card: FC<CardProps> = ({ children, className, style }) => (
   <div
-    className={`border border-gray-700 bg-gray-800 rounded-lg shadow-md p-4
-      dark:border-gray-200 dark:bg-white
+    className={`border border-card-border bg-card-bg rounded-lg shadow-card p-4
       transition-colors duration-200
       ${className ?? ''}`}
     style={style}
@@ -21,8 +19,7 @@ export const Card: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardHeader: FC<CardProps> = ({ children, className, style }) => (
   <div
-    className={`mb-4 border-b border-gray-700 pb-2
-      dark:border-b dark:border-gray-200
+    className={`mb-4 border-b border-card-border pb-2
       transition-colors duration-200
       ${className ?? ''}`}
     style={style}
@@ -33,7 +30,7 @@ export const CardHeader: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardTitle: FC<CardProps> = ({ children, className, style }) => (
   <h2
-    className={`text-xl font-bold text-gray-100 dark:text-gray-900
+    className={`text-xl font-bold text-text
       transition-colors duration-200
       ${className ?? ''}`}
     style={style}
@@ -44,7 +41,7 @@ export const CardTitle: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardDescription: FC<CardProps> = ({ children, className, style }) => (
   <p
-    className={`text-gray-400 dark:text-gray-600
+    className={`text-text-secondary
       transition-colors duration-200
       ${className ?? ''}`}
     style={style}

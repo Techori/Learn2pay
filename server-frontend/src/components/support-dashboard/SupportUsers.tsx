@@ -160,26 +160,26 @@ const SupportUsers = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Active":
-        return "bg-green-500";
+        return "bg-success text-white";
       case "Inactive":
-        return "bg-red-500";
+        return "bg-danger text-white";
       default:
-        return "bg-gray-500";
+        return "bg-text-secondary text-white";
     }
   };
 
   const getRoleColor = (role: string) => {
     switch (role) {
       case "Parent":
-        return "bg-blue-500";
+        return "bg-secondary text-white";
       case "Teacher":
-        return "bg-purple-500";
+        return "bg-warning text-white";
       case "Student":
-        return "bg-teal-500";
+        return "bg-success text-white";
       case "Institute Admin":
-        return "bg-yellow-600";
+        return "bg-danger text-white";
       default:
-        return "bg-gray-500";
+        return "bg-text-secondary text-white";
     }
   };
 
@@ -439,39 +439,39 @@ const SupportUsers = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+    <div className="space-y-6 bg-background-color text-text-color min-h-screen">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="text-white">Support Users</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-text-color">Support Users</CardTitle>
+          <CardDescription className="text-text-secondary">
             Manage support team members and their assignments
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 mb-6">
             <div className="relative w-full md:w-1/3">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary h-4 w-4" />
               <Input
                 placeholder="Search users..."
-                className="pl-10 bg-gray-800 border-gray-700 text-gray-200 focus:border-orange-500"
+                className="pl-10 bg-input-bg border-input-border text-input-text focus:border-secondary"
               />
             </div>
             <div className="flex space-x-2 w-full md:w-auto">
               <Button
                 variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-border-color text-text-color hover:bg-warning hover:text-white group"
               >
-                <Filter className="h-4 w-4 mr-2 text-gray-400" />
+                <Filter className="h-4 w-4 mr-2 text-text-secondary group-hover:text-white" />
                 Filter
               </Button>
               <Button
                 variant="outline"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-border-color text-text-color hover:bg-warning hover:text-white group"
               >
-                <ArrowUpDown className="h-4 w-4 mr-2 text-gray-400" />
+                <ArrowUpDown className="h-4 w-4 mr-2 text-text-secondary group-hover:text-white" />
                 Sort
               </Button>
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+              <Button className="bg-warning hover:bg-warning text-white">
                 <UserPlus className="h-4 w-4 mr-2" />
                 Add User
               </Button>
@@ -479,7 +479,7 @@ const SupportUsers = () => {
           </div>
 
           <div className="space-y-4">
-            <div className="grid grid-cols-12 text-xs font-semibold text-gray-400 pb-2 border-b border-gray-700">
+            <div className="grid grid-cols-12 text-xs font-semibold text-text-secondary pb-2 border-b border-border-color">
               <div className="col-span-3">Name</div>
               <div className="col-span-3">Email</div>
               <div className="col-span-2">Role</div>
@@ -491,23 +491,23 @@ const SupportUsers = () => {
             {filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className="grid grid-cols-12 items-center py-3 px-2 border border-gray-700 rounded-lg hover:bg-slate-700/50 cursor-pointer"
+                className="grid grid-cols-12 items-center py-3 px-2 border border-border-color rounded-lg hover:bg-surface-color cursor-pointer"
                 onClick={() => handleUserClick(user.id)}
               >
                 <div className="col-span-3">
-                  <p className="font-medium text-white">{user.name}</p>
-                  <p className="text-xs text-gray-400">ID: {user.id}</p>
+                  <p className="font-medium text-text-color">{user.name}</p>
+                  <p className="text-xs text-text-secondary">ID: {user.id}</p>
                 </div>
-                <div className="col-span-3 text-gray-300">{user.email}</div>
+                <div className="col-span-3 text-text-secondary">{user.email}</div>
                 <div className="col-span-2">
                   <Badge className={`${getRoleColor(user.role)} text-white`}>
                     {user.role}
                   </Badge>
                 </div>
-                <div className="col-span-1 text-gray-300">
+                <div className="col-span-1 text-text-secondary">
                   {user.totalTickets}
                 </div>
-                <div className="col-span-1 text-gray-300">
+                <div className="col-span-1 text-text-secondary">
                   {user.openTickets}
                 </div>
                 <div className="col-span-2">
@@ -522,21 +522,21 @@ const SupportUsers = () => {
           </div>
 
           <div className="flex justify-between items-center mt-6">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-text-secondary">
               Showing {filteredUsers.length} of {users.length} users
             </p>
             <div className="flex space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-border-color text-text-color hover:bg-surface-color"
               >
                 Previous
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-border-color text-text-color hover:bg-surface-color"
               >
                 Next
               </Button>

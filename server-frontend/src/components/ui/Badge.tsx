@@ -3,17 +3,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../utils/lib";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-orange-300 dark:focus:ring-offset-gray-900",
+  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-orange-500 text-white hover:bg-orange-600 dark:bg-orange-100 dark:text-gray-900 dark:hover:bg-orange-200",
+          "border-transparent bg-primary text-white hover:bg-primary-hover dark:bg-primary dark:text-white dark:hover:bg-primary-hover",
         secondary:
-          "border-transparent bg-gray-700 text-white hover:bg-gray-600 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-300",
+          "border-transparent bg-secondary text-white hover:bg-secondary/90 dark:bg-secondary dark:text-white dark:hover:bg-secondary/90",
         destructive:
-          "border-transparent bg-red-500 text-white hover:bg-red-600 dark:bg-red-100 dark:text-gray-900 dark:hover:bg-red-200",
-        outline: "text-gray-300 border-gray-700 hover:bg-gray-600 dark:text-gray-700 dark:border-gray-200 dark:hover:bg-gray-200",
+          "border-transparent bg-danger text-white hover:bg-danger/90 dark:bg-danger dark:text-white dark:hover:bg-danger/90",
+        outline: 
+          "text-text-secondary border-border hover:bg-card-bg/80 dark:text-text-secondary dark:border-border dark:hover:bg-card-bg/80",
       },
     },
     defaultVariants: {

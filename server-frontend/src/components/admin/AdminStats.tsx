@@ -26,10 +26,10 @@ const AdminStats: React.FC<AdminStatsProps> = ({ filters = { section: 'all', tim
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [liveStats, setLiveStats] = useState<StatItem[]>([
-    { title: "Live Users", count: "1,234", icon: Activity, color: "text-green-400", bgColor: "bg-green-500/20" },
-    { title: "Fraud Alerts", count: "12", icon: AlertTriangle, color: "text-red-400", bgColor: "bg-red-500/20" },
-    { title: "Pending KYC", count: "89", icon: Shield, color: "text-orange-400", bgColor: "bg-orange-500/20" },
-    { title: "Support Tickets", count: "45", icon: Headphones, color: "text-blue-400", bgColor: "bg-blue-500/20" }
+    { title: "Live Users", count: "1,234", icon: Activity, color: "var(--success)", bgColor: "rgba(var(--success-rgb), 0.2)" },
+    { title: "Fraud Alerts", count: "12", icon: AlertTriangle, color: "var(--danger)", bgColor: "rgba(var(--danger-rgb), 0.2)" },
+    { title: "Pending KYC", count: "89", icon: Shield, color: "var(--warning)", bgColor: "rgba(var(--warning-rgb), 0.2)" },
+    { title: "Support Tickets", count: "45", icon: Headphones, color: "var(--secondary)", bgColor: "rgba(var(--secondary-rgb), 0.2)" }
   ]);
   
   // Update stats when filters change
@@ -79,15 +79,15 @@ const AdminStats: React.FC<AdminStatsProps> = ({ filters = { section: 'all', tim
       {liveStats.map((stat, index) => {
         const IconComponent = stat.icon;
         return (
-          <Card key={index} className={`bg-slate-800/50 border-gray-700 backdrop-blur-sm ${isLoading ? 'opacity-60' : ''}`}>
+          <Card key={index} className={`bg-surface border-[var(--border-color)] backdrop-blur-sm ${isLoading ? 'opacity-60' : ''}`}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-gray-200">{stat.title}</CardTitle>
-              <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                <IconComponent className={`h-5 w-5 ${stat.color} ${isLoading ? 'animate-pulse' : ''}`} />
+              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+              <div className="p-2 rounded-lg" style={{ backgroundColor: stat.bgColor }}>
+                <IconComponent className={`h-5 w-5 ${isLoading ? 'animate-pulse' : ''}`} style={{ color: stat.color }} />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-white">{isLoading ? '...' : stat.count}</div>
+              <div className="text-2xl font-bold">{isLoading ? '...' : stat.count}</div>
             </CardContent>
           </Card>
         );
