@@ -17,8 +17,7 @@ import Terms from "./pages/Terms";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import Teams from "./pages/Teams";
 import Pricing from "./pages/Pricing";
-import ParentDashboard from "./pages/dashboards/parent";
-import InstituteDashboard from "./pages/dashboards/Institute";
+import DashboardRouter from "./components/DashboardRouter";
 import LearnMore from "./pages/LearnMore";
 import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
@@ -26,42 +25,42 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
-      <AuthProvider>
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/applynow" element={<Applynow />} />
-            <Route path="/cookies-policy" element={<CookiesPolicy />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/terms-of-service" element={<Terms />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/career" element={<Career />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/press" element={<Press />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/demo" element={<Demo />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/learn-more/:type" element={<LearnMore />} />
-            <Route path="/parent-dashboard" element={<ParentDashboard />} />
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <InstituteDashboard />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
-          <Toaster />
-        </BrowserRouter>
-      </AuthProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/applynow" element={<Applynow />} />
+          <Route path="/cookies-policy" element={<CookiesPolicy />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/terms-of-service" element={<Terms />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/career" element={<Career />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/demo" element={<Demo />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/learn-more/:type" element={<LearnMore />} />
+          {/* Dynamic dashboard route based on user type */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardRouter />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+        <Toaster />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

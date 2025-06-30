@@ -291,13 +291,7 @@ const Parent = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      <DashboardHeader
-        dashboardName="Parent"
-        badges={parentBadges}
-        user={mockUser}
-        onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
-      />
+      <DashboardHeader dashboardName="Parent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* School Info */}

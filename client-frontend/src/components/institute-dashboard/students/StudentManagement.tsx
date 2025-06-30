@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -35,6 +35,7 @@ import {
   Pencil,
   Search,
 } from "lucide-react";
+import AddStudentForm from "./AddStudentForm";
 
 interface Student {
   id: string;
@@ -80,15 +81,36 @@ interface KYC {
 interface NewStudent
   extends Omit<Student, "id" | "status" | "feeStatus" | "attendance"> {}
 
-const StudentManagement = () => {
-  const [activeSubTab, setActiveSubTab] = useState("all-students");
+interface StudentManagementProps {
+  initialSubTab?: string;
+  onSubTabChange?: (tab: string) => void;
+}
+
+const StudentManagement = ({
+  initialSubTab = "all-students",
+  onSubTabChange,
+}: StudentManagementProps = {}) => {
+  const [activeSubTab, setActiveSubTab] = useState(initialSubTab);
   const [showAddStudentDialog, setShowAddStudentDialog] = useState(false);
   const [showViewStudentDialog, setShowViewStudentDialog] = useState(false);
   const [showEditStudentDialog, setShowEditStudentDialog] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [classFilter, setClassFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [classFilter, setClassFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  // Update activeSubTab when initialSubTab changes
+  useEffect(() => {
+    if (initialSubTab !== activeSubTab) {
+      setActiveSubTab(initialSubTab);
+    }
+  }, [initialSubTab, activeSubTab]);
+
+  // Handle sub tab changes
+  const handleSubTabChange = (tab: string) => {
+    setActiveSubTab(tab);
+    onSubTabChange?.(tab);
+  };
 
   const [newStudent, setNewStudent] = useState<NewStudent>({
     studentName: "",
@@ -325,8 +347,10 @@ const StudentManagement = () => {
       student.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student.class.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesClass = classFilter ? student.class === classFilter : true;
-    const matchesStatus = statusFilter ? student.status === statusFilter : true;
+    const matchesClass =
+      classFilter === "all" ? true : student.class === classFilter;
+    const matchesStatus =
+      statusFilter === "all" ? true : student.status === statusFilter;
 
     return matchesSearch && matchesClass && matchesStatus;
   });
@@ -362,15 +386,21 @@ const StudentManagement = () => {
       {/* Inner Tabs for Student Management */}
       <Tabs
         value={activeSubTab}
-        onValueChange={setActiveSubTab}
+        onValueChange={handleSubTabChange}
         className="space-y-6"
       >
-        <TabsList className="grid w-full grid-cols-5 bg-gray-800 p-1 rounded-md">
+        <TabsList className="grid w-full grid-cols-6 bg-gray-800 p-1 rounded-md">
           <TabsTrigger
             value="all-students"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
           >
             All Students
+          </TabsTrigger>
+          <TabsTrigger
+            value="add-student"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
+            Add Student
           </TabsTrigger>
           <TabsTrigger
             value="admissions"
@@ -413,7 +443,7 @@ const StudentManagement = () => {
               <div className="flex space-x-2">
                 <Button
                   className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
-                  onClick={() => setShowAddStudentDialog(true)}
+                  onClick={() => handleSubTabChange("add-student")}
                 >
                   <Plus className="h-4 w-4" />
                   <span>Add Student</span>
@@ -442,54 +472,55 @@ const StudentManagement = () => {
                   />
                 </div>
                 <div className="flex space-x-2">
-                  <Select
-                    value={classFilter}
-                    onValueChange={setClassFilter}
-                    className="w-[180px] bg-gray-900 border-gray-700 text-white"
-                  >
-                    <SelectItem
-                      value=""
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      All Classes
-                    </SelectItem>
-                    <SelectItem
-                      value="10th A"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      10th A
-                    </SelectItem>
-                    <SelectItem
-                      value="9th B"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      9th B
-                    </SelectItem>
-                    {/* Add more classes dynamically if needed */}
+                  <Select value={classFilter} onValueChange={setClassFilter}>
+                    <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                      <SelectValue placeholder="All Classes" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectItem
+                        value="all"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        All Classes
+                      </SelectItem>
+                      <SelectItem
+                        value="10th A"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        10th A
+                      </SelectItem>
+                      <SelectItem
+                        value="9th B"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        9th B
+                      </SelectItem>
+                    </SelectContent>
                   </Select>
-                  <Select
-                    value={statusFilter}
-                    onValueChange={setStatusFilter}
-                    className="w-[180px] bg-gray-900 border-gray-700 text-white"
-                  >
-                    <SelectItem
-                      value=""
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      All Status
-                    </SelectItem>
-                    <SelectItem
-                      value="Active"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      Active
-                    </SelectItem>
-                    <SelectItem
-                      value="Inactive"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
-                    >
-                      Inactive
-                    </SelectItem>
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                      <SelectValue placeholder="All Status" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectItem
+                        value="all"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        All Status
+                      </SelectItem>
+                      <SelectItem
+                        value="Active"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        Active
+                      </SelectItem>
+                      <SelectItem
+                        value="Inactive"
+                        className="bg-gray-800 text-white hover:bg-gray-700"
+                      >
+                        Inactive
+                      </SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
               </div>
@@ -624,6 +655,15 @@ const StudentManagement = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        {/* Add Student Tab Content */}
+        <TabsContent value="add-student">
+          <AddStudentForm
+            onStudentAdded={() => {
+              handleSubTabChange("all-students");
+            }}
+          />
         </TabsContent>
 
         {/* Admissions Tab Content */}
@@ -1221,20 +1261,24 @@ const StudentManagement = () => {
                   onValueChange={(value) =>
                     setSelectedStudent({ ...selectedStudent, status: value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem
-                    value="Active"
-                    className="bg-gray-800 text-white hover:bg-gray-700"
-                  >
-                    Active
-                  </SelectItem>
-                  <SelectItem
-                    value="Inactive"
-                    className="bg-gray-800 text-white hover:bg-gray-700"
-                  >
-                    Inactive
-                  </SelectItem>
+                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700">
+                    <SelectItem
+                      value="Active"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Active
+                    </SelectItem>
+                    <SelectItem
+                      value="Inactive"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Inactive
+                    </SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
@@ -1246,26 +1290,30 @@ const StudentManagement = () => {
                   onValueChange={(value) =>
                     setSelectedStudent({ ...selectedStudent, feeStatus: value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem
-                    value="Paid"
-                    className="bg-gray-800 text-white hover:bg-gray-700"
-                  >
-                    Paid
-                  </SelectItem>
-                  <SelectItem
-                    value="Pending"
-                    className="bg-gray-800 text-white hover:bg-gray-700"
-                  >
-                    Pending
-                  </SelectItem>
-                  <SelectItem
-                    value="Overdue"
-                    className="bg-gray-800 text-white hover:bg-gray-700"
-                  >
-                    Overdue
-                  </SelectItem>
+                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                    <SelectValue placeholder="Select fee status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-800 border-gray-700">
+                    <SelectItem
+                      value="Paid"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Paid
+                    </SelectItem>
+                    <SelectItem
+                      value="Pending"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Pending
+                    </SelectItem>
+                    <SelectItem
+                      value="Overdue"
+                      className="bg-gray-800 text-white hover:bg-gray-700"
+                    >
+                      Overdue
+                    </SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">

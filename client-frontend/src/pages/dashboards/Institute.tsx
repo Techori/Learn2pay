@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/Tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Button } from "@/components/ui/Button";
 import {
   LayoutDashboard,
@@ -37,9 +32,14 @@ import { useToast } from "@/hooks/use-toast";
 const Institute = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("analytics");
+  const [studentSubTab, setStudentSubTab] = useState("all-students");
 
   const handleQuickActionRedirect = (tabName: string) => {
     setActiveTab(tabName);
+  };
+
+  const handleStudentAction = (action: string) => {
+    setStudentSubTab(action);
   };
 
   const mockUser = {
@@ -77,13 +77,7 @@ const Institute = () => {
       transition={{ duration: 0.5 }}
       className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
     >
-      <DashboardHeader
-        dashboardName="Institute"
-        badges={instituteBadges}
-        user={mockUser}
-        onLogout={handleLogout}
-        onUserUpdate={handleUserUpdate}
-      />
+      <DashboardHeader dashboardName="Institute" />
 
       <div className="p-6 overflow-y-auto">
         {/* Institute selector and add institute button */}
@@ -117,7 +111,7 @@ const Institute = () => {
             onClick={() => setActiveTab("multi-institute")}
           >
             <Building2 className="h-4 w-4" />
-            <span>Add Institute</span>
+            <span>Add Branch</span>
           </Button>
           <Button
             variant="outline"
@@ -139,7 +133,7 @@ const Institute = () => {
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
               <LayoutDashboard className="h-4 w-4" />
-              <span>Analytics</span>
+              <span>Overview</span>
             </TabsTrigger>
             <TabsTrigger
               value="multi-institute"
@@ -213,9 +207,10 @@ const Institute = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="analytics">
+          <TabsContent value="overview">
             <InstituteDashboardOverview
               onQuickActionClick={handleQuickActionRedirect}
+              onStudentAction={handleStudentAction}
             />
           </TabsContent>
           <TabsContent value="multi-institute">
@@ -240,7 +235,10 @@ const Institute = () => {
             <UserManagement />
           </TabsContent>
           <TabsContent value="students">
-            <StudentManagement />
+            <StudentManagement
+              initialSubTab={studentSubTab}
+              onSubTabChange={setStudentSubTab}
+            />
           </TabsContent>
           <TabsContent value="staff">
             <StaffManagement />

@@ -35,10 +35,12 @@ import { useToast } from "@/hooks/use-toast";
 
 interface InstituteDashboardOverviewProps {
   onQuickActionClick: (tabName: string) => void;
+  onStudentAction?: (action: string) => void;
 }
 
 const InstituteDashboardOverview = ({
   onQuickActionClick,
+  onStudentAction,
 }: InstituteDashboardOverviewProps) => {
   const { toast } = useToast();
 
@@ -77,7 +79,10 @@ const InstituteDashboardOverview = ({
       icon: Plus,
       title: "Add Student",
       description: "Register new student",
-      onClick: () => onQuickActionClick("students"),
+      onClick: () => {
+        onQuickActionClick("students");
+        onStudentAction?.("add-student");
+      },
     },
     {
       icon: FileText,

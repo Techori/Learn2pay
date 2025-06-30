@@ -11,7 +11,13 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/Dialog";
-import { Select, SelectItem } from "@/components/ui/Select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 import {
   Users,
   UserCheck,
@@ -55,8 +61,8 @@ const UserManagement = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [roleFilter, setRoleFilter] = useState<string>("");
-  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [roleFilter, setRoleFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isLoading, setIsLoading] = useState(false);
 
   const [newUser, setNewUser] = useState<NewUser>({
@@ -334,8 +340,9 @@ const UserManagement = () => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.role.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesRole = roleFilter ? user.role === roleFilter : true;
-    const matchesStatus = statusFilter ? user.status === statusFilter : true;
+    const matchesRole = roleFilter === "all" ? true : user.role === roleFilter;
+    const matchesStatus =
+      statusFilter === "all" ? true : user.status === statusFilter;
 
     return matchesSearch && matchesRole && matchesStatus;
   });
@@ -424,22 +431,30 @@ const UserManagement = () => {
               <Select
                 value={roleFilter}
                 onValueChange={(value: string) => setRoleFilter(value)}
-                className="w-[180px] bg-gray-900 border-gray-700 text-white"
               >
-                <SelectItem value="">All Roles</SelectItem>
-                <SelectItem value="Principal">Principal</SelectItem>
-                <SelectItem value="Accountant">Accountant</SelectItem>
-                <SelectItem value="Teacher">Teacher</SelectItem>
-                <SelectItem value="Office Staff">Office Staff</SelectItem>
+                <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                  <SelectValue placeholder="All Roles" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectItem value="all">All Roles</SelectItem>
+                  <SelectItem value="Principal">Principal</SelectItem>
+                  <SelectItem value="Accountant">Accountant</SelectItem>
+                  <SelectItem value="Teacher">Teacher</SelectItem>
+                  <SelectItem value="Office Staff">Office Staff</SelectItem>
+                </SelectContent>
               </Select>
               <Select
                 value={statusFilter}
                 onValueChange={(value: string) => setStatusFilter(value)}
-                className="w-[180px] bg-gray-900 border-gray-700 text-white"
               >
-                <SelectItem value="">All Status</SelectItem>
-                <SelectItem value="Active">Active</SelectItem>
-                <SelectItem value="Inactive">Inactive</SelectItem>
+                <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                  <SelectValue placeholder="All Status" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="Inactive">Inactive</SelectItem>
+                </SelectContent>
               </Select>
             </div>
           </div>
@@ -610,12 +625,16 @@ const UserManagement = () => {
                 onValueChange={(value: string) =>
                   setNewUser({ ...newUser, role: value })
                 }
-                className="bg-gray-800 border-gray-700 text-white"
               >
-                <SelectItem value="Principal">Principal</SelectItem>
-                <SelectItem value="Accountant">Accountant</SelectItem>
-                <SelectItem value="Teacher">Teacher</SelectItem>
-                <SelectItem value="Office Staff">Office Staff</SelectItem>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectItem value="Principal">Principal</SelectItem>
+                  <SelectItem value="Accountant">Accountant</SelectItem>
+                  <SelectItem value="Teacher">Teacher</SelectItem>
+                  <SelectItem value="Office Staff">Office Staff</SelectItem>
+                </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
@@ -627,16 +646,20 @@ const UserManagement = () => {
                 onValueChange={(value: string) =>
                   setNewUser({ ...newUser, permissions: value })
                 }
-                className="bg-gray-800 border-gray-700 text-white"
               >
-                <SelectItem value="Full Access">Full Access</SelectItem>
-                <SelectItem value="Fee Management, Reports">
-                  Fee Management, Reports
-                </SelectItem>
-                <SelectItem value="Student Management, Attendance">
-                  Student Management, Attendance
-                </SelectItem>
-                <SelectItem value="Basic Access">Basic Access</SelectItem>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                  <SelectValue placeholder="Select permissions" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectItem value="Full Access">Full Access</SelectItem>
+                  <SelectItem value="Fee Management, Reports">
+                    Fee Management, Reports
+                  </SelectItem>
+                  <SelectItem value="Student Management, Attendance">
+                    Student Management, Attendance
+                  </SelectItem>
+                  <SelectItem value="Basic Access">Basic Access</SelectItem>
+                </SelectContent>
               </Select>
             </div>
           </div>
@@ -833,12 +856,16 @@ const UserManagement = () => {
                   onValueChange={(value: string) =>
                     setSelectedUser({ ...selectedUser, role: value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem value="Principal">Principal</SelectItem>
-                  <SelectItem value="Accountant">Accountant</SelectItem>
-                  <SelectItem value="Teacher">Teacher</SelectItem>
-                  <SelectItem value="Office Staff">Office Staff</SelectItem>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder="Select role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Principal">Principal</SelectItem>
+                    <SelectItem value="Accountant">Accountant</SelectItem>
+                    <SelectItem value="Teacher">Teacher</SelectItem>
+                    <SelectItem value="Office Staff">Office Staff</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
@@ -850,16 +877,20 @@ const UserManagement = () => {
                   onValueChange={(value: string) =>
                     setSelectedUser({ ...selectedUser, permissions: value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem value="Full Access">Full Access</SelectItem>
-                  <SelectItem value="Fee Management, Reports">
-                    Fee Management, Reports
-                  </SelectItem>
-                  <SelectItem value="Student Management, Attendance">
-                    Student Management, Attendance
-                  </SelectItem>
-                  <SelectItem value="Basic Access">Basic Access</SelectItem>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder="Select permissions" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Full Access">Full Access</SelectItem>
+                    <SelectItem value="Fee Management, Reports">
+                      Fee Management, Reports
+                    </SelectItem>
+                    <SelectItem value="Student Management, Attendance">
+                      Student Management, Attendance
+                    </SelectItem>
+                    <SelectItem value="Basic Access">Basic Access</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
             </div>
@@ -948,16 +979,20 @@ const UserManagement = () => {
                   onValueChange={(value: string) =>
                     setSelectedUser({ ...selectedUser, permissions: value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
                 >
-                  <SelectItem value="Full Access">Full Access</SelectItem>
-                  <SelectItem value="Fee Management, Reports">
-                    Fee Management, Reports
-                  </SelectItem>
-                  <SelectItem value="Student Management, Attendance">
-                    Student Management, Attendance
-                  </SelectItem>
-                  <SelectItem value="Basic Access">Basic Access</SelectItem>
+                  <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                    <SelectValue placeholder="Select permissions" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Full Access">Full Access</SelectItem>
+                    <SelectItem value="Fee Management, Reports">
+                      Fee Management, Reports
+                    </SelectItem>
+                    <SelectItem value="Student Management, Attendance">
+                      Student Management, Attendance
+                    </SelectItem>
+                    <SelectItem value="Basic Access">Basic Access</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
             </div>

@@ -1,5 +1,9 @@
 import { comparePassword } from "@/utils/hashAuth";
-import { generateAccessToken } from "@/utils/jwtAuth";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  setTokenCookies,
+} from "@/utils/jwtAuth";
 import Student from "@/models/parents/studentsModel";
 import { Request, Response } from "express";
 import { parentLoginSchema } from "@/validations/parentValidation";
@@ -32,13 +36,19 @@ const loginParent = async (req: Request, res: Response): Promise<void> => {
       role: "parent" as const,
       studentId: student._id.toString(),
       email: student.parentEmail,
-      instituteName: student.instituteName,
+      parentName: student.parentName,
     };
-    const token = generateAccessToken(tokenPayload);
 
+    // Generate tokens
+    const accessToken = generateAccessToken(tokenPayload);
+    const refreshToken = generateRefreshToken(tokenPayload);
+
+    // Set secure cookies
+    setTokenCookies(res, accessToken, refreshToken);
+
+    // Send success response with parent data (NO TOKENS in response body for security)
     res.status(200).json({
       message: "Login successful",
-      token,
       parent: {
         id: student._id,
         parentName: student.parentName,

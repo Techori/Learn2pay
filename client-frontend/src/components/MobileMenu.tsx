@@ -8,6 +8,8 @@ type MobileMenuProps = {
   currentPath: string;
   isAuthenticated: boolean;
   institute: any;
+  parent: any;
+  userType: "institute" | "parent" | null;
   onLogout: () => void;
   isLoading: boolean;
 };
@@ -18,6 +20,8 @@ const MobileMenu = ({
   currentPath,
   isAuthenticated,
   institute,
+  parent,
+  userType,
   onLogout,
   isLoading,
 }: MobileMenuProps) => {

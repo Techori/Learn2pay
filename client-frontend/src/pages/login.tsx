@@ -20,10 +20,14 @@ import { User, Lock, Eye, EyeOff, LogIn, Building } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Checkbox } from "../components/ui/Checkbox";
 import { useAuth } from "../contexts/AuthContext";
-
 const Login = () => {
   const navigate = useNavigate();
-  const { login, isAuthenticated, isLoading } = useAuth();
+  const {
+    login,
+    isAuthenticated,
+    isLoading,
+    userType: authUserType,
+  } = useAuth();
   const [userType, setUserType] = useState("institute"); // Default to institute
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
@@ -34,10 +38,10 @@ const Login = () => {
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
+    if (isAuthenticated && authUserType) {
+        navigate("/dashboard");
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, authUserType, navigate]);
 
   // Show loading if checking authentication
   if (isLoading) {
@@ -56,18 +60,16 @@ const Login = () => {
     setIsSubmitting(true);
     setError("");
 
-    // Only handle institute login for now
-    if (userType !== "institute") {
-      setError("Parent login not implemented yet");
-      setIsSubmitting(false);
-      return;
-    }
-
     try {
-      const result = await login(loginId, password);
+      const result = await login(
+        loginId,
+        password,
+        userType as "institute" | "parent"
+      );
 
       if (result.success) {
-        navigate("/dashboard");
+        // Redirect based on selected user type
+        navigate("/dashboard")
       } else {
         setError(result.error || "Login failed");
       }
@@ -240,11 +242,19 @@ const Login = () => {
               <h4 className="text-sm font-semibold text-orange-300 mb-2">
                 Demo Credentials:
               </h4>
-              <div className="text-xs text-orange-200 space-y-1">
-                <div>Institute: admin@test.com</div>
-                <div className="font-medium">Password: password123</div>
+              <div className="text-xs text-orange-200 space-y-2">
+                <div>
+                  <div className="font-medium text-orange-300">Institute:</div>
+                  <div>Email: admin@test.com</div>
+                  <div>Password: password123</div>
+                </div>
+                <div>
+                  <div className="font-medium text-orange-300">Parent:</div>
+                  <div>Email: parent@test.com</div>
+                  <div>Password: password123</div>
+                </div>
                 <div className="text-xs text-gray-400 mt-2">
-                  Note: Parent login coming soon
+                  Note: Use the role selector above to choose your login type
                 </div>
               </div>
             </div>

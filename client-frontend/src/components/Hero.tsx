@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Hero = () => {
-  const { isAuthenticated, institute, isLoading } = useAuth();
+  const { isAuthenticated, institute,parent, isLoading } = useAuth();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -119,7 +119,7 @@ const Hero = () => {
                 variants={itemVariants}
               >
                 Welcome,{" "}
-                <span className="text-orange-400">{institute?.name}</span>!
+                <span className="text-orange-400">{institute?.name || parent.parentName}</span>!
               </motion.div>
             </div>
           ) : (
@@ -134,20 +134,6 @@ const Hero = () => {
                   to="/register"
                   className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                    />
-                  </svg>
                   Get Started Free
                 </Link>
               </motion.div>

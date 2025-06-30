@@ -56,7 +56,8 @@ declare global {
         studentId?: string;
         instituteId?: string;
         email: string;
-        instituteName: string;
+        instituteName?: string;
+        parentName?: string;
       };
     }
   }

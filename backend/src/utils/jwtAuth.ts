@@ -6,7 +6,8 @@ interface TokenPayload {
   studentId?: string;
   instituteId?: string;
   email: string;
-  instituteName: string;
+  instituteName?: string;
+  parentName?: string;
 }
 
 // access token generator

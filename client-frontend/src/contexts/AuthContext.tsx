@@ -15,13 +15,24 @@ interface Institute {
   contactPerson: string;
 }
 
+interface Parent {
+  id: string;
+  parentName: string;
+  parentEmail: string;
+  studentName: string;
+  instituteName: string;
+}
+
 interface AuthContextType {
   institute: Institute | null;
+  parent: Parent | null;
+  userType: "institute" | "parent" | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (
     email: string,
-    password: string
+    password: string,
+    userType: "institute" | "parent"
   ) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   checkSession: () => Promise<void>;
@@ -43,6 +54,8 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [institute, setInstitute] = useState<Institute | null>(null);
+  const [parent, setParent] = useState<Parent | null>(null);
+  const [userType, setUserType] = useState<"institute" | "parent" | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Check session on app load
@@ -54,12 +67,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       const response = await authAPI.getSession();
+
       if (response.institute) {
         setInstitute(response.institute);
+        setParent(null);
+        setUserType("institute");
+        localStorage.setItem("userType", "institute");
+      } else if (response.parent) {
+        setParent(response.parent);
+        setInstitute(null);
+        setUserType("parent");
+        localStorage.setItem("userType", "parent");
+      } else {
+        setInstitute(null);
+        setParent(null);
+        setUserType(null);
+        localStorage.removeItem("userType");
       }
     } catch (error) {
       console.error("Session check failed:", error);
       setInstitute(null);
+      setParent(null);
+      setUserType(null);
+      localStorage.removeItem("userType");
     } finally {
       setIsLoading(false);
     }
@@ -67,14 +97,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (
     email: string,
-    password: string
+    password: string,
+    selectedUserType: "institute" | "parent"
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       setIsLoading(true);
-      const response = await authAPI.login(email, password);
+
+      let response;
+      if (selectedUserType === "institute") {
+        response = await authAPI.instituteLogin(email, password);
+      } else {
+        response = await authAPI.parentLogin(email, password);
+      }
 
       if (response.institute) {
         setInstitute(response.institute);
+        setParent(null);
+        setUserType("institute");
+        localStorage.setItem("userType", "institute");
+        return { success: true };
+      } else if (response.parent) {
+        setParent(response.parent);
+        setInstitute(null);
+        setUserType("parent");
+        localStorage.setItem("userType", "parent");
         return { success: true };
       }
 
@@ -97,13 +143,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.error("Logout failed:", error);
     } finally {
       setInstitute(null);
+      setParent(null);
+      setUserType(null);
+      localStorage.removeItem("userType");
     }
   };
 
   const value = {
     institute,
+    parent,
+    userType,
     isLoading,
-    isAuthenticated: !!institute,
+    isAuthenticated: !!(institute || parent),
     login,
     logout,
     checkSession,

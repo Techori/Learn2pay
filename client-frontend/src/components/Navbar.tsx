@@ -1,26 +1,67 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./Themetoggle";
 import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-  const { isAuthenticated, institute, logout, isLoading } = useAuth();
+  const { isAuthenticated, institute, parent, userType, logout, isLoading } =
+    useAuth();
+
+  // Close profile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
   const handleLogout = async () => {
     await logout();
+    setIsProfileMenuOpen(false);
+  };
+
+  // Get current user data
+  const currentUser = institute || parent;
+  const userName = institute?.name || parent?.parentName || "User";
+  const userEmail = institute?.email || parent?.parentEmail || "";
+  const userRole = userType === "institute" ? "Institute" : "Parent";
+
+  // Get user initials for avatar
+  const getUserInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
     <>
-      <motion.header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md">
+      <motion.header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800/50">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center">
             <motion.div
@@ -34,7 +75,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-10">
+          <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/" isActive={location.pathname === "/"}>
               Home
             </NavLink>
@@ -55,23 +96,27 @@ const Navbar = () => {
             </NavLink>
           </div>
 
+          {/* Right Section */}
           <div className="hidden md:flex items-center space-x-4">
             <ThemeToggle />
+
             {isLoading ? (
-              // Loading state
+              // Enhanced Loading state
               <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
+                <span className="text-gray-400 text-sm">Loading...</span>
               </div>
-            ) : isAuthenticated ? (
-              // Authenticated state - show dashboard and logout
-              <>
+            ) : isAuthenticated && currentUser ? (
+              // Enhanced Authenticated state
+              <div className="flex items-center space-x-4">
+                {/* Dashboard Button */}
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Link
                     to="/dashboard"
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md transition-colors duration-300 flex items-center gap-2"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -91,37 +136,171 @@ const Navbar = () => {
                   </Link>
                 </motion.div>
 
-                <div className="flex items-center space-x-3 text-sm">
-                  <span className="text-gray-300">
-                    Welcome,{" "}
-                    <span className="text-orange-400">{institute?.name}</span>
-                  </span>
+                {/* User Profile Dropdown */}
+                <div className="relative" ref={profileMenuRef}>
                   <motion.button
+                    onClick={toggleProfileMenu}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={handleLogout}
-                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 flex items-center gap-1"
+                    className="flex items-center space-x-3 bg-gray-800/50 hover:bg-gray-700/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 border border-gray-700/30"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
+                    {/* User Avatar */}
+                    <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg">
+                      {getUserInitials(userName)}
+                    </div>
+
+                    {/* User Info */}
+                    <div className="text-left hidden lg:block">
+                      <div className="text-white text-sm font-medium truncate max-w-[120px]">
+                        {userName}
+                      </div>
+                      <div className="text-orange-400 text-xs">{userRole}</div>
+                    </div>
+
+                    {/* Dropdown Arrow */}
+                    <motion.svg
+                      animate={{ rotate: isProfileMenuOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="w-4 h-4 text-gray-400"
                       fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-4 h-4"
+                      viewBox="0 0 24 24"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
                       />
-                    </svg>
-                    Logout
+                    </motion.svg>
                   </motion.button>
+
+                  {/* Profile Dropdown Menu */}
+                  <AnimatePresence>
+                    {isProfileMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute right-0 mt-2 w-64 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-700/50 py-2 z-50"
+                      >
+                        {/* User Info Header */}
+                        <div className="px-4 py-3 border-b border-gray-700/50">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
+                              {getUserInitials(userName)}
+                            </div>
+                            <div>
+                              <div className="text-white font-medium">
+                                {userName}
+                              </div>
+                              <div className="text-gray-400 text-sm">
+                                {userEmail}
+                              </div>
+                              <div className="text-orange-400 text-xs font-medium">
+                                {userRole}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="py-2">
+                          <Link
+                            to="/dashboard"
+                            onClick={() => setIsProfileMenuOpen(false)}
+                            className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                          >
+                            <svg
+                              className="w-4 h-4 mr-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7zm0 0V5a2 2 0 012-2h6l2 2h6a2 2 0 012 2v2"
+                              />
+                            </svg>
+                            Dashboard
+                          </Link>
+
+                          <Link
+                            to="/profile"
+                            onClick={() => setIsProfileMenuOpen(false)}
+                            className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                          >
+                            <svg
+                              className="w-4 h-4 mr-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                              />
+                            </svg>
+                            Profile Settings
+                          </Link>
+
+                          {userType === "parent" && (
+                            <Link
+                              to="/student-info"
+                              onClick={() => setIsProfileMenuOpen(false)}
+                              className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                            >
+                              <svg
+                                className="w-4 h-4 mr-3"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                                />
+                              </svg>
+                              Student Info
+                            </Link>
+                          )}
+
+                          <hr className="my-2 border-gray-700/50" />
+
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center w-full px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-colors duration-200"
+                          >
+                            <svg
+                              className="w-4 h-4 mr-3"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                              />
+                            </svg>
+                            Sign Out
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </>
+              </div>
             ) : (
-              // Not authenticated - show login and get started
+              // Enhanced Not authenticated state
               <>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -129,9 +308,9 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className="text-white hover:text-orange-400 transition-colors duration-300"
+                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 font-medium"
                   >
-                    Login
+                    Sign In
                   </Link>
                 </motion.div>
 
@@ -141,7 +320,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-md transition-colors duration-300"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg"
                   >
                     Get Started
                   </Link>
@@ -196,6 +375,8 @@ const Navbar = () => {
         currentPath={location.pathname}
         isAuthenticated={isAuthenticated}
         institute={institute}
+        parent={parent}
+        userType={userType}
         onLogout={handleLogout}
         isLoading={isLoading}
       />
