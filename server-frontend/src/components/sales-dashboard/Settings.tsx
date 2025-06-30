@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "../ui/Dialog";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import { useTheme } from "../../context/ThemeContext";
 
 import { ChevronDown, Upload, User, Mail, Phone } from "lucide-react";
 
@@ -46,6 +47,7 @@ interface Delegation {
 }
 
 const Settings = () => {
+  const { theme } = useTheme();
   const { toast } = useToast();
   const [profile, setProfile] = useState<Profile>({
     name: "Sales Manager",
@@ -116,10 +118,25 @@ const Settings = () => {
 
   const filteredTeam = regionFilter ? teamMembers.filter((m) => m.region === regionFilter) : teamMembers;
 
+  // Theme variables
+  const bgColor = theme === "dark" ? "bg-[#101624]" : "bg-gray-50";
+  const cardBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const cardBorder = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
+  const textColor = theme === "dark" ? "text-white" : "text-gray-900";
+  const textSecondary = theme === "dark" ? "text-gray-300" : "text-gray-600";
+  const inputBg = theme === "dark" ? "bg-[#232b45] border-[#232b45]" : "bg-white border-gray-300";
+  const inputText = theme === "dark" ? "text-white" : "text-gray-900";
+  const selectBg = theme === "dark" ? "bg-[#232b45] border-[#232b45] text-gray-300" : "bg-white border-gray-300 text-gray-700";
+  const buttonOutline = theme === "dark" ? "border-[#232b45] text-gray-300 hover:bg-orange-500/10" : "border-gray-300 text-gray-700 hover:bg-orange-100";
+  const buttonAccent = theme === "dark" ? "bg-orange-500 text-white hover:bg-orange-600" : "bg-orange-500 text-white hover:bg-orange-600";
+  const buttonDanger = theme === "dark" ? "bg-red-500 text-white hover:bg-red-600" : "bg-red-500 text-white hover:bg-red-600";
+  const hoverBg = theme === "dark" ? "hover:bg-[#232b45]" : "hover:bg-gray-50";
+  const collapsibleBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+
   return (
-    <div className="space-y-6 bg-[#101624] min-h-screen p-4 rounded-xl text-white">
+    <div className={`space-y-6 ${bgColor} min-h-screen p-4 rounded-xl ${textColor}`}>
       {/* Profile Settings */}
-      <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+      <Card className={`${cardBg} border ${cardBorder} shadow-none`}>
         <CardHeader>
           <CardTitle>Profile Settings</CardTitle>
         </CardHeader>
@@ -134,33 +151,33 @@ const Settings = () => {
                       <Upload className="h-4 w-4 mr-1" /> Upload
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className={cardBg}>
                     <DialogHeader>
-                      <DialogTitle>Upload Profile Photo</DialogTitle>
+                      <DialogTitle className={textColor}>Upload Profile Photo</DialogTitle>
                     </DialogHeader>
                     <input type="file" accept="image/*" onChange={(e) => setPhotoFile(e.target.files?.[0] || null)} className="mb-2" />
-                    <Button type="button" onClick={() => setPhotoFile(null)} className="bg-red-500 text-white">Cancel</Button>
+                    <Button type="button" onClick={() => setPhotoFile(null)} className={buttonDanger}>Cancel</Button>
                   </DialogContent>
                 </Dialog>
               </div>
               <div className="flex-1">
-                <Input placeholder="Name" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} className="bg-[#232b45] border border-[#232b45] text-white" />
-                <Input placeholder="Email" value={profile.email} readOnly className="bg-[#232b45] border border-[#232b45] text-white mt-2" />
-                <Input placeholder="Phone" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} className="bg-[#232b45] border border-[#232b45] text-white mt-2" />
-                <Input placeholder="Designation" value={profile.designation} readOnly className="bg-[#232b45] border border-[#232b45] text-white mt-2" />
+                <Input placeholder="Name" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })} className={`${inputBg} ${inputText}`} />
+                <Input placeholder="Email" value={profile.email} readOnly className={`${inputBg} ${inputText} mt-2`} />
+                <Input placeholder="Phone" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} className={`${inputBg} ${inputText} mt-2`} />
+                <Input placeholder="Designation" value={profile.designation} readOnly className={`${inputBg} ${inputText} mt-2`} />
               </div>
             </div>
-            <Button type="submit" className="bg-orange-500 text-white">Save</Button>
+            <Button type="submit" className={buttonAccent}>Save</Button>
           </form>
         </CardContent>
       </Card>
 
       {/* Team Hierarchy View */}
-      <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+      <Card className={`${cardBg} border ${cardBorder} shadow-none`}>
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle>Team Hierarchy</CardTitle>
-            <select className="pl-2 pr-2 py-1 rounded bg-[#232b45] border border-[#232b45] text-gray-300" value={regionFilter || ""} onChange={(e) => setRegionFilter(e.target.value || null)}>
+            <select className={`pl-2 pr-2 py-1 rounded ${selectBg}`} value={regionFilter || ""} onChange={(e) => setRegionFilter(e.target.value || null)}>
               <option value="">All Regions</option>
               <option value="North">North</option>
               <option value="South">South</option>
@@ -171,16 +188,16 @@ const Settings = () => {
         </CardHeader>
         <CardContent>
 <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
-  <Collapsible.Trigger className="flex items-center w-full text-left text-white hover:bg-[#232b45] p-2 rounded">
+  <Collapsible.Trigger className={`flex items-center w-full text-left ${textColor} ${hoverBg} p-2 rounded`}>
     Sales Manager (Self) <ChevronDown className="ml-auto h-4 w-4" />
   </Collapsible.Trigger>
 
   <Collapsible.Content className="space-y-2 mt-2">
     {filteredTeam.map((member) => (
-      <div key={member.name} className="bg-[#232b45] p-2 rounded">
-        <p>{member.name}</p>
-        <p className="text-sm text-gray-400">Region: {member.region}</p>
-        <p className="text-sm text-gray-400">Target: ₹{member.target}</p>
+      <div key={member.name} className={`${collapsibleBg} p-2 rounded`}>
+        <p className={textColor}>{member.name}</p>
+        <p className={`text-sm ${textSecondary}`}>Region: {member.region}</p>
+        <p className={`text-sm ${textSecondary}`}>Target: ₹{member.target}</p>
       </div>
     ))}
   </Collapsible.Content>
@@ -190,56 +207,56 @@ const Settings = () => {
       </Card>
 
       {/* Notification Preferences */}
-      <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+      <Card className={`${cardBg} border ${cardBorder} shadow-none`}>
         <CardHeader>
           <CardTitle>Notification Preferences</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-2">
-            <Checkbox id="newLead" checked={notifications.newLead} onCheckedChange={() => handleNotificationChange("newLead")} />
-            <label htmlFor="newLead" className="text-white">Notify on new lead submitted</label>
+            <Checkbox id="newLead" checked={notifications.newLead} onChange={() => handleNotificationChange("newLead")} />
+            <label htmlFor="newLead" className={textColor}>Notify on new lead submitted</label>
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="kycSubmitted" checked={notifications.kycSubmitted} onCheckedChange={() => handleNotificationChange("kycSubmitted")} />
-            <label htmlFor="kycSubmitted" className="text-white">Alert on KYC submitted by team</label>
+            <Checkbox id="kycSubmitted" checked={notifications.kycSubmitted} onChange={() => handleNotificationChange("kycSubmitted")} />
+            <label htmlFor="kycSubmitted" className={textColor}>Alert on KYC submitted by team</label>
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="underperforming" checked={notifications.underperforming} onCheckedChange={() => handleNotificationChange("underperforming")} />
-            <label htmlFor="underperforming" className="text-white">Remind for underperforming team members</label>
+            <Checkbox id="underperforming" checked={notifications.underperforming} onChange={() => handleNotificationChange("underperforming")} />
+            <label htmlFor="underperforming" className={textColor}>Remind for underperforming team members</label>
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="targetAchievement" checked={notifications.targetAchievement} onCheckedChange={() => handleNotificationChange("targetAchievement")} />
-            <label htmlFor="targetAchievement" className="text-white">Confirmation alerts on target achievement</label>
+            <Checkbox id="targetAchievement" checked={notifications.targetAchievement} onChange={() => handleNotificationChange("targetAchievement")} />
+            <label htmlFor="targetAchievement" className={textColor}>Confirmation alerts on target achievement</label>
           </div>
           <div className="flex items-center space-x-2">
-            <Checkbox id="summaryEmails" checked={notifications.summaryEmails} onCheckedChange={() => handleNotificationChange("summaryEmails")} />
-            <label htmlFor="summaryEmails" className="text-white">Summary emails weekly/monthly</label>
+            <Checkbox id="summaryEmails" checked={notifications.summaryEmails} onChange={() => handleNotificationChange("summaryEmails")} />
+            <label htmlFor="summaryEmails" className={textColor}>Summary emails weekly/monthly</label>
           </div>
         </CardContent>
       </Card>
 
       {/* Delegation / Backup Manager Settings */}
-      <Card className="bg-[#181f32] border border-[#232b45] shadow-none">
+      <Card className={`${cardBg} border ${cardBorder} shadow-none`}>
         <CardHeader>
           <CardTitle>Delegation Settings</CardTitle>
         </CardHeader>
         <CardContent>
           {!delegation.active ? (
             <form onSubmit={handleDelegationSubmit} className="space-y-4">
-              <select className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300" value={delegation.backupManager || ""} onChange={(e) => setDelegation({ ...delegation, backupManager: e.target.value })}>
+              <select className={`w-full p-2 rounded ${selectBg}`} value={delegation.backupManager || ""} onChange={(e) => setDelegation({ ...delegation, backupManager: e.target.value })}>
                 <option value="">Select Backup Manager</option>
                 {backupOptions.map((option) => <option key={option} value={option}>{option}</option>)}
               </select>
-              <Input type="date" className="w-full bg-[#232b45] border border-[#232b45] text-gray-300" value={delegation.startDate || ""} onChange={(e) => setDelegation({ ...delegation, startDate: e.target.value })} />
-              <Input type="date" className="w-full bg-[#232b45] border border-[#232b45] text-gray-300" value={delegation.endDate || ""} onChange={(e) => setDelegation({ ...delegation, endDate: e.target.value })} />
-              <Input placeholder="Reason (Optional)" className="w-full bg-[#232b45] border border-[#232b45] text-gray-300" value={delegation.reason || ""} onChange={(e) => setDelegation({ ...delegation, reason: e.target.value })} />
-              <Button type="submit" className="bg-orange-500 text-white">Assign Backup</Button>
+              <Input type="date" className={`w-full ${inputBg} ${inputText}`} value={delegation.startDate || ""} onChange={(e) => setDelegation({ ...delegation, startDate: e.target.value })} />
+              <Input type="date" className={`w-full ${inputBg} ${inputText}`} value={delegation.endDate || ""} onChange={(e) => setDelegation({ ...delegation, endDate: e.target.value })} />
+              <Input placeholder="Reason (Optional)" className={`w-full ${inputBg} ${inputText}`} value={delegation.reason || ""} onChange={(e) => setDelegation({ ...delegation, reason: e.target.value })} />
+              <Button type="submit" className={buttonAccent}>Assign Backup</Button>
             </form>
           ) : (
             <div className="space-y-4">
-              <p className="text-white">Active Backup: {delegation.backupManager} (Until {delegation.endDate})</p>
-              {delegation.reason && <p className="text-gray-400">Reason: {delegation.reason}</p>}
-              <Button onClick={handleCancelDelegation} className="bg-red-500 text-white">Cancel Delegation</Button>
+              <p className={textColor}>Active Backup: {delegation.backupManager} (Until {delegation.endDate})</p>
+              {delegation.reason && <p className={textSecondary}>Reason: {delegation.reason}</p>}
+              <Button onClick={handleCancelDelegation} className={buttonDanger}>Cancel Delegation</Button>
             </div>
           )}
         </CardContent>

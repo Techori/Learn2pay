@@ -224,7 +224,6 @@ const SupportSettings = () => {
                   id="response-time"
                   type="number"
                   defaultValue="2"
-                  className="bg-gray-800 border-gray-700 text-gray-200"
                 />
               </div>
             </div>
@@ -353,7 +352,6 @@ const SupportSettings = () => {
                   id="timeout-minutes"
                   type="number"
                   defaultValue="30"
-                  className="bg-gray-800 border-gray-700 text-gray-200"
                 />
               </div>
             </div>

@@ -2,8 +2,25 @@ import React, { useState } from "react";
 import { Button } from "../../components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
+import { useTheme } from "../../context/ThemeContext";
 
 const MyLeads = () => {
+  const { theme } = useTheme();
+  
+  // Theme variables
+  const bgColor = theme === "dark" ? "bg-[#101624]" : "bg-gray-50";
+  const cardBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const inputBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const inputBorder = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
+  const inputText = theme === "dark" ? "text-white" : "text-gray-900";
+  const placeholderText = theme === "dark" ? "placeholder-gray-400" : "placeholder-gray-500";
+  const tableHeaderBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const tableBorderColor = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
+  const modalBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const textColor = theme === "dark" ? "text-white" : "text-gray-900";
+  const textMuted = theme === "dark" ? "text-gray-300" : "text-gray-600";
+  const hoverBg = theme === "dark" ? "hover:bg-[#232b45]" : "hover:bg-gray-50";
+
   // Mock data
   const initialLeads = [
     { id: 1, leadName: "Amit Sharma", institute: "Bright Future School", contact: "+91 9876543210", stage: "New", lastUpdated: "2025-06-20" },
@@ -77,10 +94,10 @@ const MyLeads = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#101624] p-4">
-      <Card>
+    <div className={`min-h-screen ${bgColor} p-4`}>
+      <Card className={cardBg}>
         <CardHeader>
-          <CardTitle>My Leads</CardTitle>
+          <CardTitle className={textColor}>My Leads</CardTitle>
           <Button onClick={() => setShowModal(true)} className="mt-4 bg-orange-500 hover:bg-orange-600">Add New Lead</Button>
         </CardHeader>
         <CardContent>
@@ -90,7 +107,7 @@ const MyLeads = () => {
               name="stage"
               value={filters.stage}
               onChange={handleFilterChange}
-              className="w-full md:w-1/4 p-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+              className={`w-full md:w-1/4 p-2 rounded ${inputBg} border ${inputBorder} ${textMuted}`}
             >
               <option value="">All Stages</option>
               <option value="New">New</option>
@@ -104,7 +121,7 @@ const MyLeads = () => {
               value={filters.startDate}
               onChange={handleFilterChange}
               placeholder="Start Date"
-              className="w-full md:w-1/4 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+              className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
             />
             <Input
               type="date"
@@ -112,7 +129,7 @@ const MyLeads = () => {
               value={filters.endDate}
               onChange={handleFilterChange}
               placeholder="End Date"
-              className="w-full md:w-1/4 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+              className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
             />
             <Input
               type="text"
@@ -120,15 +137,15 @@ const MyLeads = () => {
               value={filters.search}
               onChange={handleFilterChange}
               placeholder="Search by Name or Institute"
-              className="w-full md:w-1/4 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+              className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
             />
           </div>
 
           {/* Leads Table */}
           <div className="overflow-x-auto">
-            <table className="w-full text-white">
+            <table className={`w-full ${textColor}`}>
               <thead>
-                <tr className="bg-[#232b45] text-left">
+                <tr className={`${tableHeaderBg} text-left`}>
                   <th className="p-2">Lead Name</th>
                   <th className="p-2">Institute</th>
                   <th className="p-2">Contact</th>
@@ -139,7 +156,7 @@ const MyLeads = () => {
               </thead>
               <tbody>
                 {currentLeads.map((lead) => (
-                  <tr key={lead.id} className="border-t border-[#232b45]">
+                  <tr key={lead.id} className={`border-t ${tableBorderColor} ${hoverBg}`}>
                     <td className="p-2">{lead.leadName}</td>
                     <td className="p-2">{lead.institute}</td>
                     <td className="p-2">{lead.contact}</td>
@@ -160,21 +177,54 @@ const MyLeads = () => {
           {/* Pagination */}
           <div className="flex justify-center mt-4 space-x-2">
             <Button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1} variant="outline" className="bg-gray-500 hover:bg-gray-600 text-white">Previous</Button>
-            <span className="text-white">{currentPage} of {totalPages}</span>
+            <span className={textColor}>{currentPage} of {totalPages}</span>
             <Button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} variant="outline" className="bg-gray-500 hover:bg-gray-600 text-white">Next</Button>
           </div>
 
           {/* Modal for Add New Lead */}
           {showModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-[#181f32] p-6 rounded-lg w-full max-w-md">
-                <h3 className="text-white text-xl mb-4">Add New Lead</h3>
+              <div className={`${modalBg} p-6 rounded-lg w-full max-w-md`}>
+                <h3 className={`${textColor} text-xl mb-4`}>Add New Lead</h3>
                 <form onSubmit={handleAddLead} className="space-y-4">
-                  <Input type="text" name="leadName" value={newLead.leadName} onChange={handleInputChange} placeholder="Lead Name" />
-                  <Input type="text" name="contact" value={newLead.contact} onChange={handleInputChange} placeholder="Contact Number" />
-                  <Input type="email" name="email" value={newLead.email} onChange={handleInputChange} placeholder="Email" />
-                  <Input type="text" name="institute" value={newLead.institute} onChange={handleInputChange} placeholder="Institute Name" />
-                  <select name="stage" value={newLead.stage} onChange={handleInputChange} className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300">
+                  <Input 
+                    type="text" 
+                    name="leadName" 
+                    value={newLead.leadName} 
+                    onChange={handleInputChange} 
+                    placeholder="Lead Name"
+                    className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                  />
+                  <Input 
+                    type="text" 
+                    name="contact" 
+                    value={newLead.contact} 
+                    onChange={handleInputChange} 
+                    placeholder="Contact Number"
+                    className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                  />
+                  <Input 
+                    type="email" 
+                    name="email" 
+                    value={newLead.email} 
+                    onChange={handleInputChange} 
+                    placeholder="Email"
+                    className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                  />
+                  <Input 
+                    type="text" 
+                    name="institute" 
+                    value={newLead.institute} 
+                    onChange={handleInputChange} 
+                    placeholder="Institute Name"
+                    className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                  />
+                  <select 
+                    name="stage" 
+                    value={newLead.stage} 
+                    onChange={handleInputChange} 
+                    className={`w-full p-2 rounded ${inputBg} border ${inputBorder} ${textMuted}`}
+                  >
                     <option value="New">New</option>
                     <option value="Contacted">Contacted</option>
                     <option value="KYC Submitted">KYC Submitted</option>
