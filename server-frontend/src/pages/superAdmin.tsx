@@ -112,58 +112,58 @@ const SuperAdmin = () => {
           <AdminStats filters={globalFilters} />
           
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-9 gap-x-2 bg-[var(--input-bg)] border border-[var(--border-color)] rounded-lg mb-4">
+            <TabsList className="grid w-full grid-cols-9 gap-x-2 bg-gray-200 dark:bg-slate-800 rounded-lg mb-4">
               <TabsTrigger 
                 value="dashboard"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="institutes"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Institutes & Franchise
               </TabsTrigger>
               <TabsTrigger 
                 value="users"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Users
               </TabsTrigger>
               <TabsTrigger 
                 value="kyc-approvals"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 KYC Approvals
               </TabsTrigger>
               <TabsTrigger 
                 value="transactions"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Transactions
               </TabsTrigger>
               <TabsTrigger 
                 value="reports"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Reports & Analytics
               </TabsTrigger>
               <TabsTrigger 
                 value="notifications"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Notifications & Broadcast
               </TabsTrigger>
               <TabsTrigger 
                 value="security"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Security
               </TabsTrigger>
               <TabsTrigger 
                 value="settings"
-                className="data-[state=active]:bg-[var(--primary)] data-[state=active]:text-[var(--button-text)]"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Settings
               </TabsTrigger>

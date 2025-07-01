@@ -667,26 +667,26 @@ const InstituteManagement = () => {
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction('View', institute)}
                           >
-                            <Eye className="h-3 w-3 text-text-secondary" />
+                            <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction('Edit', institute)}
                           >
-                            <Edit className="h-3 w-3 text-text-secondary" />
+                            <Edit className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction(institute.status === "Suspended" ? "Activate" : "Suspend", institute)}
                           >
-                            {institute.status === "Suspended" ? <CheckCircle className="h-3 w-3 text-text-secondary" /> : <Ban className="h-3 w-3 text-text-secondary" />}
+                            {institute.status === "Suspended" ? <CheckCircle className="h-4 w-4 text-text-secondary hover:text-white" /> : <Ban className="h-4 w-4 text-text-secondary hover:text-white" />}
                           </Button>
                         </div>
                       </TableCell>

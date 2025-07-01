@@ -63,16 +63,51 @@ const SupportDashboard = ({ role = "lead" }) => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-7 bg-card-bg p-1 rounded-md">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="tickets">Tickets</TabsTrigger>
-            <TabsTrigger value="institutes">Institutes</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-7 bg-gray-200 dark:bg-slate-800 rounded-md">
+            <TabsTrigger 
+              value="dashboard"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger 
+              value="tickets"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              Tickets
+            </TabsTrigger>
+            <TabsTrigger 
+              value="institutes"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              Institutes
+            </TabsTrigger>
             {role === "lead" && (
-              <TabsTrigger value="users">Users</TabsTrigger>
+              <TabsTrigger 
+                value="users"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              >
+                Users
+              </TabsTrigger>
             )}
-            <TabsTrigger value="reports">Reports</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-            <TabsTrigger value="emi-reminders">EMI Reminders</TabsTrigger>
+            <TabsTrigger 
+              value="reports"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              Reports
+            </TabsTrigger>
+            <TabsTrigger 
+              value="settings"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              Settings
+            </TabsTrigger>
+            <TabsTrigger 
+              value="emi-reminders"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            >
+              EMI Reminders
+            </TabsTrigger>
           </TabsList>
 
           <SupportTabContent role={role} user={mockUser} />

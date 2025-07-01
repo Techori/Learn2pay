@@ -102,28 +102,28 @@ const UserManagement = () => {
     <div className="min-h-screen bg-background-color text-text-color">
       <Card className="bg-card-bg border-border-color shadow-card">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold flex items-center">
+          <CardTitle className="text-3xl font-bold flex items-center text-text-color">
             <Users className="h-8 w-8 mr-2 text-warning" /> User Management
           </CardTitle>
           <CardDescription className="text-text-secondary">Manage all platform users</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Search and Actions */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-            <div className="relative w-full md:w-1/3">
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="relative flex-1 min-w-[200px]">
               <Input
                 type="text"
                 placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-input-bg pl-10 rounded-lg text-input-text border-input-border"
+                className="w-full bg-input-bg pl-10 rounded-lg text-foreground border-input-border"
               />
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
             </div>
             <div className="flex gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2 border-border-color text-text-color hover:bg-warning hover:text-white group">
+                  <Button variant="outline" className="flex items-center gap-2 border-border-color text-foreground hover:bg-warning hover:text-white group">
                     <FilterIcon className="h-4 w-4 text-text-secondary group-hover:text-white" /> Filters
                   </Button>
                 </DropdownMenuTrigger>
@@ -148,7 +148,7 @@ const UserManagement = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button className="bg-warning hover:bg-warning text-white">
+              <Button onClick={handleAddUser} className="bg-warning hover:bg-warning text-white">
                 <UserPlus className="h-4 w-4 mr-2" /> Add User
               </Button>
             </div>
@@ -161,7 +161,7 @@ const UserManagement = () => {
                 <TabsTrigger
                   key={role}
                   value={role}
-                  className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
+                  className="data-[state=active]:bg-warning data-[state=active]:text-white text-foreground"
                 >
                   {role}
                 </TabsTrigger>
@@ -171,15 +171,15 @@ const UserManagement = () => {
             {/* Tab Content */}
             {roles.map((role) => (
               <TabsContent key={role} value={role} className="mt-4">
-                <div className="bg-card-bg border-border-color rounded-lg overflow-hidden">
+              
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
+                      <TableRow className="bg-input-bg border-input-border">
+                        <TableHead className="text-text-secondary">Name</TableHead>
+                        <TableHead className="text-text-secondary">Email</TableHead>
+                        <TableHead className="text-text-secondary">Role</TableHead>
+                        <TableHead className="text-text-secondary">Status</TableHead>
+                        <TableHead className="text-text-secondary">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -193,8 +193,8 @@ const UserManagement = () => {
                         paginatedUsers
                           .filter(user => user.role === role || role === "All")
                           .map((user) => (
-                            <TableRow key={user.id} className="hover:bg-surface-color">
-                              <TableCell className="text-text-color">{user.name}</TableCell>
+                            <TableRow key={user.id} className="bg-input-bg border-input-border" >
+                              <TableCell className="text-text-secondary">{user.name}</TableCell>
                               <TableCell className="text-text-secondary">{user.email}</TableCell>
                               <TableCell className="text-text-secondary">{user.role}</TableCell>
                               <TableCell>
@@ -205,8 +205,8 @@ const UserManagement = () => {
                               <TableCell>
                                 <DropdownMenu>
                                   <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="px-2 py-1 border-border-color text-text-color hover:bg-warning hover:text-white group">
-                                      <Eye className="h-4 w-4 text-text-secondary group-hover:text-white" />
+                                    <Button variant="outline" className="border-orange-500 text-foreground hover:bg-warning">
+                                      <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                                     </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent>
@@ -232,18 +232,18 @@ const UserManagement = () => {
                       )}
                     </TableBody>
                   </Table>
-                </div>
+                
 
                 {/* Pagination */}
                 {filteredUsers.length > pageSize && (
                   <div className="flex justify-between items-center mt-4">
-                    <span className="text-text-secondary">Page {currentPage} of {totalPages}</span>
+                    <span className="text-foreground">Page {currentPage} of {totalPages}</span>
                     <div className="flex gap-2">
                       <Button
                         variant="outline"
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className="border-border-color text-text-color hover:bg-surface-color"
+                        className="border-border-color text-foreground hover:bg-orange-500"
                       >
                         Previous
                       </Button>
@@ -251,7 +251,7 @@ const UserManagement = () => {
                         variant="outline"
                         disabled={currentPage === totalPages}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className="border-border-color text-text-color hover:bg-surface-color"
+                        className="border-border-color text-foreground hover:bg-orange-500"
                       >
                         Next
                       </Button>

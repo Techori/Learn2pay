@@ -314,17 +314,17 @@ const TransactionManagement = () => {
               <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
               <Input 
                 placeholder="Search by transaction ID, institute, or amount..." 
-                className="pl-10 bg-card-bg border-card-border text-text-color"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px] bg-card-bg border-orange-500 text-text-color hover:bg-orange-500 hover:text-white">
+              <SelectTrigger className="w-[180px] bg-input-bg border-input-border text-input-text cursor-pointer">
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Filter by Status" />
               </SelectTrigger>
-              <SelectContent className="bg-card-bg border-orange-500">
+              <SelectContent className="bg-input-bg border-orange-500">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="success">Success</SelectItem>
                 <SelectItem value="failed">Failed</SelectItem>
@@ -332,11 +332,11 @@ const TransactionManagement = () => {
               </SelectContent>
             </Select>
             <Select value={methodFilter} onValueChange={setMethodFilter}>
-              <SelectTrigger className="w-[180px] bg-card-bg border-orange-500 text-text-color hover:bg-orange-500 hover:text-white">
+              <SelectTrigger className="w-[180px] bg-input-bg border-input-border text-input-text border-border-color cursor-pointer">
                 <Filter className="h-4 w-4 mr-2" />
                 <SelectValue placeholder="Filter by Method" />
               </SelectTrigger>
-              <SelectContent className="bg-card-bg border-orange-500">
+              <SelectContent className="bg-input-bg border-orange-500 ">
                 <SelectItem value="all">All Methods</SelectItem>
                 <SelectItem value="upi">UPI</SelectItem>
                 <SelectItem value="credit card">Credit Card</SelectItem>
@@ -390,24 +390,24 @@ const TransactionManagement = () => {
                 <TableRow key={transaction.id} className="hover:none">
                   <TableCell>
                     <div>
-                      <div className="font-mono font-medium">{transaction.id}</div>
+                      <div className="font-mono font-medium text-gray-500">{transaction.id}</div>
                       <div className="text-sm text-gray-500">{transaction.reference}</div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div>
-                      <div className="font-semibold text-lg">₹{transaction.amount.toLocaleString()}</div>
+                      <div className="font-semibold text-lg text-gray-500">₹{transaction.amount.toLocaleString()}</div>
                       <div className="text-sm text-gray-500">{transaction.type}</div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium">{transaction.institute}</div>
+                    <div className="font-medium text-gray-500">{transaction.institute}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       {getMethodIcon(transaction.method)}
                       <div>
-                        <div className="font-medium">{transaction.method}</div>
+                        <div className="font-medium text-gray-500">{transaction.method}</div>
                         <div className="text-sm text-gray-500">{transaction.gateway}</div>
                       </div>
                     </div>
@@ -421,7 +421,7 @@ const TransactionManagement = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm font-mono">{transaction.date}</div>
+                    <div className="text-sm font-mono text-gray-500">{transaction.date}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
@@ -431,7 +431,7 @@ const TransactionManagement = () => {
                         className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                         onClick={() => handleViewDetails(transaction)}
                       >
-                        <Eye className="h-3 w-3" />
+                        <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                       {transaction.status === 'Failed' && (
                         <Button 
@@ -440,7 +440,7 @@ const TransactionManagement = () => {
                           className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                           onClick={() => handleRetry(transaction)}
                         >
-                          <RefreshCw className="h-3 w-3" />
+                          <RefreshCw className="h-4 w-4 text-text-secondary hover:text-white" />
                         </Button>
                       )}
                       <Button 
@@ -449,7 +449,7 @@ const TransactionManagement = () => {
                         className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                         onClick={() => handleExport([transaction])}
                       >
-                        <Download className="h-3 w-3" />
+                        <Download className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>
@@ -474,24 +474,24 @@ const TransactionManagement = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-[#1A1F2B] rounded border-l-4 border-red-500">
+          <div className="space-y-3 ">
+            <div className="flex items-center justify-between p-3 bg-[var(--card-bg)]  rounded border-l-4 border-red-500">
               <div>
                 <div className="font-medium">High Value Failed Transaction</div>
                 <div className="text-sm text-gray-600">₹25,000 payment failed for Sunrise College</div>
                 <div className="text-xs text-gray-500">5 minutes ago</div>
               </div>
-              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => alert('Investigating transaction...')}>
+              <Button variant="outline" className="border-orange-500  hover:bg-orange-500 hover:text-white" onClick={() => alert('Investigating transaction...')}>
                 Investigate
               </Button>
             </div>
-            <div className="flex items-center justify-between p-3 bg-[#1A1F2B] rounded border-l-4 border-yellow-500">
+            <div className="flex items-center justify-between p-3 bg-[var(--card-bg)] rounded border-l-4 border-yellow-500">
               <div>
                 <div className="font-medium">Payment Gateway Issue</div>
                 <div className="text-sm text-gray-600">Multiple transaction failures with PayU gateway</div>
                 <div className="text-xs text-gray-500">15 minutes ago</div>
               </div>
-              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => alert('Checking gateway status...')}>
+              <Button variant="outline" className="border-orange-500  hover:bg-orange-500 hover:text-white" onClick={() => alert('Checking gateway status...')}>
                 Check Status
               </Button>
             </div>

@@ -470,18 +470,18 @@ const NotificationManagement: React.FC = () => {
                   <TableCell>
                     <div className="flex space-x-1">
                       <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleView(notification)}>
-                        <Eye className="h-3 w-3 text-secondary" />
+                        <Eye className="h-3 w-3 text-secondary hover:text-white" />
                       </Button>
                       <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleEdit(notification)}>
-                        <Edit className="h-3 w-3 text-secondary" />
+                        <Edit className="h-3 w-3 text-secondary  hover:text-white" />
                       </Button>
                       {notification.status === 'Draft' && (
                         <Button size="sm" className="bg-secondary hover:bg-secondary text-white" onClick={() => handleSend(notification)}>
-                          <Send className="h-3 w-3 text-white" />
+                          <Send className="h-3 w-3 text-white  hover:text-white" />
                         </Button>
                       )}
                       <Button size="sm" variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleDelete(notification)}>
-                        <Trash2 className="h-3 w-3 text-danger" />
+                        <Trash2 className="h-3 w-3 text-danger  hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>

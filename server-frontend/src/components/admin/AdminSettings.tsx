@@ -332,14 +332,14 @@ const AdminSettings: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleEditAdmin(admin.id)}>
-                        <Edit className="h-3 w-3 text-secondary" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleEditAdmin(admin.id)}>
+                        <Edit className="h-3 w-3 text-secondary hover:text-white" />
                       </Button>
-                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleSecureAdmin(admin.id)}>
-                        <Shield className="h-3 w-3 text-secondary" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleSecureAdmin(admin.id)}>
+                        <Shield className="h-3 w-3 text-secondary hover:text-white" />
                       </Button>
-                      <Button size="sm" variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleDeleteAdmin(admin.id)}>
-                        <Trash2 className="h-3 w-3 text-danger" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleDeleteAdmin(admin.id)}>
+                        <Trash2 className="h-3 w-3 text-secondary hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>

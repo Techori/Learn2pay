@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";
-import { Calendar, Users, DollarSign, FileCheck, Share2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Calendar, Users, DollarSign, FileCheck, Share2, AlertTriangle } from 'lucide-react';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -45,14 +45,14 @@ const DashboardOverview: React.FC = () => {
   const { toast } = useToast();
   const { theme } = useTheme();
   const [dateRange, setDateRange] = useState<string>('last_7_days');
-  const [stats, setStats] = useState<StatData[]>([
+  const [stats] = useState<StatData[]>([
     { key: 'Total Institutes', value: '1,247', change: '+5', urgency: 'none', icon: <Users className="h-5 w-5" style={{ color: 'var(--secondary)' }} /> },
     { key: 'Active Students', value: '45,290', change: '+128', urgency: 'none', icon: <Users className="h-5 w-5" style={{ color: 'var(--success)' }} /> },
     { key: 'Total Revenue', value: '₹1.25 Cr', change: '+8.5%', urgency: 'none', icon: <DollarSign className="h-5 w-5" style={{ color: 'var(--warning)' }} /> },
     { key: 'Pending Approvals', value: '89', change: '-12', urgency: 'high', icon: <FileCheck className="h-5 w-5" style={{ color: 'var(--danger)' }} /> },
     { key: 'Active Referrals', value: '1,234', change: '+50', urgency: 'none', icon: <Share2 className="h-5 w-5" style={{ color: 'var(--primary)' }} /> },
   ]);
-  const [lastUpdate, setLastUpdate] = useState<string>('12:42 AM');
+  const [lastUpdate] = useState<string>('12:42 AM');
 
   // Generate chart colors based on theme
   const getChartColors = () => {
@@ -125,29 +125,6 @@ const DashboardOverview: React.FC = () => {
   };
 
   useEffect(() => {
-    // Simulate data refresh based on date range and periodic update
-    const interval = setInterval(() => {
-      const updatedStats = stats.map(item => {
-        const changeValue = Math.floor(Math.random() * 10) - 5;
-        const direction = changeValue >= 0 ? 'up' : 'down';
-        return {
-          ...item,
-          change: changeValue >= 0 ? `+${changeValue}` : `${changeValue}`,
-          urgency: (item.key === 'Pending Approvals' && Number(item.value) > 50? 'high' : 'none') as 'high' | 'medium' | 'low' | 'none',
-        };
-      });
-      setStats(updatedStats);
-      updateTimestamp();
-      toast({
-        title: "Data Refreshed",
-        description: `Updated at ${new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true })}.`,
-      });
-    }, 30000); // Refresh every 30 seconds
-
-    return () => clearInterval(interval);
-  }, [stats]);
-
-  useEffect(() => {
     // Update date range toast
     toast({
       title: "Date Range Updated",
@@ -157,27 +134,6 @@ const DashboardOverview: React.FC = () => {
 
   const handleDateRangeChange = (range: string) => {
     setDateRange(range);
-  };
-
-  const handleManualRefresh = () => {
-    const updatedStats = stats.map(item => {
-      const changeValue = Math.floor(Math.random() * 10) - 5;
-      return {
-        ...item,
-        change: changeValue >= 0 ? `+${changeValue}` : `${changeValue}`,
-        urgency: (item.key === 'Pending Approvals' && Number(item.value) > 50? 'high': 'none') as 'high' | 'medium' | 'low' | 'none',
-      };
-    });
-    setStats(updatedStats);
-    updateTimestamp();
-    toast({
-      title: "Manual Refresh",
-      description: `Data refreshed at ${new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true })}.`,
-    });
-  };
-
-  const updateTimestamp = () => {
-    setLastUpdate(new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour12: true }));
   };
 
   return (
@@ -191,14 +147,6 @@ const DashboardOverview: React.FC = () => {
           </div>
           <div className="flex space-x-2 items-center">
             <div className="text-sm text-secondary">Last updated: {lastUpdate}</div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleManualRefresh}
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
           </div>
         </CardHeader>
         <CardContent>

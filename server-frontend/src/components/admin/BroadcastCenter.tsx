@@ -298,7 +298,7 @@ const BroadcastCenter: React.FC<BroadcastCenterProps> = ({
                     </TableCell>
                     <TableCell>
                       <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleViewCampaign(campaign.name)}>
-                        <Eye className="h-3 w-3 text-secondary" />
+                        <Eye className="h-3 w-3 text-secondary  hover:text-white" />
                       </Button>
                     </TableCell>
                   </TableRow>

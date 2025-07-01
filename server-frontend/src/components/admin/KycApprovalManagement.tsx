@@ -319,17 +319,17 @@ const KycApprovalManagement: React.FC = () => {
           {/* Search and Filters */}
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[200px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary " />
               <Input
                 placeholder="Search by institute name or submitter..."
-                className="pl-10 bg-card-bg border border-card-border text-text-color placeholder-text-secondary"
+                className="pl-10 bg-input-bg border-input-border text-input-text placeholder-text-secondary "
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.status}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               >
@@ -343,7 +343,7 @@ const KycApprovalManagement: React.FC = () => {
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.priority}
                 onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
               >
@@ -356,7 +356,7 @@ const KycApprovalManagement: React.FC = () => {
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.team}
                 onChange={(e) => setFilters({ ...filters, team: e.target.value })}
               >
@@ -386,13 +386,13 @@ const KycApprovalManagement: React.FC = () => {
                 <TableRow key={submission.id}>
                   <TableCell className="text-text-color">
                     <div>
-                      <div className="font-medium">{submission.instituteName}</div>
+                      <div className="font-medium text-text-secondary">{submission.instituteName}</div>
                       <div className="text-sm text-text-secondary">By: {submission.submittedBy}</div>
                       <div className="text-xs text-text-secondary">{submission.documents.length} documents</div>
                     </div>
                   </TableCell>
                   <TableCell className="text-text-color">
-                    <div className="font-medium">{submission.documentType}</div>
+                    <div className="font-medium text-text-secondary">{submission.documentType}</div>
                   </TableCell>
                   <TableCell className="text-text-color">
                     <div className="space-y-1">
@@ -408,28 +408,28 @@ const KycApprovalManagement: React.FC = () => {
                     </div>
                   </TableCell>
                   <TableCell className="text-text-color">
-                    <div className="font-medium">{submission.assignedTo}</div>
+                    <div className="font-medium text-text-secondary">{submission.assignedTo}</div>
                   </TableCell>
                   <TableCell className="text-text-color">
-                    <div className="text-sm">{submission.submittedDate}</div>
+                    <div className="text-sm text-text-secondary">{submission.submittedDate}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleView(submission)}>
-                        <Eye className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 " onClick={() => handleView(submission)}>
+                        <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                       {submission.status === 'Pending' && (
                         <>
                           <Button size="sm" className="bg-success hover:bg-success-foreground text-white" onClick={() => handleApprove(submission)}>
-                            <CheckCircle className="h-3 w-3" />
+                            <CheckCircle className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                           <Button size="sm" className="bg-danger hover:bg-danger-foreground text-white" onClick={() => handleReject(submission)}>
-                            <XCircle className="h-3 w-3" />
+                            <XCircle className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                         </>
                       )}
                       <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleView(submission)}>
-                        <FileText className="h-3 w-3" />
+                        <FileText className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>
