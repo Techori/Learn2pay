@@ -231,7 +231,7 @@ const KycApprovalManagement: React.FC = () => {
         toast({
           title: "Warning",
           description: "Some files were skipped as they are not PDF or image files.",
-          variant: "warning"
+          variant: "destructive"
         });
       }
       setUploadedFiles(validFiles);
@@ -290,13 +290,13 @@ const KycApprovalManagement: React.FC = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-text-color">
-                <Shield className="h-5 w-5 mr-2 text-blue-400" />
+                <Shield className="h-5 w-5 mr-2 text-orange-400" />
                 KYC Approval Management
               </CardTitle>
               <CardDescription className="text-text-secondary">Review and approve institute KYC submissions</CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" className="text-text-color border-blue-500 hover:bg-blue-500" onClick={() => fileInputRef.current?.click()}>
+              <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => fileInputRef.current?.click()}>
                 <Upload className="h-4 w-4 mr-2" />
                 Bulk Upload
               </Button>
@@ -308,7 +308,7 @@ const KycApprovalManagement: React.FC = () => {
                 className="hidden"
                 accept=".pdf,image/*"
               />
-              <Button variant="outline" className="text-text-color border-blue-500 hover:bg-blue-500" onClick={handleDownloadReport}>
+              <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={handleDownloadReport}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download Report
               </Button>
@@ -383,7 +383,7 @@ const KycApprovalManagement: React.FC = () => {
             </TableHeader>
             <TableBody>
               {filteredSubmissions.map((submission) => (
-                <TableRow key={submission.id} className="hover:bg-card-bg">
+                <TableRow key={submission.id}>
                   <TableCell className="text-text-color">
                     <div>
                       <div className="font-medium">{submission.instituteName}</div>
@@ -415,20 +415,20 @@ const KycApprovalManagement: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-text-color border-blue-500 hover:bg-blue-500" onClick={() => handleView(submission)}>
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleView(submission)}>
                         <Eye className="h-3 w-3" />
                       </Button>
                       {submission.status === 'Pending' && (
                         <>
-                          <Button size="sm" className="bg-success hover:bg-success-foreground text-text-color" onClick={() => handleApprove(submission)}>
+                          <Button size="sm" className="bg-success hover:bg-success-foreground text-white" onClick={() => handleApprove(submission)}>
                             <CheckCircle className="h-3 w-3" />
                           </Button>
-                          <Button size="sm" className="bg-danger hover:bg-danger-foreground text-text-color" onClick={() => handleReject(submission)}>
+                          <Button size="sm" className="bg-danger hover:bg-danger-foreground text-white" onClick={() => handleReject(submission)}>
                             <XCircle className="h-3 w-3" />
                           </Button>
                         </>
                       )}
-                      <Button size="sm" variant="outline" className="text-text-color border-blue-500 hover:bg-blue-500" onClick={() => handleView(submission)}>
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleView(submission)}>
                         <FileText className="h-3 w-3" />
                       </Button>
                     </div>
@@ -491,7 +491,7 @@ const KycApprovalManagement: React.FC = () => {
                   <div className="text-sm text-text-secondary">5 high priority submissions pending for 24+ hours</div>
                   <div className="text-xs text-text-secondary">Needs immediate attention</div>
                 </div>
-                <Button variant="outline" className="text-text-color border-danger hover:bg-danger" onClick={() => handleAlertAction("High Priority KYC Overdue")}>
+                <Button variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleAlertAction("High Priority KYC Overdue")}>
                   Review
                 </Button>
               </div>
@@ -502,7 +502,7 @@ const KycApprovalManagement: React.FC = () => {
                   <div className="text-sm text-text-secondary">Multiple submissions with poor image quality</div>
                   <div className="text-xs text-text-secondary">May require resubmission requests</div>
                 </div>
-                <Button variant="outline" className="text-text-color border-warning hover:bg-warning" onClick={() => handleAlertAction("Document Quality Issues")}>
+                <Button variant="outline" className="text-text-color border-warning hover:bg-warning hover:text-white" onClick={() => handleAlertAction("Document Quality Issues")}>
                   Check
                 </Button>
               </div>
@@ -513,7 +513,7 @@ const KycApprovalManagement: React.FC = () => {
                   <div className="text-sm text-text-secondary">Unusual document type submitted by Tech Academy</div>
                   <div className="text-xs text-text-secondary">Requires senior review</div>
                 </div>
-                <Button variant="outline" className="text-text-color border-blue-500 hover:bg-blue-500" onClick={() => handleAlertAction("New Document Type")}>
+                <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleAlertAction("New Document Type")}>
                   Escalate
                 </Button>
               </div>
@@ -563,20 +563,20 @@ const KycApprovalManagement: React.FC = () => {
                 </select>
               </div>
               <DialogFooter>
-                <Button variant="outline" className="border-card-border text-text-secondary hover:bg-card-bg" onClick={() => setShowReviewDialog(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  className="bg-blue-500 hover:bg-blue-600 text-text-color"
-                  onClick={() => {
-                    if (updatedStatus === 'Approved') handleApprove(selectedSubmission);
-                    else if (updatedStatus === 'Rejected') handleReject(selectedSubmission);
-                    setUpdatedStatus('');
-                  }}
-                  disabled={!updatedStatus}
-                >
-                  Update
-                </Button>
+                              <Button variant="outline" className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white" onClick={() => setShowReviewDialog(false)}>
+                Cancel
+              </Button>
+              <Button
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={() => {
+                  if (updatedStatus === 'Approved') handleApprove(selectedSubmission);
+                  else if (updatedStatus === 'Rejected') handleReject(selectedSubmission);
+                  setUpdatedStatus('');
+                }}
+                disabled={!updatedStatus}
+              >
+                Update
+              </Button>
               </DialogFooter>
             </div>
           )}

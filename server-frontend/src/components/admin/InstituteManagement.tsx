@@ -493,19 +493,19 @@ const InstituteManagement = () => {
   const handleFranchiseAction = (action: string, franchise: FranchiseData) => {
     switch (action) {
       case "View":
-        toast({ title: "View Franchise", description: `Viewing details for ${franchise.name}.`, variant: "info" });
+        toast({ title: "View Franchise", description: `Viewing details for ${franchise.name}.` });
         break;
       case "Edit":
-        toast({ title: "Edit Franchise", description: `Editing ${franchise.name}.`, variant: "info" });
+        toast({ title: "Edit Franchise", description: `Editing ${franchise.name}.` });
         break;
       case "Performance":
-        toast({ title: "Performance Analytics", description: `Checking performance for ${franchise.name}.`, variant: "info" });
+        toast({ title: "Performance Analytics", description: `Checking performance for ${franchise.name}.` });
         break;
     }
   };
 
   const handleAddFranchise = () => {
-    toast({ title: "Add Franchise", description: "Franchise addition feature coming soon!", variant: "info" });
+    toast({ title: "Add Franchise", description: "Franchise addition feature coming soon!" });
   };
 
   return (
@@ -563,7 +563,7 @@ const InstituteManagement = () => {
               </Button>
               <Button 
                 variant="outline" 
-                className="border-card-border text-text-secondary hover:bg-card-hover"
+                className="border-card-border text-text-secondary hover:bg-orange-500 hover:text-white"
                 onClick={handleExport}
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -633,7 +633,7 @@ const InstituteManagement = () => {
                             <Button 
                               size="sm" 
                               variant="outline" 
-                              className="border-card-border hover:bg-card-hover text-text-secondary"
+                              className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                               onClick={() => handleStudentUpdate(institute.id, 'add', 10)}
                             >
                               +10
@@ -641,7 +641,7 @@ const InstituteManagement = () => {
                             <Button 
                               size="sm" 
                               variant="outline" 
-                              className="border-card-border hover:bg-card-hover text-text-secondary"
+                              className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                               onClick={() => handleStudentUpdate(institute.id, 'subtract', 10)}
                             >
                               -10
@@ -667,7 +667,7 @@ const InstituteManagement = () => {
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-card-border hover:bg-card-hover text-text-secondary"
+                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                             onClick={() => handleAction('View', institute)}
                           >
                             <Eye className="h-3 w-3 text-text-secondary" />
@@ -675,7 +675,7 @@ const InstituteManagement = () => {
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-card-border hover:bg-card-hover text-text-secondary"
+                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                             onClick={() => handleAction('Edit', institute)}
                           >
                             <Edit className="h-3 w-3 text-text-secondary" />
@@ -683,7 +683,7 @@ const InstituteManagement = () => {
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-card-border hover:bg-card-hover text-text-secondary"
+                            className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                             onClick={() => handleAction(institute.status === "Suspended" ? "Activate" : "Suspend", institute)}
                           >
                             {institute.status === "Suspended" ? <CheckCircle className="h-3 w-3 text-text-secondary" /> : <Ban className="h-3 w-3 text-text-secondary" />}
@@ -707,7 +707,7 @@ const InstituteManagement = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="border-card-border text-text-secondary hover:bg-card-hover"
+                className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                 disabled={currentPage === 1}
                 onClick={handlePrevPage}
               >
@@ -716,7 +716,7 @@ const InstituteManagement = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="border-card-border text-text-secondary hover:bg-card-hover"
+                className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                 disabled={currentPage === totalPages || totalPages === 0}
                 onClick={handleNextPage}
               >
@@ -738,7 +738,7 @@ const InstituteManagement = () => {
               </CardTitle>
               <CardDescription className="text-text-secondary">Monitor and manage all Learn2Pay franchise operations</CardDescription>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-text-color" onClick={handleAddFranchise}>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={handleAddFranchise}>
               <Plus className="h-4 w-4 mr-2" /> Add Franchise
             </Button>
           </div>
@@ -846,7 +846,7 @@ const InstituteManagement = () => {
                         <div className="text-sm text-text-secondary">Target: ₹{franchise.target.toLocaleString()}</div>
                         <div className="w-full bg-card-bg rounded-full h-2 mt-1">
                           <div 
-                            className="bg-blue-500 h-2 rounded-full" 
+                            className="bg-orange-500 h-2 rounded-full" 
                             style={{ width: `${(franchise.revenue / franchise.target) * 100}%` }}
                           ></div>
                         </div>
@@ -864,13 +864,13 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-1">
-                        <Button size="sm" variant="outline" className="text-text-secondary border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("View", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("View", franchise)}>
                           <Eye className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="text-text-secondary border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Edit", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("Edit", franchise)}>
                           <Edit className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="text-text-secondary border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Performance", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("Performance", franchise)}>
                           <TrendingUp className="h-3 w-3" />
                         </Button>
                       </div>
@@ -967,7 +967,7 @@ const InstituteManagement = () => {
               </div>
             </div>
             <DialogFooter className="bg-card-bg">
-              <Button type="button" variant="outline" onClick={() => setIsAddInstituteOpen(false)} className="border-card-border text-text-secondary">
+              <Button type="button" variant="outline" onClick={() => setIsAddInstituteOpen(false)} className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white">
                 Cancel
               </Button>
               <Button type="submit" className="bg-orange-500 hover:bg-orange-600">

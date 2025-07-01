@@ -200,7 +200,7 @@ const ReportsAnalytics: React.FC = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className="text-text-color">
-                <FileText className="h-5 w-5 mr-2 text-secondary" />
+                <FileText className="h-5 w-5 mr-2 text-orange-400" />
                 Reports & Analytics
               </CardTitle>
               <CardDescription className="text-text-secondary">Generate and download comprehensive business reports</CardDescription>
@@ -281,7 +281,7 @@ const ReportsAnalytics: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                        <Button className="bg-secondary hover:bg-secondary text-white" onClick={() => handleGenerateReport(report)}>
+                        <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => handleGenerateReport(report)}>
                           <Download className="h-4 w-4 mr-2 text-white" />
                           Generate
                         </Button>
@@ -299,7 +299,7 @@ const ReportsAnalytics: React.FC = () => {
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-text-color">Scheduled Reports</CardTitle>
-            <Button className="bg-secondary hover:bg-secondary text-white" onClick={() => setShowScheduleDialog(true)}>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => setShowScheduleDialog(true)}>
               <Calendar className="h-4 w-4 mr-2 text-white" />
               Schedule New Report
             </Button>
@@ -321,11 +321,11 @@ const ReportsAnalytics: React.FC = () => {
                   <Badge className={getStatusColor(report.status)}>
                     {report.status}
                   </Badge>
-                  <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white">
-                    <Edit className="h-3 w-3 text-secondary" />
+                  <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white">
+                    <Edit className="h-3 w-3" />
                   </Button>
-                  <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white">
-                    <Pause className="h-3 w-3 text-secondary" />
+                  <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white">
+                    <Pause className="h-3 w-3" />
                   </Button>
                 </div>
               </div>
@@ -341,20 +341,20 @@ const ReportsAnalytics: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-border-color hover:bg-surface-hover text-text-color" onClick={() => handleQuickExport("All Users")}>
-              <Users className="h-6 w-6 mb-2 text-secondary" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("All Users")}>
+              <Users className="h-6 w-6 mb-2" />
               <span>All Users</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-border-color hover:bg-surface-hover text-text-color" onClick={() => handleQuickExport("Active Vendors")}>
-              <TrendingUp className="h-6 w-6 mb-2 text-success" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Active Vendors")}>
+              <TrendingUp className="h-6 w-6 mb-2" />
               <span>Active Vendors</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-border-color hover:bg-surface-hover text-text-color" onClick={() => handleQuickExport("Today's Revenue")}>
-              <DollarSign className="h-6 w-6 mb-2 text-primary" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Today's Revenue")}>
+              <DollarSign className="h-6 w-6 mb-2" />
               <span>Today's Revenue</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-border-color hover:bg-surface-hover text-text-color" onClick={() => handleQuickExport("Performance Data")}>
-              <BarChart3 className="h-6 w-6 mb-2 text-warning" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Performance Data")}>
+              <BarChart3 className="h-6 w-6 mb-2" />
               <span>Performance Data</span>
             </Button>
           </div>
@@ -403,10 +403,10 @@ const ReportsAnalytics: React.FC = () => {
               <option value="Paused">Paused</option>
             </select>
             <DialogFooter>
-              <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={() => setShowScheduleDialog(false)}>
+              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => setShowScheduleDialog(false)}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-secondary hover:bg-secondary text-white">
+              <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                 Schedule
               </Button>
             </DialogFooter>

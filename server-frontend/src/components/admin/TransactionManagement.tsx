@@ -291,12 +291,13 @@ const TransactionManagement = () => {
               <CardDescription>Monitor and manage all platform transactions</CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" onClick={() => handleExport()}>
+              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => handleExport()}>
                 <Download className="h-4 w-4 mr-2" />
                 Export Report
               </Button>
               <Button 
-                variant="outline" 
+                variant="outline"
+                className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                 onClick={handleSync} 
                 disabled={isSyncing}
               >
@@ -309,39 +310,39 @@ const TransactionManagement = () => {
         <CardContent>
           {/* Search and Filters */}
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <div className="relative flex-1">
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
               <Input 
                 placeholder="Search by transaction ID, institute, or amount..." 
-                className="pl-10 bg-gray-700 border-gray-600 text-white"
+                className="pl-10 bg-card-bg border-card-border text-text-color"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[180px] custom-select-trigger">
-                <Filter className="h-4 w-4 mr-2 text-white" />
-                <SelectValue placeholder="Filter by Status" className="text-white" />
+              <SelectTrigger className="w-[180px] bg-card-bg border-orange-500 text-text-color hover:bg-orange-500 hover:text-white">
+                <Filter className="h-4 w-4 mr-2" />
+                <SelectValue placeholder="Filter by Status" />
               </SelectTrigger>
-              <SelectContent className="custom-select-content">
-                <SelectItem value="all" className="custom-select-item">All Status</SelectItem>
-                <SelectItem value="success" className="custom-select-item">Success</SelectItem>
-                <SelectItem value="failed" className="custom-select-item">Failed</SelectItem>
-                <SelectItem value="pending" className="custom-select-item">Pending</SelectItem>
+              <SelectContent className="bg-card-bg border-orange-500">
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="success">Success</SelectItem>
+                <SelectItem value="failed">Failed</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
               </SelectContent>
             </Select>
             <Select value={methodFilter} onValueChange={setMethodFilter}>
-              <SelectTrigger className="w-[180px] custom-select-trigger">
-                <Filter className="h-4 w-4 mr-2 text-white" />
-                <SelectValue placeholder="Filter by Method" className="text-white" />
+              <SelectTrigger className="w-[180px] bg-card-bg border-orange-500 text-text-color hover:bg-orange-500 hover:text-white">
+                <Filter className="h-4 w-4 mr-2" />
+                <SelectValue placeholder="Filter by Method" />
               </SelectTrigger>
-              <SelectContent className="custom-select-content">
-                <SelectItem value="all" className="custom-select-item">All Methods</SelectItem>
-                <SelectItem value="upi" className="custom-select-item">UPI</SelectItem>
-                <SelectItem value="credit card" className="custom-select-item">Credit Card</SelectItem>
-                <SelectItem value="e-nach" className="custom-select-item">E-Nach</SelectItem>
-                <SelectItem value="digital wallet" className="custom-select-item">Digital Wallet</SelectItem>
-                <SelectItem value="cash" className="custom-select-item">Cash</SelectItem>
+              <SelectContent className="bg-card-bg border-orange-500">
+                <SelectItem value="all">All Methods</SelectItem>
+                <SelectItem value="upi">UPI</SelectItem>
+                <SelectItem value="credit card">Credit Card</SelectItem>
+                <SelectItem value="e-nach">E-Nach</SelectItem>
+                <SelectItem value="digital wallet">Digital Wallet</SelectItem>
+                <SelectItem value="cash">Cash</SelectItem>
               </SelectContent>
             </Select>
             <Popover>
@@ -386,7 +387,7 @@ const TransactionManagement = () => {
             </TableHeader>
             <TableBody>
               {filteredTransactions.map((transaction) => (
-                <TableRow key={transaction.id}>
+                <TableRow key={transaction.id} className="hover:none">
                   <TableCell>
                     <div>
                       <div className="font-mono font-medium">{transaction.id}</div>
@@ -427,6 +428,7 @@ const TransactionManagement = () => {
                       <Button 
                         size="sm" 
                         variant="outline" 
+                        className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                         onClick={() => handleViewDetails(transaction)}
                       >
                         <Eye className="h-3 w-3" />
@@ -435,6 +437,7 @@ const TransactionManagement = () => {
                         <Button 
                           size="sm" 
                           variant="outline" 
+                          className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                           onClick={() => handleRetry(transaction)}
                         >
                           <RefreshCw className="h-3 w-3" />
@@ -443,6 +446,7 @@ const TransactionManagement = () => {
                       <Button 
                         size="sm" 
                         variant="outline" 
+                        className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white"
                         onClick={() => handleExport([transaction])}
                       >
                         <Download className="h-3 w-3" />
@@ -477,7 +481,7 @@ const TransactionManagement = () => {
                 <div className="text-sm text-gray-600">₹25,000 payment failed for Sunrise College</div>
                 <div className="text-xs text-gray-500">5 minutes ago</div>
               </div>
-              <Button variant="outline" onClick={() => alert('Investigating transaction...')}>
+              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => alert('Investigating transaction...')}>
                 Investigate
               </Button>
             </div>
@@ -487,7 +491,7 @@ const TransactionManagement = () => {
                 <div className="text-sm text-gray-600">Multiple transaction failures with PayU gateway</div>
                 <div className="text-xs text-gray-500">15 minutes ago</div>
               </div>
-              <Button variant="outline" onClick={() => alert('Checking gateway status...')}>
+              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => alert('Checking gateway status...')}>
                 Check Status
               </Button>
             </div>
