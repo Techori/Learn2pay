@@ -83,25 +83,25 @@ const BulkNotificationSystem: React.FC = () => {
       label: "Notifications Sent",
       value: "12.5K",
       change: "+15% this month",
-      color: "text-green-500"
+      color: "text-success"
     },
     {
       label: "Delivery Rate",
       value: "98.2%",
       change: "+1.5% improvement",
-      color: "text-green-500"
+      color: "text-success"
     },
     {
       label: "Engagement",
       value: "42.7%",
       change: "+5.3% this month",
-      color: "text-green-500"
+      color: "text-success"
     },
     {
       label: "Push Enabled",
       value: "38.9K",
       change: "85.9% of users",
-      color: "text-blue-500"
+      color: "text-secondary"
     }
   ];
 
@@ -184,22 +184,22 @@ const BulkNotificationSystem: React.FC = () => {
   };
 
   return (
-    <Card className="bg-[#1A1F2B] border-none">
+    <Card className="bg-card-bg border-card-border">
       <CardHeader>
-        <CardTitle className="flex items-center text-white">
-          <MessageSquare className="h-5 w-5 mr-2 text-orange-400" />
+        <CardTitle className="flex items-center text-text-color">
+          <MessageSquare className="h-5 w-5 mr-2 text-primary" />
           Bulk Notification System
         </CardTitle>
-        <CardDescription className="text-gray-400">Send notifications to users, vendors, and franchises</CardDescription>
+        <CardDescription className="text-text-secondary">Send notifications to users, vendors, and franchises</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {notificationStats.map((stat, index) => (
-            <Card key={index} className="bg-[#232b45] border border-[#2A2F3A]">
+            <Card key={index} className="bg-surface-color border-border-color">
               <CardContent className="p-4">
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="text-2xl font-bold text-text-color">{stat.value}</div>
+                <div className="text-sm text-text-secondary">{stat.label}</div>
                 <div className={`text-xs ${stat.color}`}>{stat.change}</div>
               </CardContent>
             </Card>
@@ -207,43 +207,43 @@ const BulkNotificationSystem: React.FC = () => {
         </div>
 
         {/* Create Notification */}
-        <Card className="bg-[#232b45] border border-[#2A2F3A]">
+        <Card className="bg-surface-color border-border-color">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Create New Notification</CardTitle>
+            <CardTitle className="text-lg text-text-color">Create New Notification</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-300 mb-2 block">Notification Title</label>
+              <label className="text-sm font-medium text-text-secondary mb-2 block">Notification Title</label>
               <Input
                 placeholder="Enter notification title"
                 value={notificationData.title}
                 onChange={(e) => setNotificationData(prev => ({ ...prev, title: e.target.value }))}
-                className="bg-[#2A2F3A] border border-[#2A2F3A] text-gray-200 placeholder-gray-400"
+                className="bg-input-bg border-input-border text-input-text placeholder-text-secondary/70"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-300 mb-2 block">Message</label>
+              <label className="text-sm font-medium text-text-secondary mb-2 block">Message</label>
               <Textarea
                 placeholder="Enter your message"
                 value={notificationData.message}
                 onChange={(e) => setNotificationData(prev => ({ ...prev, message: e.target.value }))}
-                className="bg-[#2A2F3A] border border-[#2A2F3A] text-gray-200 placeholder-gray-400"
+                className="bg-input-bg border-input-border text-input-text placeholder-text-secondary/70"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium text-gray-300 mb-2 block">Target Group</label>
+              <label className="text-sm font-medium text-text-secondary mb-2 block">Target Group</label>
               <Select
                 value={notificationData.type}
                 onValueChange={(value) => setNotificationData(prev => ({ ...prev, type: value }))}
               >
-                <SelectTrigger className="bg-[#2A2F3A] border border-[#2A2F3A] text-gray-200">
+                <SelectTrigger className="bg-input-bg border-input-border text-input-text">
                   <SelectValue placeholder="Select target group" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#232b45] border border-[#2A2F3A]">
+                <SelectContent className="bg-surface-color border-border-color">
                   {targetGroups.map((group) => (
-                    <SelectItem key={group.id} value={group.id} className="text-gray-200">
+                    <SelectItem key={group.id} value={group.id} className="text-text-color">
                       {group.label} ({group.count})
                     </SelectItem>
                   ))}
@@ -253,48 +253,48 @@ const BulkNotificationSystem: React.FC = () => {
 
             {/* Channels */}
             <div>
-              <label className="text-sm font-medium text-gray-300 mb-3 block">Delivery Channels</label>
+              <label className="text-sm font-medium text-text-secondary mb-3 block">Delivery Channels</label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="flex items-center space-x-2 text-gray-300">
+                <div className="flex items-center space-x-2 text-text-color">
                   <Switch
                     checked={notificationData.channels.push}
                     onCheckedChange={(checked) => handleChannelChange('push', checked)}
                   />
-                  <Bell className="h-4 w-4 text-gray-400" />
+                  <Bell className="h-4 w-4 text-text-secondary" />
                   <span>Push</span>
                 </div>
-                <div className="flex items-center space-x-2 text-gray-300">
+                <div className="flex items-center space-x-2 text-text-color">
                   <Switch
                     checked={notificationData.channels.email}
                     onCheckedChange={(checked) => handleChannelChange('email', checked)}
                   />
-                  <Mail className="h-4 w-4 text-gray-400" />
+                  <Mail className="h-4 w-4 text-text-secondary" />
                   <span>Email</span>
                 </div>
-                <div className="flex items-center space-x-2 text-gray-300">
+                <div className="flex items-center space-x-2 text-text-color">
                   <Switch
                     checked={notificationData.channels.sms}
                     onCheckedChange={(checked) => handleChannelChange('sms', checked)}
                   />
-                  <Phone className="h-4 w-4 text-gray-400" />
+                  <Phone className="h-4 w-4 text-text-secondary" />
                   <span>SMS</span>
                 </div>
-                <div className="flex items-center space-x-2 text-gray-300">
+                <div className="flex items-center space-x-2 text-text-color">
                   <Switch
                     checked={notificationData.channels.whatsapp}
                     onCheckedChange={(checked) => handleChannelChange('whatsapp', checked)}
                   />
-                  <MessageSquare className="h-4 w-4 text-gray-400" />
+                  <MessageSquare className="h-4 w-4 text-text-secondary" />
                   <span>WhatsApp</span>
                 </div>
               </div>
             </div>
 
             {/* Options */}
-            <div className="flex items-center justify-between p-3 bg-[#2A2F3A] rounded-md">
+            <div className="flex items-center justify-between p-3 bg-surface-color rounded-md border border-border-color">
               <div>
-                <h4 className="font-medium text-gray-200">Schedule for Later</h4>
-                <p className="text-sm text-gray-400">Send at a specific time</p>
+                <h4 className="font-medium text-text-color">Schedule for Later</h4>
+                <p className="text-sm text-text-secondary">Send at a specific time</p>
               </div>
               <Switch
                 checked={notificationData.scheduled}
@@ -304,20 +304,20 @@ const BulkNotificationSystem: React.FC = () => {
 
             {notificationData.scheduled && (
               <div>
-                <label className="text-sm font-medium text-gray-300 mb-2 block">Schedule Date & Time</label>
+                <label className="text-sm font-medium text-text-secondary mb-2 block">Schedule Date & Time</label>
                 <Input
                   type="datetime-local"
                   value={notificationData.scheduleDate}
                   onChange={(e) => setNotificationData(prev => ({ ...prev, scheduleDate: e.target.value }))}
-                  className="bg-[#2A2F3A] border border-[#2A2F3A] text-gray-200"
+                  className="bg-input-bg border-input-border text-input-text"
                 />
               </div>
             )}
 
-            <div className="flex items-center justify-between p-3 bg-[#2A2F3A] rounded-md">
+            <div className="flex items-center justify-between p-3 bg-surface-color rounded-md border border-border-color">
               <div>
-                <h4 className="font-medium text-gray-200">Urgent Notification</h4>
-                <p className="text-sm text-gray-400">High priority delivery</p>
+                <h4 className="font-medium text-text-color">Urgent Notification</h4>
+                <p className="text-sm text-text-secondary">High priority delivery</p>
               </div>
               <Switch
                 checked={notificationData.urgent}
@@ -326,11 +326,11 @@ const BulkNotificationSystem: React.FC = () => {
             </div>
 
             <div className="flex space-x-2 pt-2">
-              <Button className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" onClick={handleSendNotification}>
+              <Button className="flex-1 bg-primary hover:bg-primary-hover text-white" onClick={handleSendNotification}>
                 <Send className="h-4 w-4 mr-2" />
                 {notificationData.scheduled ? 'Schedule Notification' : 'Send Now'}
               </Button>
-              <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700" onClick={handlePreview}>
+              <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={handlePreview}>
                 Preview
               </Button>
             </div>
@@ -338,18 +338,18 @@ const BulkNotificationSystem: React.FC = () => {
         </Card>
 
         {/* Recent Notifications */}
-        <Card className="bg-[#232b45] border border-[#2A2F3A]">
+        <Card className="bg-surface-color border-border-color">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Recent Notifications</CardTitle>
+            <CardTitle className="text-lg text-text-color">Recent Notifications</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {recentNotifications.map((notification) => (
-                <div key={notification.id} className="flex items-center justify-between p-4 bg-[#2A2F3A] border border-[#2A2F3A] rounded-md">
+                <div key={notification.id} className="flex items-center justify-between p-4 bg-card-bg border border-border-color rounded-md">
                   <div className="flex-1">
-                    <div className="font-medium text-white">{notification.title}</div>
-                    <div className="text-sm text-gray-400">{notification.message}</div>
-                    <div className="flex items-center space-x-4 text-xs text-gray-500 mt-1">
+                    <div className="font-medium text-text-color">{notification.title}</div>
+                    <div className="text-sm text-text-secondary">{notification.message}</div>
+                    <div className="flex items-center space-x-4 text-xs text-text-secondary/70 mt-1">
                       <span>To: {notification.sentTo}</span>
                       <span>Sent: {notification.sent}</span>
                       <span>Delivered: {notification.delivered}</span>
@@ -358,7 +358,7 @@ const BulkNotificationSystem: React.FC = () => {
                   </div>
                   <div className="flex space-x-1">
                     {notification.channels.map((channel, index) => (
-                      <Badge key={index} variant="outline" className="border-gray-600 text-gray-300">
+                      <Badge key={index} variant="outline" className="border-border-color text-text-secondary">
                         {channel}
                       </Badge>
                     ))}

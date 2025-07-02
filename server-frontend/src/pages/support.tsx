@@ -43,7 +43,7 @@ const SupportDashboard = ({ role = "lead" }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
+      className="min-h-screen bg-background text-text"
     >
       <DashboardHeader
         dashboardName="Support"
@@ -63,50 +63,50 @@ const SupportDashboard = ({ role = "lead" }) => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-7 bg-gray-800 p-1 rounded-md">
-            <TabsTrigger
+          <TabsList className="grid w-full grid-cols-7 bg-gray-200 dark:bg-slate-800 rounded-md">
+            <TabsTrigger 
               value="dashboard"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
               Dashboard
             </TabsTrigger>
-            <TabsTrigger
+            <TabsTrigger 
               value="tickets"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
               Tickets
             </TabsTrigger>
-            <TabsTrigger
+            <TabsTrigger 
               value="institutes"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
               Institutes
             </TabsTrigger>
             {role === "lead" && (
-              <TabsTrigger
+              <TabsTrigger 
                 value="users"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+                className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
               >
                 Users
               </TabsTrigger>
             )}
-            <TabsTrigger
+            <TabsTrigger 
               value="reports"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
               Reports
             </TabsTrigger>
-            <TabsTrigger
+            <TabsTrigger 
               value="settings"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
               Settings
             </TabsTrigger>
-            <TabsTrigger
+            <TabsTrigger 
               value="emi-reminders"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+              className="text-gray-700 dark:text-gray-300 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
             >
-              EMI Collection Reminders
+              EMI Reminders
             </TabsTrigger>
           </TabsList>
 

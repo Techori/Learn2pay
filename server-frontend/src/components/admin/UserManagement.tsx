@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../components/ui/Card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../../components/ui/Tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/Table";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Badge } from "../../components/ui/Badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/DropdownMenu";
-import { Search, UserPlus, UserCheck, UserX, Eye, Filter as FilterIcon, Users } from "lucide-react"; // Added Users
+import { Search, UserPlus, UserCheck, UserX, Eye, Filter as FilterIcon, Users, Edit, Ban } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
 
 interface User {
@@ -53,13 +53,18 @@ const UserManagement = () => {
   const paginatedUsers = filteredUsers.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const getStatusColor = (status: string) => {
-    return status === "Active" ? "bg-green-600" : "bg-red-600";
+    switch (status) {
+      case 'Active': return 'bg-[var(--success)] text-[var(--button-text)]';
+      case 'Inactive': return 'bg-[var(--warning)] text-[var(--button-text)]';
+      case 'Suspended': return 'bg-[var(--danger)] text-[var(--button-text)]';
+      default: return 'bg-[var(--secondary)] text-[var(--button-text)]';
+    }
   };
 
   const handleAction = (action: string, user: User) => {
     switch (action) {
       case "Assign Role":
-        toast({ title: "Assign Role", description: `Assigning new role to ${user.name}.`, variant: "info" });
+        toast({ title: "Assign Role", description: `Assigning new role to ${user.name}.` });
         break;
       case "Deactivate":
         if (user.status === "Active") {
@@ -70,49 +75,59 @@ const UserManagement = () => {
       case "Reactivate":
         if (user.status === "Inactive") {
           setUsers(users.map(u => u.id === user.id ? { ...u, status: "Active" } : u));
-          toast({ title: "Reactivated", description: `${user.name} has been reactivated.`, variant: "success" });
+          toast({ title: "Reactivated", description: `${user.name} has been reactivated.` });
         }
         break;
       case "View Profile":
-        toast({ title: "View Profile", description: `Viewing profile of ${user.name}.`, variant: "info" });
+        toast({ title: "View Profile", description: `Viewing profile of ${user.name}.` });
+        break;
+      case "Ban":
+        if (user.status === "Active") {
+          setUsers(users.map(u => u.id === user.id ? { ...u, status: "Suspended" } : u));
+          toast({ title: "Suspended", description: `${user.name} has been suspended.`, variant: "destructive" });
+        } else if (user.status === "Suspended") {
+          setUsers(users.map(u => u.id === user.id ? { ...u, status: "Active" } : u));
+          toast({ title: "Reactivated", description: `${user.name} has been reactivated.` });
+        }
         break;
     }
   };
 
   const handleAddUser = () => {
-    toast({ title: "Add User", description: "User addition feature coming soon!", variant: "info" });
+    toast({ title: "Add User", description: "User addition feature coming soon!" });
     // Add real implementation (e.g., dialog) as needed
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-6 text-white">
-      <Card className="bg-[#1e293b]/80 border border-[#334155]/50 shadow-lg rounded-xl">
+    <div className="min-h-screen bg-background-color text-text-color">
+      <Card className="bg-card-bg border-border-color shadow-card">
         <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold text-white flex items-center">
-            <Users className="h-8 w-8 mr-2 text-purple-400" /> User Management
+          <CardTitle className="text-3xl font-bold flex items-center text-text-color">
+            <Users className="h-8 w-8 mr-2 text-warning" /> User Management
           </CardTitle>
+          <CardDescription className="text-text-secondary">Manage all platform users</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Search and Actions */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-            <div className="relative w-full md:w-1/3">
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="relative flex-1 min-w-[200px]">
               <Input
                 type="text"
                 placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-[#334155]/50 border border-[#475569]/50 text-white placeholder-gray-400 pl-10 rounded-lg focus:ring-2 focus:ring-purple-500"
+                className="w-full bg-input-bg pl-10 rounded-lg text-foreground border-input-border"
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
             </div>
             <div className="flex gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="border-[#475569]/50 text-gray-200 hover:bg-[#334155]/50 flex items-center gap-2">
-                    <FilterIcon className="h-4 w-4" /> Filters
+                  <Button variant="outline" className="flex items-center gap-2 border-border-color text-foreground hover:bg-warning hover:text-white group">
+                    <FilterIcon className="h-4 w-4 text-text-secondary group-hover:text-white" /> Filters
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-[#1e293b] border-[#475569]/50 text-white">
+                <DropdownMenuContent>
                   <DropdownMenuItem onClick={() => setFilters({ ...filters, status: "All" })}>
                     All Statuses
                   </DropdownMenuItem>
@@ -133,7 +148,7 @@ const UserManagement = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button className="bg-gradient-to-r from-purple-600 to-purple-800 text-white hover:from-purple-700 hover:to-purple-900" onClick={handleAddUser}>
+              <Button onClick={handleAddUser} className="bg-warning hover:bg-warning text-white">
                 <UserPlus className="h-4 w-4 mr-2" /> Add User
               </Button>
             </div>
@@ -141,12 +156,12 @@ const UserManagement = () => {
 
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-            <TabsList className="bg-[#334155]/50 border border-[#475569]/50 rounded-xl p-1 flex flex-wrap gap-2">
+            <TabsList className="bg-input-bg border border-border-color rounded-xl p-1 flex flex-wrap gap-2">
               {roles.map((role) => (
                 <TabsTrigger
                   key={role}
                   value={role}
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-purple-800 data-[state=active]:text-white text-gray-300 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-[#475569]/50"
+                  className="data-[state=active]:bg-warning data-[state=active]:text-white text-foreground"
                 >
                   {role}
                 </TabsTrigger>
@@ -156,79 +171,87 @@ const UserManagement = () => {
             {/* Tab Content */}
             {roles.map((role) => (
               <TabsContent key={role} value={role} className="mt-4">
-                <Table className="w-full bg-[#1e293b]/80 border border-[#475569]/50 rounded-lg">
-                  <TableHeader className="bg-[#334155]">
-                    <TableRow>
-                      <TableHead className="text-gray-200 font-semibold">Name</TableHead>
-                      <TableHead className="text-gray-200 font-semibold">Email</TableHead>
-                      <TableHead className="text-gray-200 font-semibold">Role</TableHead>
-                      <TableHead className="text-gray-200 font-semibold">Status</TableHead>
-                      <TableHead className="text-gray-200 font-semibold">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {paginatedUsers.filter(user => user.role === role || role === "All").length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={5} className="text-center py-6 text-gray-400">
-                          No users found for {role}.
-                        </TableCell>
+              
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-input-bg border-input-border">
+                        <TableHead className="text-text-secondary">Name</TableHead>
+                        <TableHead className="text-text-secondary">Email</TableHead>
+                        <TableHead className="text-text-secondary">Role</TableHead>
+                        <TableHead className="text-text-secondary">Status</TableHead>
+                        <TableHead className="text-text-secondary">Actions</TableHead>
                       </TableRow>
-                    ) : (
-                      paginatedUsers
-                        .filter(user => user.role === role || role === "All")
-                        .map((user) => (
-                          <TableRow key={user.id} className="hover:bg-[#334155]/50 transition-colors">
-                            <TableCell className="text-gray-200">{user.name}</TableCell>
-                            <TableCell className="text-gray-200">{user.email}</TableCell>
-                            <TableCell className="text-gray-200">{user.role}</TableCell>
-                            <TableCell>
-                              <Badge className={`${getStatusColor(user.status)} text-white px-2 py-1 rounded-full`}>{user.status}</Badge>
-                            </TableCell>
-                            <TableCell>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button variant="outline" className="border-[#475569]/50 text-gray-200 hover:bg-[#334155]/50 px-2 py-1">
-                                    <Eye className="h-4 w-4" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="bg-[#1e293b] border-[#475569]/50 text-white">
-                                  <DropdownMenuItem onClick={() => handleAction("Assign Role", user)}>
-                                    <UserCheck className="h-4 w-4 mr-2" /> Assign Role
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem onClick={() => handleAction(user.status === "Active" ? "Deactivate" : "Reactivate", user)}>
-                                    {user.status === "Active" ? <UserX className="h-4 w-4 mr-2" /> : <UserCheck className="h-4 w-4 mr-2" />}
-                                    {user.status === "Active" ? "Deactivate" : "Reactivate"}
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem onClick={() => handleAction("View Profile", user)}>
-                                    <Eye className="h-4 w-4 mr-2" /> View Profile
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </TableCell>
-                          </TableRow>
-                        ))
-                    )}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedUsers.filter(user => user.role === role || role === "All").length === 0 ? (
+                        <TableRow>
+                          <TableCell colSpan={5} className="text-center py-6 text-text-secondary">
+                            No users found for {role}.
+                          </TableCell>
+                        </TableRow>
+                      ) : (
+                        paginatedUsers
+                          .filter(user => user.role === role || role === "All")
+                          .map((user) => (
+                            <TableRow key={user.id} className="bg-input-bg border-input-border" >
+                              <TableCell className="text-text-secondary">{user.name}</TableCell>
+                              <TableCell className="text-text-secondary">{user.email}</TableCell>
+                              <TableCell className="text-text-secondary">{user.role}</TableCell>
+                              <TableCell>
+                                <Badge className={getStatusColor(user.status)}>
+                                  {user.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" className="border-orange-500 text-foreground hover:bg-warning">
+                                      <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
+                                    </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent>
+                                    <DropdownMenuItem onClick={() => handleAction("Assign Role", user)}>
+                                      <UserCheck className="h-4 w-4 mr-2 text-success" /> Assign Role
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleAction(user.status === "Active" ? "Deactivate" : "Reactivate", user)}>
+                                      {user.status === "Active" ? <UserX className="h-4 w-4 mr-2 text-danger" /> : <UserCheck className="h-4 w-4 mr-2 text-success" />}
+                                      {user.status === "Active" ? "Deactivate" : "Reactivate"}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleAction("View Profile", user)}>
+                                      <Eye className="h-4 w-4 mr-2 text-warning" /> View Profile
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleAction("Ban", user)}>
+                                      <Ban className="h-4 w-4 mr-2 text-danger" />
+                                      {user.status === "Active" ? "Suspend" : "Reactivate"}
+                                    </DropdownMenuItem>
+                                  </DropdownMenuContent>
+                                </DropdownMenu>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                      )}
+                    </TableBody>
+                  </Table>
+                
 
                 {/* Pagination */}
                 {filteredUsers.length > pageSize && (
-                  <div className="flex justify-between items-center mt-4 text-gray-300">
-                    <span>Page {currentPage} of {totalPages}</span>
+                  <div className="flex justify-between items-center mt-4">
+                    <span className="text-foreground">Page {currentPage} of {totalPages}</span>
                     <div className="flex gap-2">
                       <Button
                         variant="outline"
-                        className="border-[#475569]/50 hover:bg-[#334155]/50"
                         disabled={currentPage === 1}
                         onClick={() => setCurrentPage(currentPage - 1)}
+                        className="border-border-color text-foreground hover:bg-orange-500"
                       >
                         Previous
                       </Button>
                       <Button
                         variant="outline"
-                        className="border-[#475569]/50 hover:bg-[#334155]/50"
                         disabled={currentPage === totalPages}
                         onClick={() => setCurrentPage(currentPage + 1)}
+                        className="border-border-color text-foreground hover:bg-orange-500"
                       >
                         Next
                       </Button>

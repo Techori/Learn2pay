@@ -176,28 +176,28 @@ const SupportSettings = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+    <div className="space-y-6 bg-background-color text-text-color min-h-screen">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="text-white">Support Settings</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-text-color">Support Settings</CardTitle>
+          <CardDescription className="text-text-secondary">
             Configure support system preferences and notifications
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* General Settings */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white flex items-center">
-              <SettingsIcon className="h-5 w-5 mr-2 text-orange-400" />
+            <h3 className="text-lg font-medium text-text-color flex items-center">
+              <SettingsIcon className="h-5 w-5 mr-2 text-warning" />
               General Settings
             </h3>
-            <div className="space-y-4 bg-slate-800/30 p-4 rounded-lg border border-gray-700">
+            <div className="space-y-4 bg-surface-color p-4 rounded-lg border border-border-color">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="auto-assign" className="text-gray-200">
+                  <Label htmlFor="auto-assign" className="text-text-color">
                     Auto-assign tickets
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Automatically assign new tickets to available agents
                   </p>
                 </div>
@@ -206,10 +206,10 @@ const SupportSettings = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="follow-up" className="text-gray-200">
+                  <Label htmlFor="follow-up" className="text-text-color">
                     Automated follow-ups
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Send follow-up messages for unresolved tickets
                   </p>
                 </div>
@@ -217,14 +217,13 @@ const SupportSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="response-time" className="text-gray-200">
+                <Label htmlFor="response-time" className="text-text-color">
                   Target response time (hours)
                 </Label>
                 <Input
                   id="response-time"
                   type="number"
                   defaultValue="2"
-                  className="bg-gray-800 border-gray-700 text-gray-200"
                 />
               </div>
             </div>
@@ -232,20 +231,20 @@ const SupportSettings = () => {
 
           {/* Notification Settings */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white flex items-center">
-              <Bell className="h-5 w-5 mr-2 text-orange-400" />
+            <h3 className="text-lg font-medium text-text-color flex items-center">
+              <Bell className="h-5 w-5 mr-2 text-warning" />
               Notification Settings
             </h3>
-            <div className="space-y-4 bg-slate-800/30 p-4 rounded-lg border border-gray-700">
+            <div className="space-y-4 bg-surface-color p-4 rounded-lg border border-border-color">
               <div className="flex items-center justify-between">
                 <div>
                   <Label
                     htmlFor="email-notifications"
-                    className="text-gray-200"
+                    className="text-text-color"
                   >
                     Email notifications
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Receive email alerts for new tickets
                   </p>
                 </div>
@@ -256,11 +255,11 @@ const SupportSettings = () => {
                 <div>
                   <Label
                     htmlFor="browser-notifications"
-                    className="text-gray-200"
+                    className="text-text-color"
                   >
                     Browser notifications
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Show desktop notifications for ticket updates
                   </p>
                 </div>
@@ -269,10 +268,10 @@ const SupportSettings = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="escalation-alerts" className="text-gray-200">
+                  <Label htmlFor="escalation-alerts" className="text-text-color">
                     Escalation alerts
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Get notified when tickets are escalated
                   </p>
                 </div>
@@ -283,17 +282,17 @@ const SupportSettings = () => {
 
           {/* Team Settings */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white flex items-center">
-              <Users className="h-5 w-5 mr-2 text-orange-400" />
+            <h3 className="text-lg font-medium text-text-color flex items-center">
+              <Users className="h-5 w-5 mr-2 text-warning" />
               Team Settings
             </h3>
-            <div className="space-y-4 bg-slate-800/30 p-4 rounded-lg border border-gray-700">
+            <div className="space-y-4 bg-surface-color p-4 rounded-lg border border-border-color">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="team-visibility" className="text-gray-200">
+                  <Label htmlFor="team-visibility" className="text-text-color">
                     Team ticket visibility
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Allow team members to view each other's tickets
                   </p>
                 </div>
@@ -302,10 +301,10 @@ const SupportSettings = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="workload-balancing" className="text-gray-200">
+                  <Label htmlFor="workload-balancing" className="text-text-color">
                     Workload balancing
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Distribute tickets evenly across team members
                   </p>
                 </div>
@@ -316,17 +315,17 @@ const SupportSettings = () => {
 
           {/* Security Settings */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium text-white flex items-center">
-              <ShieldCheck className="h-5 w-5 mr-2 text-orange-400" />
+            <h3 className="text-lg font-medium text-text-color flex items-center">
+              <ShieldCheck className="h-5 w-5 mr-2 text-warning" />
               Security Settings
             </h3>
-            <div className="space-y-4 bg-slate-800/30 p-4 rounded-lg border border-gray-700">
+            <div className="space-y-4 bg-surface-color p-4 rounded-lg border border-border-color">
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="two-factor" className="text-gray-200">
+                  <Label htmlFor="two-factor" className="text-text-color">
                     Two-factor authentication
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Require 2FA for support team access
                   </p>
                 </div>
@@ -335,10 +334,10 @@ const SupportSettings = () => {
 
               <div className="flex items-center justify-between">
                 <div>
-                  <Label htmlFor="session-timeout" className="text-gray-200">
+                  <Label htmlFor="session-timeout" className="text-text-color">
                     Session timeout
                   </Label>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-text-secondary">
                     Automatically log out after period of inactivity
                   </p>
                 </div>
@@ -346,14 +345,13 @@ const SupportSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="timeout-minutes" className="text-gray-200">
+                <Label htmlFor="timeout-minutes" className="text-text-color">
                   Timeout period (minutes)
                 </Label>
                 <Input
                   id="timeout-minutes"
                   type="number"
                   defaultValue="30"
-                  className="bg-gray-800 border-gray-700 text-gray-200"
                 />
               </div>
             </div>

@@ -264,11 +264,11 @@ const Payouts = () => {
               </TableHeader>
               <TableBody>
                 {payoutHistory.map((payout) => (
-                  <TableRow key={payout.id}>
-                    <TableCell>{payout.date}</TableCell>
-                    <TableCell>{payout.amount}</TableCell>
-                    <TableCell>{payout.method}</TableCell>
-                    <TableCell>{payout.transactionId}</TableCell>
+                  <TableRow key={payout.id} className="bg-background-color">
+                    <TableCell className="text-text-color">{payout.date}</TableCell>
+                    <TableCell className="text-text-color">{payout.amount}</TableCell>
+                    <TableCell className="text-text-color">{payout.method}</TableCell>
+                    <TableCell className="text-text-color">{payout.transactionId}</TableCell>
                     <TableCell>
                       <Badge className={`text-xs ${
                         payout.status === 'Completed' ? 'bg-green-100 text-green-800' :
@@ -281,7 +281,7 @@ const Payouts = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Button size="sm" variant="outline" onClick={() => onViewPayoutDetails(payout.id)}>
+                      <Button size="sm" variant="outline" onClick={() => onViewPayoutDetails(payout.id)} className="text-text-color border-border-color">
                         <Eye className="h-4 w-4 mr-1" /> View
                       </Button>
                     </TableCell>

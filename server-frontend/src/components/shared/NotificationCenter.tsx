@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/Dialog';
 import { Button } from '../../components/ui/Button';
@@ -7,6 +6,7 @@ import { ScrollArea } from '../../components/ui/ScrollArea';
 import { Bell, CheckCircle, AlertCircle, Info, X } from 'lucide-react';
 // Update the import path below if your useToast hook is located elsewhere
 import { useToast } from '../../hooks/use-toast';
+import { useTheme } from '../../context/ThemeContext';
 
 interface Notification {
   id: string;
@@ -18,6 +18,7 @@ interface Notification {
 }
 
 const NotificationCenter = () => {
+  const { theme } = useTheme();
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
@@ -77,34 +78,34 @@ const NotificationCenter = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-success" />;
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-500" />;
+        return <AlertCircle className="h-5 w-5 text-warning" />;
       case 'error':
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <AlertCircle className="h-5 w-5 text-danger" />;
       default:
-        return <Info className="h-5 w-5 text-blue-500" />;
+        return <Info className="h-5 w-5 text-info" />;
     }
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="relative">
+        <Button variant="outline" size="sm" className="relative bg-white/10 dark:bg-slate-800/50 text-foreground border-border-color">
           <Bell className="h-4 w-4" />
           {unreadCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs">
+            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-warning text-white">
               {unreadCount}
             </Badge>
           )}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] max-h-[600px]">
+      <DialogContent className="sm:max-w-[500px] max-h-[600px] bg-white dark:bg-slate-800 border-border-color">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
+          <DialogTitle className="flex items-center justify-between text-foreground">
             Notifications
             {unreadCount > 0 && (
-              <Button variant="ghost" size="sm" onClick={markAllAsRead}>
+              <Button variant="ghost" size="sm" onClick={markAllAsRead} className="text-primary hover:text-primary-hover hover:bg-primary/10">
                 Mark all as read
               </Button>
             )}
@@ -114,7 +115,7 @@ const NotificationCenter = () => {
         <ScrollArea className="h-[400px] pr-4">
           <div className="space-y-3">
             {notifications.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-foreground/70">
                 No notifications
               </div>
             ) : (
@@ -122,7 +123,9 @@ const NotificationCenter = () => {
                 <div
                   key={notification.id}
                   className={`p-4 border rounded-lg transition-all hover:shadow-sm ${
-                    notification.read ? 'bg-gray-50' : 'bg-white border-blue-200'
+                    notification.read 
+                      ? 'bg-slate-100 dark:bg-slate-700 border-border-color opacity-70' 
+                      : 'bg-white dark:bg-slate-800 border-primary/20'
                   }`}
                 >
                   <div className="flex items-start justify-between">
@@ -130,17 +133,17 @@ const NotificationCenter = () => {
                       {getIcon(notification.type)}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-2">
-                          <h4 className="text-sm font-medium text-gray-900">
+                          <h4 className="text-sm font-medium text-foreground">
                             {notification.title}
                           </h4>
                           {!notification.read && (
-                            <div className="h-2 w-2 bg-blue-600 rounded-full"></div>
+                            <div className="h-2 w-2 bg-primary rounded-full"></div>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-foreground/80 mt-1">
                           {notification.message}
                         </p>
-                        <p className="text-xs text-gray-400 mt-2">
+                        <p className="text-xs text-foreground/60 opacity-70 mt-2">
                           {notification.timestamp}
                         </p>
                       </div>
@@ -151,7 +154,7 @@ const NotificationCenter = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => markAsRead(notification.id)}
-                          className="h-6 w-6 p-0"
+                          className="h-6 w-6 p-0 text-success hover:bg-success/10"
                         >
                           <CheckCircle className="h-3 w-3" />
                         </Button>
@@ -160,7 +163,7 @@ const NotificationCenter = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => deleteNotification(notification.id)}
-                        className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                        className="h-6 w-6 p-0 text-danger hover:bg-danger/10"
                       >
                         <X className="h-3 w-3" />
                       </Button>

@@ -135,20 +135,20 @@ const NotificationManagement: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Sent': return 'bg-green-500 text-white';
-      case 'Scheduled': return 'bg-blue-500 text-white';
-      case 'Draft': return 'bg-gray-500 text-white';
-      case 'Failed': return 'bg-red-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Sent': return 'bg-success text-white';
+      case 'Scheduled': return 'bg-secondary text-white';
+      case 'Draft': return 'bg-text-secondary text-white';
+      case 'Failed': return 'bg-danger text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'Email': return <Mail className="h-4 w-4" />;
-      case 'SMS': return <MessageSquare className="h-4 w-4" />;
-      case 'Push': return <Smartphone className="h-4 w-4" />;
-      default: return <Bell className="h-4 w-4" />;
+      case 'Email': return <Mail className="h-4 w-4 text-secondary" />;
+      case 'SMS': return <MessageSquare className="h-4 w-4 text-secondary" />;
+      case 'Push': return <Smartphone className="h-4 w-4 text-secondary" />;
+      default: return <Bell className="h-4 w-4 text-secondary" />;
     }
   };
 
@@ -286,57 +286,57 @@ const NotificationManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
       {/* Notification Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">156</div>
-            <div className="text-sm text-gray-400">Total Sent</div>
-            <div className="text-xs text-green-400">+23 this week</div>
+            <div className="text-2xl font-bold text-text-color">156</div>
+            <div className="text-sm text-text-secondary">Total Sent</div>
+            <div className="text-xs text-success">+23 this week</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">89.5%</div>
-            <div className="text-sm text-gray-400">Delivery Rate</div>
-            <div className="text-xs text-green-400">Above average</div>
+            <div className="text-2xl font-bold text-text-color">89.5%</div>
+            <div className="text-sm text-text-secondary">Delivery Rate</div>
+            <div className="text-xs text-success">Above average</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">67.2%</div>
-            <div className="text-sm text-gray-400">Open Rate</div>
-            <div className="text-xs text-blue-400">Good engagement</div>
+            <div className="text-2xl font-bold text-text-color">67.2%</div>
+            <div className="text-sm text-text-secondary">Open Rate</div>
+            <div className="text-xs text-secondary">Good engagement</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">12</div>
-            <div className="text-sm text-gray-400">Scheduled</div>
-            <div className="text-xs text-yellow-400">Upcoming</div>
+            <div className="text-2xl font-bold text-text-color">12</div>
+            <div className="text-sm text-text-secondary">Scheduled</div>
+            <div className="text-xs text-warning">Upcoming</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white justify-start p-6" onClick={() => handleQuickAction('Email')}>
-          <Mail className="h-5 w-5 mr-3" />
+        <Button className="bg-secondary hover:bg-secondary text-white justify-start p-6" onClick={() => handleQuickAction('Email')}>
+          <Mail className="h-5 w-5 mr-3 text-white" />
           <div className="text-left">
             <div className="font-medium">Send Email Campaign</div>
             <div className="text-sm opacity-90">Create and send bulk emails</div>
           </div>
         </Button>
-        <Button className="bg-green-600 hover:bg-green-700 text-white justify-start p-6" onClick={() => handleQuickAction('SMS')}>
-          <MessageSquare className="h-5 w-5 mr-3" />
+        <Button className="bg-success hover:bg-success text-white justify-start p-6" onClick={() => handleQuickAction('SMS')}>
+          <MessageSquare className="h-5 w-5 mr-3 text-white" />
           <div className="text-left">
             <div className="font-medium">Send SMS Alert</div>
             <div className="text-sm opacity-90">Quick SMS to users</div>
           </div>
         </Button>
-        <Button className="bg-purple-600 hover:bg-purple-700 text-white justify-start p-6" onClick={() => handleQuickAction('Push')}>
-          <Smartphone className="h-5 w-5 mr-3" />
+        <Button className="bg-primary hover:bg-primary text-white justify-start p-6" onClick={() => handleQuickAction('Push')}>
+          <Smartphone className="h-5 w-5 mr-3 text-white" />
           <div className="text-left">
             <div className="font-medium">Push Notification</div>
             <div className="text-sm opacity-90">Mobile app notifications</div>
@@ -345,18 +345,18 @@ const NotificationManagement: React.FC = () => {
       </div>
 
       {/* Notification Management Panel */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-white">
-                <Bell className="h-5 w-5 mr-2 text-blue-400" />
+              <CardTitle className="text-text-color">
+                <Bell className="h-5 w-5 mr-2 text-secondary" />
                 Notification Management
               </CardTitle>
-              <CardDescription className="text-gray-400">Create, schedule, and track all platform notifications</CardDescription>
+              <CardDescription className="text-text-secondary">Create, schedule, and track all platform notifications</CardDescription>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={() => setShowCreateDialog(true)}>
-              <Plus className="h-4 w-4 mr-2" />
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={() => setShowCreateDialog(true)}>
+              <Plus className="h-4 w-4 mr-2 text-white" />
               Create Notification
             </Button>
           </div>
@@ -365,17 +365,17 @@ const NotificationManagement: React.FC = () => {
           {/* Search and Filters */}
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[200px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
               <Input
                 placeholder="Search notifications..."
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
                 value={filters.type}
                 onChange={(e) => setFilters({ ...filters, type: e.target.value })}
               >
@@ -384,11 +384,11 @@ const NotificationManagement: React.FC = () => {
                 <option value="SMS">SMS</option>
                 <option value="Push">Push</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
                 value={filters.status}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               >
@@ -398,11 +398,11 @@ const NotificationManagement: React.FC = () => {
                 <option value="Draft">Draft</option>
                 <option value="Failed">Failed</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
                 value={filters.audience}
                 onChange={(e) => setFilters({ ...filters, audience: e.target.value })}
               >
@@ -412,7 +412,7 @@ const NotificationManagement: React.FC = () => {
                 <option value="Admin Users">Admin Users</option>
                 <option value="Pending KYC">Pending KYC</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
           </div>
 
@@ -420,38 +420,38 @@ const NotificationManagement: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200">Notification Details</TableHead>
-                <TableHead className="text-gray-200">Type & Audience</TableHead>
-                <TableHead className="text-gray-200">Status</TableHead>
-                <TableHead className="text-gray-200">Performance</TableHead>
-                <TableHead className="text-gray-200">Date</TableHead>
-                <TableHead className="text-gray-200">Actions</TableHead>
+                <TableHead className="text-text-color">Notification Details</TableHead>
+                <TableHead className="text-text-color">Type & Audience</TableHead>
+                <TableHead className="text-text-color">Status</TableHead>
+                <TableHead className="text-text-color">Performance</TableHead>
+                <TableHead className="text-text-color">Date</TableHead>
+                <TableHead className="text-text-color">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredNotifications.map((notification) => (
-                <TableRow key={notification.id} className="hover:bg-[#2A2F3A]">
-                  <TableCell className="text-white">
+                <TableRow key={notification.id} className="hover:bg-surface-color">
+                  <TableCell className="text-text-color">
                     <div>
                       <div className="font-medium">{notification.title}</div>
-                      <div className="text-sm text-gray-400 max-w-xs truncate">{notification.message}</div>
+                      <div className="text-sm text-text-secondary max-w-xs truncate">{notification.message}</div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div className="flex items-center space-x-2">
                       {getTypeIcon(notification.type)}
                       <div>
                         <div className="font-medium">{notification.type}</div>
-                        <div className="text-sm text-gray-400">{notification.audience}</div>
+                        <div className="text-sm text-text-secondary">{notification.audience}</div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <Badge className={getStatusColor(notification.status)}>
                       {notification.status}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     {notification.status === 'Sent' ? (
                       <div className="text-sm">
                         <div>Delivered: {notification.delivered}</div>
@@ -459,29 +459,29 @@ const NotificationManagement: React.FC = () => {
                         <div>Clicked: {notification.clicked}</div>
                       </div>
                     ) : (
-                      <span className="text-gray-400">N/A</span>
+                      <span className="text-text-secondary">N/A</span>
                     )}
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div className="text-sm">
                       {notification.sentDate || 'Not sent'}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleView(notification)}>
-                        <Eye className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleView(notification)}>
+                        <Eye className="h-3 w-3 text-secondary hover:text-white" />
                       </Button>
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleEdit(notification)}>
-                        <Edit className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleEdit(notification)}>
+                        <Edit className="h-3 w-3 text-secondary  hover:text-white" />
                       </Button>
                       {notification.status === 'Draft' && (
-                        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => handleSend(notification)}>
-                          <Send className="h-3 w-3" />
+                        <Button size="sm" className="bg-secondary hover:bg-secondary text-white" onClick={() => handleSend(notification)}>
+                          <Send className="h-3 w-3 text-white  hover:text-white" />
                         </Button>
                       )}
-                      <Button size="sm" variant="outline" className="text-white border-red-500 hover:bg-red-500" onClick={() => handleDelete(notification)}>
-                        <Trash2 className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleDelete(notification)}>
+                        <Trash2 className="h-3 w-3 text-danger  hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>
@@ -493,22 +493,22 @@ const NotificationManagement: React.FC = () => {
       </Card>
 
       {/* Notification Templates */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="text-white">Quick Templates</CardTitle>
-          <CardDescription className="text-gray-400">Pre-built notification templates for common scenarios</CardDescription>
+          <CardTitle className="text-text-color">Quick Templates</CardTitle>
+          <CardDescription className="text-text-secondary">Pre-built notification templates for common scenarios</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {templates.map((template, index) => (
-              <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow bg-[#232b45]">
+              <Card key={index} className="cursor-pointer hover:shadow-md transition-shadow bg-surface-color border-border-color">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-medium text-white">{template.title}</h4>
-                    <Badge variant="outline" className="text-gray-300 border-gray-600">{template.type}</Badge>
+                    <h4 className="font-medium text-text-color">{template.title}</h4>
+                    <Badge variant="outline" className="text-text-secondary border-border-color">{template.type}</Badge>
                   </div>
-                  <p className="text-sm text-gray-400 mb-3">{template.description}</p>
-                  <Button size="sm" variant="outline" className="w-full text-white border-blue-500 hover:bg-blue-500" onClick={() => handleUseTemplate(template)}>
+                  <p className="text-sm text-text-secondary mb-3">{template.description}</p>
+                  <Button size="sm" variant="outline" className="w-full text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleUseTemplate(template)}>
                     Use Template
                   </Button>
                 </CardContent>
@@ -534,10 +534,10 @@ const NotificationManagement: React.FC = () => {
 
       {/* Create Notification Dialog */}
       <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-card-bg border-border-color text-text-color max-w-md">
           <DialogHeader>
             <DialogTitle>{newNotification.id ? 'Edit Notification' : 'Create Notification'}</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogDescription className="text-text-secondary">
               {newNotification.id ? 'Update the existing notification details.' : 'Create a new notification for your audience.'}
             </DialogDescription>
           </DialogHeader>
@@ -547,17 +547,17 @@ const NotificationManagement: React.FC = () => {
               required
               value={newNotification.title}
               onChange={(e) => setNewNotification({ ...newNotification, title: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white"
+              className="bg-input-bg border-input-border text-input-text"
             />
             <Input
               placeholder="Message"
               required
               value={newNotification.message}
               onChange={(e) => setNewNotification({ ...newNotification, message: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white"
+              className="bg-input-bg border-input-border text-input-text"
             />
             <select
-              className="w-full pl-10 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+              className="w-full pl-10 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
               value={newNotification.type}
               onChange={(e) => setNewNotification({ ...newNotification, type: e.target.value })}
             >
@@ -566,7 +566,7 @@ const NotificationManagement: React.FC = () => {
               <option value="Push">Push</option>
             </select>
             <select
-              className="w-full pl-10 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+              className="w-full pl-10 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
               value={newNotification.audience}
               onChange={(e) => setNewNotification({ ...newNotification, audience: e.target.value })}
             >
@@ -576,10 +576,10 @@ const NotificationManagement: React.FC = () => {
               <option value="Pending KYC">Pending KYC</option>
             </select>
             <DialogFooter>
-              <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowCreateDialog(false)}>
+              <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={() => setShowCreateDialog(false)}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white">
+              <Button type="submit" className="bg-secondary hover:bg-secondary text-white">
                 {newNotification.id ? 'Send' : 'Create'}
               </Button>
             </DialogFooter>

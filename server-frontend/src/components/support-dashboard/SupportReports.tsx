@@ -250,15 +250,15 @@ const SupportReports = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+    <div className="space-y-6 bg-background-color text-text-color min-h-screen">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-xl text-white">
+              <CardTitle className="text-xl text-text-color">
                 Support Reports & Analytics
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className="text-text-secondary">
                 Comprehensive analytics and reports for support operations
               </CardDescription>
             </div>
@@ -267,13 +267,13 @@ const SupportReports = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    className="flex items-center border-gray-700 text-gray-200 hover:bg-gray-700"
+                    className="flex items-center border-border-color text-text-color hover:bg-surface-color"
                   >
-                    <CalendarDays className="mr-2 h-4 w-4 text-gray-400" />
+                    <CalendarDays className="mr-2 h-4 w-4 text-text-secondary" />
                     {date ? format(date, "PPP") : "Select Date Range"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 bg-gray-800 border-gray-700">
+                <PopoverContent className="w-auto p-0 bg-card-bg border-border-color">
                   <Calendar
                     mode="single"
                     selected={date}
@@ -283,7 +283,7 @@ const SupportReports = () => {
                 </PopoverContent>
               </Popover>
               <Button
-                className="bg-orange-500 hover:bg-orange-600 text-white flex items-center"
+                className="bg-warning hover:bg-warning text-white flex items-center"
                 onClick={handleExportReport}
               >
                 <Download className="mr-2 h-4 w-4" />
@@ -294,11 +294,11 @@ const SupportReports = () => {
         </CardHeader>
         <CardContent>
           {/* Institute PDF Download Section */}
-          <div className="mb-8 p-4 bg-slate-900 rounded-lg flex flex-col md:flex-row items-center gap-4">
-            <label htmlFor="institute-select" className="text-gray-200 font-medium mr-2">Download Institute Report:</label>
+          <div className="mb-8 p-4 bg-surface-color rounded-lg flex flex-col md:flex-row items-center gap-4">
+            <label htmlFor="institute-select" className="text-text-color font-medium mr-2">Download Institute Report:</label>
             <select
               id="institute-select"
-              className="bg-gray-800 border border-gray-700 text-gray-200 rounded px-3 py-2 focus:outline-none focus:border-orange-500"
+              className="bg-input-bg border border-input-border text-input-text rounded px-3 py-2 focus:outline-none focus:border-warning"
               value={selectedInstituteId}
               onChange={e => setSelectedInstituteId(e.target.value)}
             >
@@ -307,7 +307,7 @@ const SupportReports = () => {
               ))}
             </select>
             <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white flex items-center"
+              className="bg-warning hover:bg-warning text-white flex items-center"
               onClick={handleDownloadInstitutePDF}
             >
               <Download className="mr-2 h-4 w-4" />
@@ -318,15 +318,15 @@ const SupportReports = () => {
           {/* Collection Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             {collectionMetrics.map((metric, index) => (
-              <Card key={index} className="bg-slate-800/30 border-gray-700">
+              <Card key={index} className="bg-surface-color border-border-color">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-200">
+                  <CardTitle className="text-sm font-medium text-text-color">
                     {metric.title}
                   </CardTitle>
                   {metric.icon}
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-2xl font-bold text-text-color">
                     {metric.value}
                   </div>
                 </CardContent>
@@ -336,28 +336,28 @@ const SupportReports = () => {
 
           {/* Tabs for different report types */}
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="bg-gray-800 p-1 rounded-md">
+            <TabsList className="bg-card-bg p-1 rounded-md">
               <TabsTrigger
                 value="overview"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
               >
                 Overview
               </TabsTrigger>
               <TabsTrigger
                 value="tickets"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
               >
                 Ticket Analysis
               </TabsTrigger>
               <TabsTrigger
                 value="performance"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
               >
                 Performance
               </TabsTrigger>
               <TabsTrigger
                 value="satisfaction"
-                className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+                className="data-[state=active]:bg-warning data-[state=active]:text-white text-text-color"
               >
                 Satisfaction
               </TabsTrigger>

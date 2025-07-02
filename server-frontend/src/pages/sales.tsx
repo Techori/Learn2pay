@@ -49,7 +49,7 @@ const Sales = () => {
   }, [isManager]);
 
   return (
-    <div className="min-h-screen bg-[#101624] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       <DashboardHeader
         dashboardName="Sales"
         badges={[{ text: "This Month" }, { text: "Nov 2024", isPrimary: true }]}
@@ -65,12 +65,11 @@ const Sales = () => {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-8 bg-[#232b45] border border-[#232b45] rounded-lg mb-4">
+            <TabsList className="grid w-full grid-cols-8">
               {tabs.map((tab) => (
                 <TabsTrigger
                   key={tab}
                   value={tab}
-                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-300"
                   disabled={!tabs.includes(tab)}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/([A-Z])/g, " $1").trim()}

@@ -27,7 +27,7 @@ const SalesTabContent = ({ activeTab, isManager }: { activeTab: string; isManage
     team: isManager ? <MySalesTeam /> : null
   };
 
-  return tabContent[activeTab as keyof typeof tabContent] || <div className="text-white">Content not available</div>;
+  return tabContent[activeTab as keyof typeof tabContent] || <div className="text-text">Content not available</div>;
 };
 
 export default SalesTabContent;

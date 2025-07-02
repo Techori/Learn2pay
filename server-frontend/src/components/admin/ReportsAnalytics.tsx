@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Badge } from "../../components/ui/Badge";
-import { BarChart3, Download, Calendar, FileText, TrendingUp, Users, DollarSign, Filter, Search } from 'lucide-react';
+import { BarChart3, Download, Calendar, FileText, TrendingUp, Users, DollarSign, Filter, Search, Edit, Pause } from 'lucide-react';
 import { useToast } from "../../hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../../components/ui/Dialog";
 
@@ -118,18 +118,18 @@ const ReportsAnalytics: React.FC = () => {
   ];
 
   const quickStats: QuickStat[] = [
-    { label: "Reports Generated", value: "1,234", change: "+15%", color: "text-blue-400" },
-    { label: "Downloads This Month", value: "567", change: "+22%", color: "text-green-400" },
-    { label: "Scheduled Reports", value: "23", change: "+3%", color: "text-purple-400" },
-    { label: "Data Sources", value: "8", change: "0%", color: "text-orange-400" }
+    { label: "Reports Generated", value: "1,234", change: "+15%", color: "text-secondary" },
+    { label: "Downloads This Month", value: "567", change: "+22%", color: "text-success" },
+    { label: "Scheduled Reports", value: "23", change: "+3%", color: "text-primary" },
+    { label: "Data Sources", value: "8", change: "0%", color: "text-warning" }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'bg-green-500 text-white';
-      case 'Paused': return 'bg-yellow-500 text-white';
-      case 'Failed': return 'bg-red-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Active': return 'bg-success text-white';
+      case 'Paused': return 'bg-warning text-white';
+      case 'Failed': return 'bg-danger text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
@@ -180,14 +180,14 @@ const ReportsAnalytics: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
       {/* Quick Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickStats.map((stat, index) => (
-          <Card key={index} className="bg-[#1A1F2B]">
+          <Card key={index} className="bg-card-bg border-card-border">
             <CardContent className="p-4">
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-2xl font-bold text-text-color">{stat.value}</div>
+              <div className="text-sm text-text-secondary">{stat.label}</div>
               <div className={`text-xs ${stat.color}`}>{stat.change}</div>
             </CardContent>
           </Card>
@@ -195,20 +195,20 @@ const ReportsAnalytics: React.FC = () => {
       </div>
 
       {/* Report Generation */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-white">
-                <FileText className="h-5 w-5 mr-2 text-blue-400" />
+              <CardTitle className="text-text-color">
+                <FileText className="h-5 w-5 mr-2 text-orange-400" />
                 Reports & Analytics
               </CardTitle>
-              <CardDescription className="text-gray-400">Generate and download comprehensive business reports</CardDescription>
+              <CardDescription className="text-text-secondary">Generate and download comprehensive business reports</CardDescription>
             </div>
             <div className="flex space-x-2">
               <div className="relative">
                 <select
-                  className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                  className="pl-8 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
                   value={dateRange}
                   onChange={(e) => setDateRange(e.target.value)}
                 >
@@ -220,18 +220,18 @@ const ReportsAnalytics: React.FC = () => {
                   <option value="last-month">Last Month</option>
                   <option value="custom">Custom Range</option>
                 </select>
-                <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
               </div>
               {dateRange === 'custom' && (
                 <div className="flex space-x-2">
                   <Input
                     type="date"
-                    className="bg-[#232b45] border border-[#232b45] text-white"
+                    className="bg-input-bg border-input-border text-input-text"
                     placeholder="Start Date"
                   />
                   <Input
                     type="date"
-                    className="bg-[#232b45] border border-[#232b45] text-white"
+                    className="bg-input-bg border-input-border text-input-text"
                     placeholder="End Date"
                   />
                 </div>
@@ -242,10 +242,10 @@ const ReportsAnalytics: React.FC = () => {
         <CardContent>
           {/* Search */}
           <div className="relative flex-1 min-w-[200px] mb-6">
-            <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
             <Input
               placeholder="Search reports..."
-              className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+              className="pl-10 bg-input-bg border-input-border text-input-text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -261,28 +261,28 @@ const ReportsAnalytics: React.FC = () => {
               .map((report) => {
                 const IconComponent = report.icon;
                 return (
-                  <Card key={report.id} className="cursor-pointer hover:shadow-md transition-shadow bg-[#232b45]">
+                  <Card key={report.id} className="cursor-pointer hover:shadow-md transition-shadow bg-surface-color border-border-color">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between">
                         <div className="flex items-start space-x-3">
-                          <div className="p-2 bg-blue-500/20 rounded">
-                            <IconComponent className="h-5 w-5 text-blue-400" />
+                          <div className="p-2 bg-secondary/20 rounded">
+                            <IconComponent className="h-5 w-5 text-secondary" />
                           </div>
                           <div>
-                            <h3 className="font-semibold text-white">{report.name}</h3>
-                            <p className="text-sm text-gray-400 mb-2">{report.description}</p>
+                            <h3 className="font-semibold text-text-color">{report.name}</h3>
+                            <p className="text-sm text-text-secondary mb-2">{report.description}</p>
                             <div className="flex space-x-2">
                               {report.formats.map((format) => (
-                                <Badge key={format} variant="outline" className="text-gray-300 border-gray-600">{format}</Badge>
+                                <Badge key={format} variant="outline" className="text-text-secondary border-border-color">{format}</Badge>
                               ))}
                             </div>
-                            <div className="text-xs text-gray-500 mt-2">
+                            <div className="text-xs text-text-secondary/70 mt-2">
                               Last generated: {report.lastGenerated} • {report.downloads} downloads
                             </div>
                           </div>
                         </div>
-                        <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={() => handleGenerateReport(report)}>
-                          <Download className="h-4 w-4 mr-2" />
+                        <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => handleGenerateReport(report)}>
+                          <Download className="h-4 w-4 mr-2 text-white" />
                           Generate
                         </Button>
                       </div>
@@ -295,12 +295,12 @@ const ReportsAnalytics: React.FC = () => {
       </Card>
 
       {/* Scheduled Reports */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
-            <CardTitle className="text-white">Scheduled Reports</CardTitle>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={() => setShowScheduleDialog(true)}>
-              <Calendar className="h-4 w-4 mr-2" />
+            <CardTitle className="text-text-color">Scheduled Reports</CardTitle>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => setShowScheduleDialog(true)}>
+              <Calendar className="h-4 w-4 mr-2 text-white" />
               Schedule New Report
             </Button>
           </div>
@@ -308,21 +308,25 @@ const ReportsAnalytics: React.FC = () => {
         <CardContent>
           <div className="space-y-4">
             {scheduledReports.map((report) => (
-              <div key={report.id} className="flex items-center justify-between p-4 bg-[#232b45] rounded">
+              <div key={report.id} className="flex items-center justify-between p-4 bg-surface-color rounded border border-border-color">
                 <div>
-                  <div className="font-medium text-white">{report.name}</div>
-                  <div className="text-sm text-gray-400">
+                  <div className="font-medium text-text-color">{report.name}</div>
+                  <div className="text-sm text-text-secondary">
                     <span className="mr-4">Frequency: {report.frequency}</span>
                     <span className="mr-4">Next run: {report.nextRun}</span>
                   </div>
-                  <div className="text-sm text-gray-500">Recipients: {report.recipients}</div>
+                  <div className="text-sm text-text-secondary/70">Recipients: {report.recipients}</div>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Badge className={getStatusColor(report.status)}>
                     {report.status}
                   </Badge>
-                  <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500">Edit</Button>
-                  <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500">Pause</Button>
+                  <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white">
+                    <Edit className="h-3 w-3" />
+                  </Button>
+                  <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white">
+                    <Pause className="h-3 w-3" />
+                  </Button>
                 </div>
               </div>
             ))}
@@ -331,26 +335,26 @@ const ReportsAnalytics: React.FC = () => {
       </Card>
 
       {/* Quick Actions */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
-          <CardTitle className="text-white">Quick Export Options</CardTitle>
+          <CardTitle className="text-text-color">Quick Export Options</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-[#232b45] text-white border-gray-600 hover:bg-[#2A2F3A]" onClick={() => handleQuickExport("All Users")}>
-              <Users className="h-6 w-6 mb-2 text-blue-400" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("All Users")}>
+              <Users className="h-6 w-6 mb-2" />
               <span>All Users</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-[#232b45] text-white border-gray-600 hover:bg-[#2A2F3A]" onClick={() => handleQuickExport("Active Vendors")}>
-              <TrendingUp className="h-6 w-6 mb-2 text-green-400" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Active Vendors")}>
+              <TrendingUp className="h-6 w-6 mb-2" />
               <span>Active Vendors</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-[#232b45] text-white border-gray-600 hover:bg-[#2A2F3A]" onClick={() => handleQuickExport("Today's Revenue")}>
-              <DollarSign className="h-6 w-6 mb-2 text-purple-400" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Today's Revenue")}>
+              <DollarSign className="h-6 w-6 mb-2" />
               <span>Today's Revenue</span>
             </Button>
-            <Button variant="outline" className="h-20 flex flex-col items-center bg-[#232b45] text-white border-gray-600 hover:bg-[#2A2F3A]" onClick={() => handleQuickExport("Performance Data")}>
-              <BarChart3 className="h-6 w-6 mb-2 text-orange-400" />
+            <Button variant="outline" className="h-20 flex flex-col items-center bg-surface-color border-orange-500 hover:bg-orange-500 hover:text-white text-text-color" onClick={() => handleQuickExport("Performance Data")}>
+              <BarChart3 className="h-6 w-6 mb-2" />
               <span>Performance Data</span>
             </Button>
           </div>
@@ -359,10 +363,10 @@ const ReportsAnalytics: React.FC = () => {
 
       {/* Schedule Report Dialog */}
       <Dialog open={showScheduleDialog} onOpenChange={setShowScheduleDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-card-bg border-border-color text-text-color max-w-md">
           <DialogHeader>
             <DialogTitle>Schedule New Report</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogDescription className="text-text-secondary">
               Set up a new scheduled report for automated generation.
             </DialogDescription>
           </DialogHeader>
@@ -372,10 +376,10 @@ const ReportsAnalytics: React.FC = () => {
               required
               value={newReport.name}
               onChange={(e) => setNewReport({ ...newReport, name: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white"
+              className="bg-input-bg border-input-border text-input-text"
             />
             <select
-              className="w-full pl-10 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+              className="w-full pl-10 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
               value={newReport.frequency}
               onChange={(e) => setNewReport({ ...newReport, frequency: e.target.value })}
             >
@@ -388,10 +392,10 @@ const ReportsAnalytics: React.FC = () => {
               required
               value={newReport.recipients}
               onChange={(e) => setNewReport({ ...newReport, recipients: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white"
+              className="bg-input-bg border-input-border text-input-text"
             />
             <select
-              className="w-full pl-10 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+              className="w-full pl-10 pr-4 py-2 rounded bg-input-bg border-input-border text-input-text cursor-pointer"
               value={newReport.status}
               onChange={(e) => setNewReport({ ...newReport, status: e.target.value })}
             >
@@ -399,10 +403,10 @@ const ReportsAnalytics: React.FC = () => {
               <option value="Paused">Paused</option>
             </select>
             <DialogFooter>
-              <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowScheduleDialog(false)}>
+              <Button variant="outline" className="border-orange-500 text-text-color hover:bg-orange-500 hover:text-white" onClick={() => setShowScheduleDialog(false)}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white">
+              <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                 Schedule
               </Button>
             </DialogFooter>

@@ -12,17 +12,17 @@ export interface ButtonProps
 
 const variantClasses: Record<string, string> = {
   default:
-    "bg-orange-500 text-white hover:bg-orange-600 dark:bg-orange-100 dark:text-gray-900 dark:hover:bg-orange-200",
+    "bg-primary text-button-text hover:bg-primary-hover dark:bg-primary dark:text-white dark:hover:bg-primary-hover",
   ghost:
-    "bg-transparent text-gray-300 hover:text-orange-500 dark:text-gray-700 dark:hover:text-orange-600",
+    "bg-transparent text-text-secondary hover:text-primary hover:bg-primary/10 dark:text-text-secondary dark:hover:text-primary dark:hover:bg-primary/5",
   link:
-    "bg-transparent underline text-blue-600 hover:text-blue-800 p-0 h-auto dark:text-blue-400 dark:hover:text-blue-500",
+    "bg-transparent underline text-primary hover:text-primary-dark p-0 h-auto dark:text-primary dark:hover:text-primary-dark",
   outline:
-    "border border-orange-500 text-orange-500 bg-transparent hover:bg-orange-500 hover:text-white dark:border-orange-300 dark:text-orange-300 dark:hover:bg-orange-100 dark:hover:text-gray-900",
+    "border border-primary text-primary bg-transparent hover:bg-primary hover:text-button-text dark:border-primary dark:text-primary dark:hover:bg-primary dark:hover:text-white",
   destructive:
-    "bg-red-600 text-white hover:bg-red-700 dark:bg-red-100 dark:text-gray-900 dark:hover:bg-red-200",
+    "bg-danger text-white hover:bg-danger/90 dark:bg-danger dark:text-white dark:hover:bg-danger/90",
   secondary:
-    "bg-gray-700 text-white hover:bg-gray-600 dark:bg-gray-200 dark:text-gray-900 dark:hover:bg-gray-300",
+    "bg-secondary text-white hover:bg-secondary/90 dark:bg-secondary dark:text-white dark:hover:bg-secondary/90",
 };
 
 const sizeClasses: Record<string, string> = {
@@ -38,7 +38,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={cn(
         variantClasses[variant],
         sizeClasses[size],
-        "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-orange-300 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
+        "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-primary dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
         className
       )}
       {...props}
@@ -63,7 +63,7 @@ export function buttonVariants({
   return cn(
     variantClasses[variant],
     sizeClasses[size],
-    "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-orange-300 dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
+    "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-primary dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
     className
   );
 }
