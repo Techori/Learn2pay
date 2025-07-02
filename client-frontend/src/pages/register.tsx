@@ -49,10 +49,10 @@ const Register = () => {
   // Show loading if checking authentication
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-black flex items-center justify-center">
         <div className="flex items-center space-x-2 text-orange-400">
           <div className="w-6 h-6 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
-          <span>Loading...</span>
+          <span className="text-gray-900 dark:text-orange-400">Loading...</span>
         </div>
       </div>
     );
@@ -133,9 +133,9 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white py-8 px-4">
       <div className="container mx-auto max-w-2xl">
-        <Card className="border border-orange-500/20 bg-gradient-to-br from-gray-900/80 to-gray-800/50 shadow-xl">
+        <Card className="border border-orange-500/20 bg-white dark:bg-gradient-to-br dark:from-gray-900/80 dark:to-gray-800/50 shadow-xl">
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <span className="font-bold">

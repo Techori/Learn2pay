@@ -36,7 +36,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/applynow" element={<Applynow />} />
-          <Route path="/cookies-policy" element={<CookiesPolicy />} />
+          <Route path="/cookiespolicy" element={<CookiesPolicy />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/terms-of-service" element={<Terms />} />
           <Route path="/pricing" element={<Pricing />} />
@@ -47,7 +47,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/privacy" element={<Privacy />} />
-          <Route path="/learn-more/:type" element={<LearnMore />} />
+          <Route path="/learnmore" element={<LearnMore />} />
           {/* Dynamic dashboard route based on user type */}
           <Route
             path="/dashboard"

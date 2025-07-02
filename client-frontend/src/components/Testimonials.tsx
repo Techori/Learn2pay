@@ -49,10 +49,10 @@ const Testimonials = () => {
   }, [current, isAutoPlaying]);
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
+    <section className="py-24 bg-gray-50 dark:bg-black relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[#130900] opacity-30"></div>
+        <div className="absolute inset-0 bg-orange-100 dark:bg-[#130900] opacity-30"></div>
         <div className="absolute top-0 left-1/2 w-40 h-40 bg-orange-500 rounded-full filter blur-[100px]"></div>
         <div className="absolute bottom-0 right-1/4 w-60 h-60 bg-orange-500 rounded-full filter blur-[120px] opacity-20"></div>
       </div>
@@ -65,10 +65,10 @@ const Testimonials = () => {
           transition={{ duration: 0.5 }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
             What <span className="text-orange-500">Institutions</span> Say About Us
           </h2>
-          <p className="text-gray-400 max-w-3xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Join thousands of satisfied educational institutions that have
             transformed their fee collection process with LEARN2PAY
           </p>
@@ -115,7 +115,7 @@ const Testimonials = () => {
                 transition={{ duration: 0.5 }}
                 className="w-full"
               >
-                <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-8 md:p-10 shadow-xl w-full min-h-[220px] flex flex-col justify-between overflow-hidden">
+                <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 rounded-xl p-8 md:p-10 shadow-xl w-full min-h-[220px] flex flex-col justify-between overflow-hidden">
                   <div>
                     <svg
                       width="48"
@@ -130,7 +130,7 @@ const Testimonials = () => {
                         fill="currentColor"
                       />
                     </svg>
-                    <p className="text-lg text-white mb-6 italic break-words">
+                    <p className="text-lg text-gray-900 dark:text-white mb-6 italic break-words">
                       "{testimonials[current].quote}"
                     </p>
                   </div>
@@ -141,10 +141,10 @@ const Testimonials = () => {
                       className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-orange-500 flex-shrink-0"
                     />
                     <div className="overflow-hidden">
-                      <h4 className="font-bold text-white truncate">
+                      <h4 className="font-bold text-gray-900 dark:text-white truncate">
                         {testimonials[current].name}
                       </h4>
-                      <p className="text-gray-400 text-sm truncate">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm truncate">
                         {testimonials[current].role}
                       </p>
                     </div>
@@ -187,7 +187,7 @@ const Testimonials = () => {
               key={index}
               onClick={() => setCurrent(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                current === index ? "bg-orange-500" : "bg-gray-700"
+                current === index ? "bg-orange-500" : "bg-gray-300 dark:bg-gray-700"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />

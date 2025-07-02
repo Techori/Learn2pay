@@ -46,10 +46,10 @@ const Login = () => {
   // Show loading if checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-black flex items-center justify-center">
         <div className="flex items-center space-x-2 text-orange-400">
           <div className="w-6 h-6 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
-          <span>Loading...</span>
+          <span className="text-gray-900 dark:text-orange-400">Loading...</span>
         </div>
       </div>
     );
@@ -86,9 +86,9 @@ const Login = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-black flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <Card className="shadow-2xl border-0 bg-gradient-to-br from-gray-900/90 to-gray-800/80 backdrop-blur-sm">
+        <Card className="shadow-2xl border-0 bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/80 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6 pb-8">
             <div className="mx-auto w-fit font-extrabold text-3xl bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent uppercase tracking-widest">
               Learn2Pay

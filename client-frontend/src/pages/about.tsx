@@ -81,15 +81,15 @@ const About: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
       <Navbar />
       {/* Hero Section */}
       <section className="py-20 px-4 text-center">
         <div className="container mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
             About Learn2Pay
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             We're on a mission to revolutionize fee collection for educational institutions across India,
             making it smarter, faster, and more efficient than ever before.
           </p>

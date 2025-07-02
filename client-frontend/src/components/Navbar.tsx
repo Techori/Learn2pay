@@ -61,7 +61,7 @@ const Navbar = () => {
 
   return (
     <>
-      <motion.header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-lg border-b border-gray-800/50">
+      <motion.header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800/50">
         <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center">
             <motion.div
@@ -70,7 +70,7 @@ const Navbar = () => {
               transition={{ type: "spring", stiffness: 300 }}
             >
               <span className="text-orange-500">LEARN</span>
-              <span className="text-white">2PAY</span>
+              <span className="text-gray-900 dark:text-white">2PAY</span>
             </motion.div>
           </Link>
 
@@ -151,7 +151,7 @@ const Navbar = () => {
 
                     {/* User Info */}
                     <div className="text-left hidden lg:block">
-                      <div className="text-white text-sm font-medium truncate max-w-[120px]">
+                      <div className="text-gray-900 dark:text-white text-sm font-medium truncate max-w-[120px]">
                         {userName}
                       </div>
                       <div className="text-orange-400 text-xs">{userRole}</div>
@@ -183,19 +183,19 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute right-0 mt-2 w-64 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-700/50 py-2 z-50"
+                        className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2 z-50"
                       >
                         {/* User Info Header */}
-                        <div className="px-4 py-3 border-b border-gray-700/50">
+                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
                               {getUserInitials(userName)}
                             </div>
                             <div>
-                              <div className="text-white font-medium">
+                              <div className="text-gray-900 dark:text-white font-medium">
                                 {userName}
                               </div>
-                              <div className="text-gray-400 text-sm">
+                              <div className="text-gray-500 dark:text-gray-400 text-sm">
                                 {userEmail}
                               </div>
                               <div className="text-orange-400 text-xs font-medium">

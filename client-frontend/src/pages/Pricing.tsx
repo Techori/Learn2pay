@@ -102,16 +102,16 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
       <Navbar />
       <div className="py-20 px-4">
         <div className="container mx-auto">
           {/* Header Section */}
           <div className="text-center mb-16 animate-fade-in">
-            <h1 className="text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 leading-[1.15] pb-2">
+            <h1 className="text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600 dark:from-orange-300 dark:to-orange-500 leading-[1.15] pb-2">
               Simple, Transparent Pricing
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Choose the perfect plan for your institution. Start with a free
               trial and scale as you grow.
             </p>
@@ -122,9 +122,9 @@ const Pricing = () => {
             {plans.map((plan, index) => (
               <Card
                 key={index}
-                className={`relative bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:-translate-y-2 animate-fade-in ${
+                className={`relative bg-gradient-to-br from-gray-100/80 dark:from-gray-900/80 to-gray-50/50 dark:to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 hover:transform hover:-translate-y-2 animate-fade-in ${
                   plan.popular ? "border-orange-500/50 scale-105" : ""
-                }`}
+                } text-gray-900 dark:text-white`}
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 {plan.popular && (
@@ -137,16 +137,16 @@ const Pricing = () => {
                 )}
 
                 <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-2xl text-white mb-2">
+                  <CardTitle className="text-2xl text-gray-900 dark:text-white mb-2">
                     {plan.name}
                   </CardTitle>
                   <div className="mb-4">
-                    <span className="text-4xl font-bold text-orange-400">
+                    <span className="text-4xl font-bold text-orange-400 dark:text-orange-300">
                       {plan.price}
                     </span>
-                    <span className="text-gray-300">{plan.period}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{plan.period}</span>
                   </div>
-                  <CardDescription className="text-gray-300">
+                  <CardDescription className="text-gray-700 dark:text-gray-300">
                     {plan.description}
                   </CardDescription>
                 </CardHeader>
@@ -156,13 +156,13 @@ const Pricing = () => {
                     {plan.features.map((feature, i) => (
                       <div key={i} className="flex items-center text-sm">
                         <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                        <span className="text-gray-300">{feature}</span>
+                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                       </div>
                     ))}
                     {plan.limitations.map((limitation, i) => (
                       <div key={i} className="flex items-center text-sm">
                         <X className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
-                        <span className="text-gray-400">{limitation}</span>
+                        <span className="text-gray-400 dark:text-gray-500">{limitation}</span>
                       </div>
                     ))}
                   </div>
@@ -170,8 +170,8 @@ const Pricing = () => {
                   <Button
                     className={`w-full flex items-center justify-center gap-2 transform hover:scale-105 transition-all duration-300 ${
                       plan.popular
-                        ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
-                        : "bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700"
+                        ? "bg-gradient-to-r from-orange-500 to-orange-600 dark:from-orange-400 dark:to-orange-500 hover:from-orange-600 hover:to-orange-700 dark:hover:from-orange-500 dark:hover:to-orange-600 text-white dark:text-gray-900"
+                        : "bg-gradient-to-r from-gray-700 to-gray-800 dark:from-gray-600 dark:to-gray-900 hover:from-gray-600 hover:to-gray-700 dark:hover:from-gray-700 dark:hover:to-gray-800 text-white dark:text-white"
                     }`}
                     onClick={() =>
                       plan.name === "Enterprise"
@@ -189,14 +189,14 @@ const Pricing = () => {
 
           {/* FAQ Section */}
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl font-bold text-center mb-12 animate-fade-in text-gray-900 dark:text-white">
               Frequently Asked Questions
             </h2>
             <div className="space-y-6">
               {faqs.map((faq, index) => (
                 <Card
                   key={index}
-                  className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 animate-fade-in"
+                  className="bg-gradient-to-br from-gray-100/80 dark:from-gray-900/80 to-gray-50/50 dark:to-gray-800/50 border-orange-500/20 hover:border-orange-500/50 transition-all duration-500 animate-fade-in text-gray-900 dark:text-white"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <CardHeader>

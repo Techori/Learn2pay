@@ -154,7 +154,7 @@ const Features = () => {
   };
 
   return (
-    <section className="py-24 bg-gradient-to-b from-[#130900] to-[#0a0a0a]">
+    <section className="py-24 bg-gray-50 dark:bg-gradient-to-b dark:from-[#130900] dark:to-[#0a0a0a]">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-16"
@@ -163,11 +163,11 @@ const Features = () => {
           transition={{ duration: 0.5 }}
           viewport={{ once: true, margin: "-100px" }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
             Powerful <span className="text-orange-500">Features</span> for
             Educational Institutions
           </h2>
-          <p className="text-gray-400 max-w-3xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Transform your fee collection process with our comprehensive suite
             of tools designed specifically for schools, colleges, and
             educational institutes
@@ -190,13 +190,13 @@ const Features = () => {
                 boxShadow:
                   "0 20px 25px -5px rgba(249, 115, 22, 0.1), 0 8px 10px -6px rgba(249, 115, 22, 0.1)",
               }}
-              className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-8 transition-all duration-300 hover:border-orange-500/30"
+              className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 rounded-xl p-8 transition-all duration-300 hover:border-orange-500/30"
             >
               <div className="text-orange-500 mb-5">{feature.icon}</div>
-              <h3 className="text-xl font-bold mb-3 text-white">
+              <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
                 {feature.title}
               </h3>
-              <p className="text-gray-400">{feature.description}</p>
+              <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
             </motion.div>
           ))}
         </motion.div>
