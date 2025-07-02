@@ -1,4 +1,3 @@
-
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
@@ -16,7 +15,7 @@ const Home = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-black text-white min-h-screen overflow-hidden"
+        className="bg-gray-50 dark:bg-black text-gray-900 dark:text-white min-h-screen overflow-hidden"
       >
         <main>
           <Hero />

@@ -102,7 +102,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-orange-950 text-gray-900 dark:text-white">
       <Navbar />
       {/* Hero Section */}
       <section className="py-16 px-4 relative overflow-hidden">
@@ -114,12 +114,12 @@ const Contact = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow-lg">
             Get in Touch
           </h1>
-          <p className="text-lg text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-700 dark:text-gray-200 mb-6 max-w-2xl mx-auto leading-relaxed">
             Have questions about our fee management solutions? We're here to
             help you transform your institution's payment process.
           </p>
           <Button
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-xl shadow transition"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-4 rounded-xl shadow transition dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
             onClick={() => {
               const formSection = document.getElementById(
                 "contact-form-section"
@@ -139,13 +139,13 @@ const Contact = () => {
   id="contact-form-section"
   className="py-8 px-2 flex justify-center items-center"
 >
-  <Card className="w-full max-w-xl mx-auto bg-gradient-to-br from-gray-900/90 to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
+  <Card className="w-full max-w-xl mx-auto bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/80 border border-orange-500/20 shadow-2xl backdrop-blur-xl animate-fade-in">
     <CardHeader className="pb-3">
       <div className="flex items-center gap-2 mb-1">
         <Send className="h-6 w-6 text-orange-400" />
-        <CardTitle className="text-xl text-white">Contact Us</CardTitle>
+        <CardTitle className="text-xl text-gray-900 dark:text-white">Contact Us</CardTitle>
       </div>
-      <CardDescription className="text-gray-300">
+      <CardDescription className="text-gray-700 dark:text-gray-300">
         We usually respond within a business day.
       </CardDescription>
     </CardHeader>
@@ -157,7 +157,7 @@ const Contact = () => {
             value={formData.name}
             onChange={(e) => handleInputChange("name", e.target.value)}
             placeholder="Full Name *"
-            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
             required
           />
           <Input
@@ -166,7 +166,7 @@ const Contact = () => {
             value={formData.email}
             onChange={(e) => handleInputChange("email", e.target.value)}
             placeholder="Email Address *"
-            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
             required
           />
         </div>
@@ -176,7 +176,7 @@ const Contact = () => {
             value={formData.phone}
             onChange={(e) => handleInputChange("phone", e.target.value)}
             placeholder="Phone"
-            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
           />
           <Input
             id="institute"
@@ -185,7 +185,7 @@ const Contact = () => {
               handleInputChange("institute", e.target.value)
             }
             placeholder="Institute"
-            className="bg-gray-800 border-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+            className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-orange-500"
           />
         </div>
         <Textarea
@@ -194,7 +194,7 @@ const Contact = () => {
   onChange={(e) => handleInputChange("message", e.target.value)}
   placeholder="Your Message *"
   rows={3}
-   className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
+   className="w-full h-32 rounded-lg p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 border border-gray-300 dark:border-gray-700 focus:border-orange-500 focus:ring-orange-500 resize-none"
   required
 />
 

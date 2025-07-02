@@ -119,7 +119,7 @@ const Services = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-orange-950 text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-orange-950 text-gray-900 dark:text-white">
       <Navbar />
       <div className="py-20 px-4">
         <div className="container mx-auto">
@@ -128,7 +128,7 @@ const Services = () => {
             <h1 className="text-6xl font-extrabold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow-lg">
               Our Services
             </h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Customized fee collection and management solutions for various
               types of educational institutions worldwide
             </p>
@@ -142,7 +142,7 @@ const Services = () => {
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="bg-gradient-to-br from-gray-900/90 to-gray-800/70 border-0 shadow-xl rounded-3xl group relative overflow-hidden hover:scale-105 transition-transform duration-300 animate-fade-in"
+                className="bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/70 border-0 shadow-xl rounded-3xl group relative overflow-hidden hover:scale-105 transition-transform duration-300 animate-fade-in"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-600/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -150,10 +150,10 @@ const Services = () => {
                   <div className="mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     {service.icon}
                   </div>
-                  <CardTitle className="text-2xl mb-2 text-white font-bold tracking-wide drop-shadow">
+                  <CardTitle className="text-2xl mb-2 text-gray-900 dark:text-white font-bold tracking-wide drop-shadow">
                     {service.title}
                   </CardTitle>
-                  <CardDescription className="text-orange-200 font-medium mb-2">
+                  <CardDescription className="text-orange-700 dark:text-orange-200 font-medium mb-2">
                     {service.description}
                   </CardDescription>
                 </CardHeader>
@@ -223,7 +223,9 @@ const Services = () => {
               >
                 Book Free Consultation
               </Button>
-              <Button className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300 font-bold rounded-xl shadow">
+              <Button className="px-8 py-4 text-lg border-2 border-orange-500 text-orange-400 hover:bg-orange-500/10 transform hover:scale-105 transition-all duration-300 font-bold rounded-xl shadow"
+                onClick={() => navigate("/Demo")}
+              >
                 View Demo
               </Button>
             </div>

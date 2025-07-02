@@ -40,12 +40,12 @@ const LearnMore = () => {
   ];
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-6 space-y-8 bg-gray-50 dark:bg-black text-gray-900 dark:text-white">
       {sections.map((section, index) => (
-        <Card key={index} className="bg-gray-100 dark:bg-gray-800">
+        <Card key={index} className="bg-white dark:bg-gray-800">
           <CardHeader>
-            <CardTitle className="text-xl font-bold">{section.title}</CardTitle>
-            <CardDescription>{section.description}</CardDescription>
+            <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">{section.title}</CardTitle>
+            <CardDescription className="text-gray-700 dark:text-gray-300">{section.description}</CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
