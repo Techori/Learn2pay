@@ -217,7 +217,7 @@ const SupportDashboardOverview = () => {
             </div>
             <Button
               variant="outline"
-              className="w-full mt-4"
+              className="w-full mt-4 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={handleViewAllTickets}
             >
               View All Tickets
@@ -280,37 +280,24 @@ const SupportDashboardOverview = () => {
           <CardContent className="grid grid-cols-2 gap-4">
             <Button
               variant="outline"
-              className="text-left justify-start h-auto py-4"
+              className="w-full mt-4 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={handleEscalatedIssues}
             >
-              <div>
-                <h3 className="font-medium">Escalated Issues</h3>
-                <p className="text-xs text-text-secondary">3 pending escalations</p>
-              </div>
+              View Escalated Issues
             </Button>
             <Button
               variant="outline"
-              className="text-left justify-start h-auto py-4"
+              className="w-full mt-4 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={handleViewAllInstitutes}
             >
-              <div>
-                <h3 className="font-medium">Institute Management</h3>
-                <p className="text-xs text-text-secondary">
-                  View all institutes
-                </p>
-              </div>
+              View All Institutes
             </Button>
             <Button
               variant="outline"
-              className="text-left justify-start h-auto py-4"
+              className="w-full mt-4 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={handlePerformanceReports}
             >
-              <div>
-                <h3 className="font-medium">Performance Reports</h3>
-                <p className="text-xs text-text-secondary">
-                  Support team metrics
-                </p>
-              </div>
+              View Performance Reports
             </Button>
           </CardContent>
         </Card>

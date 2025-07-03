@@ -1,5 +1,6 @@
 import React from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import UserProfile from "@/components/shared/UserProfile";
 import NotificationCenter from "@/components/shared/NotificationCenter";
@@ -34,6 +35,18 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onLogout,
   onUserUpdate,
 }) => {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
+  // Apply consistent button styles
+  const buttonStyle = "h-9 border border-primary bg-background text-text-color hover:bg-primary hover:text-white transition-colors";
+  
+  // Common wrapper style for all header elements
+  const wrapperStyle = "flex items-center h-9"; 
+
   return (
     <header className="bg-surface-color/90 backdrop-blur-md border-b border-border-color px-6 py-4">
       <div className="flex items-center justify-between">
@@ -58,18 +71,41 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           </div>
         </div>
         <div className="flex items-center space-x-3">
-          <ThemeToggle />
-          <NotificationCenter />
-          <UserProfile user={user} onUpdate={onUserUpdate} />
-          <Button
-            onClick={onLogout}
-            variant="outline"
-            size="sm"
-            className="flex items-center space-x-2 text-primary border-primary hover:bg-primary/10"
-          >
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-          </Button>
+          <div className={wrapperStyle}>
+            <Button
+              onClick={handleHomeClick}
+              variant="outline"
+              size="sm"
+              className={`flex items-center px-3 space-x-2 ${buttonStyle}`}
+            >
+              <Home className="h-4 w-4" />
+              <span>Home</span>
+            </Button>
+          </div>
+           
+          <div className={`theme-toggle-wrapper ${wrapperStyle}`}>
+            <ThemeToggle />
+          </div>
+           
+          <div className={`notification-wrapper ${wrapperStyle}`}>
+            <NotificationCenter />
+          </div>
+           
+          <div className={`user-profile-wrapper ${wrapperStyle}`}>
+            <UserProfile user={user} onUpdate={onUserUpdate} />
+          </div>
+           
+          <div className={wrapperStyle}>
+            <Button
+              onClick={onLogout}
+              variant="outline"
+              size="sm"
+              className={`flex items-center px-3 space-x-2 ${buttonStyle}`}
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </Button>
+          </div>
         </div>
       </div>
     </header>

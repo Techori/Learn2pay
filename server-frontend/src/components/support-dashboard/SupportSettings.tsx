@@ -45,6 +45,9 @@ import { useToast } from "@/hooks/use-toast";
 const SupportSettings = () => {
   const { toast } = useToast();
 
+  // Add the missing state variable
+  const [isPersonalInfoEditing, setIsPersonalInfoEditing] = useState(false);
+
   // State for form fields (making them mutable)
   const [supportEmail, setSupportEmail] = useState("support@lern2pay.com");
   const [supportPhone, setSupportPhone] = useState("+91 1800-123-4567");
@@ -360,12 +363,16 @@ const SupportSettings = () => {
           <div className="flex justify-end space-x-4 pt-4">
             <Button
               variant="outline"
-              className="border-gray-700 text-gray-200 hover:bg-gray-700"
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={() => setIsPersonalInfoEditing(false)}
             >
               Cancel
             </Button>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-              Save Settings
+            <Button 
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={handleSaveChanges}
+            >
+              Save Changes
             </Button>
           </div>
         </CardContent>
