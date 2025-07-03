@@ -41,7 +41,7 @@ const Footer = () => {
           >
             <Link to="/" className="flex items-center mb-6">
               <div className="text-2xl font-bold">
-                <span className="text-orange-500">LEARN</span>
+                <span className="text-orange-500">LARN</span>
                 <span className="text-gray-900 dark:text-white">2PAY</span>
               </div>
             </Link>
