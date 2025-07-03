@@ -62,7 +62,7 @@ const Navbar = () => {
   return (
     <>
       <motion.header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800/50">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-2 sm:px-4 md:px-6 py-4">
           <Link to="/" className="flex items-center">
             <motion.div
               className="text-2xl font-bold"
@@ -75,7 +75,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             <NavLink to="/" isActive={location.pathname === "/"}>
               Home
             </NavLink>
@@ -97,7 +97,7 @@ const Navbar = () => {
           </div>
 
           {/* Right Section */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4 flex-wrap min-w-0">
             <ThemeToggle />
 
             {isLoading ? (
@@ -116,7 +116,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/dashboard"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg min-w-0 max-w-[120px] truncate"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +142,7 @@ const Navbar = () => {
                     onClick={toggleProfileMenu}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center space-x-3 bg-gray-800/50 hover:bg-gray-700/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 border border-gray-700/30"
+                    className="flex items-center space-x-3 bg-gray-800/50 hover:bg-gray-700/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 border border-gray-700/30 min-w-0 max-w-[120px] truncate"
                   >
                     {/* User Avatar */}
                     <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg">
@@ -308,7 +308,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 font-medium"
+                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 font-medium px-4 py-2 text-base md:px-2 md:py-1 md:text-sm"
                   >
                     Sign In
                   </Link>
@@ -320,7 +320,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg px-6 py-2 text-base md:px-3 md:py-1.5 md:text-sm"
                   >
                     Get Started
                   </Link>
@@ -330,7 +330,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
+          <div className="lg:hidden flex items-center space-x-2">
             <ThemeToggle />
             <button
               onClick={toggleMenu}
