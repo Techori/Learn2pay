@@ -127,7 +127,7 @@ const Institute = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-11 bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
+          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto whitespace-nowrap">
             <TabsTrigger
               value="analytics"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
