@@ -821,7 +821,7 @@ const InstituteManagement = () => {
                   <TableRow key={franchise.id} className="hover:bg-card-hover">
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="font-medium">{franchise.name}</div>
+                        <div className="font-medium text-text-color">{franchise.name}</div>
                         <div className="text-sm text-text-secondary">{franchise.location}</div>
                         <Badge className={getStatusColor(franchise.status)}>
                           {franchise.status}
@@ -830,7 +830,7 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="font-medium">{franchise.owner}</div>
+                        <div className="font-medium text-text-color">{franchise.owner}</div>
                         <div className="text-sm text-text-secondary">{franchise.phone}</div>
                         <div className="text-sm text-text-secondary">{franchise.email}</div>
                       </div>
@@ -855,7 +855,7 @@ const InstituteManagement = () => {
                     <TableCell className="text-text-secondary">
                       <div>
                         <div className="text-sm">
-                          <span className="font-medium">{franchise.institutes}</span> Institutes
+                          <span className="font-medium text-text-color">{franchise.institutes}</span> Institutes
                         </div>
                         <div className="text-sm">
                           <span className="font-medium">{franchise.students}</span> Students
