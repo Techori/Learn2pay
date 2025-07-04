@@ -108,7 +108,7 @@ const RoleManagement: React.FC = () => {
     description: '',
   });
 
-  const permissionLabels = {
+  const permissionLabels: Record<string, string> = {
     userManagement: 'User Management',
     vendorManagement: 'Vendor Management',
     franchiseManagement: 'Franchise Management',
@@ -201,18 +201,18 @@ const RoleManagement: React.FC = () => {
   };
 
   return (
-    <Card className="bg-[#1A1F2B] border-none">
+    <Card className="bg-card-bg border-card-border">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>
-            <CardTitle className="flex items-center text-white">
-              <Shield className="h-5 w-5 mr-2 text-blue-400" />
+            <CardTitle className="flex items-center text-text-color">
+              <Shield className="h-5 w-5 mr-2 text-secondary" />
               Role Management
             </CardTitle>
-            <CardDescription className="text-gray-400">Configure roles and permissions for admin users</CardDescription>
+            <CardDescription className="text-text-secondary">Configure roles and permissions for admin users</CardDescription>
           </div>
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleCreateRole}>
-            <Plus className="h-4 w-4 mr-2" />
+          <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleCreateRole}>
+            <Plus className="h-4 w-4 mr-2 text-white" />
             Create Role
           </Button>
         </div>
@@ -220,52 +220,56 @@ const RoleManagement: React.FC = () => {
       <CardContent className="space-y-6">
         {/* Roles List */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-3">Available Roles</h3>
+          <h3 className="text-lg font-semibold text-text-color mb-3">Available Roles</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {roles.map((role) => (
-              <Card
+              <div
                 key={role.id}
-                className={`cursor-pointer transition-colors ${selectedRole === role.id ? 'border-orange-500 bg-[#232b45]' : 'hover:bg-[#2A2F3A]'}`}
                 onClick={() => setSelectedRole(role.id)}
+                className="cursor-pointer"
               >
-                <CardContent className="p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h4 className="font-medium text-white">{role.name}</h4>
-                      <p className="text-sm text-gray-400">{role.description}</p>
+                <Card
+                  className={`transition-colors ${selectedRole === role.id ? 'border-primary bg-surface-color' : 'hover:bg-surface-color'}`}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h4 className="font-medium text-text-color">{role.name}</h4>
+                        <p className="text-sm text-text-secondary">{role.description}</p>
+                      </div>
+                      <div className="flex space-x-1">
+                        <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={(e) => { e.stopPropagation(); handleEditRole(role.id); }}>
+                          <Edit className="h-3 w-3 text-secondary" />
+                        </Button>
+                        <Button variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={(e) => { e.stopPropagation(); handleDeleteRole(role.id); }}>
+                          <Trash className="h-3 w-3 text-danger" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex space-x-1">
-                      <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={(e) => { e.stopPropagation(); handleEditRole(role.id); }}>
-                        <Edit className="h-3 w-3" />
-                      </Button>
-                      <Button variant="outline" className="text-white border-red-500 hover:bg-red-500" onClick={(e) => { e.stopPropagation(); handleDeleteRole(role.id); }}>
-                        <Trash className="h-3 w-3" />
-                      </Button>
+                    <div className="flex items-center justify-between">
+                      <Badge variant="outline" className="border-border-color text-text-secondary">
+                        <Users className="h-3 w-3 mr-1 text-secondary" />
+                        {role.users} users
+                      </Badge>
+                      <div className="text-xs text-text-secondary">
+                        {Object.values(role.permissions).filter(Boolean).length} permissions
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Badge variant="outline" className="border-gray-500 text-gray-300">
-                      <Users className="h-3 w-3 mr-1" />
-                      {role.users} users
-                    </Badge>
-                    <div className="text-xs text-gray-500">
-                      {Object.values(role.permissions).filter(Boolean).length} permissions
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Permission Configuration */}
         {selectedRoleData && (
-          <Card className="bg-[#232b45] border border-[#2A2F3A]">
+          <Card className="bg-surface-color border-border-color">
             <CardHeader>
-              <CardTitle className="text-lg text-white">
+              <CardTitle className="text-lg text-text-color">
                 Configure Permissions: {selectedRoleData.name}
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className="text-text-secondary">
                 Set what this role can access and modify
               </CardDescription>
             </CardHeader>
@@ -273,8 +277,8 @@ const RoleManagement: React.FC = () => {
               {Object.entries(permissionLabels).map(([key, label]) => (
                 <div key={key} className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-medium text-white">{label}</h4>
-                    <p className="text-sm text-gray-400">
+                    <h4 className="font-medium text-text-color">{label}</h4>
+                    <p className="text-sm text-text-secondary">
                       {key === 'userManagement' && 'Add, edit, and manage all platform users'}
                       {key === 'vendorManagement' && 'Approve vendors, manage KYC, and vendor settings'}
                       {key === 'franchiseManagement' && 'Manage franchise operations and performance'}
@@ -296,21 +300,21 @@ const RoleManagement: React.FC = () => {
         )}
 
         {/* Role Assignment */}
-        <Card className="bg-[#232b45] border border-[#2A2F3A]">
+        <Card className="bg-surface-color border-border-color">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Quick Role Assignment</CardTitle>
+            <CardTitle className="text-lg text-text-color">Quick Role Assignment</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-300">User Email</label>
+              <label className="text-sm font-medium text-text-secondary">User Email</label>
               <Input
-                className="pl-10 bg-[#2A2F3A] border border-[#2A2F3A] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text"
                 placeholder="Enter user email to assign role"
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-300">Select Role</label>
-              <select className="w-full p-2 border rounded-md pl-10 bg-[#2A2F3A] border-[#2A2F3A] text-white">
+              <label className="text-sm font-medium text-text-secondary">Select Role</label>
+              <select className="w-full p-2 border rounded-md pl-10 bg-input-bg border-input-border text-input-text">
                 {roles.map((role) => (
                   <option key={role.id} value={role.id}>
                     {role.name}
@@ -318,7 +322,7 @@ const RoleManagement: React.FC = () => {
                 ))}
               </select>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAssignRole}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleAssignRole}>
               Assign Role
             </Button>
           </CardContent>
@@ -326,10 +330,10 @@ const RoleManagement: React.FC = () => {
 
         {/* Create Role Dialog */}
         <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-          <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+          <DialogContent className="bg-card-bg border-border-color text-text-color max-w-md">
             <DialogHeader>
               <DialogTitle>Create New Role</DialogTitle>
-              <DialogDescription className="text-gray-400">
+              <DialogDescription className="text-text-secondary">
                 Enter details for the new role.
               </DialogDescription>
             </DialogHeader>
@@ -338,20 +342,20 @@ const RoleManagement: React.FC = () => {
                 placeholder="Role Name"
                 value={newRoleForm.name}
                 onChange={(e) => setNewRoleForm({ ...newRoleForm, name: e.target.value })}
-                className="bg-[#232b45] border border-[#232b45] text-white w-full"
+                className="bg-input-bg border-input-border text-input-text w-full"
               />
               <Input
                 placeholder="Description"
                 value={newRoleForm.description}
                 onChange={(e) => setNewRoleForm({ ...newRoleForm, description: e.target.value })}
-                className="bg-[#232b45] border border-[#232b45] text-white w-full"
+                className="bg-input-bg border-input-border text-input-text w-full"
               />
             </div>
             <DialogFooter>
-              <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowCreateDialog(false)}>
+              <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={() => setShowCreateDialog(false)}>
                 Cancel
               </Button>
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleCreateSubmit}>
+              <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleCreateSubmit}>
                 Create Role
               </Button>
             </DialogFooter>

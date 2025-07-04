@@ -27,7 +27,7 @@ interface AboutUIProps {
 }
 
 const cardClass =
-  "bg-gradient-to-b from-gray-700 via-gray-800 to-gray-900 rounded-xl shadow-lg p-8 text-center text-white transition hover:scale-105 border border-orange-500/10";
+  "bg-white text-black border border-orange-500/10 rounded-xl shadow-lg p-8 text-center transition hover:scale-105 dark:bg-gradient-to-b dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 dark:text-white dark:border-orange-500/20";
 
 const AboutUI: React.FC<AboutUIProps> = ({
   values,
@@ -44,7 +44,7 @@ const AboutUI: React.FC<AboutUIProps> = ({
           <h2 className="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow">
             Our Values
           </h2>
-          <p className="text-xl text-gray-300">The principles that guide everything we do</p>
+          <p className="text-xl text-gray-700 dark:text-gray-300">The principles that guide everything we do</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((v, i) => (
@@ -63,7 +63,7 @@ const AboutUI: React.FC<AboutUIProps> = ({
           <h2 className="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow">
             Meet Our Team
           </h2>
-          <p className="text-xl text-gray-300">The passionate people behind Learn2Pay</p>
+          <p className="text-xl text-gray-700 dark:text-gray-300">The passionate people behind Learn2Pay</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {team.map((member, i) => (
@@ -83,7 +83,7 @@ const AboutUI: React.FC<AboutUIProps> = ({
           <h2 className="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow">
             Our Journey
           </h2>
-          <p className="text-xl text-gray-300">Key milestones in our growth story</p>
+          <p className="text-xl text-gray-700 dark:text-gray-300">Key milestones in our growth story</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {milestones.map((m, i) => (
@@ -99,13 +99,13 @@ const AboutUI: React.FC<AboutUIProps> = ({
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
         <button
           onClick={onStart}
-          className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-3 rounded-xl text-white font-bold hover:from-orange-600 hover:to-orange-700 shadow-lg transition"
+          className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-3 rounded-xl text-white font-bold hover:from-orange-600 hover:to-orange-700 shadow-lg transition dark:from-orange-400 dark:to-orange-500 dark:text-gray-900 dark:hover:from-orange-500 dark:hover:to-orange-600"
         >
           Get Started
         </button>
         <button
           onClick={onContact}
-          className="w-full sm:w-auto border-2 border-orange-500 px-8 py-3 rounded-xl text-orange-400 font-bold hover:bg-orange-500/10 hover:text-white transition shadow"
+          className="w-full sm:w-auto border-2 border-orange-500 px-8 py-3 rounded-xl text-orange-400 font-bold hover:bg-orange-500/10 hover:text-white transition shadow dark:border-orange-400 dark:text-orange-300 dark:hover:bg-orange-400/10 dark:hover:text-white"
         >
           Contact Us
         </button>

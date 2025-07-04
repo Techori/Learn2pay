@@ -35,12 +35,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onUserUpdate,
 }) => {
   return (
-    <header className="bg-black/90 backdrop-blur-md border-b border-gray-800 px-6 py-4">
+    <header className="bg-surface-color/90 backdrop-blur-md border-b border-border-color px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-semibold text-white">
-            <span className="text-orange-500">Larn</span>
-            <span className="text-white">2Pay</span> | {dashboardName} Dashboard
+          <h1 className="text-xl font-semibold text-text-color">
+            <span className="text-primary">Larn</span>
+            <span className="text-text-color">2Pay</span> | {dashboardName} Dashboard
           </h1>
           <div className="flex items-center space-x-2">
             {badges.map((badge, index) => (
@@ -48,8 +48,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 key={index}
                 className={`${
                   badge.isPrimary
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-800 text-gray-300"
+                    ? "bg-primary text-white"
+                    : "bg-card-bg text-text-secondary"
                 } px-3 py-1 rounded text-sm`}
               >
                 {badge.text}
@@ -65,7 +65,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             onClick={onLogout}
             variant="outline"
             size="sm"
-            className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
+            className="flex items-center space-x-2 text-primary border-primary hover:bg-primary/10"
           >
             <LogOut className="h-4 w-4" />
             <span>Logout</span>

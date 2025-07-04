@@ -115,10 +115,10 @@ const UserAccessControl: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'bg-green-500 text-white';
-      case 'Inactive': return 'bg-gray-500 text-white';
-      case 'Suspended': return 'bg-red-500 text-white';
-      default: return 'bg-blue-500 text-white';
+      case 'Active': return 'bg-success text-white';
+      case 'Inactive': return 'bg-text-secondary text-white';
+      case 'Suspended': return 'bg-danger text-white';
+      default: return 'bg-secondary text-white';
     }
   };
 
@@ -200,22 +200,22 @@ const UserAccessControl: React.FC = () => {
   };
 
   return (
-    <Card className="bg-[#1A1F2B] border-none">
+    <Card className="bg-card-bg border-card-border">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>
-            <CardTitle className="flex items-center text-white">
-              <Shield className="h-5 w-5 mr-2 text-blue-400" />
+            <CardTitle className="flex items-center text-text-color">
+              <Shield className="h-5 w-5 mr-2 text-secondary" />
               User Access Control
             </CardTitle>
-            <CardDescription className="text-gray-400">Manage admin users, roles, and permissions</CardDescription>
+            <CardDescription className="text-text-secondary">Manage admin users, roles, and permissions</CardDescription>
           </div>
           <div className="flex space-x-2">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddAdminUser}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleAddAdminUser}>
               <Plus className="h-4 w-4 mr-2" />
               Add Admin User
             </Button>
-            <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={handleManageRoles}>
+            <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={handleManageRoles}>
               <Users className="h-4 w-4 mr-2" />
               Manage Roles
             </Button>
@@ -225,14 +225,14 @@ const UserAccessControl: React.FC = () => {
       <CardContent className="space-y-6">
         {/* Roles Overview */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-3">Admin Roles</h3>
+          <h3 className="text-lg font-semibold text-text-color mb-3">Admin Roles</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {roles.map((role, index) => (
-              <Card key={index} className="bg-[#232b45]">
+              <Card key={index} className="bg-surface-color border-border-color">
                 <CardContent className="p-4">
-                  <div className="text-lg font-bold text-white">{role.name}</div>
-                  <div className="text-sm text-gray-400 mb-2">{role.description}</div>
-                  <div className="flex justify-between text-xs text-gray-500 space-x-4">
+                  <div className="text-lg font-bold text-text-color">{role.name}</div>
+                  <div className="text-sm text-text-secondary mb-2">{role.description}</div>
+                  <div className="flex justify-between text-xs text-text-secondary/70 space-x-4">
                     <span>{role.permissions} permissions</span>
                     <span>{role.users} users</span>
                   </div>
@@ -244,10 +244,10 @@ const UserAccessControl: React.FC = () => {
 
         {/* Search */}
         <div className="relative">
-          <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
           <Input
             placeholder="Search admin users..."
-            className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+            className="pl-10 bg-input-bg border-input-border text-input-text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -257,13 +257,13 @@ const UserAccessControl: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-gray-200">Admin User</TableHead>
-              <TableHead className="text-gray-200">Role</TableHead>
-              <TableHead className="text-gray-200">Permissions</TableHead>
-              <TableHead className="text-gray-200">Last Login</TableHead>
-              <TableHead className="text-gray-200">Location</TableHead>
-              <TableHead className="text-gray-200">Status</TableHead>
-              <TableHead className="text-gray-200">Actions</TableHead>
+              <TableHead className="text-text-color">Admin User</TableHead>
+              <TableHead className="text-text-color">Role</TableHead>
+              <TableHead className="text-text-color">Permissions</TableHead>
+              <TableHead className="text-text-color">Last Login</TableHead>
+              <TableHead className="text-text-color">Location</TableHead>
+              <TableHead className="text-text-color">Status</TableHead>
+              <TableHead className="text-text-color">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -273,42 +273,42 @@ const UserAccessControl: React.FC = () => {
                 user.email.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((user) => (
-                <TableRow key={user.id} className="hover:bg-[#2A2F3A]">
-                  <TableCell className="text-white">
+                <TableRow key={user.id} className="hover:bg-surface-color">
+                  <TableCell className="text-text-color">
                     <div>
                       <div className="font-medium">{user.name}</div>
-                      <div className="text-sm text-gray-400">{user.email}</div>
+                      <div className="text-sm text-text-secondary">{user.email}</div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
-                    <Badge variant="outline" className="border-gray-500 text-gray-300">{user.role}</Badge>
+                  <TableCell className="text-text-color">
+                    <Badge variant="outline" className="border-border-color text-text-secondary">{user.role}</Badge>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div className="flex flex-wrap gap-1">
                       {user.permissions.map((permission, index) => (
-                        <Badge key={index} variant="outline" className="text-xs border-gray-500 text-gray-300">
+                        <Badge key={index} variant="outline" className="text-xs border-border-color text-text-secondary">
                           {permission}
                         </Badge>
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell className="text-white text-sm">{user.lastLogin}</TableCell>
-                  <TableCell className="text-white">{user.location}</TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color text-sm">{user.lastLogin}</TableCell>
+                  <TableCell className="text-text-color">{user.location}</TableCell>
+                  <TableCell className="text-text-color">
                     <Badge className={getStatusColor(user.status)}>
                       {user.status}
                     </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleViewUser(user.id)}>
-                        <Eye className="h-3 w-3" />
+                      <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleViewUser(user.id)}>
+                        <Eye className="h-3 w-3 text-secondary" />
                       </Button>
-                      <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleEditUser(user.id)}>
-                        <Edit className="h-3 w-3" />
+                      <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleEditUser(user.id)}>
+                        <Edit className="h-3 w-3 text-secondary" />
                       </Button>
-                      <Button variant="outline" className="text-white border-red-500 hover:bg-red-500" onClick={() => handleBanUser(user.id)}>
-                        <Ban className="h-3 w-3" />
+                      <Button variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleBanUser(user.id)}>
+                        <Ban className="h-3 w-3 text-danger" />
                       </Button>
                     </div>
                   </TableCell>
@@ -318,15 +318,15 @@ const UserAccessControl: React.FC = () => {
         </Table>
 
         {/* Permission Settings */}
-        <Card className="bg-[#232b45]">
+        <Card className="bg-surface-color border-border-color">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Security Settings</CardTitle>
+            <CardTitle className="text-lg text-text-color">Security Settings</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Two-Factor Authentication</h4>
-                <p className="text-sm text-gray-400">Require 2FA for all admin accounts</p>
+                <h4 className="font-medium text-text-color">Two-Factor Authentication</h4>
+                <p className="text-sm text-text-secondary">Require 2FA for all admin accounts</p>
               </div>
               <Switch
                 checked={securitySettings['Two-Factor Authentication']}
@@ -336,8 +336,8 @@ const UserAccessControl: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">Session Timeout</h4>
-                <p className="text-sm text-gray-400">Auto-logout after 30 minutes of inactivity</p>
+                <h4 className="font-medium text-text-color">Session Timeout</h4>
+                <p className="text-sm text-text-secondary">Auto-logout after 30 minutes of inactivity</p>
               </div>
               <Switch
                 checked={securitySettings['Session Timeout']}
@@ -347,8 +347,8 @@ const UserAccessControl: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="font-medium text-white">IP Restriction</h4>
-                <p className="text-sm text-gray-400">Allow admin access only from approved IPs</p>
+                <h4 className="font-medium text-text-color">IP Restriction</h4>
+                <p className="text-sm text-text-secondary">Allow admin access only from approved IPs</p>
               </div>
               <Switch
                 checked={securitySettings['IP Restriction']}
@@ -361,10 +361,10 @@ const UserAccessControl: React.FC = () => {
 
       {/* Add Admin Dialog */}
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-card-bg border-border-color text-text-color max-w-md">
           <DialogHeader>
             <DialogTitle>Add New Admin User</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogDescription className="text-text-secondary">
               Enter details for the new admin user.
             </DialogDescription>
           </DialogHeader>
@@ -373,18 +373,18 @@ const UserAccessControl: React.FC = () => {
               placeholder="Name"
               value={newAdminForm.name}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <Input
               placeholder="Email"
               value={newAdminForm.email}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, email: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <select
               value={newAdminForm.role}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, role: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full p-2 rounded"
+              className="bg-input-bg border-input-border text-input-text w-full p-2 rounded"
             >
               {roles.map((role) => (
                 <option key={role.name} value={role.name}>{role.name}</option>
@@ -394,22 +394,22 @@ const UserAccessControl: React.FC = () => {
               placeholder="Location"
               value={newAdminForm.location}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, location: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full"
+              className="bg-input-bg border-input-border text-input-text w-full"
             />
             <select
               value={newAdminForm.status}
               onChange={(e) => setNewAdminForm({ ...newAdminForm, status: e.target.value })}
-              className="bg-[#232b45] border border-[#232b45] text-white w-full p-2 rounded"
+              className="bg-input-bg border-input-border text-input-text w-full p-2 rounded"
             >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
           </div>
           <DialogFooter>
-            <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowAddDialog(false)}>
+            <Button variant="outline" className="border-border-color text-text-color hover:bg-surface-color" onClick={() => setShowAddDialog(false)}>
               Cancel
             </Button>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddSubmit}>
+            <Button className="bg-secondary hover:bg-secondary text-white" onClick={handleAddSubmit}>
               Add User
             </Button>
           </DialogFooter>

@@ -117,30 +117,30 @@ const KycApprovalManagement: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Approved': return 'bg-green-500 text-white';
-      case 'Rejected': return 'bg-red-500 text-white';
-      case 'Pending': return 'bg-yellow-500 text-white';
-      case 'Under Review': return 'bg-blue-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Approved': return 'bg-success text-white';
+      case 'Rejected': return 'bg-danger text-white';
+      case 'Pending': return 'bg-warning text-white';
+      case 'Under Review': return 'bg-secondary text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'High': return 'bg-red-500 text-white';
-      case 'Medium': return 'bg-yellow-500 text-white';
-      case 'Low': return 'bg-green-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'High': return 'bg-danger text-white';
+      case 'Medium': return 'bg-warning text-white';
+      case 'Low': return 'bg-success text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'Approved': return <CheckCircle className="h-4 w-4 text-green-400" />;
-      case 'Rejected': return <XCircle className="h-4 w-4 text-red-400" />;
-      case 'Under Review': return <Eye className="h-4 w-4 text-blue-400" />;
-      case 'Pending': return <Clock className="h-4 w-4 text-yellow-400" />;
-      default: return <FileText className="h-4 w-4 text-gray-400" />;
+      case 'Approved': return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'Rejected': return <XCircle className="h-4 w-4 text-danger" />;
+      case 'Under Review': return <Eye className="h-4 w-4 text-secondary" />;
+      case 'Pending': return <Clock className="h-4 w-4 text-warning" />;
+      default: return <FileText className="h-4 w-4 text-text-secondary" />;
     }
   };
 
@@ -231,7 +231,7 @@ const KycApprovalManagement: React.FC = () => {
         toast({
           title: "Warning",
           description: "Some files were skipped as they are not PDF or image files.",
-          variant: "warning"
+          variant: "destructive"
         });
       }
       setUploadedFiles(validFiles);
@@ -251,52 +251,52 @@ const KycApprovalManagement: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
       {/* KYC Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">47</div>
-            <div className="text-sm text-gray-400">Pending KYC</div>
-            <div className="text-xs text-yellow-400">Awaiting review</div>
+            <div className="text-2xl font-bold text-text-color">47</div>
+            <div className="text-sm text-text-secondary">Pending KYC</div>
+            <div className="text-xs text-warning">Awaiting review</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">156</div>
-            <div className="text-sm text-gray-400">Approved This Month</div>
-            <div className="text-xs text-green-400">+23 this week</div>
+            <div className="text-2xl font-bold text-text-color">156</div>
+            <div className="text-sm text-text-secondary">Approved This Month</div>
+            <div className="text-xs text-success">+23 this week</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">12</div>
-            <div className="text-sm text-gray-400">Rejected</div>
-            <div className="text-xs text-red-400">Need resubmission</div>
+            <div className="text-2xl font-bold text-text-color">12</div>
+            <div className="text-sm text-text-secondary">Rejected</div>
+            <div className="text-xs text-danger">Need resubmission</div>
           </CardContent>
         </Card>
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold">2.5 hrs</div>
-            <div className="text-sm text-gray-400">Avg Processing Time</div>
-            <div className="text-xs text-blue-400">Within SLA</div>
+            <div className="text-2xl font-bold text-text-color">2.5 hrs</div>
+            <div className="text-sm text-text-secondary">Avg Processing Time</div>
+            <div className="text-xs text-secondary">Within SLA</div>
           </CardContent>
         </Card>
       </div>
 
       {/* KYC Approval Panel */}
-      <Card className="bg-[#1A1F2B]">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-white">
-                <Shield className="h-5 w-5 mr-2 text-blue-400" />
+              <CardTitle className="text-text-color">
+                <Shield className="h-5 w-5 mr-2 text-orange-400" />
                 KYC Approval Management
               </CardTitle>
-              <CardDescription className="text-gray-400">Review and approve institute KYC submissions</CardDescription>
+              <CardDescription className="text-text-secondary">Review and approve institute KYC submissions</CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => fileInputRef.current?.click()}>
+              <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => fileInputRef.current?.click()}>
                 <Upload className="h-4 w-4 mr-2" />
                 Bulk Upload
               </Button>
@@ -308,7 +308,7 @@ const KycApprovalManagement: React.FC = () => {
                 className="hidden"
                 accept=".pdf,image/*"
               />
-              <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={handleDownloadReport}>
+              <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={handleDownloadReport}>
                 <FileText className="h-4 w-4 mr-2" />
                 Download Report
               </Button>
@@ -319,17 +319,17 @@ const KycApprovalManagement: React.FC = () => {
           {/* Search and Filters */}
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[200px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary " />
               <Input
                 placeholder="Search by institute name or submitter..."
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-input-bg border-input-border text-input-text placeholder-text-secondary "
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.status}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               >
@@ -339,11 +339,11 @@ const KycApprovalManagement: React.FC = () => {
                 <option value="Pending">Pending</option>
                 <option value="Under Review">Under Review</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.priority}
                 onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
               >
@@ -352,11 +352,11 @@ const KycApprovalManagement: React.FC = () => {
                 <option value="Medium">Medium</option>
                 <option value="Low">Low</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-input-text cursor-pointer"
                 value={filters.team}
                 onChange={(e) => setFilters({ ...filters, team: e.target.value })}
               >
@@ -365,7 +365,7 @@ const KycApprovalManagement: React.FC = () => {
                 <option value="KYC Team 2">KYC Team 2</option>
                 <option value="KYC Team 3">KYC Team 3</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none" />
             </div>
           </div>
 
@@ -373,28 +373,28 @@ const KycApprovalManagement: React.FC = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200">Institute & Submitter</TableHead>
-                <TableHead className="text-gray-200">Document Type</TableHead>
-                <TableHead className="text-gray-200">Status & Priority</TableHead>
-                <TableHead className="text-gray-200">Assigned Team</TableHead>
-                <TableHead className="text-gray-200">Submitted Date</TableHead>
-                <TableHead className="text-gray-200">Actions</TableHead>
+                <TableHead className="text-text-secondary">Institute & Submitter</TableHead>
+                <TableHead className="text-text-secondary">Document Type</TableHead>
+                <TableHead className="text-text-secondary">Status & Priority</TableHead>
+                <TableHead className="text-text-secondary">Assigned Team</TableHead>
+                <TableHead className="text-text-secondary">Submitted Date</TableHead>
+                <TableHead className="text-text-secondary">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredSubmissions.map((submission) => (
-                <TableRow key={submission.id} className="hover:bg-[#2A2F3A]">
-                  <TableCell className="text-white">
+                <TableRow key={submission.id}>
+                  <TableCell className="text-text-color">
                     <div>
-                      <div className="font-medium">{submission.instituteName}</div>
-                      <div className="text-sm text-gray-400">By: {submission.submittedBy}</div>
-                      <div className="text-xs text-gray-500">{submission.documents.length} documents</div>
+                      <div className="font-medium text-text-secondary">{submission.instituteName}</div>
+                      <div className="text-sm text-text-secondary">By: {submission.submittedBy}</div>
+                      <div className="text-xs text-text-secondary">{submission.documents.length} documents</div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
-                    <div className="font-medium">{submission.documentType}</div>
+                  <TableCell className="text-text-color">
+                    <div className="font-medium text-text-secondary">{submission.documentType}</div>
                   </TableCell>
-                  <TableCell className="text-white">
+                  <TableCell className="text-text-color">
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(submission.status)}
@@ -407,29 +407,29 @@ const KycApprovalManagement: React.FC = () => {
                       </Badge>
                     </div>
                   </TableCell>
-                  <TableCell className="text-white">
-                    <div className="font-medium">{submission.assignedTo}</div>
+                  <TableCell className="text-text-color">
+                    <div className="font-medium text-text-secondary">{submission.assignedTo}</div>
                   </TableCell>
-                  <TableCell className="text-white">
-                    <div className="text-sm">{submission.submittedDate}</div>
+                  <TableCell className="text-text-color">
+                    <div className="text-sm text-text-secondary">{submission.submittedDate}</div>
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleView(submission)}>
-                        <Eye className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 " onClick={() => handleView(submission)}>
+                        <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                       {submission.status === 'Pending' && (
                         <>
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={() => handleApprove(submission)}>
-                            <CheckCircle className="h-3 w-3" />
+                          <Button size="sm" className="bg-success hover:bg-success-foreground text-white" onClick={() => handleApprove(submission)}>
+                            <CheckCircle className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
-                          <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white" onClick={() => handleReject(submission)}>
-                            <XCircle className="h-3 w-3" />
+                          <Button size="sm" className="bg-danger hover:bg-danger-foreground text-white" onClick={() => handleReject(submission)}>
+                            <XCircle className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                         </>
                       )}
-                      <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleView(submission)}>
-                        <FileText className="h-3 w-3" />
+                      <Button size="sm" variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleView(submission)}>
+                        <FileText className="h-4 w-4 text-text-secondary hover:text-white" />
                       </Button>
                     </div>
                   </TableCell>
@@ -442,32 +442,32 @@ const KycApprovalManagement: React.FC = () => {
 
       {/* KYC Team Performance */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardHeader>
-            <CardTitle className="text-white">Team Performance</CardTitle>
-            <CardDescription className="text-gray-400">KYC processing team statistics</CardDescription>
+            <CardTitle className="text-text-color">Team Performance</CardTitle>
+            <CardDescription className="text-text-secondary">KYC processing team statistics</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {teamPerformance.map((team, index) => (
-                <div key={index} className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="font-medium mb-2 text-white">{team.team}</div>
+                <div key={index} className="p-4 bg-card-bg rounded-lg">
+                  <div className="font-medium mb-2 text-text-color">{team.team}</div>
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-400">Processed:</span>
-                      <span className="font-medium ml-2 text-white">{team.processed}</span>
+                      <span className="text-text-secondary">Processed:</span>
+                      <span className="font-medium ml-2 text-text-color">{team.processed}</span>
                     </div>
                     <div>
-                      <span className="text-gray-400">Pending:</span>
-                      <span className="font-medium ml-2 text-white">{team.pending}</span>
+                      <span className="text-text-secondary">Pending:</span>
+                      <span className="font-medium ml-2 text-text-color">{team.pending}</span>
                     </div>
                     <div>
-                      <span className="text-gray-400">Avg Time:</span>
-                      <span className="font-medium ml-2 text-white">{team.avgTime}</span>
+                      <span className="text-text-secondary">Avg Time:</span>
+                      <span className="font-medium ml-2 text-text-color">{team.avgTime}</span>
                     </div>
                     <div>
-                      <span className="text-gray-400">Accuracy:</span>
-                      <span className="font-medium ml-2 text-green-400">{team.accuracy}</span>
+                      <span className="text-text-secondary">Accuracy:</span>
+                      <span className="font-medium ml-2 text-success text-text-color">{team.accuracy}</span>
                     </div>
                   </div>
                 </div>
@@ -476,44 +476,44 @@ const KycApprovalManagement: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-[#1A1F2B]">
+        <Card className="bg-card-bg border-card-border">
           <CardHeader>
-            <CardTitle className="flex items-center text-white">
-              <AlertTriangle className="h-4 w-4 mr-2 text-yellow-400" />
+            <CardTitle className="flex items-center text-text-color">
+              <AlertTriangle className="h-4 w-4 mr-2 text-warning" />
               Priority Alerts
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-[#2A2F3A] rounded border-l-4 border-red-500">
+              <div className="flex items-center justify-between p-3 bg-card-bg rounded border-l-4 border-danger">
                 <div>
-                  <div className="font-medium text-white">High Priority KYC Overdue</div>
-                  <div className="text-sm text-gray-400">5 high priority submissions pending for 24+ hours</div>
-                  <div className="text-xs text-gray-500">Needs immediate attention</div>
+                  <div className="font-medium text-text-color">High Priority KYC Overdue</div>
+                  <div className="text-sm text-text-secondary">5 high priority submissions pending for 24+ hours</div>
+                  <div className="text-xs text-text-secondary">Needs immediate attention</div>
                 </div>
-                <Button variant="outline" className="text-white border-red-500 hover:bg-red-500" onClick={() => handleAlertAction("High Priority KYC Overdue")}>
+                <Button variant="outline" className="text-text-color border-danger hover:bg-danger hover:text-white" onClick={() => handleAlertAction("High Priority KYC Overdue")}>
                   Review
                 </Button>
               </div>
               
-              <div className="flex items-center justify-between p-3 bg-[#2A2F3A] rounded border-l-4 border-yellow-500">
+              <div className="flex items-center justify-between p-3 bg-card-bg rounded border-l-4 border-warning">
                 <div>
-                  <div className="font-medium text-white">Document Quality Issues</div>
-                  <div className="text-sm text-gray-400">Multiple submissions with poor image quality</div>
-                  <div className="text-xs text-gray-500">May require resubmission requests</div>
+                  <div className="font-medium text-text-color">Document Quality Issues</div>
+                  <div className="text-sm text-text-secondary">Multiple submissions with poor image quality</div>
+                  <div className="text-xs text-text-secondary">May require resubmission requests</div>
                 </div>
-                <Button variant="outline" className="text-white border-yellow-500 hover:bg-yellow-500" onClick={() => handleAlertAction("Document Quality Issues")}>
+                <Button variant="outline" className="text-text-color border-warning hover:bg-warning hover:text-white" onClick={() => handleAlertAction("Document Quality Issues")}>
                   Check
                 </Button>
               </div>
               
-              <div className="flex items-center justify-between p-3 bg-[#2A2F3A] rounded border-l-4 border-blue-500">
+              <div className="flex items-center justify-between p-3 bg-card-bg rounded border-l-4 border-blue-500">
                 <div>
-                  <div className="font-medium text-white">New Document Type</div>
-                  <div className="text-sm text-gray-400">Unusual document type submitted by Tech Academy</div>
-                  <div className="text-xs text-gray-500">Requires senior review</div>
+                  <div className="font-medium text-text-color">New Document Type</div>
+                  <div className="text-sm text-text-secondary">Unusual document type submitted by Tech Academy</div>
+                  <div className="text-xs text-text-secondary">Requires senior review</div>
                 </div>
-                <Button variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleAlertAction("New Document Type")}>
+                <Button variant="outline" className="text-text-color border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleAlertAction("New Document Type")}>
                   Escalate
                 </Button>
               </div>
@@ -524,10 +524,10 @@ const KycApprovalManagement: React.FC = () => {
 
       {/* Review Dialog */}
       <Dialog open={showReviewDialog} onOpenChange={setShowReviewDialog}>
-        <DialogContent className="bg-[#1A1F2B] border-gray-700 text-white max-w-md">
+        <DialogContent className="bg-card-bg border-card-border text-text-color max-w-md">
           <DialogHeader>
             <DialogTitle>Review KYC Submission</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogDescription className="text-text-secondary">
               Review and update the status for {selectedSubmission?.instituteName}.
             </DialogDescription>
           </DialogHeader>
@@ -535,7 +535,7 @@ const KycApprovalManagement: React.FC = () => {
             <div className="space-y-4 py-4">
               <div>
                 <h4 className="font-medium">Documents</h4>
-                <ul className="list-disc pl-5 text-sm text-gray-400">
+                <ul className="list-disc pl-5 text-sm text-text-secondary">
                   {selectedSubmission.documents.map((doc, index) => (
                     <li key={index}>{doc.name} ({doc.size}, {doc.type})</li>
                   ))}
@@ -547,13 +547,13 @@ const KycApprovalManagement: React.FC = () => {
                   placeholder="Add comments (optional)"
                   value={selectedSubmission.comments || ''}
                   onChange={(e) => setSelectedSubmission({ ...selectedSubmission, comments: e.target.value })}
-                  className="bg-[#232b45] border border-[#232b45] text-white"
+                  className="bg-card-bg border border-card-border text-text-color"
                 />
               </div>
               <div>
                 <h4 className="font-medium">Update Status</h4>
                 <select
-                  className="w-full pl-10 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary cursor-pointer"
                   value={updatedStatus}
                   onChange={(e) => setUpdatedStatus(e.target.value as 'Approved' | 'Rejected' | '')}
                 >
@@ -563,20 +563,20 @@ const KycApprovalManagement: React.FC = () => {
                 </select>
               </div>
               <DialogFooter>
-                <Button variant="outline" className="border-gray-600 text-gray-200 hover:bg-gray-700" onClick={() => setShowReviewDialog(false)}>
-                  Cancel
-                </Button>
-                <Button
-                  className="bg-blue-500 hover:bg-blue-600 text-white"
-                  onClick={() => {
-                    if (updatedStatus === 'Approved') handleApprove(selectedSubmission);
-                    else if (updatedStatus === 'Rejected') handleReject(selectedSubmission);
-                    setUpdatedStatus('');
-                  }}
-                  disabled={!updatedStatus}
-                >
-                  Update
-                </Button>
+                              <Button variant="outline" className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white" onClick={() => setShowReviewDialog(false)}>
+                Cancel
+              </Button>
+              <Button
+                className="bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={() => {
+                  if (updatedStatus === 'Approved') handleApprove(selectedSubmission);
+                  else if (updatedStatus === 'Rejected') handleReject(selectedSubmission);
+                  setUpdatedStatus('');
+                }}
+                disabled={!updatedStatus}
+              >
+                Update
+              </Button>
               </DialogFooter>
             </div>
           )}

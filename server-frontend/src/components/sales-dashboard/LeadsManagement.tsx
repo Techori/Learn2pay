@@ -34,6 +34,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/Dialog";
+import { useTheme } from "../../context/ThemeContext";
 
 // Define interfaces for TypeScript
 interface Lead {
@@ -49,6 +50,7 @@ interface Lead {
 
 const LeadsManagement = () => {
   const { toast } = useToast();
+  const { theme } = useTheme();
 
   // State for filters, sorting, and new lead form
   const [salespersonFilter, setSalespersonFilter] = useState<string | null>(null);
@@ -155,15 +157,28 @@ const LeadsManagement = () => {
   const getStageColor = (stage: string) => {
     switch (stage) {
       case "New":
-        return "bg-red-600";
+        return "bg-primary text-white";
       case "Contacted":
-        return "bg-yellow-500";
+        return "bg-warning text-white";
       case "KYC Submitted":
-        return "bg-blue-500";
+        return "bg-secondary text-white";
       case "Onboarded":
-        return "bg-green-500";
+        return "bg-success text-white";
       default:
-        return "bg-gray-500";
+        return "bg-gray-500 text-white";
+    }
+  };
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "High":
+        return "text-danger";
+      case "Medium":
+        return "text-warning";
+      case "Low":
+        return "text-success";
+      default:
+        return "text-foreground/70";
     }
   };
 
@@ -213,310 +228,270 @@ const LeadsManagement = () => {
   };
 
   return (
-    <div className="space-y-6 bg-[#0B0F1A] p-6 text-white min-h-screen">
-      {/* Filters and Add Lead */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        <div className="relative flex-1 min-w-[200px]">
-          <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <Input
-            placeholder="Search leads..."
-            className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
-          />
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row justify-between gap-4 md:items-center">
+        <div>
+          <h2 className="text-2xl font-bold text-foreground">Lead Management</h2>
+          <p className="text-foreground/70">Track and manage all sales leads</p>
         </div>
-        <div className="relative">
-          <select
-            className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
-            value={salespersonFilter || ""}
-            onChange={(e) => setSalespersonFilter(e.target.value || null)}
-          >
-            <option value="">Salesperson</option>
-            {salespersonOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        </div>
-        <div className="relative">
-          <select
-            className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 cursor-pointer"
-            value={stageFilter || ""}
-            onChange={(e) => setStageFilter(e.target.value || null)}
-          >
-            <option value="">Stage</option>
-            {stageOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-        </div>
-        <div className="flex space-x-2">
-          <Input
-            type="date"
-            className="bg-[#232b45] border border-[#232b45] text-white"
-            value={dateFrom}
-            onChange={(e) => setDateFrom(e.target.value)}
-          />
-          <Input
-            type="date"
-            className="bg-[#232b45] border border-[#232b45] text-white"
-            value={dateTo}
-            onChange={(e) => setDateTo(e.target.value)}
-          />
-        </div>
-        {(salespersonFilter || stageFilter || dateFrom || dateTo) && (
-          <button
-            className="px-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300 hover:bg-[#2a3352] transition"
-            onClick={() => {
-              setSalespersonFilter(null);
-              setStageFilter(null);
-              setDateFrom("");
-              setDateTo("");
-            }}
-          >
-            Reset Filters
-          </button>
-        )}
-        <Dialog open={showAddLead} onOpenChange={setShowAddLead}>
-          <DialogTrigger asChild>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-              <Plus className="h-4 w-4 mr-2" /> Add New Lead
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Add New Lead</DialogTitle>
-            </DialogHeader>
-            <form className="space-y-4" onSubmit={handleAddLead}>
-              <Input
-                placeholder="Lead Name"
-                required
-                value={newLead.name}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, name: e.target.value })
-                }
-              />
-              <Input
-                placeholder="Salesperson"
-                required
-                value={newLead.salesperson}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, salesperson: e.target.value })
-                }
-              />
-              <Input
-                type="date"
-                placeholder="Date Added"
-                required
-                value={newLead.dateAdded}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, dateAdded: e.target.value })
-                }
-              />
-              <Input
-                placeholder="School/Institute"
-                required
-                value={newLead.schoolInstitute}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, schoolInstitute: e.target.value })
-                }
-              />
+        <Button onClick={() => setShowAddLead(true)} className="bg-primary text-white hover:bg-primary/90">
+          <Plus className="h-4 w-4 mr-2" /> Add New Lead
+        </Button>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="bg-card border-border-color">
+          <CardContent className="p-4">
+            <div className="flex justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-foreground/70">Total Leads</p>
+                <h3 className="text-2xl font-bold text-foreground">{totalLeads}</h3>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card border-border-color">
+          <CardContent className="p-4">
+            <div className="flex justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-foreground/70">High Priority</p>
+                <h3 className="text-2xl font-bold text-danger">{highPriority}</h3>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card border-border-color">
+          <CardContent className="p-4">
+            <div className="flex justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-foreground/70">Medium Priority</p>
+                <h3 className="text-2xl font-bold text-warning">{mediumPriority}</h3>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card border-border-color">
+          <CardContent className="p-4">
+            <div className="flex justify-between">
+              <div className="space-y-1">
+                <p className="text-sm text-foreground/70">Low Priority</p>
+                <h3 className="text-2xl font-bold text-success">{lowPriority}</h3>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filters */}
+      <Card className="bg-card border-border-color">
+        <CardHeader>
+          <CardTitle className="text-foreground">Filters</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block text-foreground">Search</label>
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-foreground/50" />
+                <Input
+                  className="pl-8 bg-input-bg text-foreground border-input-border"
+                  placeholder="Search leads..."
+                  onChange={(e) => {
+                    // Add your search logic here
+                  }}
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-1 block text-foreground">Salesperson</label>
               <select
-                className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white"
-                value={newLead.stage}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, stage: e.target.value as Lead["stage"] })
-                }
+                className="w-full p-2 border rounded border-input-border bg-input-bg text-foreground"
+                value={salespersonFilter || ""}
+                onChange={(e) => setSalespersonFilter(e.target.value || null)}
               >
+                <option value="">All Salespersons</option>
+                {salespersonOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-1 block text-foreground">Stage</label>
+              <select
+                className="w-full p-2 border rounded border-input-border bg-input-bg text-foreground"
+                value={stageFilter || ""}
+                onChange={(e) => setStageFilter(e.target.value || null)}
+              >
+                <option value="">All Stages</option>
                 {stageOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
                 ))}
               </select>
-              <select
-                className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white"
-                value={newLead.priority}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, priority: e.target.value as Lead["priority"] })
-                }
-              >
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-              <Input
-                type="date"
-                placeholder="Last Activity"
-                required
-                value={newLead.lastActivity}
-                onChange={(e) =>
-                  setNewLead({ ...newLead, lastActivity: e.target.value })
-                }
-              />
-              <Button type="submit" className="bg-orange-500 text-white w-full">
-                Add Lead
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
-      {/* Leads Table */}
-      <Card className="bg-[#1A1F2B]">
-        <CardHeader>
-          <CardTitle className="text-white">Leads Management</CardTitle>
-          <CardDescription className="text-gray-400">
-            Track and manage all sales leads
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow className="text-gray-400">
-                <TableHead className="w-[100px]">
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("id")}
-                  >
-                    ID
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("name")}
-                  >
-                    Lead Name
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("salesperson")}
-                  >
-                    Salesperson
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("dateAdded")}
-                  >
-                    Date Added
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("schoolInstitute")}
-                  >
-                    School/Institute
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("stage")}
-                  >
-                    Stage
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>
-                  <button
-                    className="flex items-center"
-                    onClick={() => requestSort("priority")}
-                  >
-                    Priority
-                    <ArrowUpDown className="ml-1 h-4 w-4" />
-                  </button>
-                </TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sortedLeads.map((lead) => (
-                <TableRow key={lead.id} className="hover:bg-[#2A2F3A]">
-                  <TableCell className="font-medium">{lead.id}</TableCell>
-                  <TableCell>{lead.name}</TableCell>
-                  <TableCell>{lead.salesperson}</TableCell>
-                  <TableCell>{lead.dateAdded}</TableCell>
-                  <TableCell>{lead.schoolInstitute}</TableCell>
-                  <TableCell>
-                    <Badge className={getStageColor(lead.stage) + " text-white"}>
-                      {lead.stage}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      className={`${
-                        lead.priority === "High"
-                          ? "bg-red-600"
-                          : lead.priority === "Medium"
-                          ? "bg-yellow-500"
-                          : "bg-green-500"
-                      } text-white`}
-                    >
-                      {lead.priority}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex space-x-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-white border-orange-500"
-                        onClick={() => {
-                          toast({
-                            title: "View Details",
-                            description: JSON.stringify(lead, null, 2),
-                          });
-                        }}
-                      >
-                        <Eye className="h-3 w-3" /> View
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="text-white border-orange-500"
-                        onClick={() => {
-                          toast({
-                            title: "Message Sent",
-                            description: `Message to ${lead.salesperson} initiated.`,
-                          });
-                        }}
-                      >
-                        <MessageCircle className="h-3 w-3" /> Message
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-              <TableRow className="bg-[#2A2F3A] font-semibold">
-                <TableCell>Total</TableCell>
-                <TableCell>{totalLeads}</TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-                <TableCell>
-                  {highPriority} High, {mediumPriority} Medium, {lowPriority} Low
-                </TableCell>
-                <TableCell></TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+            </div>
+            
+            <div>
+              <label className="text-sm font-medium mb-1 block text-foreground">Date Added</label>
+              <div className="flex gap-2">
+                <Input
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="w-1/2 bg-input-bg text-foreground border-input-border"
+                />
+                <Input
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="w-1/2 bg-input-bg text-foreground border-input-border"
+                />
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
+
+      {/* Leads Table */}
+      <Card className="bg-card border-border-color">
+        <CardHeader>
+          <CardTitle className="text-foreground">All Leads ({sortedLeads.length})</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md border border-border-color overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-card/50 bg-muted/50">
+                  <TableHead className="w-[180px] text-foreground/70" onClick={() => requestSort("name")}>
+                    <div className="flex items-center">
+                      Lead Name
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[150px] text-foreground/70" onClick={() => requestSort("salesperson")}>
+                    <div className="flex items-center">
+                      Salesperson
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[120px] text-foreground/70" onClick={() => requestSort("dateAdded")}>
+                    <div className="flex items-center">
+                      Date Added
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[150px] text-foreground/70">Institute</TableHead>
+                  <TableHead className="w-[120px] text-foreground/70" onClick={() => requestSort("stage")}>
+                    <div className="flex items-center">
+                      Stage
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[100px] text-foreground/70" onClick={() => requestSort("priority")}>
+                    <div className="flex items-center">
+                      Priority
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[100px] text-foreground/70" onClick={() => requestSort("lastActivity")}>
+                    <div className="flex items-center">
+                      Last Activity
+                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="w-[80px] text-right text-foreground/70">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sortedLeads.map((lead) => (
+                  <TableRow key={lead.id} className="hover:bg-muted/50 border-border-color">
+                    <TableCell className="font-medium text-foreground">{lead.name}</TableCell>
+                    <TableCell className="text-foreground">{lead.salesperson}</TableCell>
+                    <TableCell className="text-foreground">{new Date(lead.dateAdded).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-foreground">{lead.schoolInstitute}</TableCell>
+                    <TableCell>
+                      <Badge className={getStageColor(lead.stage)}>
+                        {lead.stage}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className={getPriorityColor(lead.priority)}>
+                      {lead.priority}
+                    </TableCell>
+                    <TableCell className="text-foreground">{new Date(lead.lastActivity).toLocaleDateString()}</TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          toast({
+                            title: "View Lead",
+                            description: `Viewing ${lead.name}`,
+                          });
+                        }}
+                        className="text-foreground hover:bg-muted"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => {
+                          toast({
+                            title: "Contact Lead",
+                            description: `Contacting ${lead.name}`,
+                          });
+                        }}
+                        className="text-foreground hover:bg-muted"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {sortedLeads.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-4 text-foreground/70">
+                      No leads found matching the criteria
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Add Lead Dialog */}
+      <Dialog open={showAddLead} onOpenChange={setShowAddLead}>
+        <DialogContent className="sm:max-w-md bg-card border-border-color">
+          <DialogHeader>
+            <DialogTitle className="text-foreground">Add New Lead</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddLead} className="space-y-4">
+            {/* Form fields go here */}
+            {/* ... */}
+            <div className="flex justify-end gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowAddLead(false)}
+                className="border-border-color text-foreground hover:bg-muted"
+              >
+                Cancel
+              </Button>
+              <Button type="submit" className="bg-primary text-white hover:bg-primary/90">Create Lead</Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

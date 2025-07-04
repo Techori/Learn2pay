@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class', // ✅ ADD THIS
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -9,8 +10,6 @@ export default {
           dark: "var(--primary-dark)",
         },
         secondary: "var(--secondary)",
-        background: 'var(--background-color)',
-        text: 'var(--text-color)',
         success: "var(--success)",
         warning: "var(--warning)",
         danger: "var(--danger)",

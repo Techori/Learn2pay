@@ -246,30 +246,30 @@ const InstituteManagement = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'bg-green-500 text-white';
-      case 'Suspended': return 'bg-red-500 text-white';
-      case 'Pending': return 'bg-yellow-500 text-white';
-      case 'Under Review': return 'bg-yellow-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Active': return 'bg-success text-white';
+      case 'Suspended': return 'bg-danger text-white';
+      case 'Pending': return 'bg-warning text-white';
+      case 'Under Review': return 'bg-warning text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
   const getKycStatusColor = (status: string) => {
     switch (status) {
-      case 'Approved': return 'bg-green-500 text-white';
-      case 'Rejected': return 'bg-red-500 text-white';
-      case 'Pending': return 'bg-yellow-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Approved': return 'bg-success text-white';
+      case 'Rejected': return 'bg-danger text-white';
+      case 'Pending': return 'bg-warning text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
 
   const getPerformanceColor = (performance: string) => {
     switch (performance) {
-      case 'Excellent': return 'bg-green-500 text-white';
-      case 'Good': return 'bg-blue-500 text-white';
-      case 'Average': return 'bg-yellow-500 text-white';
-      case 'Poor': return 'bg-red-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'Excellent': return 'bg-success text-white';
+      case 'Good': return 'bg-secondary text-white';
+      case 'Average': return 'bg-warning text-white';
+      case 'Poor': return 'bg-danger text-white';
+      default: return 'bg-text-secondary text-white';
     }
   };
   
@@ -493,69 +493,69 @@ const InstituteManagement = () => {
   const handleFranchiseAction = (action: string, franchise: FranchiseData) => {
     switch (action) {
       case "View":
-        toast({ title: "View Franchise", description: `Viewing details for ${franchise.name}.`, variant: "info" });
+        toast({ title: "View Franchise", description: `Viewing details for ${franchise.name}.` });
         break;
       case "Edit":
-        toast({ title: "Edit Franchise", description: `Editing ${franchise.name}.`, variant: "info" });
+        toast({ title: "Edit Franchise", description: `Editing ${franchise.name}.` });
         break;
       case "Performance":
-        toast({ title: "Performance Analytics", description: `Checking performance for ${franchise.name}.`, variant: "info" });
+        toast({ title: "Performance Analytics", description: `Checking performance for ${franchise.name}.` });
         break;
     }
   };
 
   const handleAddFranchise = () => {
-    toast({ title: "Add Franchise", description: "Franchise addition feature coming soon!", variant: "info" });
+    toast({ title: "Add Franchise", description: "Franchise addition feature coming soon!" });
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-white">156</div>
-            <div className="text-sm text-gray-400">Total Institutes</div>
-            <div className="text-xs text-green-400">+12 this month</div>
+            <div className="text-2xl font-bold text-text-color">156</div>
+            <div className="text-sm text-text-secondary">Total Institutes</div>
+            <div className="text-xs text-success">+12 this month</div>
           </CardContent>
         </Card>
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-white">142</div>
-            <div className="text-sm text-gray-400">Active Institutes</div>
-            <div className="text-xs text-green-400">91% active rate</div>
+            <div className="text-2xl font-bold text-text-color">142</div>
+            <div className="text-sm text-text-secondary">Active Institutes</div>
+            <div className="text-xs text-success">91% active rate</div>
           </CardContent>
         </Card>
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-white">23</div>
-            <div className="text-sm text-gray-400">Pending KYC</div>
-            <div className="text-xs text-yellow-400">Needs attention</div>
+            <div className="text-2xl font-bold text-text-color">23</div>
+            <div className="text-sm text-text-secondary">Pending KYC</div>
+            <div className="text-xs text-warning">Needs attention</div>
           </CardContent>
         </Card>
-        <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+        <Card className="bg-card-bg border-card-border">
           <CardContent className="p-4">
-            <div className="text-2xl font-bold text-white">45,678</div>
-            <div className="text-sm text-gray-400">Total Students</div>
-            <div className="text-xs text-blue-400">Across all institutes</div>
+            <div className="text-2xl font-bold text-text-color">45,678</div>
+            <div className="text-sm text-text-secondary">Total Students</div>
+            <div className="text-xs text-secondary">Across all institutes</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Institute Management Panel */}
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm">
+      <Card className="bg-card-bg border-card-border">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="flex items-center text-white">
+              <CardTitle className="flex items-center text-text-color">
                 <Building2 className="h-5 w-5 mr-2 text-orange-400" />
                 Institute Management
               </CardTitle>
-              <CardDescription className="text-gray-400">Manage all educational institutes on the platform</CardDescription>
+              <CardDescription className="text-text-secondary">Manage all educational institutes on the platform</CardDescription>
             </div>
             <div className="flex space-x-2">
               <Button 
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+                className="bg-orange-500 hover:bg-orange-600 text-text-color"
                 onClick={handleAddInstitute}
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -563,7 +563,7 @@ const InstituteManagement = () => {
               </Button>
               <Button 
                 variant="outline" 
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-card-border text-text-secondary hover:bg-orange-500 hover:text-white"
                 onClick={handleExport}
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -584,56 +584,56 @@ const InstituteManagement = () => {
           </div>
 
           {/* Institutes Table */}
-          <div className="rounded-md border border-gray-700 overflow-hidden">
+          <div className="rounded-md border border-card-border overflow-hidden">
             <Table>
-              <TableHeader className="bg-gray-800">
-                <TableRow className="hover:bg-gray-800/80 border-gray-700">
-                  <TableHead className="text-gray-200">Institute Details</TableHead>
-                  <TableHead className="text-gray-200">Principal & Contact</TableHead>
-                  <TableHead className="text-gray-200">Students</TableHead>
-                  <TableHead className="text-gray-200">Status</TableHead>
-                  <TableHead className="text-gray-200">KYC Status</TableHead>
-                  <TableHead className="text-gray-200">Join Date</TableHead>
-                  <TableHead className="text-gray-200">Actions</TableHead>
+              <TableHeader className="bg-card-header">
+                <TableRow className="hover:bg-card-hover border-card-border">
+                  <TableHead className="text-text-secondary">Institute Details</TableHead>
+                  <TableHead className="text-text-secondary">Principal & Contact</TableHead>
+                  <TableHead className="text-text-secondary">Students</TableHead>
+                  <TableHead className="text-text-secondary">Status</TableHead>
+                  <TableHead className="text-text-secondary">KYC Status</TableHead>
+                  <TableHead className="text-text-secondary">Join Date</TableHead>
+                  <TableHead className="text-text-secondary">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {paginatedInstitutes.length === 0 ? (
-                  <TableRow className="hover:bg-gray-800/50 border-gray-700">
-                    <TableCell colSpan={7} className="text-center py-8 text-gray-400">
+                  <TableRow className="hover:bg-card-hover border-card-border">
+                    <TableCell colSpan={7} className="text-center py-8 text-text-secondary">
                       No institutes found matching the search criteria
                     </TableCell>
                   </TableRow>
                 ) : (
                   paginatedInstitutes.map((institute) => (
-                    <TableRow key={institute.id} className="hover:bg-gray-800/50 border-gray-700">
-                      <TableCell className="text-gray-200">
+                    <TableRow key={institute.id} className="hover:bg-card-hover border-card-border">
+                      <TableCell className="text-text-secondary">
                         <div>
                           <div className="font-medium">{institute.name}</div>
-                          <div className="text-sm text-gray-400">{institute.type} • {institute.location}</div>
+                          <div className="text-sm text-text-secondary">{institute.type} • {institute.location}</div>
                         </div>
                       </TableCell>
-                      <TableCell className="text-gray-200">
+                      <TableCell className="text-text-secondary">
                         <div>
                           <div className="font-medium">{institute.principal}</div>
-                          <div className="text-sm text-gray-400 flex items-center mt-1">
+                          <div className="text-sm text-text-secondary flex items-center mt-1">
                             <Phone className="h-3 w-3 mr-1" />
                             {institute.phone}
                           </div>
-                          <div className="text-sm text-gray-400 flex items-center">
+                          <div className="text-sm text-text-secondary flex items-center">
                             <Mail className="h-3 w-3 mr-1" />
                             {institute.email}
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="text-gray-200">
+                      <TableCell className="text-text-secondary">
                         <div className="flex items-center gap-2">
                           <span className="text-lg font-semibold">{institute.students.toLocaleString()}</span>
                           <div className="flex gap-1">
                             <Button 
                               size="sm" 
                               variant="outline" 
-                              className="border-gray-700 hover:bg-gray-700 text-white"
+                              className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                               onClick={() => handleStudentUpdate(institute.id, 'add', 10)}
                             >
                               +10
@@ -641,7 +641,7 @@ const InstituteManagement = () => {
                             <Button 
                               size="sm" 
                               variant="outline" 
-                              className="border-gray-700 hover:bg-gray-700 text-white"
+                              className="border-orange-500 hover:bg-orange-500 hover:text-white text-text-secondary"
                               onClick={() => handleStudentUpdate(institute.id, 'subtract', 10)}
                             >
                               -10
@@ -659,7 +659,7 @@ const InstituteManagement = () => {
                           {institute.kycStatus}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-gray-200">
+                      <TableCell className="text-text-secondary">
                         <div className="text-sm">{institute.joinDate}</div>
                       </TableCell>
                       <TableCell>
@@ -667,26 +667,26 @@ const InstituteManagement = () => {
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-gray-700 hover:bg-gray-700"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction('View', institute)}
                           >
-                            <Eye className="h-3 w-3 text-gray-200" />
+                            <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-gray-700 hover:bg-gray-700"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction('Edit', institute)}
                           >
-                            <Edit className="h-3 w-3 text-gray-200" />
+                            <Edit className="h-4 w-4 text-text-secondary hover:text-white" />
                           </Button>
                           <Button 
                             size="sm" 
                             variant="outline" 
-                            className="border-gray-700 hover:bg-gray-700"
+                            className="border-orange-500 text-text-color hover:bg-warning"
                             onClick={() => handleAction(institute.status === "Suspended" ? "Activate" : "Suspend", institute)}
                           >
-                            {institute.status === "Suspended" ? <CheckCircle className="h-3 w-3 text-gray-200" /> : <Ban className="h-3 w-3 text-gray-200" />}
+                            {institute.status === "Suspended" ? <CheckCircle className="h-4 w-4 text-text-secondary hover:text-white" /> : <Ban className="h-4 w-4 text-text-secondary hover:text-white" />}
                           </Button>
                         </div>
                       </TableCell>
@@ -699,7 +699,7 @@ const InstituteManagement = () => {
           
           {/* Pagination info */}
           <div className="flex justify-between items-center mt-4">
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-text-secondary">
               Showing {paginatedInstitutes.length} of {filteredInstitutes.length} institutes 
               {filteredInstitutes.length !== institutes.length && ` (filtered from ${institutes.length} total)`}
             </div>
@@ -707,7 +707,7 @@ const InstituteManagement = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                 disabled={currentPage === 1}
                 onClick={handlePrevPage}
               >
@@ -716,7 +716,7 @@ const InstituteManagement = () => {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="border-gray-700 text-gray-200 hover:bg-gray-700"
+                className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                 disabled={currentPage === totalPages || totalPages === 0}
                 onClick={handleNextPage}
               >
@@ -728,17 +728,17 @@ const InstituteManagement = () => {
       </Card>
 
       {/* Franchise Management Panel (Merged from FranchiseManagement) */}
-      <Card className="bg-slate-800/50 border-gray-700 backdrop-blur-sm mt-6">
+      <Card className="bg-card-bg border-card-border mt-6">
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-white flex items-center">
+              <CardTitle className="text-text-color flex items-center">
                 <Building className="h-5 w-5 mr-2 text-blue-400" />
                 Franchise Management
               </CardTitle>
-              <CardDescription className="text-gray-400">Monitor and manage all Learn2Pay franchise operations</CardDescription>
+              <CardDescription className="text-text-secondary">Monitor and manage all Learn2Pay franchise operations</CardDescription>
             </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleAddFranchise}>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={handleAddFranchise}>
               <Plus className="h-4 w-4 mr-2" /> Add Franchise
             </Button>
           </div>
@@ -747,17 +747,17 @@ const InstituteManagement = () => {
           {/* Search and Filters */}
           <div className="flex flex-wrap gap-4 mb-6">
             <div className="relative flex-1 min-w-[200px]">
-              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
               <Input
                 placeholder="Search franchises..."
-                className="pl-10 bg-[#232b45] border border-[#232b45] text-white placeholder-gray-400"
+                className="pl-10 bg-card-bg border border-card-border text-text-color placeholder-text-secondary"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
                 value={filters.status || 'all'}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               >
@@ -766,11 +766,11 @@ const InstituteManagement = () => {
                 <option value="Under Review">Under Review</option>
                 <option value="Suspended">Suspended</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
                 value={filters.performance || 'all'}
                 onChange={(e) => setFilters({ ...filters, performance: e.target.value })}
               >
@@ -780,11 +780,11 @@ const InstituteManagement = () => {
                 <option value="Average">Average</option>
                 <option value="Poor">Poor</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary" />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-[#232b45] border border-[#232b45] text-gray-300"
+                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
                 value={filters.location || 'all'}
                 onChange={(e) => setFilters({ ...filters, location: e.target.value })}
               >
@@ -793,7 +793,7 @@ const InstituteManagement = () => {
                 <option value="Delhi, NCR">Delhi, NCR</option>
                 <option value="Bangalore, Karnataka">Bangalore, Karnataka</option>
               </select>
-              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Filter className="h-4 w-4 absolute left-2 top-1/2 -translate-y-1/2 text-text-secondary" />
             </div>
           </div>
 
@@ -801,58 +801,58 @@ const InstituteManagement = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-gray-200">Franchise Details</TableHead>
-                <TableHead className="text-gray-200">Owner & Contact</TableHead>
-                <TableHead className="text-gray-200">Performance</TableHead>
-                <TableHead className="text-gray-200">Revenue vs Target</TableHead>
-                <TableHead className="text-gray-200">Coverage</TableHead>
-                <TableHead className="text-gray-200">Actions</TableHead>
+                <TableHead className="text-text-secondary">Franchise Details</TableHead>
+                <TableHead className="text-text-secondary">Owner & Contact</TableHead>
+                <TableHead className="text-text-secondary">Performance</TableHead>
+                <TableHead className="text-text-secondary">Revenue vs Target</TableHead>
+                <TableHead className="text-text-secondary">Coverage</TableHead>
+                <TableHead className="text-text-secondary">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredFranchises.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-6 text-gray-400">
+                  <TableCell colSpan={6} className="text-center py-6 text-text-secondary">
                     No franchises found matching the search criteria
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredFranchises.map((franchise) => (
-                  <TableRow key={franchise.id} className="hover:bg-[#2A2F3A]">
-                    <TableCell className="text-white">
+                  <TableRow key={franchise.id} className="hover:bg-card-hover">
+                    <TableCell className="text-text-secondary">
                       <div>
                         <div className="font-medium">{franchise.name}</div>
-                        <div className="text-sm text-gray-400">{franchise.location}</div>
+                        <div className="text-sm text-text-secondary">{franchise.location}</div>
                         <Badge className={getStatusColor(franchise.status)}>
                           {franchise.status}
                         </Badge>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white">
+                    <TableCell className="text-text-secondary">
                       <div>
                         <div className="font-medium">{franchise.owner}</div>
-                        <div className="text-sm text-gray-400">{franchise.phone}</div>
-                        <div className="text-sm text-gray-400">{franchise.email}</div>
+                        <div className="text-sm text-text-secondary">{franchise.phone}</div>
+                        <div className="text-sm text-text-secondary">{franchise.email}</div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white">
+                    <TableCell className="text-text-secondary">
                       <Badge className={getPerformanceColor(franchise.performance)}>
                         {franchise.performance}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-white">
+                    <TableCell className="text-text-secondary">
                       <div>
                         <div className="font-semibold">₹{franchise.revenue.toLocaleString()}</div>
-                        <div className="text-sm text-gray-400">Target: ₹{franchise.target.toLocaleString()}</div>
-                        <div className="w-full bg-gray-700 rounded-full h-2 mt-1">
+                        <div className="text-sm text-text-secondary">Target: ₹{franchise.target.toLocaleString()}</div>
+                        <div className="w-full bg-card-bg rounded-full h-2 mt-1">
                           <div 
-                            className="bg-blue-500 h-2 rounded-full" 
+                            className="bg-orange-500 h-2 rounded-full" 
                             style={{ width: `${(franchise.revenue / franchise.target) * 100}%` }}
                           ></div>
                         </div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-white">
+                    <TableCell className="text-text-secondary">
                       <div>
                         <div className="text-sm">
                           <span className="font-medium">{franchise.institutes}</span> Institutes
@@ -864,13 +864,13 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex space-x-1">
-                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("View", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("View", franchise)}>
                           <Eye className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Edit", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("Edit", franchise)}>
                           <Edit className="h-3 w-3" />
                         </Button>
-                        <Button size="sm" variant="outline" className="text-white border-blue-500 hover:bg-blue-500" onClick={() => handleFranchiseAction("Performance", franchise)}>
+                        <Button size="sm" variant="outline" className="text-text-secondary border-orange-500 hover:bg-orange-500 hover:text-white" onClick={() => handleFranchiseAction("Performance", franchise)}>
                           <TrendingUp className="h-3 w-3" />
                         </Button>
                       </div>
@@ -885,34 +885,34 @@ const InstituteManagement = () => {
 
       {/* Add Institute Dialog */}
       <Dialog open={isAddInstituteOpen} onOpenChange={setIsAddInstituteOpen}>
-        <DialogContent className="bg-slate-800 border-gray-700 text-white">
+        <DialogContent className="bg-card-bg border-card-border text-text-color">
           <DialogHeader>
-            <DialogTitle className="text-white">Add New Institute</DialogTitle>
-            <DialogDescription className="text-gray-400">
+            <DialogTitle className="text-text-color">Add New Institute</DialogTitle>
+            <DialogDescription className="text-text-secondary">
               Fill in the details to register a new educational institute on Learn2Pay
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleFormSubmit}>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right text-gray-300">Name</Label>
+                <Label htmlFor="name" className="text-right text-text-secondary">Name</Label>
                 <Input
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border-gray-600 text-white"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color"
                   required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="type" className="text-right text-gray-300">Type</Label>
+                <Label htmlFor="type" className="text-right text-text-secondary">Type</Label>
                 <select
                   id="type"
                   name="type"
                   value={formData.type}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border border-gray-600 text-white rounded-md h-9 px-3"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color rounded-md h-9 px-3"
                   required
                 >
                   <option value="School">School</option>
@@ -921,53 +921,53 @@ const InstituteManagement = () => {
                 </select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="location" className="text-right text-gray-300">Location</Label>
+                <Label htmlFor="location" className="text-right text-text-secondary">Location</Label>
                 <Input
                   id="location"
                   name="location"
                   value={formData.location}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border-gray-600 text-white"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color"
                   required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="principal" className="text-right text-gray-300">Principal</Label>
+                <Label htmlFor="principal" className="text-right text-text-secondary">Principal</Label>
                 <Input
                   id="principal"
                   name="principal"
                   value={formData.principal}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border-gray-600 text-white"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color"
                   required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="phone" className="text-right text-gray-300">Phone</Label>
+                <Label htmlFor="phone" className="text-right text-text-secondary">Phone</Label>
                 <Input
                   id="phone"
                   name="phone"
                   value={formData.phone}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border-gray-600 text-white"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color"
                   required
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="email" className="text-right text-gray-300">Email</Label>
+                <Label htmlFor="email" className="text-right text-text-secondary">Email</Label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
                   value={formData.email}
                   onChange={handleFormChange}
-                  className="col-span-3 bg-gray-700 border-gray-600 text-white"
+                  className="col-span-3 bg-card-bg border border-card-border text-text-color"
                   required
                 />
               </div>
             </div>
-            <DialogFooter className="bg-slate-800">
-              <Button type="button" variant="outline" onClick={() => setIsAddInstituteOpen(false)} className="border-gray-700 text-gray-200">
+            <DialogFooter className="bg-card-bg">
+              <Button type="button" variant="outline" onClick={() => setIsAddInstituteOpen(false)} className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white">
                 Cancel
               </Button>
               <Button type="submit" className="bg-orange-500 hover:bg-orange-600">

@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const CTA = () => {
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-20 relative overflow-hidden bg-white dark:bg-gradient-to-br dark:from-[#1a0a00] dark:to-black">
       {/* Background with gradient and grain effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#ff8000] to-[#3a1500]">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#ff8000] to-[#3a1500] dark:from-[#1a0a00] dark:to-black">
         <div
           className="absolute inset-0 opacity-30"
           style={{
@@ -24,11 +24,11 @@ const CTA = () => {
             transition={{ duration: 0.5 }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-5xl font-bold text-black dark:text-white mb-6">
               Ready to Transform Your Fee Collection Process?
             </h2>
 
-            <p className="text-white/80 text-lg md:text-xl mb-10 max-w-3xl mx-auto">
+            <p className="text-gray-700 dark:text-white/80 text-lg md:text-xl mb-10 max-w-3xl mx-auto">
               Join thousands of educational institutions that have simplified
               their fee management and improved collection rates with LEARN2PAY.
             </p>
@@ -40,7 +40,7 @@ const CTA = () => {
               >
                 <Link
                   to="/register"
-                  className="bg-white hover:bg-gray-100 text-orange-600 font-medium px-8 py-4 rounded-md inline-block w-full sm:w-auto"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-8 py-4 rounded-md inline-block w-full sm:w-auto dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
                 >
                   Start Your Free Trial
                 </Link>
@@ -52,7 +52,7 @@ const CTA = () => {
               >
                 <Link
                   to="/demo"
-                  className="bg-transparent hover:bg-white/10 text-white border border-white font-medium px-8 py-4 rounded-md inline-block w-full sm:w-auto"
+                  className="bg-transparent hover:bg-orange-100 text-orange-600 border border-orange-600 font-medium px-8 py-4 rounded-md inline-block w-full sm:w-auto dark:bg-transparent dark:hover:bg-orange-900/20 dark:text-orange-400 dark:border-orange-400"
                 >
                   Schedule a Demo
                 </Link>
@@ -60,7 +60,7 @@ const CTA = () => {
             </div>
 
             <motion.p
-              className="text-white/70 mt-8"
+              className="text-gray-600 dark:text-white/70 mt-8"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.3 }}

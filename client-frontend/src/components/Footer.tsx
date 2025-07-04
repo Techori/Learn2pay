@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-black pt-16 pb-8 text-white border-t border-gray-800">
+    <footer className="bg-gray-100 dark:bg-black pt-16 pb-8 text-gray-900 dark:text-white border-t border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12"
@@ -42,10 +42,10 @@ const Footer = () => {
             <Link to="/" className="flex items-center mb-6">
               <div className="text-2xl font-bold">
                 <span className="text-orange-500">LEARN</span>
-                <span className="text-white">2PAY</span>
+                <span className="text-gray-900 dark:text-white">2PAY</span>
               </div>
             </Link>
-            <p className="text-gray-400 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
               Revolutionizing fee collection for educational institutions with
               digital payment solutions.
             </p>
@@ -125,20 +125,20 @@ const Footer = () => {
           />
 
           <motion.div variants={itemVariants} className="col-span-1">
-            <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Newsletter</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Subscribe to our newsletter for updates
             </p>
             <form className="flex flex-col sm:flex-row gap-2">
               <input
                 type="email"
                 placeholder="Your email address"
-                className="bg-gray-900 border border-gray-700 rounded px-4 py-2 focus:outline-none focus:border-orange-500 transition-all"
+                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded px-4 py-2 focus:outline-none focus:border-orange-500 transition-all text-gray-900 dark:text-white"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded transition-colors"
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded transition-colors dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
               >
                 Subscribe
               </motion.button>
@@ -153,25 +153,25 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
         >
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 md:mb-0">
             &copy; {new Date().getFullYear()} LEARN2PAY. All rights reserved.
           </p>
-          <div className="flex space-x-4 text-sm text-gray-500">
+          <div className="flex space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <Link
               to="/privacy"
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
             >
               Terms of Service
             </Link>
             <Link
               to="/CookiesPolicy"
-              className="hover:text-orange-500 transition-colors"
+              className="hover:text-orange-500 dark:hover:text-orange-400 transition-colors"
             >
               Cookie Policy
             </Link>
@@ -194,16 +194,11 @@ const FooterColumn = ({
 }) => {
   return (
     <motion.div variants={variants} className="col-span-1">
-      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+      <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">{title}</h3>
       <ul className="space-y-2">
         {links.map((link, index) => (
           <li key={index}>
-            <Link
-              to={link.url}
-              className="text-gray-400 hover:text-orange-500 transition-colors"
-            >
-              {link.name}
-            </Link>
+            <a className="text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400 transition-colors" href={link.url}>{link.name}</a>
           </li>
         ))}
       </ul>

@@ -75,7 +75,7 @@ const Institute = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black text-gray-900 dark:text-white"
     >
       <DashboardHeader dashboardName="Institute" />
 
@@ -83,7 +83,7 @@ const Institute = () => {
         {/* Institute selector and add institute button */}
         <div className="flex items-center space-x-4 mb-6">
           <div className="relative">
-            <select className="bg-gray-800 text-white p-2 rounded-md appearance-none pr-8">
+            <select className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md appearance-none pr-8 border border-gray-300 dark:border-gray-700">
               <option>National Public School - Main Campus</option>
               <option>National Public School - Branch 2</option>
             </select>
@@ -107,7 +107,7 @@ const Institute = () => {
           <Button
             variant="outline"
             size="sm"
-            className="flex items-center space-x-2 text-orange-500 border-orange-500 hover:bg-orange-500/10"
+            className="flex items-center space-x-2 text-orange-600 dark:text-orange-400 border-orange-500 hover:bg-orange-500/10 dark:hover:bg-orange-400/10"
             onClick={() => setActiveTab("multi-institute")}
           >
             <Building2 className="h-4 w-4" />
@@ -116,7 +116,7 @@ const Institute = () => {
           <Button
             variant="outline"
             size="sm"
-            className="text-gray-300 border-gray-700 hover:bg-gray-800/10"
+            className="text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800/10"
           >
             Filters
           </Button>
@@ -127,7 +127,7 @@ const Institute = () => {
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-11 bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
+          <TabsList className="grid w-full grid-cols-11 bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
             <TabsTrigger
               value="analytics"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"

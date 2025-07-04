@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 const buttonVariants = ({ variant }: { variant?: string }) => {
   const styles = {
     outline:
-      "border border-gray-600 bg-transparent hover:bg-gray-700 hover:text-gray-200",
-    ghost: "hover:bg-gray-700 hover:text-gray-200",
-    default: "bg-orange-500 text-white hover:bg-orange-600",
+      "border border-gray-600 bg-transparent hover:bg-gray-700 hover:text-gray-200 dark:border-gray-400 dark:hover:bg-gray-800 dark:hover:text-white",
+    ghost: "hover:bg-gray-700 hover:text-gray-200 dark:hover:bg-gray-800 dark:hover:text-white",
+    default: "bg-orange-500 text-white hover:bg-orange-600 dark:bg-orange-400 dark:text-gray-900 dark:hover:bg-orange-500",
   };
   return styles[variant as keyof typeof styles] || "";
 };
@@ -41,7 +41,7 @@ function Calendar({
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
         head_cell:
-          "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+          "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem] dark:text-gray-300",
         row: "flex w-full mt-2",
         cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
@@ -59,14 +59,6 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
-      }}
-      components={{
-        Chevron: ({ orientation, className, ...props }) =>
-          orientation === "left" ? (
-            <ChevronLeft className={cn(className, "h-4 w-4")} {...props} />
-          ) : (
-            <ChevronRight className={cn(className, "h-4 w-4")} {...props} />
-          ),
       }}
       {...props}
     />

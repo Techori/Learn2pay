@@ -28,12 +28,12 @@ const Applynow = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white py-12">
-      <div className="max-w-4xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold mb-6 text-center text-orange-500">Apply Now</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:to-gray-900 text-gray-900 dark:text-white py-12">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center text-orange-600 dark:text-orange-500">Apply Now</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Full Name
             </label>
             <Input
@@ -44,11 +44,11 @@ const Applynow = () => {
               onChange={handleChange}
               required
               placeholder="Enter your full name"
-              className="w-full bg-white text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Email Address
             </label>
             <Input
@@ -59,11 +59,11 @@ const Applynow = () => {
               onChange={handleChange}
               required
               placeholder="Enter your email address"
-              className="w-full bg-white text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Phone Number
             </label>
             <Input
@@ -74,11 +74,11 @@ const Applynow = () => {
               onChange={handleChange}
               required
               placeholder="Enter your phone number"
-              className="w-full bg-white text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div>
-            <label htmlFor="resume" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="resume" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Upload Resume
             </label>
             <Input
@@ -87,11 +87,11 @@ const Applynow = () => {
               name="resume"
               onChange={handleFileChange}
               required
-              className="w-full bg-white text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Message/Introduction
             </label>
             <Textarea
@@ -100,13 +100,13 @@ const Applynow = () => {
               value={formData.message}
               onChange={handleChange}
               placeholder="Introduce yourself briefly"
-              className="w-full bg-white text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="w-full bg-white dark:bg-gray-900 text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               rows={4}
             />
           </div>
           <Button
             type="submit"
-            className="bg-orange-600 hover:bg-orange-500 text-white w-full py-3 rounded-lg"
+            className="bg-orange-600 hover:bg-orange-500 text-white w-full py-3 rounded-lg dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
           >
             Submit Application
           </Button>

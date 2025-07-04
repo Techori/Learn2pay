@@ -142,7 +142,7 @@ const DataTable = ({
 
   return (
     <div className="space-y-4">
-      {title && <h3 className="text-lg font-semibold">{title}</h3>}
+      {title && <h3 className="text-lg font-semibold text-text-color">{title}</h3>}
       
       {/* Search and Filter */}
       {(searchable || filterable) && (
@@ -150,7 +150,7 @@ const DataTable = ({
           <div className="flex items-center space-x-2">
             {searchable && (
               <div className="relative">
-                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
                 <Input
                   placeholder="Search..."
                   value={searchQuery}
@@ -174,14 +174,14 @@ const DataTable = ({
       )}
 
       {/* Table */}
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border border-border-color rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
                 <TableHead
                   key={column.key}
-                  className={column.sortable ? 'cursor-pointer hover:bg-gray-50' : ''}
+                  className={column.sortable ? 'cursor-pointer hover:bg-card-bg/50' : ''}
                   onClick={() => column.sortable && handleSort(column.key)}
                 >
                   <div className="flex items-center space-x-1">
@@ -200,7 +200,7 @@ const DataTable = ({
           <TableBody>
             {paginatedData.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="text-center py-8 text-gray-500">
+                <TableCell colSpan={columns.length + (actions.length > 0 ? 1 : 0)} className="text-center py-8 text-text-secondary">
                   No data found
                 </TableCell>
               </TableRow>
@@ -239,7 +239,7 @@ const DataTable = ({
       {/* Pagination */}
       {pagination && totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-text-secondary">
             Showing {startIndex + 1} to {Math.min(startIndex + pageSize, sortedData.length)} of {sortedData.length} entries
           </div>
           
@@ -261,7 +261,7 @@ const DataTable = ({
               <ChevronLeft className="h-4 w-4" />
             </Button>
             
-            <span className="text-sm px-3 py-1">
+            <span className="text-sm font-medium text-text-color">
               Page {currentPage} of {totalPages}
             </span>
             

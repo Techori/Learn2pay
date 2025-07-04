@@ -155,7 +155,7 @@ const AddStudent: React.FC = () => {
   const stepIcons = [User, GraduationCap, Users, CreditCard];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black text-gray-900 dark:text-white">
       <DashboardHeader dashboardName="Add Student" />
 
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -170,17 +170,17 @@ const AddStudent: React.FC = () => {
               onClick={() => navigate("/dashboard")}
               variant="outline"
               size="sm"
-              className="flex items-center gap-2 border-gray-700 text-gray-300 hover:text-white"
+              className="flex items-center gap-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Dashboard
             </Button>
             <div>
-              <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
                 <UserPlus className="w-8 h-8 text-orange-500" />
                 Add New Student
               </h1>
-              <p className="text-gray-400 mt-1">
+              <p className="text-gray-600 dark:text-gray-400 mt-1">
                 Add a new student to your institute
               </p>
             </div>

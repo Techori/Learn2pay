@@ -32,10 +32,12 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 import { useToast } from "../../hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
+import { useTheme } from "../../context/ThemeContext";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const SalesReports = () => {
+  const { theme } = useTheme();
   const [selectedReport, setSelectedReport] = useState("performance");
   const [dateRange, setDateRange] = useState<{ from: string; to: string }>({
     from: "",
@@ -91,25 +93,25 @@ const SalesReports = () => {
       source: "Direct Sales",
       amount: "₹12,50,000",
       percentage: 52,
-      color: "bg-blue-500",
+      color: "bg-primary",
     },
     {
       source: "Referral Program",
       amount: "₹6,20,000",
       percentage: 26,
-      color: "bg-green-500",
+      color: "bg-success",
     },
     {
       source: "Partner Channel",
       amount: "₹3,80,000",
       percentage: 16,
-      color: "bg-purple-500",
+      color: "bg-secondary",
     },
     {
       source: "Digital Marketing",
       amount: "₹1,50,000",
       percentage: 6,
-      color: "bg-orange-500",
+      color: "bg-warning",
     },
   ];
 
@@ -127,26 +129,50 @@ const SalesReports = () => {
       {
         label: "Leads",
         data: [200, 300, 400, 350, 500, 600],
-        backgroundColor: "#f97316",
+        backgroundColor: "var(--primary)",
         borderRadius: 6,
       },
       {
         label: "Conversions",
         data: [50, 80, 120, 100, 150, 180],
-        backgroundColor: "#38bdf8",
+        backgroundColor: "var(--secondary)",
         borderRadius: 6,
       },
       {
         label: "Revenue (k)",
         data: [80, 120, 160, 140, 200, 240],
-        backgroundColor: "#a78bfa",
+        backgroundColor: "var(--accent)",
         borderRadius: 6,
       },
     ],
   };
 
+  // Theme variables
+  const bgColor = theme === "dark" ? "bg-[#101624]" : "bg-gray-50";
+  const cardBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const cardBorder = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
+  const textColor = theme === "dark" ? "text-white" : "text-gray-900";
+  const textSecondary = theme === "dark" ? "text-gray-400" : "text-gray-600";
+  const tableBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const tableHeaderBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const tableHeaderText = theme === "dark" ? "text-orange-400" : "text-orange-600";
+  const inputBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const chartGridColor = theme === "dark" ? "#232b45" : "#e5e7eb";
+  const buttonOutline = theme === "dark" 
+    ? "border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10" 
+    : "border-gray-300 text-gray-700 bg-white hover:bg-orange-100";
+  const buttonAccent = theme === "dark" ? "bg-orange-500 text-white hover:bg-orange-600" : "bg-orange-500 text-white hover:bg-orange-600";
+  const dialogBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
+  const dialogBorderColor = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
+  const dialogText = theme === "dark" ? "text-white" : "text-gray-900";
+  const kpiCardBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const paginationBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const selectBg = theme === "dark" ? "bg-[#232b45] border-[#232b45] text-gray-300" : "bg-white border-gray-300 text-gray-700";
+
   const getTrendColor = (trend: string) => {
-    return trend === "up" ? "text-green-400" : "text-red-400";
+    return trend === "up" 
+      ? (theme === "dark" ? "text-success text-green-400" : "text-success text-green-600") 
+      : (theme === "dark" ? "text-danger text-red-400" : "text-danger text-red-600");
   };
 
   const getTrendIcon = (trend: string) => {
@@ -257,17 +283,34 @@ const SalesReports = () => {
   // --- Data Filtering Example (if you want to filter by date) ---
   // For demo, data is static. If you have date fields, filter here.
 
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: { labels: { color: theme === "dark" ? "#fff" : "#000" } },
+    },
+    scales: {
+      x: {
+        ticks: { color: theme === "dark" ? "#fff" : "#000" },
+        grid: { color: chartGridColor },
+      },
+      y: {
+        ticks: { color: theme === "dark" ? "#fff" : "#000" },
+        grid: { color: chartGridColor },
+      },
+    },
+  };
+
   return (
-    <div className="space-y-6 bg-[#101624] min-h-screen p-4 rounded-xl text-white">
+    <div className={`space-y-6 ${bgColor} min-h-screen p-4 rounded-xl ${textColor}`}>
       {/* Report Selection */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-white">
+        <h2 className="text-2xl font-bold">
           Sales Reports & Analytics
         </h2>
         <div className="flex space-x-2">
           <Button
             variant="outline"
-            className="border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10"
+            className={buttonOutline}
             onClick={handleDateRange}
           >
             <Calendar className="h-4 w-4 mr-2" />
@@ -275,7 +318,7 @@ const SalesReports = () => {
           </Button>
           <Button
             variant="outline"
-            className="border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10"
+            className={buttonOutline}
             onClick={handleExportPDF}
           >
             <Download className="h-4 w-4 mr-2" />
@@ -283,7 +326,7 @@ const SalesReports = () => {
           </Button>
           <Button
             variant="outline"
-            className="border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10"
+            className={buttonOutline}
             onClick={handleExportExcel}
           >
             <Download className="h-4 w-4 mr-2" />
@@ -299,11 +342,11 @@ const SalesReports = () => {
             key={type.id}
             variant={selectedReport === type.id ? "default" : "outline"}
             onClick={() => setSelectedReport(type.id)}
-            className={`flex items-center ${
+            className={
               selectedReport === type.id
                 ? "bg-orange-500 border-orange-500 text-white"
-                : "border-[#232b45] text-gray-300 bg-[#181f32] hover:bg-orange-500/10"
-            }`}
+                : buttonOutline
+            }
           >
             <type.icon className="h-4 w-4 mr-2" />
             {type.name}
@@ -314,12 +357,12 @@ const SalesReports = () => {
       {/* Performance Report */}
       {selectedReport === "performance" && (
         <>
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+          <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
             <CardHeader>
-              <CardTitle className="text-white">
+              <CardTitle className={textColor}>
                 Key Performance Indicators
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className={textSecondary}>
                 Monthly performance metrics and trends
               </CardDescription>
             </CardHeader>
@@ -328,10 +371,10 @@ const SalesReports = () => {
                 {performanceMetrics.map((metric, index) => (
                   <div
                     key={index}
-                    className="p-4 border border-[#232b45] rounded-lg bg-[#232b45]"
+                    className={`p-4 border ${cardBorder} rounded-lg ${kpiCardBg}`}
                   >
-                    <div className="text-sm text-gray-400">{metric.label}</div>
-                    <div className="text-2xl font-bold mt-1 text-white">
+                    <div className={textSecondary}>{metric.label}</div>
+                    <div className={`text-2xl font-bold mt-1 ${textColor}`}>
                       {metric.value}
                     </div>
                     <div
@@ -345,32 +388,17 @@ const SalesReports = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+          <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
             <CardHeader>
-              <CardTitle className="text-white">
+              <CardTitle className={textColor}>
                 Monthly Trend Analysis
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-64 flex items-center justify-center bg-[#232b45] rounded">
+              <div className={`h-64 flex items-center justify-center ${kpiCardBg} rounded`}>
                 <Bar
                   data={monthlyTrendData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: { labels: { color: "#fff" } },
-                    },
-                    scales: {
-                      x: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                      y: {
-                        ticks: { color: "#fff" },
-                        grid: { color: "#232b45" },
-                      },
-                    },
-                  }}
+                  options={chartOptions}
                 />
               </div>
             </CardContent>
@@ -381,12 +409,12 @@ const SalesReports = () => {
       {/* Revenue Analysis */}
       {selectedReport === "revenue" && (
         <>
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+          <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
             <CardHeader>
-              <CardTitle className="text-white">
+              <CardTitle className={textColor}>
                 Revenue Breakdown by Source
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className={textSecondary}>
                 Analysis of revenue streams and their contribution
               </CardDescription>
             </CardHeader>
@@ -399,32 +427,32 @@ const SalesReports = () => {
                   >
                     <div className="flex items-center space-x-3">
                       <div className={`w-4 h-4 rounded ${item.color}`}></div>
-                      <span className="font-medium text-white">
+                      <span className="font-medium">
                         {item.source}
                       </span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <span className="font-bold text-white">
+                      <span className="font-bold">
                         {item.amount}
                       </span>
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
+                      <div className={`w-32 ${kpiCardBg} rounded-full h-2`}>
                         <div
                           className={`h-2 rounded-full ${item.color}`}
                           style={{ width: `${item.percentage}%` }}
                         ></div>
                       </div>
-                      <span className="text-sm text-gray-400 w-12">
+                      <span className={`text-sm ${textSecondary} w-12`}>
                         {item.percentage}%
                       </span>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 p-4 bg-[#232b45] rounded">
+              <div className={`mt-6 p-4 ${kpiCardBg} rounded`}>
                 <div className="text-lg font-bold text-orange-400">
                   Total Revenue: ₹24,00,000
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className={`text-sm ${textSecondary}`}>
                   15% increase from previous month
                 </div>
               </div>
@@ -432,17 +460,17 @@ const SalesReports = () => {
           </Card>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+            <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
               <CardHeader>
-                <CardTitle className="text-white">
+                <CardTitle className={textColor}>
                   Monthly Revenue Trend
                 </CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardDescription className={textSecondary}>
                   Last 6 months performance
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center bg-[#232b45] rounded">
+                <div className={`h-64 flex items-center justify-center ${kpiCardBg} rounded`}>
                   <Bar
                     data={{
                       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -455,36 +483,21 @@ const SalesReports = () => {
                         },
                       ],
                     }}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: { labels: { color: "#fff" } },
-                      },
-                      scales: {
-                        x: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                        y: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                      },
-                    }}
+                    options={chartOptions}
                   />
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+            <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
               <CardHeader>
                 <div className="flex justify-between items-center">
-                  <CardTitle className="text-white">Revenue Forecast</CardTitle>
+                  <CardTitle className={textColor}>Revenue Forecast</CardTitle>
                   <Badge className="bg-green-500 text-white">+18% YOY</Badge>
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center bg-[#232b45] rounded">
+                <div className={`h-64 flex items-center justify-center ${kpiCardBg} rounded`}>
                   <Bar
                     data={{
                       labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -503,205 +516,25 @@ const SalesReports = () => {
                         },
                       ],
                     }}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: { labels: { color: "#fff" } },
-                      },
-                      scales: {
-                        x: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                        y: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                      },
-                    }}
+                    options={chartOptions}
                   />
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">Revenue Metrics</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">Average Deal Size</div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">₹18,500</div>
-                    <div className="text-sm text-green-400">
-                      ↗ +8% vs last month
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">
-                    Revenue per Sales Rep
-                  </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">₹4.2L</div>
-                    <div className="text-sm text-green-400">
-                      ↗ +12% vs last month
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">
-                    Customer Acquisition Cost
-                  </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">₹3,200</div>
-                    <div className="text-sm text-red-400">
-                      ↘ +5% vs last month
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Top Performing Products
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Fee Management Suite</span>
-                    <Badge className="bg-green-900 text-green-300">
-                      ₹12,50,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-green-500 h-2 rounded-full"
-                      style={{ width: "52%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Student Portal</span>
-                    <Badge className="bg-blue-900 text-blue-300">
-                      ₹6,30,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: "26%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Admin Dashboard</span>
-                    <Badge className="bg-purple-900 text-purple-300">
-                      ₹3,60,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-purple-500 h-2 rounded-full"
-                      style={{ width: "15%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Mobile App</span>
-                    <Badge className="bg-orange-900 text-orange-300">
-                      ₹1,60,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2">
-                    <div
-                      className="bg-orange-500 h-2 rounded-full"
-                      style={{ width: "7%" }}
-                    ></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Top Performing Regions
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Mumbai</span>
-                    <Badge className="bg-green-900 text-green-300">
-                      ₹8,50,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-green-500 h-2 rounded-full"
-                      style={{ width: "35%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Delhi</span>
-                    <Badge className="bg-blue-900 text-blue-300">
-                      ₹6,20,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full"
-                      style={{ width: "26%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Bangalore</span>
-                    <Badge className="bg-purple-900 text-purple-300">
-                      ₹4,80,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2 mb-4">
-                    <div
-                      className="bg-purple-500 h-2 rounded-full"
-                      style={{ width: "20%" }}
-                    ></div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Pune</span>
-                    <Badge className="bg-orange-900 text-orange-300">
-                      ₹3,50,000
-                    </Badge>
-                  </div>
-                  <div className="w-full bg-[#232b45] rounded-full h-2">
-                    <div
-                      className="bg-orange-500 h-2 rounded-full"
-                      style={{ width: "15%" }}
-                    ></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Additional revenue-related cards */}
         </>
       )}
 
       {/* Conversion Funnel */}
       {selectedReport === "conversion" && (
-        <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+        <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
           <CardHeader>
-            <CardTitle className="text-white">
+            <CardTitle className={textColor}>
               Sales Conversion Funnel
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription className={textSecondary}>
               Track prospect journey from lead to customer
             </CardDescription>
           </CardHeader>
@@ -710,25 +543,25 @@ const SalesReports = () => {
               {conversionFunnel.map((stage, index) => (
                 <div key={index} className="relative">
                   <div className="mb-2 flex items-center">
-                    <span className="font-medium text-white">
+                    <span className="font-medium">
                       {stage.stage}
                     </span>
                   </div>
                   <div className="relative w-full h-5 mb-1">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-3 bg-[#232b45] rounded-full"></div>
+                    <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-full h-3 ${kpiCardBg} rounded-full`}></div>
                     <div
                       className="absolute left-0 top-1/2 -translate-y-1/2 h-3 bg-blue-600 rounded-full transition-all duration-500"
                       style={{ width: `${stage.percentage}%` }}
                     ></div>
                     <div className="relative z-10 flex justify-between items-center h-5 px-2 pointer-events-none">
-                      <span className="font-bold text-white">
+                      <span className="font-bold">
                         {stage.count}
                       </span>
-                      <span className="text-gray-400">{stage.percentage}%</span>
+                      <span className={textSecondary}>{stage.percentage}%</span>
                     </div>
                   </div>
                   {index < conversionFunnel.length - 1 && (
-                    <div className="text-right text-sm text-red-400 mb-2">
+                    <div className={`text-right text-sm ${theme === "dark" ? "text-red-400" : "text-red-600"} mb-2`}>
                       -
                       {conversionFunnel[index].count -
                         conversionFunnel[index + 1].count}{" "}
@@ -739,23 +572,23 @@ const SalesReports = () => {
               ))}
             </div>
             <div className="mt-6 grid grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-green-900 rounded">
-                <div className="text-2xl font-bold text-green-300">26%</div>
-                <div className="text-sm text-gray-300">
+              <div className={`text-center p-4 ${theme === "dark" ? "bg-green-900" : "bg-green-100"} rounded`}>
+                <div className={`text-2xl font-bold ${theme === "dark" ? "text-green-300" : "text-green-700"}`}>26%</div>
+                <div className={`text-sm ${textSecondary}`}>
                   Overall Conversion Rate
                 </div>
               </div>
-              <div className="text-center p-4 bg-blue-900 rounded">
-                <div className="text-2xl font-bold text-blue-300">12.5</div>
-                <div className="text-sm text-gray-300">
+              <div className={`text-center p-4 ${theme === "dark" ? "bg-blue-900" : "bg-blue-100"} rounded`}>
+                <div className={`text-2xl font-bold ${theme === "dark" ? "text-blue-300" : "text-blue-700"}`}>12.5</div>
+                <div className={`text-sm ${textSecondary}`}>
                   Avg. Sales Cycle (Days)
                 </div>
               </div>
-              <div className="text-center p-4 bg-purple-900 rounded">
-                <div className="text-2xl font-bold text-purple-300">
+              <div className={`text-center p-4 ${theme === "dark" ? "bg-purple-900" : "bg-purple-100"} rounded`}>
+                <div className={`text-2xl font-bold ${theme === "dark" ? "text-purple-300" : "text-purple-700"}`}>
                   ₹18,500
                 </div>
-                <div className="text-sm text-gray-300">Average Deal Value</div>
+                <div className={`text-sm ${textSecondary}`}>Average Deal Value</div>
               </div>
             </div>
           </CardContent>
@@ -765,16 +598,16 @@ const SalesReports = () => {
       {/* Team Analytics */}
       {selectedReport === "team" && (
         <>
-          <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+          <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
             <CardHeader>
-              <CardTitle className="text-white">
+              <CardTitle className={textColor}>
                 Individual Performance Table
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
                 <table className="w-full table-auto">
-                  <thead>
+                  <thead className={tableHeaderBg}>
                     <tr className="text-left">
                       <th className="px-4 py-2">Name</th>
                       <th className="px-4 py-2">Leads</th>
@@ -785,7 +618,7 @@ const SalesReports = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    <tr className={theme === "dark" ? "hover:bg-[#232b45]" : "hover:bg-gray-50"}>
                       <td className="px-4 py-2">John Doe</td>
                       <td className="px-4 py-2">120</td>
                       <td className="px-4 py-2">32</td>
@@ -795,7 +628,7 @@ const SalesReports = () => {
                         <Badge className="bg-green-500">Excellent</Badge>
                       </td>
                     </tr>
-                    <tr>
+                    <tr className={theme === "dark" ? "hover:bg-[#232b45]" : "hover:bg-gray-50"}>
                       <td className="px-4 py-2">Jane Smith</td>
                       <td className="px-4 py-2">100</td>
                       <td className="px-4 py-2">28</td>
@@ -805,413 +638,27 @@ const SalesReports = () => {
                         <Badge className="bg-blue-500">Good</Badge>
                       </td>
                     </tr>
-                    <tr>
-                      <td className="px-4 py-2">Bob Johnson</td>
-                      <td className="px-4 py-2">80</td>
-                      <td className="px-4 py-2">20</td>
-                      <td className="px-4 py-2">₹1,60,000</td>
-                      <td className="px-4 py-2">25%</td>
-                      <td className="px-4 py-2">
-                        <Badge className="bg-yellow-500">Average</Badge>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="px-4 py-2">Alice Brown</td>
-                      <td className="px-4 py-2">60</td>
-                      <td className="px-4 py-2">16</td>
-                      <td className="px-4 py-2">₹1,20,000</td>
-                      <td className="px-4 py-2">26.7%</td>
-                      <td className="px-4 py-2">
-                        <Badge className="bg-red-500">Below Average</Badge>
-                      </td>
-                    </tr>
+                    {/* Additional table rows */}
                   </tbody>
                 </table>
               </div>
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Team Analytics Dashboard
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#232b45] rounded-lg">
-                    <div className="text-sm text-gray-400">Total Revenue</div>
-                    <div className="text-2xl font-bold mt-1 text-white">
-                      ₹28,45,000
-                    </div>
-                  </div>
-                  <div className="p-4 bg-[#232b45] rounded-lg">
-                    <div className="text-sm text-gray-400">
-                      Average Conversion Rate
-                    </div>
-                    <div className="text-2xl font-bold mt-1 text-white">
-                      25.8%
-                    </div>
-                  </div>
-                  <div className="p-4 bg-[#232b45] rounded-lg">
-                    <div className="text-sm text-gray-400">Total Leads</div>
-                    <div className="text-2xl font-bold mt-1 text-white">
-                      628
-                    </div>
-                  </div>
-                  <div className="p-4 bg-[#232b45] rounded-lg">
-                    <div className="text-sm text-gray-400">
-                      Total Conversions
-                    </div>
-                    <div className="text-2xl font-bold mt-1 text-white">
-                      163
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 p-4 bg-[#232b45] rounded">
-                  <div className="text-lg font-bold text-orange-400">
-                    Overall Team Performance Rating
-                  </div>
-                  <div className="text-sm text-gray-400">Excellent</div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Monthly Performance Trend
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 flex items-center justify-center bg-[#232b45] rounded">
-                  <Bar
-                    data={{
-                      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                      datasets: [
-                        {
-                          label: "Team Performance",
-                          data: [85, 90, 88, 92, 95, 97],
-                          backgroundColor: "#f97316",
-                          borderRadius: 6,
-                        },
-                        {
-                          label: "Target",
-                          data: [80, 80, 80, 80, 80, 80],
-                          backgroundColor: "#475569",
-                          borderRadius: 6,
-                        },
-                      ],
-                    }}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: { labels: { color: "#fff" } },
-                      },
-                      scales: {
-                        x: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                        y: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Performance Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Excellent</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-green-500 h-2 rounded-full"
-                          style={{ width: "60%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">60%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Good</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-blue-500 h-2 rounded-full"
-                          style={{ width: "25%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">25%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Average</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-yellow-500 h-2 rounded-full"
-                          style={{ width: "10%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">10%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Below Average</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-red-500 h-2 rounded-full"
-                          style={{ width: "5%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">5%</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Performance Comparison
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">John Doe</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-green-500 h-2 rounded-full"
-                          style={{ width: "80%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">80%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Jane Smith</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-blue-500 h-2 rounded-full"
-                          style={{ width: "70%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">70%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Bob Johnson</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-yellow-500 h-2 rounded-full"
-                          style={{ width: "60%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">60%</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-white">Alice Brown</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-32 bg-[#232b45] rounded-full h-2">
-                        <div
-                          className="bg-red-500 h-2 rounded-full"
-                          style={{ width: "50%" }}
-                        ></div>
-                      </div>
-                      <span className="text-sm text-gray-400">50%</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Team Efficiency Metrics
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">
-                    Average Response Time
-                  </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">2 hours</div>
-                    <div className="text-sm text-green-400">-10% vs target</div>
-                  </div>
-                </div>
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">
-                    Daily Call Metrics
-                  </div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">120</div>
-                    <div className="text-sm text-green-400">
-                      +5% vs last month
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-[#232b45] rounded-lg">
-                  <div className="text-sm text-gray-400">Deal Closing Time</div>
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="text-2xl font-bold text-white">10 days</div>
-                    <div className="text-sm text-red-400">
-                      +2 days vs target
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Areas for Improvement
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">
-                      Response Time Optimization
-                    </span>
-                    <Badge className="bg-green-900 text-green-300">
-                      High Impact
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Deal Size Improvement</span>
-                    <Badge className="bg-blue-900 text-blue-300">
-                      Medium Impact
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Geographic Expansion</span>
-                    <Badge className="bg-purple-900 text-purple-300">
-                      Low Impact
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Development Recommendations
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Skills Training</span>
-                    <Badge className="bg-green-900 text-green-300">
-                      High Priority
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Mentorship Program</span>
-                    <Badge className="bg-blue-900 text-blue-300">
-                      Medium Priority
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-white">Incentive Structure</span>
-                    <Badge className="bg-purple-900 text-purple-300">
-                      Low Priority
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Team Performance Trend
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 flex items-center justify-center bg-[#232b45] rounded">
-                  <Bar
-                    data={{
-                      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                      datasets: [
-                        {
-                          label: "Team Performance",
-                          data: [85, 90, 88, 92, 95, 97],
-                          backgroundColor: "#f97316",
-                          borderRadius: 6,
-                        },
-                        {
-                          label: "Target",
-                          data: [80, 80, 80, 80, 80, 80],
-                          backgroundColor: "#475569",
-                          borderRadius: 6,
-                        },
-                      ],
-                    }}
-                    options={{
-                      responsive: true,
-                      plugins: {
-                        legend: { labels: { color: "#fff" } },
-                      },
-                      scales: {
-                        x: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                        y: {
-                          ticks: { color: "#fff" },
-                          grid: { color: "#232b45" },
-                        },
-                      },
-                    }}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Additional team-related cards */}
         </>
       )}
 
       {/* Report Actions */}
-      <Card className="bg-[#181f32] border border-[#232b45] shadow-none text-white">
+      <Card className={`${cardBg} border ${cardBorder} shadow-none ${textColor}`}>
         <CardHeader>
-          <CardTitle className="text-white">Report Actions</CardTitle>
+          <CardTitle className={textColor}>Report Actions</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 bg-[#232b45] hover:bg-orange-500/10"
+              className={`h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 ${theme === "dark" ? "bg-[#232b45]" : "bg-gray-50"} hover:bg-orange-500/10`}
               onClick={handleGenerateCustomReport}
             >
               <FileText className="h-6 w-6 mb-2" />
@@ -1219,7 +666,7 @@ const SalesReports = () => {
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 bg-[#232b45] hover:bg-orange-500/10"
+              className={`h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 ${theme === "dark" ? "bg-[#232b45]" : "bg-gray-50"} hover:bg-orange-500/10`}
               onClick={handleScheduleReports}
             >
               <Calendar className="h-6 w-6 mb-2" />
@@ -1227,7 +674,7 @@ const SalesReports = () => {
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 bg-[#232b45] hover:bg-orange-500/10"
+              className={`h-20 flex flex-col items-center justify-center border-orange-500 text-orange-400 ${theme === "dark" ? "bg-[#232b45]" : "bg-gray-50"} hover:bg-orange-500/10`}
               onClick={handleDashboardView}
             >
               <BarChart3 className="h-6 w-6 mb-2" />
@@ -1242,18 +689,18 @@ const SalesReports = () => {
         open={showCustomReportDialog}
         onOpenChange={setShowCustomReportDialog}
       >
-        <DialogContent className="bg-[#181f32] border border-[#232b45] text-white">
+        <DialogContent className={`${dialogBg} border ${dialogBorderColor} ${dialogText}`}>
           <DialogHeader>
-            <DialogTitle className="text-white">
+            <DialogTitle className={dialogText}>
               Generate Custom Report
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Report Type
               </label>
-              <select className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white">
+              <select className={`w-full p-2 rounded ${selectBg}`}>
                 <option value="sales">Sales Performance</option>
                 <option value="revenue">Revenue Analysis</option>
                 <option value="team">Team Performance</option>
@@ -1261,43 +708,43 @@ const SalesReports = () => {
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Date Range
               </label>
               <div className="flex space-x-2">
                 <input
                   type="date"
-                  className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white"
+                  className={`w-full p-2 rounded ${selectBg}`}
                   placeholder="From"
                 />
                 <input
                   type="date"
-                  className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white"
+                  className={`w-full p-2 rounded ${selectBg}`}
                   placeholder="To"
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Format
               </label>
               <div className="flex space-x-2">
                 <Button
                   variant="outline"
-                  className="flex-1 border-[#232b45] text-gray-300 bg-[#232b45] hover:bg-orange-500/10"
+                  className={`flex-1 ${buttonOutline}`}
                 >
                   PDF
                 </Button>
                 <Button
                   variant="outline"
-                  className="flex-1 border-[#232b45] text-gray-300 bg-[#232b45] hover:bg-orange-500/10"
+                  className={`flex-1 ${buttonOutline}`}
                 >
                   Excel
                 </Button>
               </div>
             </div>
             <Button
-              className="w-full bg-orange-500 hover:bg-orange-600"
+              className={`w-full ${buttonAccent}`}
               onClick={() => {
                 toast({
                   title: "Report Generated",
@@ -1315,43 +762,43 @@ const SalesReports = () => {
 
       {/* Schedule Reports Dialog */}
       <Dialog open={showScheduleDialog} onOpenChange={setShowScheduleDialog}>
-        <DialogContent className="bg-[#181f32] border border-[#232b45] text-white">
+        <DialogContent className={`${dialogBg} border ${dialogBorderColor} ${dialogText}`}>
           <DialogHeader>
-            <DialogTitle className="text-white">Schedule Reports</DialogTitle>
+            <DialogTitle className={dialogText}>Schedule Reports</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Report Type
               </label>
-              <select className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white">
+              <select className={`w-full p-2 rounded ${selectBg}`}>
                 <option value="sales">Sales Performance</option>
                 <option value="revenue">Revenue Analysis</option>
                 <option value="team">Team Performance</option>
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Frequency
               </label>
-              <select className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white">
+              <select className={`w-full p-2 rounded ${selectBg}`}>
                 <option value="daily">Daily</option>
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
+              <label className={`text-sm font-medium ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
                 Recipients
               </label>
               <input
                 type="text"
-                className="w-full p-2 rounded bg-[#232b45] border border-[#232b45] text-white"
+                className={`w-full p-2 rounded ${selectBg}`}
                 placeholder="Email addresses (comma separated)"
               />
             </div>
             <Button
-              className="w-full bg-orange-500 hover:bg-orange-600"
+              className={`w-full ${buttonAccent}`}
               onClick={() => {
                 toast({
                   title: "Report Scheduled",

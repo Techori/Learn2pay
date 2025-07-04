@@ -109,22 +109,22 @@ const ReferralDashboardOverview = () => {
         {monthlyStats.map((stat, index) => (
           <Card
             key={index}
-            className="bg-gray-800/50 border-gray-700 shadow-md hover:shadow-lg hover:border-gray-600 transition-all duration-300"
+            className="bg-card-bg border-border-color shadow-md transition-all duration-300"
           >
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-300">{stat.label}</p>
-                  <p className="text-2xl font-bold text-white">{stat.value}</p>
+                  <p className="text-sm text-text-secondary">{stat.label}</p>
+                  <p className="text-2xl font-bold text-text-color">{stat.value}</p>
                   <div className="flex items-center mt-1">
-                    <ArrowUpRight className="h-3 w-3 text-green-400 mr-1" />
-                    <span className="text-xs text-green-400">
+                    <ArrowUpRight className="h-3 w-3 text-success mr-1" />
+                    <span className="text-xs text-success">
                       {stat.change}
                     </span>
                   </div>
                 </div>
-                <div className={`p-3 rounded-lg ${stat.color}`}>
-                  <stat.icon className="h-6 w-6" />
+                <div className="p-3 rounded-lg bg-surface-color">
+                  <stat.icon className="h-6 w-6 text-text-color" />
                 </div>
               </div>
             </CardContent>
@@ -133,14 +133,14 @@ const ReferralDashboardOverview = () => {
       </div>
 
       {/* Revenue Progress */}
-      <Card className="bg-gray-800/50 border-gray-700 shadow-md">
+      <Card className="bg-card-bg border-border-color shadow-md">
         <CardHeader className="pb-4">
           <div className="flex justify-between items-center">
             <div>
-              <CardTitle className="text-lg text-white">
+              <CardTitle className="text-lg text-text-color">
                 Monthly Revenue Target
               </CardTitle>
-              <CardDescription className="text-gray-400">
+              <CardDescription className="text-text-secondary">
                 Track your progress towards monthly goals
               </CardDescription>
             </div>
@@ -151,32 +151,32 @@ const ReferralDashboardOverview = () => {
         </CardHeader>
         <CardContent className="pt-0">
           <div className="space-y-4">
-            <div className="flex justify-between text-sm text-gray-300">
+            <div className="flex justify-between text-sm text-text-secondary">
               <span>
                 Current:{" "}
-                <span className="font-medium text-white">₹4,12,000</span>
+                <span className="font-medium text-text-color">₹4,12,000</span>
               </span>
               <span>
                 Target:{" "}
-                <span className="font-medium text-white">₹5,00,000</span>
+                <span className="font-medium text-text-color">₹5,00,000</span>
               </span>
             </div>
             <Progress
               value={82}
-              className="h-3 bg-gray-700 [&>div]:bg-orange-500"
+              className="h-3 bg-background-color [&>div]:bg-orange-500"
             />
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <div className="text-2xl font-bold text-blue-400">₹88,000</div>
-                <div className="text-sm text-gray-400">Remaining</div>
+                <div className="text-sm text-text-secondary">Remaining</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-green-400">18</div>
-                <div className="text-sm text-gray-400">Days Left</div>
+                <div className="text-sm text-text-secondary">Days Left</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-purple-400">₹4,889</div>
-                <div className="text-sm text-gray-400">Daily Required</div>
+                <div className="text-sm text-text-secondary">Daily Required</div>
               </div>
             </div>
           </div>
@@ -185,12 +185,12 @@ const ReferralDashboardOverview = () => {
 
       {/* Performance Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-gray-800/50 border-gray-700 shadow-md">
+        <Card className="bg-card-bg border-border-color shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">
+            <CardTitle className="text-lg text-text-color">
               Recent Activity
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-text-secondary">
               Latest referral activities and transactions
             </CardDescription>
           </CardHeader>
@@ -199,21 +199,21 @@ const ReferralDashboardOverview = () => {
               {recentActivity.map((activity, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg hover:bg-gray-900/80 transition-colors duration-200"
+                  className="flex items-center justify-between p-4 bg-background-color rounded-lg hover:bg-background-color/80 transition-colors duration-200"
                 >
                   <div>
-                    <div className="font-medium text-white text-sm">
+                    <div className="font-medium text-text-color text-sm">
                       {activity.action}
                     </div>
-                    <div className="text-sm text-gray-300">
+                    <div className="text-sm text-text-secondary">
                       {activity.institute}
                     </div>
-                    <div className="text-xs text-gray-400 mt-1">
+                    <div className="text-xs text-text-secondary mt-1">
                       {activity.time}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium text-sm text-white">
+                    <div className="font-medium text-sm text-text-color">
                       {activity.amount}
                     </div>
                     <Badge
@@ -234,12 +234,12 @@ const ReferralDashboardOverview = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gray-800/50 border-gray-700 shadow-md">
+        <Card className="bg-card-bg border-border-color shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">
+            <CardTitle className="text-lg text-text-color">
               Top Performing Referrals
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-text-secondary">
               Your highest revenue generating institutes
             </CardDescription>
           </CardHeader>
@@ -248,18 +248,18 @@ const ReferralDashboardOverview = () => {
               {topPerformers.map((performer, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border border-gray-700 rounded-lg hover:bg-gray-900/50 transition-colors duration-200"
+                  className="flex items-center justify-between p-4 border border-border-color rounded-lg hover:bg-background-color/50 transition-colors duration-200"
                 >
                   <div>
-                    <div className="font-medium text-white">
+                    <div className="font-medium text-text-color">
                       {performer.name}
                     </div>
-                    <div className="text-sm text-gray-300 mt-1">
+                    <div className="text-sm text-text-secondary mt-1">
                       {performer.students} students
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium text-white">
+                    <div className="font-medium text-text-color">
                       {performer.revenue}
                     </div>
                     <div className="text-xs text-green-400 mt-1">
@@ -270,7 +270,7 @@ const ReferralDashboardOverview = () => {
               ))}
             </div>
             <Button
-              className="w-full mt-4 text-white border-gray-600 hover:bg-gray-700"
+              className="w-full mt-4 text-text-color border-border-color hover:bg-background-color"
               variant="outline"
             >
               View All Referrals
@@ -280,10 +280,10 @@ const ReferralDashboardOverview = () => {
       </div>
 
       {/* Quick Actions */}
-      <Card className="bg-gray-800/50 border-gray-700 shadow-md">
+      <Card className="bg-card-bg border-border-color shadow-md">
         <CardHeader>
-          <CardTitle className="text-lg text-white">Quick Actions</CardTitle>
-          <CardDescription className="text-gray-400">
+          <CardTitle className="text-lg text-text-color">Quick Actions</CardTitle>
+          <CardDescription className="text-text-secondary">
             Common tasks and shortcuts
           </CardDescription>
         </CardHeader>
@@ -295,21 +295,21 @@ const ReferralDashboardOverview = () => {
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-gray-200 hover:bg-gray-700 border-gray-600"
+              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
             >
               <DollarSign className="h-6 w-6 mb-1" />
               <span className="text-xs font-medium">Track Payment</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-gray-200 hover:bg-gray-700 border-gray-600"
+              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
             >
               <TrendingUp className="h-6 w-6 mb-1" />
               <span className="text-xs font-medium">View Reports</span>
             </Button>
             <Button
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-gray-200 hover:bg-gray-700 border-gray-600"
+              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
             >
               <Calendar className="h-6 w-6 mb-1" />
               <span className="text-xs font-medium">Schedule Follow-up</span>

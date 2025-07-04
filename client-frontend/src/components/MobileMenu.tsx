@@ -77,14 +77,14 @@ const MobileMenu = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 bg-black"
+          className="fixed inset-0 z-50 bg-white dark:bg-black"
           variants={menuVariants}
           initial="closed"
           animate="open"
           exit="closed"
         >
           <div className="flex justify-end p-6">
-            <button onClick={toggleMenu} className="text-white">
+            <button onClick={toggleMenu} className="text-gray-900 dark:text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -119,7 +119,7 @@ const MobileMenu = ({
                         className={`transition-colors ${
                           isActive
                             ? "text-orange-500"
-                            : "text-white hover:text-orange-500"
+                            : "text-gray-900 dark:text-white hover:text-orange-500 dark:hover:text-orange-400"
                         }`}
                       >
                         {item.name}
@@ -148,14 +148,14 @@ const MobileMenu = ({
               ) : isAuthenticated ? (
                 // Authenticated state
                 <>
-                  <div className="text-center text-sm text-gray-300 mb-4">
+                  <div className="text-center text-sm text-gray-700 dark:text-gray-300 mb-4">
                     Welcome,{" "}
                     <span className="text-orange-400">{institute?.name}</span>
                   </div>
                   <Link
                     to="/dashboard"
                     onClick={toggleMenu}
-                    className="w-full py-4 text-center bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-4 text-center bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors flex items-center justify-center gap-2 dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ const MobileMenu = ({
                       onLogout();
                       toggleMenu();
                     }}
-                    className="w-full py-4 text-center text-white border border-white rounded-md hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
+                    className="w-full py-4 text-center text-gray-900 dark:text-white border border-gray-900 dark:border-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors flex items-center justify-center gap-2"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +203,7 @@ const MobileMenu = ({
                   <Link
                     to="/login"
                     onClick={toggleMenu}
-                    className="block w-full py-4 text-center text-white border border-white rounded-md hover:bg-white/10 transition-colors"
+                    className="block w-full py-4 text-center text-gray-900 dark:text-white border border-gray-900 dark:border-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
                   >
                     Login
                   </Link>

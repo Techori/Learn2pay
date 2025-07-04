@@ -13,7 +13,7 @@ const BlogPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:to-gray-900 text-gray-900 dark:text-white">
       {/* Hero Section */}
       <section className="py-16 text-center bg-orange-600 text-white">
         <h1 className="text-4xl font-bold mb-4">Simplifying Fee Payments, One EMI at a Time</h1>
@@ -21,23 +21,23 @@ const BlogPage = () => {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-12 bg-gray-800 px-4 md:px-16">
-        <h2 className="text-2xl font-bold mb-6 text-center text-orange-500">Benefits</h2>
+      <section className="py-12 bg-gray-100 dark:bg-gray-800 px-4 md:px-16">
+        <h2 className="text-2xl font-bold mb-6 text-center text-orange-600 dark:text-orange-400">Benefits</h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="shadow-lg bg-black text-white">
+          <Card className="shadow-lg bg-white dark:bg-black text-gray-900 dark:text-white">
             <CardContent>
-              <CardTitle className="text-orange-500">For Parents</CardTitle>
-              <ul className="list-disc ml-6 text-gray-400">
+              <CardTitle className="text-orange-600 dark:text-orange-400">For Parents</CardTitle>
+              <ul className="list-disc ml-6 text-gray-700 dark:text-gray-400">
                 <li>Reduced financial stress during fee deadlines.</li>
                 <li>Flexible monthly repayment options.</li>
                 <li>Transparent EMI terms.</li>
               </ul>
             </CardContent>
           </Card>
-          <Card className="shadow-lg bg-black text-white">
+          <Card className="shadow-lg bg-white dark:bg-black text-gray-900 dark:text-white">
             <CardContent>
-              <CardTitle className="text-orange-500">For Institutions</CardTitle>
-              <ul className="list-disc ml-6 text-gray-400">
+              <CardTitle className="text-orange-600 dark:text-orange-400">For Institutions</CardTitle>
+              <ul className="list-disc ml-6 text-gray-700 dark:text-gray-400">
                 <li>Guaranteed timely fee payments.</li>
                 <li>Streamlined financial operations.</li>
                 <li>Reduced administrative workload.</li>
@@ -53,8 +53,8 @@ const BlogPage = () => {
         
         <p className="mb-6">Join thousands of parents and institutions simplifying fee payments.</p>
         <Button
-          onClick={() => navigate('/register')} // Navigate to the route
-          className="bg-orange-700 hover:bg-orange-500 text-white px-6 py-3 rounded-lg"
+            className="bg-orange-700 hover:bg-orange-500 text-white px-6 py-3 rounded-lg dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
+             onClick={() => navigate('/register')} // Navigate to the route
         >
           Get Started
         </Button>
