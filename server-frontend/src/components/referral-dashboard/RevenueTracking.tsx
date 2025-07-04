@@ -5,6 +5,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { DollarSign, TrendingUp, Calendar, Download } from 'lucide-react';
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const RevenueTracking = () => {
   const [timeRange, setTimeRange] = useState('6months');
 
@@ -126,7 +129,7 @@ const RevenueTracking = () => {
                   <SelectItem value="1year">1 Year</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline" className="text-gray-700 border-gray-300 hover:bg-gray-100">
+              <Button variant="outline" className={referralButtonStyle}>
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>

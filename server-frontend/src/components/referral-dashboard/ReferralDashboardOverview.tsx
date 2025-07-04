@@ -17,6 +17,9 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const ReferralDashboardOverview = () => {
   const monthlyStats = [
     {
@@ -281,38 +284,42 @@ const ReferralDashboardOverview = () => {
 
       {/* Quick Actions */}
       <Card className="bg-card-bg border-border-color shadow-md">
-        <CardHeader>
+        <CardHeader className="pb-3">
           <CardTitle className="text-lg text-text-color">Quick Actions</CardTitle>
           <CardDescription className="text-text-secondary">
-            Common tasks and shortcuts
+            Common tasks for referral partners
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Button className="h-20 flex flex-col items-center justify-center bg-orange-500 hover:bg-orange-600 text-white">
-              <UserPlus className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">Add Referral</span>
-            </Button>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <Button
+              onClick={() => window.location.href = "/referral-dashboard/add-referrals"}
               variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
+              className={`${referralButtonStyle} h-20 flex flex-col items-center justify-center`}
             >
-              <DollarSign className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">Track Payment</span>
+              <UserPlus className="h-5 w-5 mb-1" />
+              <span className="text-xs">Add New Referral</span>
             </Button>
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
+            <Button 
+              variant="outline" 
+              className={`${referralButtonStyle} h-20 flex flex-col items-center justify-center`}
             >
-              <TrendingUp className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">View Reports</span>
+              <Calendar className="h-5 w-5 mb-1" />
+              <span className="text-xs">Schedule Follow-up</span>
             </Button>
-            <Button
-              variant="outline"
-              className="h-20 flex flex-col items-center justify-center text-text-secondary border-border-color hover:bg-orange-500 hover:text-white hover:border-orange-500"
+            <Button 
+              variant="outline" 
+              className={`${referralButtonStyle} h-20 flex flex-col items-center justify-center`}
             >
-              <Calendar className="h-6 w-6 mb-1" />
-              <span className="text-xs font-medium">Schedule Follow-up</span>
+              <DollarSign className="h-5 w-5 mb-1" />
+              <span className="text-xs">Request Payout</span>
+            </Button>
+            <Button 
+              variant="outline" 
+              className={`${referralButtonStyle} h-20 flex flex-col items-center justify-center`}
+            >
+              <Users className="h-5 w-5 mb-1" />
+              <span className="text-xs">View My Referrals</span>
             </Button>
           </div>
         </CardContent>

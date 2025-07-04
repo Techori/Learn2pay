@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/Badge";
 import { Switch } from "@/components/ui/Switch";
 import { Bell, CheckCircle, DollarSign, UserPlus, TrendingUp, Settings, Mail, AlertTriangle } from 'lucide-react';
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const ReferralNotifications = () => {
   const [notifications, setNotifications] = useState([
     {
@@ -256,11 +259,21 @@ const ReferralNotifications = () => {
               <CardDescription>Stay updated with your referral activities</CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-100" onClick={handleMarkAllRead}>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={referralButtonStyle}
+                onClick={handleMarkAllRead}
+              >
                 Mark All Read
               </Button>
-              <Button variant="outline" size="sm" className="border-gray-300 hover:bg-gray-100" onClick={handleViewNotificationSettings}>
-                <Settings className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={referralButtonStyle}
+                onClick={handleViewNotificationSettings}
+              >
+                Notification Settings
               </Button>
             </div>
           </div>
@@ -296,12 +309,22 @@ const ReferralNotifications = () => {
                         <span className="text-xs text-gray-500">{notification.timestamp}</span>
                         <div className="flex space-x-2">
                           {!notification.read && (
-                            <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100" onClick={() => handleMarkNotificationRead(notification.id)}>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              className={referralButtonStyle}
+                              onClick={() => handleMarkNotificationRead(notification.id)}
+                            >
                               Mark Read
                             </Button>
                           )}
-                          <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100" onClick={() => handleViewNotificationDetails(notification.id)}>
-                            View Details
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className={referralButtonStyle}
+                            onClick={() => handleViewNotificationDetails(notification.id)}
+                          >
+                            View
                           </Button>
                         </div>
                       </div>
@@ -384,15 +407,15 @@ const ReferralNotifications = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="outline" className="justify-start">
+            <Button variant="outline" className={`justify-start ${referralButtonStyle}`}>
               <Bell className="h-4 w-4 mr-2" />
               Test Notifications
             </Button>
-            <Button variant="outline" className="justify-start">
+            <Button variant="outline" className={`justify-start ${referralButtonStyle}`}>
               <Settings className="h-4 w-4 mr-2" />
               Advanced Settings
             </Button>
-            <Button variant="outline" className="justify-start">
+            <Button variant="outline" className={`justify-start ${referralButtonStyle}`}>
               <Mail className="h-4 w-4 mr-2" />
               Email Preferences
             </Button>

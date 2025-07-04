@@ -26,6 +26,7 @@ import {
   Wallet,
   Landmark,
   Hourglass,
+  RefreshCcw,
 } from "lucide-react";
 import {
   Popover,
@@ -283,7 +284,7 @@ const SupportReports = () => {
                 </PopoverContent>
               </Popover>
               <Button
-                className="bg-warning hover:bg-warning text-white flex items-center"
+                className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors flex items-center"
                 onClick={handleExportReport}
               >
                 <Download className="mr-2 h-4 w-4" />
@@ -307,7 +308,7 @@ const SupportReports = () => {
               ))}
             </select>
             <Button
-              className="bg-warning hover:bg-warning text-white flex items-center"
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors flex items-center"
               onClick={handleDownloadInstitutePDF}
             >
               <Download className="mr-2 h-4 w-4" />
@@ -468,7 +469,7 @@ const SupportReports = () => {
                       <Button
                         key={index}
                         variant="outline"
-                        className="h-24 flex flex-col items-center justify-center space-y-2 border-gray-700 text-gray-200 hover:bg-gray-700"
+                        className="h-24 flex flex-col items-center justify-center space-y-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
                       >
                         {report.icon}
                         <span>{report.title}</span>
