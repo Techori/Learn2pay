@@ -19,6 +19,9 @@ import {
 } from "lucide-react";
 import { jsPDF } from "jspdf";
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const ReferralReports = () => {
   const reportTypes = [
     {
@@ -198,16 +201,16 @@ const ReferralReports = () => {
         {quickMetrics.map((metric, index) => (
           <Card
             key={index}
-            className="shadow-sm transition-shadow duration-200 bg-card-bg border-border-color"
+            className="shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <CardContent className="p-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-text-secondary">{metric.label}</p>
-                  <p className="text-2xl font-bold text-text-primary">
+                  <p className="text-sm text-gray-600">{metric.label}</p>
+                  <p className="text-2xl font-bold text-gray-900">
                     {metric.value}
                   </p>
-                  <p className="text-xs text-text-secondary mt-1">{metric.period}</p>
+                  <p className="text-xs text-gray-500 mt-1">{metric.period}</p>
                 </div>
                 <div className="text-right">
                   <span className="text-sm text-green-600 font-medium">
@@ -238,7 +241,7 @@ const ReferralReports = () => {
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border rounded-lg bg-card-bg border-border-color"
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="bg-blue-100 p-3 rounded-lg">
@@ -275,7 +278,7 @@ const ReferralReports = () => {
                       size="sm"
                       variant="outline"
                       disabled={report.status !== "Available"}
-                      className="border-gray-300 hover:bg-gray-100"
+                      className={`${referralButtonStyle} mr-2`}
                       onClick={() => onDownloadReport(report.title)}
                     >
                       <Download className="h-4 w-4 mr-1" />
@@ -284,7 +287,7 @@ const ReferralReports = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-gray-300 hover:bg-gray-100"
+                      className={`${referralButtonStyle}`}
                       onClick={() => onViewReport(report.title)}
                     >
                       <Eye className="h-4 w-4" />
@@ -310,7 +313,7 @@ const ReferralReports = () => {
             {performanceData.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 bg-card-bg rounded-lg border-border-color"
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
                 <div className="font-medium text-gray-900">{item.metric}</div>
                 <div className="flex items-center space-x-6">
@@ -351,7 +354,7 @@ const ReferralReports = () => {
               {topPerformers.map((performer, index) => (
                 <div
                   key={index}
-                  className="p-4 border rounded-lg bg-card-bg border-border-color"
+                  className="p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="font-semibold text-gray-900">
@@ -389,11 +392,11 @@ const ReferralReports = () => {
           <CardContent className="space-y-5">
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-medium text-text-secondary">
+                <label className="text-sm font-medium text-gray-700">
                   Report Type
                 </label>
                 <select
-                  className="w-full p-2 border border-border-color rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customReportType}
                   onChange={(e) => setCustomReportType(e.target.value)}
                 >
@@ -405,11 +408,11 @@ const ReferralReports = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-text-secondary">
+                <label className="text-sm font-medium text-gray-700">
                   Date Range
                 </label>
                 <select
-                  className="w-full p-2 border border-border-color rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customDateRange}
                   onChange={(e) => setCustomDateRange(e.target.value)}
                 >
@@ -421,11 +424,11 @@ const ReferralReports = () => {
               </div>
 
               <div>
-                <label className="text-sm font-medium text-text-secondary">
+                <label className="text-sm font-medium text-gray-700">
                   Format
                 </label>
                 <select
-                  className="w-full p-2 border border-border-color rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customFormat}
                   onChange={(e) => setCustomFormat(e.target.value)}
                 >
@@ -437,7 +440,7 @@ const ReferralReports = () => {
             </div>
 
             <Button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-text-color"
+              className={`w-full ${referralButtonStyle}`}
               onClick={onGenerateCustomReport}
             >
               <BarChart3 className="h-4 w-4 mr-2" />
@@ -461,7 +464,7 @@ const ReferralReports = () => {
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div>
                 <div className="font-medium">Weekly Performance Summary</div>
-                <div className="text-sm text-text-secondary">
+                <div className="text-sm text-gray-600">
                   Every Monday at 9:00 AM
                 </div>
               </div>
@@ -471,12 +474,12 @@ const ReferralReports = () => {
             <div className="flex items-center justify-between p-3 border rounded-lg">
               <div>
                 <div className="font-medium">Monthly Revenue Report</div>
-                <div className="text-sm text-text-secondary">1st of every month</div>
+                <div className="text-sm text-gray-600">1st of every month</div>
               </div>
               <Badge className="bg-green-100 text-green-800">Active</Badge>
             </div>
 
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className={`w-full ${referralButtonStyle}`}>
               Configure Report Schedule
             </Button>
           </div>

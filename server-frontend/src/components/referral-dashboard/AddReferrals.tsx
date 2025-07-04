@@ -40,6 +40,9 @@ const referralFormSchema = z.object({
 
 type ReferralFormData = z.infer<typeof referralFormSchema>;
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const AddReferrals = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -649,7 +652,7 @@ const AddReferrals = () => {
           onClick={handlePrevious} 
           disabled={step === 1 || isSubmitting} 
           variant="outline" 
-          className="px-6 py-2 border-gray-300 hover:bg-gray-100"
+          className={`px-6 py-2 ${referralButtonStyle} ${(step === 1 || isSubmitting) ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Previous
         </Button>
@@ -657,7 +660,7 @@ const AddReferrals = () => {
           <Button 
             onClick={handleNext} 
             disabled={isSubmitting}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white"
+            className={`px-6 py-2 ${referralButtonStyle}`}
           >
             Next
             </Button>
@@ -666,7 +669,7 @@ const AddReferrals = () => {
             type="button" 
             onClick={handleSubmit(onSubmit, onError)}
             disabled={isSubmitting}
-            className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white"
+            className={`px-6 py-2 ${referralButtonStyle} ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
           >
             {isSubmitting ? (
               <>

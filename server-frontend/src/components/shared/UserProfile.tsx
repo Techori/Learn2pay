@@ -50,17 +50,17 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
-          className="flex items-center space-x-2"
+          className="h-9 border border-primary bg-background text-text-color hover:bg-primary hover:text-white transition-colors flex items-center space-x-2 pl-2 pr-3"
         >
-          <Avatar className="h-8 w-8 bg-primary/20">
+          <Avatar className="h-6 w-6 bg-gray-200 dark:bg-gray-600 shrink-0">
             <AvatarImage src={user.avatar} />
-            <AvatarFallback className="text-primary">
+            <AvatarFallback className="text-black dark:text-gray-200">
               {user.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
-          <span className="hidden md:block text-foreground">{user.name}</span>
+          <span className="hidden md:block">{user.name}</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-white dark:bg-slate-800 border-border-color">
@@ -101,9 +101,9 @@ const UserProfile = ({ user, onUpdate }: UserProfileProps) => {
 
         <div className="space-y-4">
           <div className="flex justify-center">
-            <Avatar className="h-20 w-20 bg-primary/20">
+            <Avatar className="h-20 w-20 bg-gray-200 dark:bg-gray-600">
               <AvatarImage src={user.avatar} />
-              <AvatarFallback className="text-lg text-primary">
+              <AvatarFallback className="text-lg text-black dark:text-gray-200">
                 {user.name.charAt(0)}
               </AvatarFallback>
             </Avatar>

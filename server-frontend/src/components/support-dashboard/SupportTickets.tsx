@@ -506,9 +506,10 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
             Manage and respond to support requests from institutes
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create Ticket
+        <Button onClick={() => setIsCreateDialogOpen(true)}
+          className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+        >
+          <Plus className="mr-2 h-4 w-4" /> Create Ticket
         </Button>
       </div>
 
@@ -780,11 +781,17 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
           <DialogFooter>
             <Button
               variant="outline"
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={() => setIsCreateDialogOpen(false)}
             >
               Cancel
             </Button>
-            <Button onClick={handleCreateTicket}>Create Ticket</Button>
+            <Button 
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={handleCreateTicket}
+            >
+              Create Ticket
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -805,12 +812,16 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
           <DialogFooter>
             <Button
               variant="outline"
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={() => setIsActionDialogOpen(false)}
             >
               Cancel
             </Button>
             {selectedAction !== "view" && (
-              <Button onClick={confirmTicketAction}>
+              <Button 
+                className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+                onClick={confirmTicketAction}
+              >
                 {selectedAction === "assign" ? "Assign" : "Escalate"}
               </Button>
             )}

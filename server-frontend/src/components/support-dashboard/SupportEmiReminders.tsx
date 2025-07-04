@@ -43,19 +43,22 @@ const SupportEmiReminders: React.FC<SupportEmiRemindersProps> = ({ role }) => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-4">
-            <Button className="flex items-center gap-2" onClick={() => setOpenBulk(true)}>
+            <Button 
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors flex items-center gap-2" 
+              onClick={() => setOpenBulk(true)}
+            >
               <Bell className="h-5 w-5" /> Send Bulk Reminder
             </Button>
             <Button 
               variant="outline" 
-              className="flex items-center gap-2" 
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors flex items-center gap-2" 
               onClick={() => setOpenLogs(true)}
             >
               <ListChecks className="h-5 w-5" /> View Reminder Logs
             </Button>
             <Button 
               variant="outline" 
-              className="flex items-center gap-2" 
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors flex items-center gap-2" 
               onClick={() => setOpenAnalytics(true)}
             >
               <BarChart2 className="h-5 w-5" /> Effectiveness Analytics
@@ -75,8 +78,19 @@ const SupportEmiReminders: React.FC<SupportEmiRemindersProps> = ({ role }) => {
             Are you sure you want to send reminders to all premium institutes' parents?
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenBulk(false)}>Cancel</Button>
-            <Button onClick={handleSendBulk}>Send Reminders</Button>
+            <Button 
+              variant="outline" 
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={() => setOpenBulk(false)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={handleSendBulk}
+            >
+              Send Reminders
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
