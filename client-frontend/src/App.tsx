@@ -23,9 +23,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import InstituteDashboard from "./pages/dashboards/Institute";
-import ParentDashboard from "./pages/dashboards/parent";
-
 function App() {
   return (
     <AuthProvider>
@@ -51,11 +48,14 @@ function App() {
           <Route path="/demo" element={<Demo />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/learnmore" element={<LearnMore />} />
-          {/* DEV ONLY: Unprotected dashboard route for development. Revert after responsive work is done. */}
-          <Route path="/dashboard" element={<DashboardRouter />} />
-          {/* DEV ONLY: Direct access to dashboards for development. Revert after responsive work is done. */}
-          <Route path="/dashboard/institute" element={<InstituteDashboard />} />
-          <Route path="/dashboard/parent" element={<ParentDashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardRouter />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Toaster />
       </BrowserRouter>
