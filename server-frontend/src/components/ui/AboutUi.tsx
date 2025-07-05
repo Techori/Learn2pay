@@ -63,7 +63,7 @@ const AboutUI: React.FC<AboutUIProps> = ({
           <h2 className="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow">
             Meet Our Team
           </h2>
-          <p className="text-xl text-gray-300">The passionate people behind Learn2Pay</p>
+          <p className="text-xl text-gray-300">The passionate people behind Larn2Pay</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {team.map((member, i) => (

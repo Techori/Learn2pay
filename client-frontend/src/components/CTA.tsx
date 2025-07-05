@@ -30,7 +30,7 @@ const CTA = () => {
 
             <p className="text-gray-700 dark:text-white/80 text-lg md:text-xl mb-10 max-w-3xl mx-auto">
               Join thousands of educational institutions that have simplified
-              their fee management and improved collection rates with LEARN2PAY.
+              their fee management and improved collection rates with LARN2PAY.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">

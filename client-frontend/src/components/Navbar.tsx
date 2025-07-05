@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./Themetoggle";
 import { useAuth } from "../contexts/AuthContext";
+import { Moon, Sun } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,6 +13,7 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, institute, parent, userType, logout, isLoading } =
     useAuth();
+  const [darkMode, setDarkMode] = useState(false);
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -43,6 +45,18 @@ const Navbar = () => {
     setIsProfileMenuOpen(false);
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return newMode;
+    });
+  };
+
   // Get current user data
   const currentUser = institute || parent;
   const userName = institute?.name || parent?.parentName || "User";
@@ -62,20 +76,20 @@ const Navbar = () => {
   return (
     <>
       <motion.header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800/50">
-        <div className="container mx-auto flex items-center justify-between px-2 sm:px-4 md:px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center">
             <motion.div
               className="text-2xl font-bold"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <span className="text-orange-500">LEARN</span>
+              <span className="text-orange-500">LARN</span>
               <span className="text-gray-900 dark:text-white">2PAY</span>
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/" isActive={location.pathname === "/"}>
               Home
             </NavLink>
@@ -97,8 +111,14 @@ const Navbar = () => {
           </div>
 
           {/* Right Section */}
-          <div className="hidden lg:flex items-center space-x-4 flex-wrap min-w-0">
-            <ThemeToggle />
+          <div className="hidden md:flex items-center space-x-4">
+            <button
+              onClick={toggleDarkMode}
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {darkMode ? <Sun className="w-6 h-6 text-yellow-400" /> : <Moon className="w-6 h-6 text-gray-500" />}
+            </button>
 
             {isLoading ? (
               // Enhanced Loading state
@@ -116,7 +136,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/dashboard"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg min-w-0 max-w-[120px] truncate"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-300 flex items-center gap-2 shadow-lg"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +162,7 @@ const Navbar = () => {
                     onClick={toggleProfileMenu}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center space-x-3 bg-gray-800/50 hover:bg-gray-700/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 border border-gray-700/30 min-w-0 max-w-[120px] truncate"
+                    className="flex items-center space-x-3 bg-gray-800/50 hover:bg-gray-700/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 border border-gray-700/30"
                   >
                     {/* User Avatar */}
                     <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg">
@@ -308,7 +328,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 font-medium px-4 py-2 text-base md:px-2 md:py-1 md:text-sm"
+                    className="text-gray-300 hover:text-orange-400 transition-colors duration-300 font-medium"
                   >
                     Sign In
                   </Link>
@@ -320,7 +340,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg px-6 py-2 text-base md:px-3 md:py-1.5 md:text-sm"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg"
                   >
                     Get Started
                   </Link>
@@ -330,7 +350,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="lg:hidden flex items-center space-x-2">
+          <div className="md:hidden flex items-center space-x-2">
             <ThemeToggle />
             <button
               onClick={toggleMenu}

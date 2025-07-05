@@ -21,7 +21,7 @@ const FranchiseManagement = () => {
       owner: "Rajesh Patel",
       location: "Mumbai, Maharashtra",
       phone: "9876543210",
-      email: "mumbai@learn2pay.com",
+      email: "mumbai@larn2pay.com",
       status: "Active",
       performance: "Excellent",
       revenue: 450000,
@@ -36,7 +36,7 @@ const FranchiseManagement = () => {
       owner: "Priya Sharma",
       location: "Delhi, NCR",
       phone: "9876543211",
-      email: "delhi@learn2pay.com",
+      email: "delhi@larn2pay.com",
       status: "Active",
       performance: "Good",
       revenue: 380000,
@@ -51,7 +51,7 @@ const FranchiseManagement = () => {
       owner: "Amit Singh",
       location: "Bangalore, Karnataka",
       phone: "9876543212",
-      email: "bangalore@learn2pay.com",
+      email: "bangalore@larn2pay.com",
       status: "Under Review",
       performance: "Average",
       revenue: 250000,
@@ -174,7 +174,7 @@ const FranchiseManagement = () => {
                 <Building className="h-5 w-5 mr-2 text-secondary" />
                 Franchise Management
               </CardTitle>
-              <CardDescription className="text-text-secondary">Monitor and manage all Learn2pay franchise operations</CardDescription>
+              <CardDescription className="text-text-secondary">Monitor and manage all Larn2Pay franchise operations</CardDescription>
             </div>
             <Button className="bg-secondary hover:bg-secondary-hover text-text-color" onClick={handleAddFranchise}>
               <Plus className="h-4 w-4 mr-2" />

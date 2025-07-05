@@ -83,7 +83,7 @@ const DashboardStats = ({ emiData }: DashboardStatsProps) => {
           </div>
         </div>
 
-        {/* Total Paid to Learn2Pay */}
+        {/* Total Paid to Larn2Pay */}
         <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>

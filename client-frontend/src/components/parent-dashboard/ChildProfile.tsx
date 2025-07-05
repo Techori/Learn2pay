@@ -23,7 +23,7 @@ interface ChildProfileProps {
       phone: string;
     };
   };
-  learn2payInfo: {
+  larn2payInfo: {
     planType: string;
     totalAmount: number;
     emiAmount: number;
@@ -35,7 +35,7 @@ interface ChildProfileProps {
 const ChildProfile = ({
   childInfo,
   parentData,
-  learn2payInfo,
+  larn2payInfo,
 }: ChildProfileProps) => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -165,16 +165,16 @@ const ChildProfile = ({
               </div>
             </div>
 
-            {/* Learn2Pay Plan Info */}
+            {/* Larn2Pay Plan Info */}
             <div className="space-y-4">
               <h4 className="text-lg font-medium text-orange-400 mb-4">
-                💳 Learn2Pay Plan Details
+                💳 Larn2Pay Plan Details
               </h4>
               <div className="space-y-3">
                 <div>
                   <label className="text-gray-400 text-sm">Plan Type</label>
                   <p className="text-white font-medium">
-                    {learn2payInfo.planType}
+                    {larn2payInfo.planType}
                   </p>
                 </div>
                 <div>
@@ -182,25 +182,25 @@ const ChildProfile = ({
                     Total Amount Financed
                   </label>
                   <p className="text-white font-medium">
-                    ₹{learn2payInfo.totalAmount.toLocaleString()}
+                    ₹{larn2payInfo.totalAmount.toLocaleString()}
                   </p>
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Monthly EMI</label>
                   <p className="text-white font-medium">
-                    ₹{learn2payInfo.emiAmount.toLocaleString()}
+                    ₹{larn2payInfo.emiAmount.toLocaleString()}
                   </p>
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Tenure</label>
                   <p className="text-white font-medium">
-                    {learn2payInfo.tenure}
+                    {larn2payInfo.tenure}
                   </p>
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Interest Rate</label>
                   <p className="text-white font-medium">
-                    {learn2payInfo.interestRate}% p.a.
+                    {larn2payInfo.interestRate}% p.a.
                   </p>
                 </div>
                 <div>

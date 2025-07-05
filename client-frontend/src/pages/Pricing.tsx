@@ -218,7 +218,7 @@ const Pricing = () => {
               Ready to Get Started?
             </h2>
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join thousands of institutions that trust Learn2Pay for their fee
+              Join thousands of institutions that trust Larn2Pay for their fee
               collection needs
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

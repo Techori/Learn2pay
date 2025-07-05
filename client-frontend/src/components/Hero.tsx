@@ -59,7 +59,7 @@ const Hero = () => {
         >
           Join 15,000+ educational institutions that have revolutionized their
           payment processes and achieved 95% collection efficiency with
-          Learn2Pay
+          Larn2Pay
         </motion.p>
 
         <motion.div

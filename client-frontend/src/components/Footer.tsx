@@ -41,7 +41,7 @@ const Footer = () => {
           >
             <Link to="/" className="flex items-center mb-6">
               <div className="text-2xl font-bold">
-                <span className="text-orange-500">LEARN</span>
+                <span className="text-orange-500">LARN</span>
                 <span className="text-gray-900 dark:text-white">2PAY</span>
               </div>
             </Link>
@@ -154,7 +154,7 @@ const Footer = () => {
           transition={{ delay: 0.5 }}
         >
           <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} LEARN2PAY. All rights reserved.
+            &copy; {new Date().getFullYear()} <span className="font-bold"><span className="text-[#FF7F1A]">LARN</span><span className="text-gray-900 dark:text-white">2PAY</span></span>. All rights reserved.
           </p>
           <div className="flex space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <Link

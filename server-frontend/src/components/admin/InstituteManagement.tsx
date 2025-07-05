@@ -142,7 +142,7 @@ const InstituteManagement = () => {
       owner: "Rajesh Patel",
       location: "Mumbai, Maharashtra",
       phone: "9876543210",
-      email: "mumbai@learn2pay.com",
+      email: "mumbai@larn2pay.com",
       status: "Active",
       performance: "Excellent",
       revenue: 450000,
@@ -157,7 +157,7 @@ const InstituteManagement = () => {
       owner: "Priya Sharma",
       location: "Delhi, NCR",
       phone: "9876543211",
-      email: "delhi@learn2pay.com",
+      email: "delhi@larn2pay.com",
       status: "Active",
       performance: "Good",
       revenue: 380000,
@@ -172,7 +172,7 @@ const InstituteManagement = () => {
       owner: "Amit Singh",
       location: "Bangalore, Karnataka",
       phone: "9876543212",
-      email: "bangalore@learn2pay.com",
+      email: "bangalore@larn2pay.com",
       status: "Under Review",
       performance: "Average",
       revenue: 250000,
@@ -397,7 +397,7 @@ const InstituteManagement = () => {
     const doc = new jsPDF();
     
     doc.setFontSize(16);
-    doc.text("Learn2Pay - Institutes Report", 14, 22);
+    doc.text("Larn2Pay - Institutes Report", 14, 22);
     
     doc.setFontSize(11);
     doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
@@ -435,7 +435,7 @@ const InstituteManagement = () => {
       }
     });
     
-    doc.save(`learn2pay-institutes-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+    doc.save(`larn2pay-institutes-report-${new Date().toISOString().slice(0, 10)}.pdf`);
     
     toast({
       title: "Export Completed",
@@ -736,7 +736,7 @@ const InstituteManagement = () => {
                 <Building className="h-5 w-5 mr-2 text-blue-400" />
                 Franchise Management
               </CardTitle>
-              <CardDescription className="text-text-secondary">Monitor and manage all Learn2Pay franchise operations</CardDescription>
+              <CardDescription className="text-text-secondary">Monitor and manage all Larn2Pay franchise operations</CardDescription>
             </div>
             <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={handleAddFranchise}>
               <Plus className="h-4 w-4 mr-2" /> Add Franchise
@@ -889,7 +889,7 @@ const InstituteManagement = () => {
           <DialogHeader>
             <DialogTitle className="text-text-color">Add New Institute</DialogTitle>
             <DialogDescription className="text-text-secondary">
-              Fill in the details to register a new educational institute on Learn2Pay
+              Fill in the details to register a new educational institute on Larn2Pay
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleFormSubmit}>

@@ -40,7 +40,7 @@ const Teams = () => {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-orange-600 dark:text-orange-400 mb-8">Our Team</h1>
         <p className="text-lg text-gray-700 dark:text-gray-400 text-center mb-12">
-          Meet the talented individuals driving the success of Learn2Pay.
+          Meet the talented individuals driving the success of Larn2Pay.
         </p>
         <div className="grid md:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => (

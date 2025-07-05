@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogOut, Bell, Settings, User, ChevronDown } from "lucide-react";
+import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -17,9 +17,21 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const { institute, parent, userType, logout } = useAuth();
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    // Toggle dark class on document
+    if (!darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -87,7 +99,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     {
       id: 3,
       title: "Welcome!",
-      message: "Welcome to Learn2Pay dashboard",
+      message: "Welcome to Larn2Pay dashboard",
       time: "3 days ago",
       type: "info",
       unread: false,
@@ -111,7 +123,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               animate={{ opacity: 1, x: 0 }}
               className="text-xl font-bold text-white flex items-center"
             >
-              <span className="text-orange-500">LEARN</span>
+              <span className="text-orange-500">LARN</span>
               <span className="text-white">2PAY</span>
               <span className="text-gray-400 mx-2">|</span>
               <span className="text-gray-200">
@@ -138,6 +150,17 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
           {/* Right Section - User Actions */}
           <div className="flex items-center space-x-3">
+            {/* Dark Mode Toggle */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleDarkMode}
+              className="p-2 text-gray-400 hover:text-white transition-colors duration-200 bg-gray-800/50 hover:bg-gray-700/60 rounded-lg"
+              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </motion.button>
+
             {/* Notifications */}
             <div className="relative" ref={notificationRef}>
               <motion.button
