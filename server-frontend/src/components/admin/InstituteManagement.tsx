@@ -609,13 +609,13 @@ const InstituteManagement = () => {
                     <TableRow key={institute.id} className="hover:bg-card-hover border-card-border">
                       <TableCell className="text-text-secondary">
                         <div>
-                          <div className="font-medium">{institute.name}</div>
+                          <div className="font-medium text-text-secondary">{institute.name}</div>
                           <div className="text-sm text-text-secondary">{institute.type} • {institute.location}</div>
                         </div>
                       </TableCell>
                       <TableCell className="text-text-secondary">
                         <div>
-                          <div className="font-medium">{institute.principal}</div>
+                          <div className="font-medium text-text-secondary">{institute.principal}</div>
                           <div className="text-sm text-text-secondary flex items-center mt-1">
                             <Phone className="h-3 w-3 mr-1" />
                             {institute.phone}
@@ -628,7 +628,7 @@ const InstituteManagement = () => {
                       </TableCell>
                       <TableCell className="text-text-secondary">
                         <div className="flex items-center gap-2">
-                          <span className="text-lg font-semibold">{institute.students.toLocaleString()}</span>
+                          <span className="text-lg font-semibold text-text-secondary">{institute.students.toLocaleString()}</span>
                           <div className="flex gap-1">
                             <Button 
                               size="sm" 

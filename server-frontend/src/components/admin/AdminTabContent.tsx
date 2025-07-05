@@ -7,20 +7,15 @@ import LiveMonitoringPanel from '../../components/admin/LiveMonitoringPanel';
 import RoleManagement from '../../components/admin/RoleManagement';
 import SecurityAuditLogs from '../../components/admin/SecurityAuditLogs';
 import FraudDetectionSystem from '../../components/admin/FraudDetectionSystem';
-import BroadcastCenter from '../../components/admin/BroadcastCenter';
 import AdminSettings from '../../components/admin/AdminSettings';
 import InstituteManagement from '../../components/admin/InstituteManagement';
 import UserManagement from '../../components/admin/UserManagement';
 import TransactionManagement from '../../components/admin/TransactionManagement';
-import VendorControlCenter from '../../components/admin/VendorControlCenter';
-import FranchiseManagement from '../../components/admin/FranchiseManagement';
+
 import ReportsAnalytics from '../../components/admin/ReportsAnalytics';
 import NotificationManagement from '../../components/admin/NotificationManagement';
 import KycApprovalManagement from '../../components/admin/KycApprovalManagement';
-import AdminActivities from './AdminActivities';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
-import { Download, RefreshCw } from 'lucide-react';
+
 import { useToast } from "../../hooks/use-toast";
 
 interface GlobalFilter {
