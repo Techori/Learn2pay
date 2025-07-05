@@ -20,7 +20,11 @@ const InstituteSchema = new mongoose.Schema({
   documents:{
     registerationCertificate: { type: Boolean, required: true, default: false },
     panCard: { type: Boolean, required: true, default: false },
-  }
+  },
+  approved: { type: Boolean, default: false },
+  premiumPlan: { type: Boolean, default: false },
+  salesOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  referralOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 }, { timestamps: true });
 
 export default mongoose.model("Institute", InstituteSchema);
