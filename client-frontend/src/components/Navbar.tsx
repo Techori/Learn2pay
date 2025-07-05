@@ -69,7 +69,7 @@ const Navbar = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <span className="text-orange-500">LEARN</span>
+              <span className="text-orange-500">LARN</span>
               <span className="text-gray-900 dark:text-white">2PAY</span>
             </motion.div>
           </Link>

@@ -139,7 +139,7 @@ const Register = () => {
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <span className="font-bold">
-                <span className="text-orange-500">Learn2Pay</span>
+                <span className="text-orange-500">Larn2Pay</span>
               </span>
             </div>
             <CardTitle className="text-2xl text-white">

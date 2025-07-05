@@ -91,11 +91,11 @@ const Login = () => {
         <Card className="shadow-2xl border-0 bg-white dark:bg-gradient-to-br dark:from-gray-900/90 dark:to-gray-800/80 backdrop-blur-sm">
           <CardHeader className="text-center space-y-6 pb-8">
             <div className="mx-auto w-fit font-extrabold text-3xl bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent uppercase tracking-widest">
-              Learn2Pay
+              Larn2Pay
             </div>
             <div className="space-y-2">
               <CardTitle className="text-2xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">
-                Welcome to Learn2Pay
+                Welcome to Larn2Pay
               </CardTitle>
               <CardDescription className="text-orange-200">
                 Smart Fee Collection Platform

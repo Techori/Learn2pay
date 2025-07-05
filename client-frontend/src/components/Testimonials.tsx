@@ -7,7 +7,7 @@ const testimonials = [
     name: "Dr. Rajesh Kumar",
     role: "Principal, Delhi Public School",
     quote:
-      "LEARN2PAY has transformed our fee collection process completely. We've gone from 70% to 95% collection rate in just 3 months. The automated reminders and multiple payment options have made it incredibly easy for parents.",
+      "LARN2PAY has transformed our fee collection process completely. We've gone from 70% to 95% collection rate in just 3 months. The automated reminders and multiple payment options have made it incredibly easy for parents.",
     image: "https://source.unsplash.com/m75zSXCgJPo/80x80",
   },
   {

@@ -55,10 +55,7 @@ const HelpCenterPage = () => {
           </p>
           <div className="space-y-4">
             <p className="text-gray-700 dark:text-gray-400">
-              <strong>Email:</strong> <a href="mailto:support@learn2pay.com" className="text-orange-600 dark:text-orange-400">support@learn2pay.com</a>
-            </p>
-            <p className="text-gray-700 dark:text-gray-400">
-              <strong>Phone:</strong> +1 (800) 123-4567
+              <strong>Email:</strong> <a href="mailto:support@learn2pay.com" className="text-orange-600 dark:text-orange-400">support@larn2pay.com</a>
             </p>
           </div>
         </div>
