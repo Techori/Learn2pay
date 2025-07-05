@@ -52,10 +52,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/learnmore" element={<LearnMore />} />
           {/* DEV ONLY: Unprotected dashboard route for development. Revert after responsive work is done. */}
-          <Route
-            path="/dashboard"
-            element={<DashboardRouter />}
-          />
+          <Route path="/dashboard" element={<DashboardRouter />} />
           {/* DEV ONLY: Direct access to dashboards for development. Revert after responsive work is done. */}
           <Route path="/dashboard/institute" element={<InstituteDashboard />} />
           <Route path="/dashboard/parent" element={<ParentDashboard />} />

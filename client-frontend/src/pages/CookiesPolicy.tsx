@@ -6,7 +6,7 @@ const CookiesPolicy = () => {
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-orange-600 dark:text-orange-400 mb-8">Cookies Policy</h1>
         <p className="text-gray-700 dark:text-gray-400 mb-6">
-          This Cookies Policy explains how Learn2Pay uses cookies and similar technologies to recognize you when you visit our websites, including
+          This Cookies Policy explains how Larn2Pay uses cookies and similar technologies to recognize you when you visit our websites, including
           <span className="text-orange-500"> www.larn2pay.com</span>. It explains what these technologies are and why we use them, as well as your rights to control their use.
         </p>
 
@@ -40,7 +40,7 @@ const CookiesPolicy = () => {
         <h2 className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-4">Contact us</h2>
         <p className="text-gray-700 dark:text-gray-400">
           If you have any questions about our use of cookies or other technologies, please email us at{' '}
-          <a href="mailto:privacy@learn2pay.com" className="text-orange-500">privacy@larn2pay.com</a>.
+          <a href="mailto:privacy@larn2pay.com" className="text-orange-500">privacy@larn2pay.com</a>.
         </p>
       </div>
     </div>

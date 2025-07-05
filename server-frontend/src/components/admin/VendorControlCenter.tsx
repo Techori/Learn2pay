@@ -245,7 +245,7 @@ const VendorControlCenter = () => {
     const doc = new jsPDF();
     
     doc.setFontSize(16);
-    doc.text("Learn2Pay - Vendor Report", 14, 22);
+    doc.text("Larn2Pay - Vendor Report", 14, 22);
     
     doc.setFontSize(11);
     doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 30);
@@ -289,7 +289,7 @@ const VendorControlCenter = () => {
       }
     });
     
-    doc.save(`learn2pay-vendor-report-${new Date().toISOString().slice(0, 10)}.pdf`);
+    doc.save(`larn2pay-vendor-report-${new Date().toISOString().slice(0, 10)}.pdf`);
     toast({
       title: "Export Completed",
       description: "Vendor report has been downloaded as PDF."

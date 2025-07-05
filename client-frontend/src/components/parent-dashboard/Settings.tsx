@@ -326,8 +326,8 @@ const Settings = ({ parentData }: SettingsProps) => {
                       },
                       {
                         key: "serviceUpdates",
-                        label: "Learn2Pay Service Updates",
-                        description: "Updates about Learn2Pay features",
+                                label: "Larn2Pay Service Updates",
+        description: "Updates about Larn2Pay features",
                       },
                       {
                         key: "holidayNotifications",

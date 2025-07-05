@@ -52,8 +52,8 @@ const Parent = () => {
     emiStatus: "Current",
   };
 
-  // Learn2Pay plan information
-  const learn2payInfo = {
+  // Larn2Pay plan information
+  const larn2payInfo = {
     planType: "Education EMI Plan",
     totalAmount: 40000,
     emiAmount: 2500,
@@ -128,7 +128,7 @@ const Parent = () => {
       schoolFeeCovered: 2300,
     },
   ];
-  // Updated transaction history for EMI payments to Learn2Pay
+  // Updated transaction history for EMI payments to Larn2Pay
   // const transactionHistory = [
   //   {
   //     id: "TXN001",
@@ -183,7 +183,7 @@ const Parent = () => {
     {
       id: 1,
       title: "EMI Payment Due",
-      message: "Your EMI of ₹2,500 to Learn2Pay is due on June 15, 2025",
+              message: "Your EMI of ₹2,500 to Larn2Pay is due on June 15, 2025",
       type: "warning" as const,
       time: "6 days remaining",
       read: false,
@@ -191,7 +191,7 @@ const Parent = () => {
     {
       id: 2,
       title: "School Fee Covered",
-      message: "Learn2Pay has successfully paid ₹2,300 school fee for May 2025",
+              message: "Larn2Pay has successfully paid ₹2,300 school fee for May 2025",
       type: "success" as const,
       time: "1 week ago",
       read: false,
@@ -251,7 +251,7 @@ const Parent = () => {
           <ChildProfile
             childInfo={childInfo}
             parentData={parentData}
-            learn2payInfo={learn2payInfo}
+            larn2payInfo={larn2payInfo}
           />
         );
       case "emiSchedule":
@@ -389,7 +389,7 @@ const Parent = () => {
                 </div>
                 <div>
                   <h3 className="text-white font-medium">
-                    Pay EMI to Learn2Pay
+                    Pay EMI to Larn2Pay
                   </h3>
                   <p className="text-gray-300 text-sm">
                     Make your monthly EMI payment

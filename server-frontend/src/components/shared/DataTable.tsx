@@ -42,7 +42,7 @@ const DataTable = ({
   pagination = true,
   pageSize = 10,
   title,
-  exportFileName = 'learn2pay-export'
+  exportFileName = 'larn2pay-export'
 }: DataTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');

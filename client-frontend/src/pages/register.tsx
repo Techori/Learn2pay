@@ -31,6 +31,7 @@ import {
 import { authAPI } from "../utils/api";
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -139,10 +140,11 @@ const Register = () => {
           <CardHeader className="text-center pb-6">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <span className="font-bold">
-                <span className="text-orange-500">Larn2Pay</span>
+                <span className="text-[#FF7F1A]">LARN</span>
+                <span className="text-gray-900 dark:text-white">2PAY</span>
               </span>
             </div>
-            <CardTitle className="text-2xl text-white">
+            <CardTitle className="text-2xl text-gray-900 dark:text-white">
               Register Your Institute
             </CardTitle>
             <CardDescription className="text-gray-300">
@@ -605,15 +607,14 @@ const Register = () => {
                   <FormField
                     control={form.control}
                     name="agreeTerms"
-                    rules={{ required: "You must agree to the terms" }}
+                    rules={{ required: "You must agree to the terms and conditions" }}
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex items-center space-x-2">
                         <FormControl>
                           <Checkbox
                             id="agreeTerms"
                             checked={field.value}
                             onChange={field.onChange}
-                            className="border-gray-700 text-orange-500 focus:ring-orange-500"
                           />
                         </FormControl>
                         <FormMessage />
@@ -625,13 +626,23 @@ const Register = () => {
                     className="text-sm leading-5 text-gray-300"
                   >
                     I agree to the{" "}
-                    <a href="#" className="text-orange-400 hover:underline">
+                    <Link
+                      to="/terms"
+                      className="text-orange-400 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Terms and Conditions
-                    </a>{" "}
+                    </Link>{" "}
                     and{" "}
-                    <a href="#" className="text-orange-400 hover:underline">
+                    <Link
+                      to="/privacy"
+                      className="text-orange-400 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       Privacy Policy
-                    </a>
+                    </Link>
                   </Label>
                 </div>
 

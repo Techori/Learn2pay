@@ -70,7 +70,7 @@ const Testimonials = () => {
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Join thousands of satisfied educational institutions that have
-            transformed their fee collection process with LEARN2PAY
+            transformed their fee collection process with LARN2PAY
           </p>
         </motion.div>
 

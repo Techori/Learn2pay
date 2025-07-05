@@ -18,7 +18,7 @@ return (
       {/* Hero Section */}
       <section className="py-16 text-center bg-orange-600 text-white">
         <h1 className="text-4xl font-bold mb-4">Join Our Team</h1>
-        <p className="text-lg mb-8">Be a part of the Learn2Pay family and help revolutionize fee payments.</p>
+        <p className="text-lg mb-8">Be a part of the Larn2Pay family and help revolutionize fee payments.</p>
       </section>
 
       {/* Open Positions Section */}
@@ -80,7 +80,7 @@ return (
 
       {/* Why Join Us Section */}
       <section className="py-12 bg-gray-100 dark:bg-gray-800 px-4 md:px-16">
-        <h2 className="text-2xl font-bold mb-6 text-center text-orange-600 dark:text-orange-400">Why Join Learn2Pay?</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-orange-600 dark:text-orange-400">Why Join Larn2Pay?</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
             <CardContent>

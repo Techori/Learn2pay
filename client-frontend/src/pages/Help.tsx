@@ -26,9 +26,9 @@ const HelpCenterPage = () => {
         <h2 className="text-2xl font-bold mb-6 text-center text-orange-600 dark:text-orange-400">Frequently Asked Questions</h2>
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-orange-600 dark:text-orange-400">What is Learn2Pay?</h3>
+            <h3 className="text-lg font-semibold text-orange-600 dark:text-orange-400">What is Larn2Pay?</h3>
             <p className="text-gray-700 dark:text-gray-400 mt-2">
-              Learn2Pay is a digital platform simplifying fee payments for educational institutions and parents by offering EMI solutions.
+              Larn2Pay is a digital platform simplifying fee payments for educational institutions and parents by offering EMI solutions.
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
@@ -55,7 +55,7 @@ const HelpCenterPage = () => {
           </p>
           <div className="space-y-4">
             <p className="text-gray-700 dark:text-gray-400">
-              <strong>Email:</strong> <a href="mailto:support@learn2pay.com" className="text-orange-600 dark:text-orange-400">support@larn2pay.com</a>
+              <strong>Email:</strong> <a href="mailto:support@larn2pay.com" className="text-orange-600 dark:text-orange-400">support@larn2pay.com</a>
             </p>
           </div>
         </div>
