@@ -406,8 +406,7 @@ const Parent = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="flex space-x-1 bg-slate-800/30 p-1 rounded-lg">
-            {" "}
+          <div className="flex space-x-1 bg-slate-800/30 p-1 rounded-lg overflow-x-auto whitespace-nowrap scrollbar-thin">
             {[
               { id: "dashboard", label: "Dashboard" },
               { id: "childProfile", label: "Child Profile" },

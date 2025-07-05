@@ -459,21 +459,23 @@ const SupportUsers = () => {
             <div className="flex space-x-2 w-full md:w-auto">
               <Button
                 variant="outline"
-                className="border-border-color text-text-color hover:bg-warning hover:text-white group"
+                className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               >
                 <Filter className="h-4 w-4 mr-2 text-text-secondary group-hover:text-white" />
                 Filter
               </Button>
               <Button
                 variant="outline"
-                className="border-border-color text-text-color hover:bg-warning hover:text-white group"
+                className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               >
                 <ArrowUpDown className="h-4 w-4 mr-2 text-text-secondary group-hover:text-white" />
                 Sort
               </Button>
-              <Button className="bg-warning hover:bg-warning text-white">
-                <UserPlus className="h-4 w-4 mr-2" />
-                Add User
+              <Button
+                className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+                onClick={() => setIsCreateDialogOpen(true)}
+              >
+                <UserPlus className="mr-2 h-4 w-4" /> Add User
               </Button>
             </div>
           </div>
@@ -552,12 +554,18 @@ const SupportUsers = () => {
           <DialogFooter>
             <Button
               variant="outline"
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={() => setIsActionDialogOpen(false)}
             >
               Cancel
             </Button>
             {selectedAction === "reset-password" && (
-              <Button onClick={confirmUserAction}>Send Reset Link</Button>
+              <Button
+                className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+                onClick={confirmUserAction}
+              >
+                Send Reset Link
+              </Button>
             )}
             {selectedAction === "view" && (
               <Button onClick={() => setIsActionDialogOpen(false)}>

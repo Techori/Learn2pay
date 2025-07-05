@@ -8,6 +8,9 @@ import { Switch } from "@/components/ui/Switch";
 import { Badge } from "@/components/ui/Badge";
 import { Settings, User, Link, Target, Save, Eye, EyeOff, Copy, RefreshCw, DollarSign } from 'lucide-react';
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const ReferralSettings = () => {
   const [showApiKey, setShowApiKey] = useState(false);
 
@@ -102,9 +105,10 @@ const ReferralSettings = () => {
             />
           </div>
 
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white mt-4">
-            <Save className="h-4 w-4 mr-2" />
-            Save Profile
+          <Button 
+            className={`${referralButtonStyle} mt-4`}
+          >
+            Save Changes
           </Button>
         </CardContent>
       </Card>
@@ -151,24 +155,37 @@ const ReferralSettings = () => {
                   </div>
                 </div>
                 <div className="flex space-x-2">
-                  <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100">
-                    <Copy className="h-3 w-3 mr-1" />
-                    Copy
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className={referralButtonStyle}
+                  >
+                    View
                   </Button>
-                  <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100">
-                    <RefreshCw className="h-3 w-3 mr-1" />
-                    Regenerate
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className={referralButtonStyle}
+                  >
+                    Disable
                   </Button>
-                  <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100">
-                    Analytics
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className={referralButtonStyle}
+                  >
+                    Delete
                   </Button>
                 </div>
               </div>
             ))}
           </div>
           
-          <Button variant="outline" className="w-full mt-5 border-gray-300 hover:bg-gray-100">
-            Create New Referral Link
+          <Button 
+            variant="outline" 
+            className={`w-full mt-5 ${referralButtonStyle}`}
+          >
+            Generate New API Key
           </Button>
         </CardContent>
       </Card>
@@ -209,8 +226,10 @@ const ReferralSettings = () => {
             <Switch defaultChecked id="achievement-notifications" />
           </div>
           <div className="flex justify-end mt-6">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-              Save Targets
+            <Button 
+              className={referralButtonStyle}
+            >
+              Save Changes
             </Button>
           </div>
         </CardContent>
@@ -258,8 +277,10 @@ const ReferralSettings = () => {
             </div>
           </div>
           <div className="flex justify-end mt-6">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-              Save Commission Settings
+            <Button 
+              className={referralButtonStyle}
+            >
+              Save Changes
             </Button>
           </div>
         </CardContent>
@@ -279,26 +300,32 @@ const ReferralSettings = () => {
             <Label htmlFor="apiKey" className="text-gray-700">API Key</Label>
               <div className="flex items-center space-x-2">
                 <Input 
-                id="apiKey" 
+                  id="apiKey" 
                   type={showApiKey ? "text" : "password"}
-                defaultValue="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  defaultValue="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                   readOnly
-                className="flex-1 bg-gray-100 cursor-not-allowed font-mono"
+                  className="flex-1 bg-gray-100 cursor-not-allowed font-mono"
                 />
                 <Button
                   variant="outline"
                   onClick={() => setShowApiKey(!showApiKey)}
-                className="border-gray-300 hover:bg-gray-100"
+                  className={referralButtonStyle}
                 >
                   {showApiKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
-              <Button variant="outline" className="border-gray-300 hover:bg-gray-100">
+                <Button 
+                  variant="outline" 
+                  className={referralButtonStyle}
+                >
                   <Copy className="h-4 w-4" />
                 </Button>
-              <Button variant="outline" className="border-gray-300 hover:bg-gray-100">
-                <RefreshCw className="h-4 w-4" />
-              </Button>
-            </div>
+                <Button 
+                  variant="outline" 
+                  className={referralButtonStyle}
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
           </div>
           <div className="text-sm text-gray-600 mt-4">
             Use this API key to integrate with other services. Keep it secure and do not share it publicly.

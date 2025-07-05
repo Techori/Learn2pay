@@ -83,10 +83,11 @@ const Testimonials = () => {
           <motion.button
             whileHover={{ scale: 1.1, x: -5 }}
             whileTap={{ scale: 0.9 }}
-            className="z-20 absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white"
+            className="z-20 absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white
+              sm:left-0 left-2 sm:-translate-y-1/2 -translate-y-1/2 sm:static sm:relative"
             onClick={prevSlide}
             aria-label="Previous testimonial"
-            style={{ left: '-2.5rem' }}
+            style={{ left: undefined }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -158,10 +159,11 @@ const Testimonials = () => {
           <motion.button
             whileHover={{ scale: 1.1, x: 5 }}
             whileTap={{ scale: 0.9 }}
-            className="z-20 absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white"
+            className="z-20 absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white
+              sm:right-0 right-2 sm:-translate-y-1/2 -translate-y-1/2 sm:static sm:relative"
             onClick={nextSlide}
             aria-label="Next testimonial"
-            style={{ right: '-2.5rem' }}
+            style={{ right: undefined }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

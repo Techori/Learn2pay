@@ -91,14 +91,20 @@ const NotificationCenter = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="relative bg-white/10 dark:bg-slate-800/50 text-foreground border-border-color">
-          <Bell className="h-4 w-4" />
+        <div className="relative">
+          <Button 
+            variant="outline"
+            size="sm" 
+            className="h-9 border border-primary bg-background text-text-color hover:bg-primary hover:text-white transition-colors flex items-center justify-center"
+          >
+            <Bell className="h-4 w-4" />
+          </Button>
           {unreadCount > 0 && (
-            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-warning text-white">
+            <Badge className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs bg-warning text-white pointer-events-none">
               {unreadCount}
             </Badge>
           )}
-        </Button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px] max-h-[600px] bg-white dark:bg-slate-800 border-border-color">
         <DialogHeader>

@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger } from "../components/ui/Tabs";
-import { Button } from "../components/ui/Button";
-import { LogOut } from 'lucide-react';
 import AdminStats from '../components/admin/AdminStats';
 import AdminTabContent from '../components/admin/AdminTabContent';
 import QuickActions from '../components/shared/QuickActions';
 import { useToast } from '../hooks/use-toast';
-import { motion } from "framer-motion";
 import DashboardHeader from '../components/shared/DashboardHeader';
 
 interface GlobalFilter {

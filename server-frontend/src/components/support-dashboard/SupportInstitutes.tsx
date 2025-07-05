@@ -45,6 +45,7 @@ import {
   MoreVertical,
   Filter,
   ArrowUpDown,
+  UserPlus,
 } from "lucide-react";
 
 interface SupportInstitutesProps {
@@ -642,7 +643,10 @@ const SupportInstitutes = ({ role = "lead", user }: SupportInstitutesProps) => {
                 onOpenChange={setIsCreateDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <Button className="bg-warning hover:bg-warning text-white">
+                  <Button 
+                    className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+                    onClick={() => setIsCreateDialogOpen(true)}
+                  >
                     <Building className="h-4 w-4 mr-2" />
                     Add Institute
                   </Button>
@@ -767,11 +771,15 @@ const SupportInstitutes = ({ role = "lead", user }: SupportInstitutesProps) => {
                   <DialogFooter>
                     <Button
                       variant="outline"
+                      className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
                       onClick={() => setIsCreateDialogOpen(false)}
                     >
                       Cancel
                     </Button>
-                    <Button onClick={handleCreateInstitute}>
+                    <Button 
+                      className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+                      onClick={handleCreateInstitute}
+                    >
                       Add Institute
                     </Button>
                   </DialogFooter>

@@ -30,7 +30,7 @@ const QuickActions = ({ role }: QuickActionsProps) => {
         title: 'Download Report',
         description: 'Export current data',
         icon: Download,
-        color: 'text-secondary',
+        color: 'text-text-secondary', // Updated to consistent gray color
         onClick: () => {
           console.log('Generating comprehensive report PDF');
           const doc = new jsPDF();
@@ -185,7 +185,7 @@ const QuickActions = ({ role }: QuickActionsProps) => {
             title: 'Add Institute',
             description: 'Register new institute',
             icon: Plus,
-            color: 'text-secondary',
+            color: 'text-text-secondary', // Ensure consistent gray color for both icons
             onClick: () => toast({ title: "Add Institute", description: "Opening institute registration form." })
           },
           {
@@ -193,7 +193,7 @@ const QuickActions = ({ role }: QuickActionsProps) => {
             title: 'Bulk Upload',
             description: 'Import data from file',
             icon: Upload,
-            color: 'text-primary',
+            color: 'text-text-secondary', // Changed to text-text-secondary for gray color
             onClick: () => {
               // Trigger hidden file input
               if (fileInputRef.current) {

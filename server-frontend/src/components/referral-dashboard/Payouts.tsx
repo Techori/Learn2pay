@@ -7,6 +7,9 @@ import { Label } from "@/components/ui/Label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
 import { Wallet, CreditCard, Building, Download, Eye, Calendar, DollarSign, Clock, CheckCircle } from 'lucide-react';
 
+// Define the referral button styling as a constant to reuse
+const referralButtonStyle = "border-orange-500 bg-white text-orange-500 hover:bg-orange-500 hover:text-white transition-colors";
+
 const Payouts = () => {
   const payoutSummary = [
     { label: "Available Balance", value: "₹22,800", color: "text-green-600" },
@@ -171,7 +174,7 @@ const Payouts = () => {
               </select>
             </div>
 
-            <Button className="w-full bg-green-600 hover:bg-green-700 text-white text-lg py-3" onClick={onRequestPayout}>
+            <Button className={`w-full ${referralButtonStyle} text-lg py-3`} onClick={onRequestPayout}>
               <Wallet className="h-5 w-5 mr-2" />
               Request Payout
             </Button>
@@ -206,13 +209,17 @@ const Payouts = () => {
                       {method.isDefault && (
                         <Badge className="bg-green-100 text-green-800 text-xs">Default</Badge>
                       )}
-                      <Button size="sm" variant="outline" className="border-gray-300 hover:bg-gray-100">Edit</Button>
+                      <Button size="sm" variant="outline" className={referralButtonStyle}>Edit</Button>
                     </div>
                   </div>
                 );
               })}
             </div>
-            <Button variant="outline" className="w-full mt-5 border-gray-300 hover:bg-gray-100" onClick={onAddPaymentMethod}>
+            <Button 
+              variant="outline" 
+              className={`w-full mt-5 ${referralButtonStyle}`} 
+              onClick={onAddPaymentMethod}
+            >
               Add Payment Method
             </Button>
           </CardContent>
@@ -281,7 +288,12 @@ const Payouts = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Button size="sm" variant="outline" onClick={() => onViewPayoutDetails(payout.id)} className="text-text-color border-border-color">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => onViewPayoutDetails(payout.id)} 
+                        className={referralButtonStyle}
+                      >
                         <Eye className="h-4 w-4 mr-1" /> View
                       </Button>
                     </TableCell>
