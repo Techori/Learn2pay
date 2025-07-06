@@ -173,6 +173,8 @@ const ReviewKYC = () => {
   const cardBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
   const cardBorder = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
   const textColor = theme === "dark" ? "text-white" : "text-gray-900";
+  // Make subtitle much more visible
+  const subtitleColor = theme === "dark" ? "text-gray-100" : "text-gray-800";
   const textSecondary = theme === "dark" ? "text-gray-200" : "text-gray-700"; // changed for better visibility
   const tableBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
   const tableHeaderBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100 ";
@@ -210,7 +212,7 @@ const ReviewKYC = () => {
           <div className="flex justify-between items-center">
             <div>
               <CardTitle className={textColor}>KYC Review</CardTitle>
-              <CardDescription className={`${textSecondary} font-medium`}>
+              <CardDescription className={`${subtitleColor} font-semibold text-base`}>
                 Review and manage KYC submissions
               </CardDescription>
             </div>
@@ -234,10 +236,10 @@ const ReviewKYC = () => {
             <TableBody>
               {sortedKyCs.map((kyc) => (
                 <TableRow key={kyc.id} className={hoverBg}>
-                  <TableCell className="font-medium">{kyc.id}</TableCell>
-                  <TableCell>{kyc.instituteName}</TableCell>
-                  <TableCell>{kyc.salesperson}</TableCell>
-                  <TableCell>{kyc.submissionDate}</TableCell>
+                  <TableCell className={textColor}>{kyc.id}</TableCell>
+                  <TableCell className={textColor}>{kyc.instituteName}</TableCell>
+                  <TableCell className={textColor}>{kyc.salesperson}</TableCell>
+                  <TableCell className={textColor}>{kyc.submissionDate}</TableCell>
                   <TableCell><Badge className={getStatusColor(kyc.status)}>{kyc.status}</Badge></TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
