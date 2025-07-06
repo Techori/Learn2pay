@@ -52,7 +52,7 @@ const Sales = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <DashboardHeader
         dashboardName="Sales"
-        badges={[{ text: "This Month" }, { text: "Nov 2024", isPrimary: true }]}
+        badges={[]}
         user={mockUser}
         onLogout={handleLogout}
         onUserUpdate={handleUserUpdate}

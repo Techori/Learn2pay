@@ -17,21 +17,21 @@ const ReferralSettings = () => {
   const referralLinks = [
     {
       type: "General Referral",
-      url: "https://jodo.com/ref/REF2024001",
+      url: "https://Larn2Pay.com/ref/REF2024001",
       clicks: 245,
       conversions: 12,
       active: true
     },
     {
       type: "Schools Focus",
-      url: "https://jodo.com/ref/REF2024001/schools",
+      url: "https://Larn2Pay.com/ref/REF2024001/schools",
       clicks: 156,
       conversions: 8,
       active: true
     },
     {
       type: "Colleges Focus",
-      url: "https://jodo.com/ref/REF2024001/colleges",
+      url: "https://Larn2Pay.com/ref/REF2024001/colleges",
       clicks: 89,
       conversions: 4,
       active: false
@@ -125,16 +125,16 @@ const ReferralSettings = () => {
         <CardContent className="pt-0">
           <div className="space-y-4">
             {referralLinks.map((link, index) => (
-              <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <div key={index} className="p-4 border rounded-lg transition-colors duration-200">
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h4 className="font-medium text-gray-900">{link.type}</h4>
-                    <p className="text-sm text-gray-600 font-mono bg-gray-100 p-2 rounded mt-1 overflow-x-auto">
+                    <p className="text-sm text-gray-600 font-mono bg-input-bg p-2 rounded mt-1 overflow-x-auto">
                       {link.url}
                     </p>
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Badge variant={link.active ? "default" : "secondary"} className={`${link.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'} text-xs`}>
+                    <Badge variant={link.active ? "default" : "secondary"} className={`${link.active ? 'bg-green-800 text-green-800' : 'bg-gray-600 text-gray-600'} text-xs`}>
                       {link.active ? "Active" : "Inactive"}
                     </Badge>
                     <Switch checked={link.active} id={`link-active-${index}`} />
@@ -202,7 +202,7 @@ const ReferralSettings = () => {
         <CardContent className="pt-0">
           <div className="space-y-4">
             {targetSettings.map((target, index) => (
-              <div key={index} className="p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <div key={index} className="p-4 border rounded-lg transition-colors duration-200">
                 <div className="flex items-center justify-between mb-3">
                   <div>
                     <h4 className="font-medium text-gray-900">{target.title}</h4>
@@ -218,7 +218,7 @@ const ReferralSettings = () => {
             ))}
           </div>
           
-          <div className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 mt-5">
+          <div className="flex items-center justify-between p-4 border rounded-lg bg-input-bg mt-5">
             <div>
               <h4 className="font-medium text-gray-900">Achievement Notifications</h4>
               <p className="text-sm text-gray-600">Get notified when you reach your targets</p>
@@ -264,7 +264,7 @@ const ReferralSettings = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
                 <Label htmlFor="payoutFreq" className="text-gray-700">Payout Frequency</Label>
-                <select id="payoutFreq" className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500">
+                <select id="payoutFreq" className="w-full p-2 border bg-input-bg border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500">
                     <option>Monthly</option>
                     <option>Bi-weekly</option>
                     <option>Weekly</option>
@@ -304,7 +304,7 @@ const ReferralSettings = () => {
                   type={showApiKey ? "text" : "password"}
                   defaultValue="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
                   readOnly
-                  className="flex-1 bg-gray-100 cursor-not-allowed font-mono"
+                  className="flex-1 bg-input-bg cursor-not-allowed font-mono"
                 />
                 <Button
                   variant="outline"

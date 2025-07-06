@@ -64,7 +64,7 @@ const Home: React.FC = () => {
         className={`mb-6 px-6 py-3 rounded-xl ${theme === 'dark' ? 'bg-black/20' : 'bg-white/70 shadow-lg'}`}
       >
         <span className="text-orange-500 text-2xl font-bold">Larn</span>
-        <span className={theme === 'dark' ? 'text-white' : 'text-gray-800'}>2Pay</span>
+        <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>2Pay</span>
       </motion.div>
 
       <motion.h1

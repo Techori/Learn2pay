@@ -433,7 +433,7 @@ const NotificationManagement: React.FC = () => {
                 <TableRow key={notification.id} className="hover:bg-surface-color">
                   <TableCell className="text-text-color">
                     <div>
-                      <div className="font-medium">{notification.title}</div>
+                      <div className="font-medium text-text-secondary">{notification.title}</div>
                       <div className="text-sm text-text-secondary max-w-xs truncate">{notification.message}</div>
                     </div>
                   </TableCell>
@@ -441,7 +441,7 @@ const NotificationManagement: React.FC = () => {
                     <div className="flex items-center space-x-2">
                       {getTypeIcon(notification.type)}
                       <div>
-                        <div className="font-medium">{notification.type}</div>
+                        <div className="font-medium text-text-secondary">{notification.type}</div>
                         <div className="text-sm text-text-secondary">{notification.audience}</div>
                       </div>
                     </div>
@@ -453,7 +453,7 @@ const NotificationManagement: React.FC = () => {
                   </TableCell>
                   <TableCell className="text-text-color">
                     {notification.status === 'Sent' ? (
-                      <div className="text-sm">
+                      <div className="text-sm text-text-secondary">
                         <div>Delivered: {notification.delivered}</div>
                         <div>Opened: {notification.opened}</div>
                         <div>Clicked: {notification.clicked}</div>
@@ -463,7 +463,7 @@ const NotificationManagement: React.FC = () => {
                     )}
                   </TableCell>
                   <TableCell className="text-text-color">
-                    <div className="text-sm">
+                    <div className="text-sm text-text-secondary">
                       {notification.sentDate || 'Not sent'}
                     </div>
                   </TableCell>

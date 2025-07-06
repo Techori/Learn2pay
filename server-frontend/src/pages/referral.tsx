@@ -33,10 +33,7 @@ const ReferralDashboard = () => {
     });
   };
 
-  const referralBadges = [
-    { text: "This Month" },
-    { text: "Nov 2024", isPrimary: true },
-  ];
+
 
   return (
     <motion.div
@@ -47,7 +44,7 @@ const ReferralDashboard = () => {
     >
       <DashboardHeader
         dashboardName="Referral"
-        badges={referralBadges}
+        badges={[]}
         user={mockUser}
         onLogout={handleLogout}
         onUserUpdate={handleUserUpdate}

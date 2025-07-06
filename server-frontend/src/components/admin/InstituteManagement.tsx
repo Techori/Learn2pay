@@ -660,7 +660,7 @@ const InstituteManagement = () => {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-text-secondary">
-                        <div className="text-sm">{institute.joinDate}</div>
+                        <div className="text-sm text-text-secondary">{institute.joinDate}</div>
                       </TableCell>
                       <TableCell>
                         <div className="flex space-x-1">
@@ -750,14 +750,14 @@ const InstituteManagement = () => {
               <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
               <Input
                 placeholder="Search franchises..."
-                className="pl-10 bg-card-bg border border-card-border text-text-color placeholder-text-secondary"
+                className="pl-10 bg-input-bg border border-input-border text-input-text placeholder-text-secondary"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-text-secondary"
                 value={filters.status || 'all'}
                 onChange={(e) => setFilters({ ...filters, status: e.target.value })}
               >
@@ -770,7 +770,7 @@ const InstituteManagement = () => {
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-text-secondary"
                 value={filters.performance || 'all'}
                 onChange={(e) => setFilters({ ...filters, performance: e.target.value })}
               >
@@ -784,7 +784,7 @@ const InstituteManagement = () => {
             </div>
             <div className="relative">
               <select
-                className="pl-8 pr-4 py-2 rounded bg-card-bg border border-card-border text-text-secondary"
+                className="pl-8 pr-4 py-2 rounded bg-input-bg border border-input-border text-text-secondary"
                 value={filters.location || 'all'}
                 onChange={(e) => setFilters({ ...filters, location: e.target.value })}
               >
@@ -821,7 +821,7 @@ const InstituteManagement = () => {
                   <TableRow key={franchise.id} className="hover:bg-card-hover">
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="font-medium text-text-color">{franchise.name}</div>
+                        <div className="font-medium text-text-secondary">{franchise.name}</div>
                         <div className="text-sm text-text-secondary">{franchise.location}</div>
                         <Badge className={getStatusColor(franchise.status)}>
                           {franchise.status}
@@ -830,7 +830,7 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="font-medium text-text-color">{franchise.owner}</div>
+                        <div className="font-medium text-text-secondary">{franchise.owner}</div>
                         <div className="text-sm text-text-secondary">{franchise.phone}</div>
                         <div className="text-sm text-text-secondary">{franchise.email}</div>
                       </div>
@@ -842,7 +842,7 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="font-semibold">₹{franchise.revenue.toLocaleString()}</div>
+                        <div className="font-semibold text-text-secondary">₹{franchise.revenue.toLocaleString()}</div>
                         <div className="text-sm text-text-secondary">Target: ₹{franchise.target.toLocaleString()}</div>
                         <div className="w-full bg-card-bg rounded-full h-2 mt-1">
                           <div 
@@ -854,11 +854,11 @@ const InstituteManagement = () => {
                     </TableCell>
                     <TableCell className="text-text-secondary">
                       <div>
-                        <div className="text-sm">
-                          <span className="font-medium text-text-color">{franchise.institutes}</span> Institutes
+                        <div className="text-sm text-text-secondary">
+                          <span className="font-medium text-text-secondary">{franchise.institutes}</span> Institutes
                         </div>
-                        <div className="text-sm">
-                          <span className="font-medium">{franchise.students}</span> Students
+                        <div className="text-sm text-text-secondary">
+                          <span className="font-medium text-text-secondary">{franchise.students}</span> Students
                         </div>
                       </div>
                     </TableCell>
