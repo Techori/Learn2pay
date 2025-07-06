@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../components/Themetoggle';
 
 const privacyContent = {
   en: (
     <div className="max-w-4xl mx-auto p-6 shadow-md rounded-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">Larn2Pay Privacy Policy</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        <span className="font-bold">
+          <span className="text-[#FF7F1A]">LARN</span>
+          <span className="text-gray-900 dark:text-white">2PAY Privacy Policy</span>
+        </span>
+      </h1>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Purpose & Scope</h2>
@@ -749,7 +755,12 @@ const privacyContent = {
   ),
   hi: (
     <div className="max-w-4xl mx-auto p-6 shadow-md rounded-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">लर्न2पे गोपनीयता नीति</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        <span className="font-bold">
+          <span className="text-[#FF7F1A]">लर्न</span>
+          <span className="text-gray-900 dark:text-white">2पे  गोपनीयता नीति</span>
+        </span>
+      </h1>
 
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">उद्देश्य और दायरा</h2>
@@ -906,55 +917,21 @@ const PrivacyPolicy = () => {
   const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className={darkMode ? 'dark bg-black text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
-      {/* Top Bar: Language & Theme Switcher */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12, padding: 16 }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white relative">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-4">
         <button
           onClick={() => setLanguage('en')}
-          style={{
-            marginRight: 8,
-            fontWeight: language === 'en' ? 'bold' : 'normal',
-            textDecoration: language === 'en' ? 'underline' : 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: darkMode ? 'white' : 'black',
-          }}
+          className={`font-semibold px-2 ${language === 'en' ? 'underline text-orange-500' : 'text-gray-500 dark:text-gray-300'}`}
         >
           English
         </button>
         <button
           onClick={() => setLanguage('hi')}
-          style={{
-            fontWeight: language === 'hi' ? 'bold' : 'normal',
-            textDecoration: language === 'hi' ? 'underline' : 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: darkMode ? 'white' : 'black',
-          }}
+          className={`font-semibold px-2 ${language === 'hi' ? 'underline text-orange-500' : 'text-gray-500 dark:text-gray-300'}`}
         >
           हिन्दी
         </button>
-        <button
-          onClick={() => setDarkMode((prev) => !prev)}
-          style={{
-            marginLeft: 16,
-            background: darkMode ? '#222' : '#eee',
-            color: darkMode ? 'white' : 'black',
-            border: '1px solid',
-            borderColor: darkMode ? '#444' : '#ccc',
-            borderRadius: 6,
-            padding: '4px 12px',
-            cursor: 'pointer',
-            fontSize: 16,
-          }}
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? 'Bright Mode' : 'Dark Mode'}
-        </button>
+        <ThemeToggle />
       </div>
       <div className="px-6 py-12 max-w-6xl mx-auto space-y-10">
         {privacyContent[language]}

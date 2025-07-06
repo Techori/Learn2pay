@@ -16,7 +16,7 @@ const PressPage = () => {
       {/* Hero Section */}
       <section className="py-16 text-center bg-orange-600 text-white">
         <h1 className="text-4xl font-bold mb-4">Press and Media</h1>
-        <p className="text-lg mb-8">Stay updated with the latest news and updates about Learn2Pay.</p>
+        <p className="text-lg mb-8">Stay updated with the latest news and updates about Larn2Pay.</p>
       </section>
 
       {/* Recent News Section */}
@@ -29,7 +29,7 @@ const PressPage = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-gray-700 dark:text-gray-400">
-                Learn2Pay introduces a groundbreaking EMI solution for educational fee payments, simplifying processes for parents and institutions.
+                Larn2Pay introduces a groundbreaking EMI solution for educational fee payments, simplifying processes for parents and institutions.
               </CardDescription>
             </CardContent>
           </Card>
@@ -49,7 +49,7 @@ const PressPage = () => {
             </CardHeader>
             <CardContent>
               <CardDescription className="text-gray-700 dark:text-gray-400">
-                Learn2Pay has been featured in leading media outlets for its innovative approach to fee payments.
+                Larn2Pay has been featured in leading media outlets for its innovative approach to fee payments.
               </CardDescription>
             </CardContent>
           </Card>
@@ -65,10 +65,7 @@ const PressPage = () => {
           </p>
           <div className="space-y-4">
             <p className="text-gray-700 dark:text-gray-400">
-              <strong>Email:</strong> <a href="mailto:media@learn2pay.com" className="text-orange-600 dark:text-orange-400">media@learn2pay.com</a>
-            </p>
-            <p className="text-gray-700 dark:text-gray-400">
-              <strong>Phone:</strong> +1 (800) 123-4567
+              <strong>Email:</strong> <a href="mailto:media@larn2pay.com" className="text-orange-600 dark:text-orange-400">media@larn2pay.com</a>
             </p>
           </div>
         </div>

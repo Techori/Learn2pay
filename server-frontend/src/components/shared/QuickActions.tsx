@@ -37,7 +37,7 @@ const QuickActions = ({ role }: QuickActionsProps) => {
           
           // Set title
           doc.setFontSize(16);
-          doc.text("Learn2Pay System Report", 14, 22);
+          doc.text("Larn2Pay System Report", 14, 22);
           
           // Add timestamp
           doc.setFontSize(11);
@@ -81,7 +81,7 @@ const QuickActions = ({ role }: QuickActionsProps) => {
             headStyles: { fillColor: [41, 128, 185] }
           });
           
-          doc.save("learn2pay-report.pdf");
+          doc.save("larn2pay-report.pdf");
           toast({ title: "Report Downloaded", description: "Comprehensive system report has been generated and downloaded." });
         }
       },

@@ -1,38 +1,45 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../components/Themetoggle';
 
 const privacyContent = {
   en: (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Terms and Conditions for Larn2Pay Software Platform</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        <span className="font-bold">
+          <span className="text-[#FF7F1A]">LARN</span>
+          <span className="text-gray-900 dark:text-white">2PAY Terms and Conditions for Software Platform
+          </span>
+        </span>
+      </h1>
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">1. Purpose of Agreement</h2>
         <p className="mb-2">This section establishes the objectives of the agreement, emphasizing the secure, reliable, and efficient fee collection capabilities of the Larn2Pay platform.</p>
         <ul className="list-disc pl-6">
           <li>Digital Transformation of Fee Collection: The Larn2Pay platform, developed by Rishishwar Industry Private Limited, revolutionizes fee collection by replacing outdated manual processes with a secure, automated, and scalable digital system, ensuring efficiency, accuracy, and accessibility for all stakeholders.</li>
-          <li>Commitment to Operational Reliability: Larn2Pay guarantees consistent performance with minimal downtime, leveraging advanced infrastructure to deliver a dependable fee collection system, reducing administrative burdens and enhancing trust in Rishishwar Industry’s technology.</li>
-          <li>Transparency in Financial Transactions: Larn2Pay ensures all transactions are recorded with precision, providing verifiable, real-time data to institutes, parents, and students, fostering confidence in the platform’s integrity and Rishishwar Industry’s oversight.</li>
+          <li>Commitment to Operational Reliability: Larn2Pay guarantees consistent performance with minimal downtime, leveraging advanced infrastructure to deliver a dependable fee collection system, reducing administrative burdens and enhancing trust in Rishishwar Industry's technology.</li>
+          <li>Transparency in Financial Transactions: Larn2Pay ensures all transactions are recorded with precision, providing verifiable, real-time data to institutes, parents, and students, fostering confidence in the platform's integrity and Rishishwar Industry's oversight.</li>
           <li>Accessible Online Payment Portal: Larn2Pay offers a user-friendly online portal supporting secure payment methods like UPI, credit/debit cards, net banking, E-Nach, and E-Mandate, ensuring convenience and robust security for all users.</li>
           <li>Real-Time Financial Insights: The Larn2Pay platform provides real-time reporting tools, enabling institutes to monitor fee collections, track payment statuses, and access actionable financial insights, all managed securely by Rishishwar Industry.</li>
           <li>Automated Fee Schedule Management: Larn2Pay tracks monthly, quarterly, and annual fee schedules, sending timely reminders to parents, ensuring compliance and reducing manual effort, with full control retained by Rishishwar Industry.</li>
-          <li>Detection of Payment Discrepancies: Larn2Pay’s advanced algorithms identify incomplete or partial payments instantly, enabling institutes to address issues promptly while Rishishwar Industry maintains oversight to ensure system accuracy and reliability.</li>
+          <li>Detection of Payment Discrepancies: Larn2Pay's advanced algorithms identify incomplete or partial payments instantly, enabling institutes to address issues promptly while Rishishwar Industry maintains oversight to ensure system accuracy and reliability.</li>
           <li>Automated Notification System: Larn2Pay sends automated SMS and email reminders to parents about upcoming or overdue payments, streamlining communication and minimizing administrative workload, with templates controlled by Rishishwar Industry for consistency.</li>
           <li>Comprehensive Transaction Records: Larn2Pay maintains detailed, student-specific transaction histories, allowing institutes to track payments, refunds, and dues accurately, with data securely managed by Rishishwar Industry to prevent unauthorized access.</li>
           <li>Seamless Payment Gateway Integration: Larn2Pay integrates with leading payment gateways, ensuring secure, flexible, and reliable transaction processing, with Rishishwar Industry retaining full control over gateway selection and system integration.</li>
-          <li>Scalable Platform Architecture: Larn2Pay is designed to scale effortlessly, accommodating growing student bases without additional infrastructure costs to the institute, ensuring cost-efficiency and reliability under Rishishwar Industry’s management.</li>
+          <li>Scalable Platform Architecture: Larn2Pay is designed to scale effortlessly, accommodating growing student bases without additional infrastructure costs to the institute, ensuring cost-efficiency and reliability under Rishishwar Industry's management.</li>
           <li>Custom Feature Development Rights: Rishishwar Industry may develop and deploy custom features for Larn2Pay at its sole discretion, enhancing functionality without requiring institute approval, ensuring continuous improvement and platform superiority.</li>
           <li>Proactive System Upgrades: Rishishwar Industry proactively upgrades Larn2Pay to incorporate cutting-edge technologies, ensuring the platform remains industry-leading, with no additional costs to the institute and full control retained by Rishishwar Industry.</li>
           <li>Exclusive Technology Ownership: All proprietary technology, algorithms, and software components of Larn2Pay remain the sole property of Rishishwar Industry, safeguarding against misuse or unauthorized replication by the institute or third parties.</li>
-          <li>Guaranteed Platform Performance: Rishishwar Industry guarantees Larn2Pay’s optimal performance, resolving issues promptly at its discretion to ensure uninterrupted service, maintaining stakeholder trust and operational efficiency.</li>
+          <li>Guaranteed Platform Performance: Rishishwar Industry guarantees Larn2Pay's optimal performance, resolving issues promptly at its discretion to ensure uninterrupted service, maintaining stakeholder trust and operational efficiency.</li>
           <li>Comprehensive Stakeholder Training: Rishishwar Industry provides free, comprehensive training for institute staff on Larn2Pay usage, ensuring proficiency, reducing errors, and enhancing adoption, with training formats controlled by Rishishwar Industry.</li>
           <li>Optimized Fee Collection Process: Larn2Pay streamlines fee collection, minimizing administrative overhead and maximizing efficiency, with Rishishwar Industry retaining control over workflows to ensure operational consistency and platform reliability.</li>
-          <li>Future Technology Integration: Rishishwar Industry may integrate emerging technologies like AI or blockchain into Larn2Pay to enhance functionality, at no cost to the institute, reinforcing the platform’s cutting-edge status.</li>
-          <li>Non-Coercive Fee Facilitation: Larn2Pay serves as a technology enabler for fee collection, with no coercive practices, as the institute retains responsibility for initiating and authorizing collections, ensuring compliance with Rishishwar Industry’s policies.</li>
+          <li>Future Technology Integration: Rishishwar Industry may integrate emerging technologies like AI or blockchain into Larn2Pay to enhance functionality, at no cost to the institute, reinforcing the platform's cutting-edge status.</li>
+          <li>Non-Coercive Fee Facilitation: Larn2Pay serves as a technology enabler for fee collection, with no coercive practices, as the institute retains responsibility for initiating and authorizing collections, ensuring compliance with Rishishwar Industry's policies.</li>
           <li>Voluntary Payment Framework: All payments processed through Larn2Pay are voluntary, initiated by the institute and its stakeholders, ensuring no undue pressure from Rishishwar Industry, maintaining fairness and transparency.</li>
           <li>Technology Provider Role: Rishishwar Industry acts solely as the technology provider for Larn2Pay, enabling fee collection without involvement in enforcement, ensuring clarity in roles and protecting Rishishwar Industry from liability.</li>
           <li>Structured Dispute Resolution Process: Larn2Pay includes a robust mechanism for resolving fee-related disputes, providing clear communication and documentation, with Rishishwar Industry overseeing the process to ensure fairness and compliance.</li>
-          <li>Legal Support for Disputes: Rishishwar Industry offers legal assistance for fee collection disputes processed through Larn2Pay, ensuring compliance with regulations and protecting the institute’s interests, with Rishishwar Industry retaining decision-making authority.</li>
-          <li>Stakeholder Trust Assurance: Larn2Pay’s secure, reliable, and transparent operations foster trust among institutes, parents, and students, with Rishishwar Industry ensuring consistent performance and data integrity to maintain stakeholder confidence.</li>
+          <li>Legal Support for Disputes: Rishishwar Industry offers legal assistance for fee collection disputes processed through Larn2Pay, ensuring compliance with regulations and protecting the institute's interests, with Rishishwar Industry retaining decision-making authority.</li>
+          <li>Stakeholder Trust Assurance: Larn2Pay's secure, reliable, and transparent operations foster trust among institutes, parents, and students, with Rishishwar Industry ensuring consistent performance and data integrity to maintain stakeholder confidence.</li>
         </ul>
       </section>
 
@@ -52,7 +59,7 @@ const privacyContent = {
           <li>Automated Defaulter Tracking System: Larn2Pay flags overdue payments, enabling systematic follow-up by institutes, with Rishishwar Industry overseeing the mechanism to ensure accuracy and protect platform integrity.</li>
           <li>Flexible Fee Plan Management: Larn2Pay supports the creation and management of annual fee plans, ensuring accurate scheduling, with Rishishwar Industry retaining control over plan configurations to maintain system reliability.</li>
           <li>Course-Specific Fee Customization: Larn2Pay allows institutes to customize fee structures for different courses, with changes logged and approved by Rishishwar Industry to ensure compliance and system stability.</li>
-          <li>Live Dashboard for Monitoring: Larn2Pay’s real-time dashboard provides live updates on payment statuses and system performance, with Rishishwar Industry ensuring uninterrupted access and data accuracy for institutes.</li>
+          <li>Live Dashboard for Monitoring: Larn2Pay's real-time dashboard provides live updates on payment statuses and system performance, with Rishishwar Industry ensuring uninterrupted access and data accuracy for institutes.</li>
           <li>Automated Receipt Generation: Larn2Pay generates verifiable challans and receipts for all transactions, ensuring proof of payment, with formats controlled by Rishishwar Industry to maintain consistency and reliability.</li>
           <li>Comprehensive Payment Tracking: Larn2Pay tracks both online and offline payments, providing a unified record of all transactions, with Rishishwar Industry ensuring data integrity and preventing unauthorized modifications.</li>
           <li>Exportable Financial Reports: Larn2Pay offers downloadable reports in Excel or PDF formats, accessible via the admin panel, with Rishishwar Industry controlling report generation to ensure accuracy and security.</li>
@@ -76,20 +83,20 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">3. Fee Structure</h2>
-        <p className="mb-2">This section outlines the financial framework for Larn2Pay, ensuring transparency and protecting Rishishwar Industry’s financial interests.</p>
+        <p className="mb-2">This section outlines the financial framework for Larn2Pay, ensuring transparency and protecting Rishishwar Industry's financial interests.</p>
         <ul className="list-disc pl-6">
-          <li>Minimum Transaction Fee Structure: Larn2Pay charges a minimum 5% fee per successful transaction to cover platform maintenance, support, and operational costs, ensuring Rishishwar Industry’s financial stability and system reliability.</li>
-          <li>Maximum Transaction Fee Cap: Larn2Pay caps transaction fees at ₹225 per transaction, balancing affordability for parents with Rishishwar Industry’s need to sustain a secure, high-performance platform.</li>
+          <li>Minimum Transaction Fee Structure: Larn2Pay charges a minimum 5% fee per successful transaction to cover platform maintenance, support, and operational costs, ensuring Rishishwar Industry's financial stability and system reliability.</li>
+          <li>Maximum Transaction Fee Cap: Larn2Pay caps transaction fees at ₹225 per transaction, balancing affordability for parents with Rishishwar Industry's need to sustain a secure, high-performance platform.</li>
           <li>Technical Service Charge Application: Larn2Pay applies a ₹75 charge per transaction to fund ongoing maintenance, updates, and support, with Rishishwar Industry retaining control over charge implementation to ensure consistency.</li>
           <li>Automated Fee Deduction Process: Larn2Pay automatically deducts transaction fees from payments, streamlining operations, with Rishishwar Industry ensuring secure, transparent deductions to protect against disputes and maintain financial integrity.</li>
-          <li>Dynamic Fee Adjustment Policy: Rishishwar Industry may adjust Larn2Pay fees with 15 days’ notice based on market conditions, ensuring financial sustainability while maintaining transparency and platform reliability for institutes.</li>
-          <li>Fee Retention During Disputes: Larn2Pay may retain transaction fees during disputes until resolution, protecting Rishishwar Industry’s financial interests and ensuring operational continuity without liability for unresolved issues.</li>
+          <li>Dynamic Fee Adjustment Policy: Rishishwar Industry may adjust Larn2Pay fees with 15 days' notice based on market conditions, ensuring financial sustainability while maintaining transparency and platform reliability for institutes.</li>
+          <li>Fee Retention During Disputes: Larn2Pay may retain transaction fees during disputes until resolution, protecting Rishishwar Industry's financial interests and ensuring operational continuity without liability for unresolved issues.</li>
           <li>No Liability for Tax Errors: Rishishwar Industry is not liable for tax discrepancies caused by incorrect institute data in Larn2Pay, ensuring protection from financial risks due to client errors.</li>
           <li>Discretionary Fee Waivers: Rishishwar Industry may waive Larn2Pay fees as a goodwill gesture, retaining sole discretion to ensure financial control and maintain positive stakeholder relationships without obligation.</li>
           <li>Premium Feature Surcharges: Larn2Pay may apply surcharges for premium features like advanced analytics, optional for institutes, with Rishishwar Industry controlling pricing to ensure platform sustainability and innovation.</li>
-          <li>Non-Refundable Service Charges: All Larn2Pay service charges are non-refundable, ensuring Rishishwar Industry’s financial stability and protecting against revenue loss due to client-initiated cancellations or disputes.</li>
+          <li>Non-Refundable Service Charges: All Larn2Pay service charges are non-refundable, ensuring Rishishwar Industry's financial stability and protecting against revenue loss due to client-initiated cancellations or disputes.</li>
           <li>Transparent Fee Display: Larn2Pay displays all fees to parents before payment, reducing disputes and enhancing trust, with Rishishwar Industry controlling transparency protocols to ensure clarity and compliance.</li>
-          <li>Institute Consent to Deductions: The institute agrees to Larn2Pay’s automatic fee deductions, with Rishishwar Industry retaining authority to enforce deductions, ensuring seamless operations and financial protection.</li>
+          <li>Institute Consent to Deductions: The institute agrees to Larn2Pay's automatic fee deductions, with Rishishwar Industry retaining authority to enforce deductions, ensuring seamless operations and financial protection.</li>
           <li>Applicable Tax Compliance: Larn2Pay adds applicable taxes (e.g., GST) to fees as per regulations, with Rishishwar Industry ensuring compliance to protect against legal or financial liabilities.</li>
           <li>No Setup Fee for Onboarding: Larn2Pay charges no onboarding fee, reducing institute costs, with Rishishwar Industry covering setup expenses to ensure rapid deployment and platform accessibility.</li>
           <li>Refundable Security Deposit Policy: Larn2Pay may require a ₹10,000 refundable deposit, returned upon termination after clearing dues, with Rishishwar Industry controlling terms to safeguard financial interests.</li>
@@ -99,39 +106,39 @@ const privacyContent = {
           <li>Payment Gateway Charge Allocation: Larn2Pay ensures gateway charges are borne by payers per gateway terms, with Rishishwar Industry absolved of liability for third-party fee disputes.</li>
           <li>Prohibition of Unauthorized Charges: The institute agrees not to impose unapproved charges via Larn2Pay, with Rishishwar Industry retaining authority to enforce compliance and protect platform integrity.</li>
           <li>No Advance Payment Requirement: Larn2Pay requires no advance payments from institutes, reducing financial burden, with Rishishwar Industry ensuring operational continuity through transaction-based revenue models.</li>
-          <li>Non-Refundable Overpayments: Larn2Pay does not refund overpayments due to institute errors, protecting Rishishwar Industry’s financial interests and ensuring accountability for accurate data submission.</li>
+          <li>Non-Refundable Overpayments: Larn2Pay does not refund overpayments due to institute errors, protecting Rishishwar Industry's financial interests and ensuring accountability for accurate data submission.</li>
           <li>Transaction Fee Scalability: Larn2Pay may adjust fees based on transaction volume, ensuring scalability, with Rishishwar Industry notifying institutes in advance to maintain transparency and financial control.</li>
-          <li>Fee Structure Review Rights: Rishishwar Industry reserves the right to review and modify Larn2Pay’s fee structure periodically, ensuring alignment with operational costs and market dynamics, with institutes notified promptly.</li>
+          <li>Fee Structure Review Rights: Rishishwar Industry reserves the right to review and modify Larn2Pay's fee structure periodically, ensuring alignment with operational costs and market dynamics, with institutes notified promptly.</li>
           <li>Financial Audit Support: Larn2Pay provides financial data for audits, with Rishishwar Industry controlling access to ensure data security and compliance, protecting against misuse or unauthorized access.</li>
         </ul>
       </section>
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">4. Payment and Settlement</h2>
-        <p className="mb-2">This section details the payment and settlement processes for Larn2Pay, ensuring efficiency and protecting Rishishwar Industry’s financial interests.</p>
+        <p className="mb-2">This section details the payment and settlement processes for Larn2Pay, ensuring efficiency and protecting Rishishwar Industry's financial interests.</p>
         <ul className="list-disc pl-6">
           <li>Detailed Monthly Settlement Reports: Larn2Pay provides comprehensive monthly reports detailing transactions, collections, and discrepancies, with Rishishwar Industry ensuring accuracy and transparency to support institute financial planning.</li>
-          <li>T+7 Settlement Timeline: Larn2Pay settles collected fees within T+7 working days to the institute’s account, with Rishishwar Industry ensuring secure, timely transfers to maintain trust and operational efficiency.</li>
+          <li>T+7 Settlement Timeline: Larn2Pay settles collected fees within T+7 working days to the institute's account, with Rishishwar Industry ensuring secure, timely transfers to maintain trust and operational efficiency.</li>
           <li>No Liability for Gateway Failures: Rishishwar Industry is not liable for transaction failures due to payment gateway issues in Larn2Pay, protecting against financial risks from third-party system failures.</li>
           <li>Secure NEFT/RTGS Settlements: Larn2Pay processes settlements via NEFT or RTGS, ensuring secure fund transfers, with Rishishwar Industry managing the process to prevent errors and ensure reliability.</li>
           <li>Deduction of Outstanding Dues: Larn2Pay deducts any outstanding dues owed to Rishishwar Industry before settlements, ensuring financial protection and operational continuity, with institutes notified of deductions for transparency.</li>
           <li>Institute Data Accuracy Responsibility: The institute is responsible for providing accurate settlement data to Larn2Pay, absolving Rishishwar Industry of liability for errors caused by incorrect or incomplete information.</li>
-          <li>Flexible Settlement Schedule Adjustments: Rishishwar Industry may adjust Larn2Pay’s settlement schedules with prior notice, ensuring operational efficiency while maintaining transparency and protecting against financial disruptions.</li>
+          <li>Flexible Settlement Schedule Adjustments: Rishishwar Industry may adjust Larn2Pay's settlement schedules with prior notice, ensuring operational efficiency while maintaining transparency and protecting against financial disruptions.</li>
           <li>Payment Hold for Fraud Verification: Larn2Pay may hold payments for fraud verification, with Rishishwar Industry overseeing the process to ensure platform integrity and protect against financial risks or disputes.</li>
           <li>Automated Settlement Audit System: Larn2Pay conducts automated audits of settlements, ensuring accuracy without institute involvement, with Rishishwar Industry retaining control to maintain data integrity and transparency.</li>
           <li>Priority Processing for High-Volume Clients: Larn2Pay prioritizes payment processing for high-volume institutes, ensuring efficiency, with Rishishwar Industry managing prioritization to optimize platform performance and financial outcomes.</li>
           <li>No Interest on Held Payments: Rishishwar Industry is not liable for interest on payments held during disputes or verifications in Larn2Pay, protecting against financial claims and ensuring operational focus.</li>
           <li>Settlement Confirmation Requirement: The institute must confirm receipt of Larn2Pay settlements within 48 hours, with Rishishwar Industry retaining authority to enforce compliance and ensure accurate financial tracking.</li>
-          <li>No Liability for Bank Delays: Rishishwar Industry is not responsible for delays in settlements caused by banking systems, ensuring Larn2Pay’s reliability is not compromised by external financial institutions.</li>
+          <li>No Liability for Bank Delays: Rishishwar Industry is not responsible for delays in settlements caused by banking systems, ensuring Larn2Pay's reliability is not compromised by external financial institutions.</li>
           <li>Carry-Forward of Overdue Transactions: Larn2Pay carries forward pending transactions to the next cycle, with Rishishwar Industry managing the process to ensure continuity and protect against financial disputes.</li>
           <li>Valid Receipt Policy: Only receipts generated by Larn2Pay are considered valid, with Rishishwar Industry ensuring their authenticity to prevent fraud and maintain trust in the platform.</li>
-          <li>Digital-Only Report Validity: Larn2Pay’s financial reports are valid only in digital format, with Rishishwar Industry controlling distribution to ensure efficiency, security, and compliance with platform standards.</li>
-          <li>Prohibition of Data Modifications: The institute cannot edit Larn2Pay’s transactional data, ensuring record integrity, with Rishishwar Industry enforcing restrictions to protect against unauthorized changes or disputes.</li>
+          <li>Digital-Only Report Validity: Larn2Pay's financial reports are valid only in digital format, with Rishishwar Industry controlling distribution to ensure efficiency, security, and compliance with platform standards.</li>
+          <li>Prohibition of Data Modifications: The institute cannot edit Larn2Pay's transactional data, ensuring record integrity, with Rishishwar Industry enforcing restrictions to protect against unauthorized changes or disputes.</li>
           <li>Payment Suspension in Force Majeure: Larn2Pay may suspend payments during force majeure events, with Rishishwar Industry notifying institutes and managing suspensions to protect platform operations and financial stability.</li>
-          <li>No Early Settlement Demands: The institute cannot demand settlements before Larn2Pay’s T+7 timeline, with Rishishwar Industry enforcing this policy to ensure orderly financial operations and protect against disruptions.</li>
-          <li>Approval for Special Schemes: Discounts or schemes in Larn2Pay require Rishishwar Industry’s prior approval, ensuring alignment with platform goals and protecting financial interests from unauthorized modifications.</li>
+          <li>No Early Settlement Demands: The institute cannot demand settlements before Larn2Pay's T+7 timeline, with Rishishwar Industry enforcing this policy to ensure orderly financial operations and protect against disruptions.</li>
+          <li>Approval for Special Schemes: Discounts or schemes in Larn2Pay require Rishishwar Industry's prior approval, ensuring alignment with platform goals and protecting financial interests from unauthorized modifications.</li>
           <li>Late Payment Penalty Fee: Larn2Pay may impose a ₹500 fee for delayed institute payments, with Rishishwar Industry enforcing penalties to ensure timely compliance and protect financial operations.</li>
-          <li>Finality of Dispute Reports: Larn2Pay’s financial reports are final in disputes, with Rishishwar Industry ensuring their accuracy and transparency to resolve conflicts and protect platform integrity.</li>
+          <li>Finality of Dispute Reports: Larn2Pay's financial reports are final in disputes, with Rishishwar Industry ensuring their accuracy and transparency to resolve conflicts and protect platform integrity.</li>
           <li>Secure Settlement Notifications: Larn2Pay notifies institutes of settlement completions via secure channels, with Rishishwar Industry controlling communication protocols to ensure confidentiality and operational efficiency.</li>
           <li>Fraud Detection Protocols: Larn2Pay employs advanced fraud detection to protect transactions, with Rishishwar Industry overseeing protocols to ensure platform security and minimize financial risks or disputes.</li>
         </ul>
@@ -146,21 +153,21 @@ const privacyContent = {
           <li>Defined Support Hours: Larn2Pay support is available Monday to Saturday, 10 AM to 6 PM, with Rishishwar Industry ensuring timely responses to maintain operational continuity and stakeholder satisfaction.</li>
           <li>Emergency Helpline Availability: Larn2Pay provides an emergency helpline for critical issues, with Rishishwar Industry ensuring rapid resolution to minimize disruptions and maintain platform reliability for institutes.</li>
           <li>Regular System Update Notifications: Larn2Pay shares weekly and monthly update notifications, with Rishishwar Industry ensuring transparency and maintaining platform functionality to support institute operations without interruption.</li>
-          <li>Streamlined Issue Reporting Feature: Larn2Pay’s dashboard includes a “Report Issue” feature for efficient issue logging, with Rishishwar Industry managing the process to ensure quick resolution and platform stability.</li>
+          <li>Streamlined Issue Reporting Feature: Larn2Pay's dashboard includes a "Report Issue" feature for efficient issue logging, with Rishishwar Industry managing the process to ensure quick resolution and platform stability.</li>
           <li>Comprehensive Training Materials: Larn2Pay provides PDFs and video tutorials for self-paced learning, with Rishishwar Industry controlling content to ensure accuracy, relevance, and alignment with platform functionalities.</li>
           <li>Access to Training Recordings: Larn2Pay offers recorded training sessions for staff review, with Rishishwar Industry ensuring secure access and content control to maintain consistency and protect platform integrity.</li>
           <li>Secure Login Instructions: Larn2Pay provides detailed login instructions for staff, with Rishishwar Industry ensuring secure access protocols to prevent unauthorized use and maintain platform security standards.</li>
           <li>Proactive Technical Update Alerts: Rishishwar Industry communicates Larn2Pay technical updates via email, ensuring institutes are informed of enhancements, with control over updates to maintain platform reliability and security.</li>
           <li>Quarterly Refresher Training Sessions: Larn2Pay offers quarterly refresher training to keep staff updated, with Rishishwar Industry controlling sessions to ensure alignment with platform updates and operational efficiency.</li>
           <li>Online Support Resource Center: Larn2Pay provides a digital support center with FAQs and resources, managed by Rishishwar Industry to ensure accessibility, accuracy, and alignment with platform objectives.</li>
-          <li>Proactive Issue Monitoring System: Larn2Pay proactively monitors and resolves issues before they impact operations, with Rishishwar Industry ensuring minimal disruptions and maintaining the platform’s reputation for reliability.</li>
-          <li>Optional Premium Support Packages: Larn2Pay may offer premium support packages at Rishishwar Industry’s discretion, with pricing and features controlled to balance institute needs and platform sustainability.</li>
+          <li>Proactive Issue Monitoring System: Larn2Pay proactively monitors and resolves issues before they impact operations, with Rishishwar Industry ensuring minimal disruptions and maintaining the platform's reputation for reliability.</li>
+          <li>Optional Premium Support Packages: Larn2Pay may offer premium support packages at Rishishwar Industry's discretion, with pricing and features controlled to balance institute needs and platform sustainability.</li>
           <li>Priority-Based Support Ticketing: Larn2Pay prioritizes support tickets based on internal criteria, with Rishishwar Industry ensuring efficient resolution to maintain operational continuity and protect platform performance.</li>
           <li>Remote Troubleshooting Capability: Larn2Pay supports remote troubleshooting for quick fixes, with Rishishwar Industry managing the process to ensure rapid resolution and maintain platform reliability for institutes.</li>
           <li>Training Feedback Mechanism: Larn2Pay collects training feedback, with Rishishwar Industry determining implementation to improve sessions while ensuring alignment with platform goals and operational efficiency.</li>
           <li>Support Interaction Logging: Larn2Pay logs all support interactions for transparency, with Rishishwar Industry ensuring records protect against disputes and maintain accountability in platform operations.</li>
           <li>AI-Powered Support Automation: Larn2Pay uses AI-powered bots for routine query resolution, reducing costs, with Rishishwar Industry ensuring bot accuracy and alignment with platform support standards.</li>
-          <li>Support Hour Expansion Rights: Rishishwar Industry may expand Larn2Pay’s support hours at its discretion, ensuring flexibility to meet institute needs while maintaining control over operational resources.</li>
+          <li>Support Hour Expansion Rights: Rishishwar Industry may expand Larn2Pay's support hours at its discretion, ensuring flexibility to meet institute needs while maintaining control over operational resources.</li>
           <li>Sandbox Testing Environment: Larn2Pay provides a sandbox for demo transactions, ensuring no impact on live data, with Rishishwar Industry controlling access to maintain platform security and reliability.</li>
           <li>Customer Support SLA Commitment: Larn2Pay resolves issues within 48 hours per SLA, with Rishishwar Industry ensuring compliance to maintain trust and operational efficiency for institutes.</li>
           <li>Critical Issue Prioritization: Larn2Pay prioritizes critical issues for rapid resolution, with Rishishwar Industry managing the process to minimize disruptions and uphold platform reliability standards.</li>
@@ -171,7 +178,7 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">6. Data Security and Confidentiality</h2>
-        <p className="mb-2">This section details Larn2Pay’s robust measures to ensure data security and confidentiality.</p>
+        <p className="mb-2">This section details Larn2Pay's robust measures to ensure data security and confidentiality.</p>
         <ul className="list-disc pl-6">
           <li>Encrypted Indian Server Hosting: Larn2Pay hosts data on encrypted servers in India, complying with local regulations, with Rishishwar Industry ensuring robust security to protect against unauthorized access or breaches.</li>
           <li>Strict Authorized Access Controls: Larn2Pay restricts data access to authorized personnel only, with Rishishwar Industry implementing stringent controls to ensure confidentiality and protect platform data from misuse.</li>
@@ -183,7 +190,7 @@ const privacyContent = {
           <li>Proprietary Encryption Standards: Larn2Pay employs proprietary encryption methods, with Rishishwar Industry ensuring advanced security to protect data from breaches and maintain platform reliability and trust.</li>
           <li>Detailed Data Access Audit Trails: Larn2Pay maintains audit trails for data access, with Rishishwar Industry ensuring transparency and accountability to protect against unauthorized use and potential disputes.</li>
           <li>No Liability for Client Breaches: Rishishwar Industry is not liable for data breaches caused by institute negligence in Larn2Pay, ensuring protection from risks due to client errors or mismanagement.</li>
-          <li>Data Retention Policy Control: Rishishwar Industry controls Larn2Pay’s data retention policies, ensuring compliance with regulations and protecting platform data from unauthorized access or prolonged retention risks.</li>
+          <li>Data Retention Policy Control: Rishishwar Industry controls Larn2Pay's data retention policies, ensuring compliance with regulations and protecting platform data from unauthorized access or prolonged retention risks.</li>
           <li>Secure Data Archiving System: Larn2Pay archives data securely with restricted access, managed by Rishishwar Industry to ensure long-term integrity and compliance with data protection standards and regulations.</li>
           <li>Anonymized Data Usage Rights: Rishishwar Industry may use anonymized Larn2Pay data for platform improvements, without institute consent, ensuring innovation while protecting stakeholder privacy and platform security.</li>
           <li>Advanced Breach Mitigation Protocols: Larn2Pay employs advanced protocols to minimize data breach impacts, with Rishishwar Industry ensuring rapid response and recovery to maintain platform trust and reliability.</li>
@@ -192,7 +199,7 @@ const privacyContent = {
           <li>Role-Based Access Permissions: Larn2Pay restricts users to relevant data and functionalities, with Rishishwar Industry managing permissions to ensure security and prevent unauthorized access or misuse.</li>
           <li>Prompt Breach Notification Process: Larn2Pay notifies institutes promptly of data breaches, with Rishishwar Industry managing communications to ensure transparency, compliance, and rapid resolution to maintain trust.</li>
           <li>Enforced Strong Password Policy: Larn2Pay mandates complex passwords for all users, with Rishishwar Industry ensuring compliance to enhance security and protect against unauthorized access or platform vulnerabilities.</li>
-          <li>Transparent Data Policy Communication: Rishishwar Industry explains Larn2Pay’s data protection policies to institutes, ensuring clarity and compliance, with policies designed to protect platform integrity and stakeholder trust.</li>
+          <li>Transparent Data Policy Communication: Rishishwar Industry explains Larn2Pay's data protection policies to institutes, ensuring clarity and compliance, with policies designed to protect platform integrity and stakeholder trust.</li>
           <li>Global Data Protection Compliance: Larn2Pay adheres to GDPR and other global standards, with Rishishwar Industry ensuring compliance to protect against legal risks and maintain platform reliability internationally.</li>
           <li>Mandatory Employee Data Training: Larn2Pay staff access data only after mandatory data protection training, with Rishishwar Industry ensuring compliance to protect against internal breaches and maintain trust.</li>
           <li>Institute Data Ownership Assurance: The institute retains full ownership of Larn2Pay data, with Rishishwar Industry acting as a processor, ensuring compliance and protecting against unauthorized data claims.</li>
@@ -202,13 +209,13 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">7. Service Level Agreement (SLA)</h2>
-        <p className="mb-2">This section defines Larn2Pay’s performance commitments, ensuring reliability and efficiency.</p>
+        <p className="mb-2">This section defines Larn2Pay's performance commitments, ensuring reliability and efficiency.</p>
         <ul className="list-disc pl-6">
           <li>High System Uptime Guarantee: Larn2Pay maintains 99.5% monthly uptime, ensuring reliable access, with Rishishwar Industry managing infrastructure to minimize disruptions and uphold platform performance standards.</li>
           <li>Prompt Query Response Commitment: Larn2Pay addresses general queries within 24 hours, with Rishishwar Industry ensuring timely responses to maintain institute satisfaction and operational efficiency across platform interactions.</li>
-          <li>Rapid Critical Issue Resolution: Larn2Pay resolves critical issues within 4 hours, with Rishishwar Industry prioritizing rapid fixes to minimize disruptions and maintain the platform’s reputation for reliability.</li>
+          <li>Rapid Critical Issue Resolution: Larn2Pay resolves critical issues within 4 hours, with Rishishwar Industry prioritizing rapid fixes to minimize disruptions and maintain the platform's reputation for reliability.</li>
           <li>Uninterrupted Dashboard Functionality: Larn2Pay ensures the dashboard remains fully functional for real-time access, with Rishishwar Industry managing performance to support institute operations and maintain data accuracy.</li>
-          <li>Mobile App Performance Standards: Larn2Pay’s mobile app maintains a 98% performance SLA, with Rishishwar Industry ensuring reliability and accessibility to support seamless stakeholder interactions and platform trust.</li>
+          <li>Mobile App Performance Standards: Larn2Pay's mobile app maintains a 98% performance SLA, with Rishishwar Industry ensuring reliability and accessibility to support seamless stakeholder interactions and platform trust.</li>
           <li>Advance Downtime Notifications: Larn2Pay notifies institutes of planned maintenance 48 hours in advance, with Rishishwar Industry ensuring transparency to minimize disruptions and maintain operational trust.</li>
           <li>Detailed Downtime Reporting: Larn2Pay provides comprehensive downtime reports, with Rishishwar Industry ensuring transparency and documentation to address institute concerns and maintain platform reliability standards.</li>
           <li>Severity-Based Error Classification: Larn2Pay classifies errors by severity for prioritized resolution, with Rishishwar Industry managing the process to ensure efficiency and protect platform performance and stakeholder trust.</li>
@@ -217,12 +224,12 @@ const privacyContent = {
           <li>Monthly SLA Performance Reports: Larn2Pay provides monthly reports detailing uptime and resolution metrics, with Rishishwar Industry ensuring accuracy to support institute planning and maintain platform reliability.</li>
           <li>Regular SLA Performance Analysis: Larn2Pay conducts regular SLA analyses to improve service quality, with Rishishwar Industry implementing enhancements to ensure continuous platform improvement and stakeholder satisfaction.</li>
           <li>Quarterly SLA Review Meetings: Larn2Pay holds quarterly SLA review meetings with institutes, with Rishishwar Industry managing discussions to address performance and plan enhancements for platform reliability.</li>
-          <li>SLA Customization Flexibility: Rishishwar Industry may customize Larn2Pay’s SLA terms, ensuring flexibility to meet operational needs while maintaining control over performance standards and platform reliability.</li>
-          <li>No Liability for External Disruptions: Rishishwar Industry is not liable for SLA violations caused by external factors, ensuring Larn2Pay’s reliability is not compromised by third-party issues or disruptions.</li>
+          <li>SLA Customization Flexibility: Rishishwar Industry may customize Larn2Pay's SLA terms, ensuring flexibility to meet operational needs while maintaining control over performance standards and platform reliability.</li>
+          <li>No Liability for External Disruptions: Rishishwar Industry is not liable for SLA violations caused by external factors, ensuring Larn2Pay's reliability is not compromised by third-party issues or disruptions.</li>
           <li>Comprehensive SLA Compliance Reports: Larn2Pay provides detailed SLA compliance reports, with Rishishwar Industry ensuring transparency and accountability to maintain institute trust and platform performance standards.</li>
-          <li>Beta Feature SLA Exemption: Larn2Pay’s SLA does not apply to beta features, allowing Rishishwar Industry to innovate freely while protecting against liability for experimental functionality issues.</li>
-          <li>Institute Acknowledgment of SLA Limits: The institute acknowledges Larn2Pay’s operational constraints on SLAs, with Rishishwar Industry ensuring clarity to protect against unrealistic expectations and maintain platform trust.</li>
-          <li>SLA Metrics Definition Control: Rishishwar Industry defines Larn2Pay’s SLA metrics, ensuring alignment with platform capabilities and protecting against disputes over performance expectations or compliance issues.</li>
+          <li>Beta Feature SLA Exemption: Larn2Pay's SLA does not apply to beta features, allowing Rishishwar Industry to innovate freely while protecting against liability for experimental functionality issues.</li>
+          <li>Institute Acknowledgment of SLA Limits: The institute acknowledges Larn2Pay's operational constraints on SLAs, with Rishishwar Industry ensuring clarity to protect against unrealistic expectations and maintain platform trust.</li>
+          <li>SLA Metrics Definition Control: Rishishwar Industry defines Larn2Pay's SLA metrics, ensuring alignment with platform capabilities and protecting against disputes over performance expectations or compliance issues.</li>
           <li>Discretionary SLA Review Initiation: Rishishwar Industry may initiate Larn2Pay SLA reviews at its discretion, ensuring proactive performance management and maintaining platform reliability and institute satisfaction.</li>
           <li>No Penalties for Minor SLA Breaches: Larn2Pay incurs no penalties for minor SLA breaches, with Rishishwar Industry ensuring fairness while protecting against financial liabilities and maintaining platform trust.</li>
         </ul>
@@ -230,9 +237,9 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">8. Error Resolution Process</h2>
-        <p className="mb-2">This section outlines Larn2Pay’s procedures for addressing platform issues, ensuring rapid resolution.</p>
+        <p className="mb-2">This section outlines Larn2Pay's procedures for addressing platform issues, ensuring rapid resolution.</p>
         <ul className="list-disc pl-6">
-          <li>Efficient Error Reporting System: Larn2Pay’s dashboard includes a “Report Issue” feature for streamlined error logging, with Rishishwar Industry ensuring quick resolution to maintain platform reliability and institute trust.</li>
+          <li>Efficient Error Reporting System: Larn2Pay's dashboard includes a "Report Issue" feature for streamlined error logging, with Rishishwar Industry ensuring quick resolution to maintain platform reliability and institute trust.</li>
           <li>Unique Ticket Assignment Process: Larn2Pay assigns unique ticket numbers to each reported issue, with Rishishwar Industry ensuring tracking and accountability to resolve problems efficiently and maintain platform performance.</li>
           <li>Priority-Based Issue Resolution: Larn2Pay resolves issues based on SLA priorities, with Rishishwar Industry managing the process to ensure rapid fixes and minimize disruptions to institute operations.</li>
           <li>Rapid Critical Error Response: Larn2Pay responds to critical errors within 2 hours, with Rishishwar Industry ensuring swift action to maintain platform reliability and protect stakeholder confidence.</li>
@@ -244,33 +251,33 @@ const privacyContent = {
           <li>Historical Issue Logging System: Larn2Pay logs past issues for trend analysis, with Rishishwar Industry ensuring secure storage and access control to improve platform performance and prevent recurrence.</li>
           <li>Internal Error Resolution Prioritization: Rishishwar Industry prioritizes Larn2Pay issue resolutions based on internal assessments, ensuring efficiency and protecting platform performance while addressing institute needs promptly.</li>
           <li>No Liability for Client-Induced Errors: Rishishwar Industry is not responsible for errors caused by institute actions in Larn2Pay, protecting against liability and ensuring accountability for accurate platform usage.</li>
-          <li>Automated Error Detection Tools: Larn2Pay uses automated tools to proactively identify and resolve issues, with Rishishwar Industry ensuring minimal disruptions and maintaining the platform’s reputation for reliability.</li>
+          <li>Automated Error Detection Tools: Larn2Pay uses automated tools to proactively identify and resolve issues, with Rishishwar Industry ensuring minimal disruptions and maintaining the platform's reputation for reliability.</li>
           <li>Flexible Resolution Timelines: Larn2Pay may adjust resolution timelines based on issue complexity, with Rishishwar Industry ensuring transparency and efficiency to maintain platform performance and institute trust.</li>
           <li>Resolution Feedback Collection: Larn2Pay collects institute feedback on resolutions, with Rishishwar Industry determining implementation to improve processes while ensuring alignment with platform goals and reliability.</li>
           <li>Secure Resolution Audit Trails: Larn2Pay logs resolution activities for transparency, with Rishishwar Industry ensuring secure records to protect against disputes and maintain accountability in platform operations.</li>
           <li>No Compensation for Minor Errors: Larn2Pay does not compensate for minor errors, with Rishishwar Industry ensuring fairness while protecting against financial liabilities and maintaining platform trust.</li>
-          <li>Streamlined Error Reporting Process: Rishishwar Industry may streamline Larn2Pay’s error reporting processes, ensuring efficiency and protecting platform performance while addressing institute needs promptly and effectively.</li>
+          <li>Streamlined Error Reporting Process: Rishishwar Industry may streamline Larn2Pay's error reporting processes, ensuring efficiency and protecting platform performance while addressing institute needs promptly and effectively.</li>
           <li>Proactive Error Prevention Measures: Larn2Pay implements proactive measures to prevent errors, with Rishishwar Industry ensuring system robustness to maintain reliability and protect against operational disruptions.</li>
         </ul>
       </section>
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">9. Reporting and Auditing Provisions</h2>
-        <p className="mb-2">This section details Larn2Pay’s reporting and auditing mechanisms, ensuring transparency and compliance.</p>
+        <p className="mb-2">This section details Larn2Pay's reporting and auditing mechanisms, ensuring transparency and compliance.</p>
         <ul className="list-disc pl-6">
           <li>Comprehensive Monthly Transaction Reports: Larn2Pay provides detailed monthly reports summarizing transactions and discrepancies, with Rishishwar Industry ensuring accuracy to support institute financial planning and maintain platform trust.</li>
           <li>Flexible Transaction History Formats: Larn2Pay offers transaction histories in Excel or PDF, with Rishishwar Industry controlling formats to ensure accessibility, security, and alignment with institute reporting needs.</li>
           <li>Institute Audit Request Process: Larn2Pay allows institutes to request audits using system logs, with Rishishwar Industry managing access to ensure security and compliance with platform standards.</li>
           <li>Timely Audit Report Delivery: Larn2Pay delivers audit reports within 7 working days, with Rishishwar Industry ensuring accuracy and transparency to support institute oversight and maintain platform reliability.</li>
-          <li>Internal Audit Sufficiency: Larn2Pay’s internal logging and encryption eliminate third-party audit needs, with Rishishwar Industry ensuring robust systems to protect data integrity and maintain stakeholder trust.</li>
+          <li>Internal Audit Sufficiency: Larn2Pay's internal logging and encryption eliminate third-party audit needs, with Rishishwar Industry ensuring robust systems to protect data integrity and maintain stakeholder trust.</li>
           <li>Detailed Login Activity Reports: Larn2Pay provides reports on user access for accountability, with Rishishwar Industry ensuring secure storage and transparency to protect against disputes and maintain platform reliability.</li>
           <li>Transparent Fee Details Access: Larn2Pay displays fee details on the platform, with Rishishwar Industry ensuring accessibility and accuracy to reduce disputes and maintain stakeholder confidence in operations.</li>
-          <li>Live Reporting Dashboard Access: Larn2Pay’s real-time dashboard provides insights into collections and transactions, with Rishishwar Industry ensuring uninterrupted access and data accuracy to support institute operations.</li>
+          <li>Live Reporting Dashboard Access: Larn2Pay's real-time dashboard provides insights into collections and transactions, with Rishishwar Industry ensuring uninterrupted access and data accuracy to support institute operations.</li>
           <li>Customizable MIS Report Options: Larn2Pay offers tailored MIS reports to meet institute needs, with Rishishwar Industry controlling customization to ensure data security and alignment with platform standards.</li>
           <li>Read-Only Audit Database Access: Larn2Pay provides read-only audit access, with Rishishwar Industry ensuring security and preventing unauthorized modifications to maintain data integrity and platform reliability.</li>
           <li>Comprehensive User Activity Recording: Larn2Pay logs all user activities for transparency, with Rishishwar Industry ensuring secure storage and access control to protect against disputes and maintain accountability.</li>
           <li>Secure Communication Record Storage: Larn2Pay saves SMS and WhatsApp reports for auditing, with Rishishwar Industry ensuring secure storage to support compliance and protect against disputes or misuse.</li>
-          <li>Detailed Collection Report Access: Larn2Pay’s dashboard provides reports on collections, pending, and failed transactions, with Rishishwar Industry ensuring accuracy and accessibility to support institute financial oversight.</li>
+          <li>Detailed Collection Report Access: Larn2Pay's dashboard provides reports on collections, pending, and failed transactions, with Rishishwar Industry ensuring accuracy and accessibility to support institute financial oversight.</li>
           <li>Institute Choice of Report Formats: Larn2Pay allows institutes to choose report formats, with Rishishwar Industry controlling options to ensure compatibility, security, and alignment with platform reporting standards.</li>
           <li>Automated Report Email Delivery: Larn2Pay emails reports on a schedule, with Rishishwar Industry ensuring secure, timely delivery to support institute planning and maintain operational efficiency and trust.</li>
           <li>One-Year Log Retention Policy: Larn2Pay retains logs for one year for compliance, with Rishishwar Industry controlling retention to ensure data security and protect against unauthorized access or misuse.</li>
@@ -281,9 +288,9 @@ const privacyContent = {
           <li>Proprietary Reporting Tool Usage: Larn2Pay uses proprietary reporting tools for accuracy, with Rishishwar Industry ensuring robust systems to protect data integrity and maintain platform reliability for institutes.</li>
           <li>Custom Report Fee Structure: Larn2Pay may charge for customized reports, with Rishishwar Industry determining pricing to balance institute needs and ensure financial sustainability for platform operations.</li>
           <li>No Liability for Report Misinterpretation: Rishishwar Industry is not liable for institute misinterpretation of Larn2Pay reports, protecting against disputes and ensuring accountability for accurate data usage.</li>
-          <li>Automated Report Scheduling Control: Rishishwar Industry controls Larn2Pay’s report schedules, ensuring efficiency and alignment with platform goals to support institute planning and maintain operational reliability.</li>
+          <li>Automated Report Scheduling Control: Rishishwar Industry controls Larn2Pay's report schedules, ensuring efficiency and alignment with platform goals to support institute planning and maintain operational reliability.</li>
           <li>Restricted Access to Sensitive Reports: Larn2Pay restricts sensitive reports to authorized personnel, with Rishishwar Industry ensuring security to protect against unauthorized access and maintain platform trust.</li>
-          <li>Audit Frequency Determination Rights: Rishishwar Industry determines Larn2Pay’s audit frequency, ensuring compliance and protecting platform data integrity while addressing institute needs efficiently and transparently.</li>
+          <li>Audit Frequency Determination Rights: Rishishwar Industry determines Larn2Pay's audit frequency, ensuring compliance and protecting platform data integrity while addressing institute needs efficiently and transparently.</li>
           <li>Two-Year Report Retention Policy: Larn2Pay retains reports for two years for compliance, with Rishishwar Industry controlling retention to ensure data security and protect against unauthorized access or misuse.</li>
           <li>No Third-Party Report Sharing: Larn2Pay does not share reports with third parties, with Rishishwar Industry ensuring confidentiality to protect institute data and maintain platform trust and compliance.</li>
         </ul>
@@ -291,23 +298,23 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">10. Statutory Authorization and Delegation</h2>
-        <p className="mb-2">This section outlines Rishishwar Industry’s authorization to collect fees via Larn2Pay.</p>
+        <p className="mb-2">This section outlines Rishishwar Industry's authorization to collect fees via Larn2Pay.</p>
         <ul className="list-disc pl-6">
-          <li>Institute Appointment of Larn2Pay: [Client Brand Name] appoints Rishishwar Industry as its exclusive representative to collect student fees via Larn2Pay, ensuring seamless, secure operations under Rishishwar Industry’s control to maintain platform reliability.</li>
-          <li>Authorization Validity Period: Larn2Pay’s authorization remains valid for the agreement’s duration, ensuring uninterrupted fee collection, with Rishishwar Industry managing terms to protect operational continuity and platform integrity.</li>
+          <li>Institute Appointment of Larn2Pay: [Client Brand Name] appoints Rishishwar Industry as its exclusive representative to collect student fees via Larn2Pay, ensuring seamless, secure operations under Rishishwar Industry's control to maintain platform reliability.</li>
+          <li>Authorization Validity Period: Larn2Pay's authorization remains valid for the agreement's duration, ensuring uninterrupted fee collection, with Rishishwar Industry managing terms to protect operational continuity and platform integrity.</li>
           <li>Authorized Digital Payment Methods: Larn2Pay is authorized to collect fees via UPI, cards, net banking, E-Nach, and E-Mandate, with Rishishwar Industry ensuring secure, reliable processing to protect stakeholder interests.</li>
           <li>Charges on Successful Transactions Only: Larn2Pay charges fees only on successful transactions, ensuring transparency, with Rishishwar Industry controlling fee structures to maintain financial stability and protect against disputes.</li>
           <li>Non-Coercive Collection Policy: Larn2Pay does not engage in coercive collection or set payment targets, with Rishishwar Industry ensuring compliance to maintain fairness and protect platform reputation.</li>
           <li>Mandatory Institute Portal Usage: The institute ensures all stakeholders use Larn2Pay exclusively for fee collection, with Rishishwar Industry enforcing compliance to maintain data consistency and platform security.</li>
           <li>Transaction Fee Authorization Rights: Larn2Pay may charge a minimum 5% and maximum ₹225 per transaction, with Rishishwar Industry retaining authority to ensure financial sustainability and platform reliability.</li>
-          <li>Exclusive Authorization Process Control: Rishishwar Industry controls Larn2Pay’s authorization process, ensuring streamlined operations and protecting against unauthorized modifications to maintain platform efficiency and stakeholder trust.</li>
-          <li>No Institute Modification of Terms: The institute cannot modify Larn2Pay’s authorization terms without Rishishwar Industry’s consent, ensuring control and protecting against disruptions to platform operations or agreements.</li>
-          <li>Authorization Extension Flexibility: Rishishwar Industry may extend Larn2Pay’s authorization period at its discretion, ensuring operational continuity and protecting platform interests while maintaining institute compliance and trust.</li>
-          <li>No Liability for Misuse Disputes: Rishishwar Industry is not liable for disputes arising from institute misuse of Larn2Pay’s authorization, protecting against financial or legal risks due to client errors.</li>
+          <li>Exclusive Authorization Process Control: Rishishwar Industry controls Larn2Pay's authorization process, ensuring streamlined operations and protecting against unauthorized modifications to maintain platform efficiency and stakeholder trust.</li>
+          <li>No Institute Modification of Terms: The institute cannot modify Larn2Pay's authorization terms without Rishishwar Industry's consent, ensuring control and protecting against disruptions to platform operations or agreements.</li>
+          <li>Authorization Extension Flexibility: Rishishwar Industry may extend Larn2Pay's authorization period at its discretion, ensuring operational continuity and protecting platform interests while maintaining institute compliance and trust.</li>
+          <li>No Liability for Misuse Disputes: Rishishwar Industry is not liable for disputes arising from institute misuse of Larn2Pay's authorization, protecting against financial or legal risks due to client errors.</li>
           <li>Automated Authorization Audit System: Larn2Pay conducts automated audits of authorization compliance, with Rishishwar Industry ensuring accuracy without institute involvement to maintain platform integrity and transparency.</li>
           <li>Detailed Authorization Documentation: Larn2Pay documents authorization activities for legal protection, with Rishishwar Industry ensuring secure records to protect against disputes and maintain platform reliability and trust.</li>
-          <li>Institute Acknowledgment of Role: The institute acknowledges Rishishwar Industry’s role in Larn2Pay’s fee-related communications, ensuring clarity and compliance, with Rishishwar Industry controlling interactions to maintain platform standards.</li>
-          <li>Prohibition of Third-Party Authorization: The institute cannot delegate Larn2Pay’s fee collection to third parties without Rishishwar Industry’s approval, ensuring control and protecting platform data and operational integrity.</li>
+          <li>Institute Acknowledgment of Role: The institute acknowledges Rishishwar Industry's role in Larn2Pay's fee-related communications, ensuring clarity and compliance, with Rishishwar Industry controlling interactions to maintain platform standards.</li>
+          <li>Prohibition of Third-Party Authorization: The institute cannot delegate Larn2Pay's fee collection to third parties without Rishishwar Industry's approval, ensuring control and protecting platform data and operational integrity.</li>
           <li>Secure Authorization Communication: Larn2Pay communicates authorization details securely, with Rishishwar Industry controlling channels to ensure confidentiality and protect against unauthorized access or misuse of platform data.</li>
         </ul>
       </section>
@@ -316,7 +323,7 @@ const privacyContent = {
         <h2 className="text-2xl font-semibold mb-2">11. Termination Clauses</h2>
         <p className="mb-2">This section outlines conditions and procedures for terminating the Larn2Pay agreement.</p>
         <ul className="list-disc pl-6">
-          <li>Written Notice Termination Process: Either party may terminate the Larn2Pay agreement with 30 days’ written notice, clearing all dues, with Rishishwar Industry controlling the process to ensure orderly closure and platform protection.</li>
+          <li>Written Notice Termination Process: Either party may terminate the Larn2Pay agreement with 30 days' written notice, clearing all dues, with Rishishwar Industry controlling the process to ensure orderly closure and platform protection.</li>
           <li>Immediate Termination for Breaches: Larn2Pay allows immediate termination for agreement breaches, with Rishishwar Industry enforcing terms to protect platform integrity and ensure compliance from institutes.</li>
           <li>Institute Liability Until Termination: The institute remains liable for all Larn2Pay obligations until termination, with Rishishwar Industry ensuring accountability to protect financial and operational interests during the agreement period.</li>
           <li>Final Settlement Within 15 Days: Larn2Pay completes final settlements within 15 days of termination, with Rishishwar Industry ensuring secure, timely transfers to protect financial interests and maintain transparency.</li>
@@ -326,9 +333,9 @@ const privacyContent = {
           <li>Fee Clearance for Data Release: Larn2Pay releases data only after clearing outstanding fees, with Rishishwar Industry enforcing compliance to protect financial interests and ensure orderly termination processes.</li>
           <li>No Re-Service Without Dues Clearance: Larn2Pay services cannot resume post-termination without clearing dues, with Rishishwar Industry enforcing terms to protect financial stability and maintain platform integrity.</li>
           <li>Court-Guided Termination Disputes: Larn2Pay disputes follow court guidelines for termination, with Rishishwar Industry ensuring compliance to protect against legal risks and maintain platform reputation and reliability.</li>
-          <li>Post-Termination Confidentiality Obligations: Larn2Pay’s confidentiality obligations persist after termination, with Rishishwar Industry ensuring compliance to protect data integrity and maintain stakeholder trust in platform operations.</li>
-          <li>Prohibition of Brand or System Use: The institute cannot use Larn2Pay’s brand or system post-termination, with Rishishwar Industry enforcing restrictions to protect intellectual property and platform integrity.</li>
-          <li>Termination Rights Protection: Larn2Pay’s termination process protects Rishishwar Industry’s rights, ensuring control over platform assets and preventing institute actions that could compromise operational or financial interests.</li>
+          <li>Post-Termination Confidentiality Obligations: Larn2Pay's confidentiality obligations persist after termination, with Rishishwar Industry ensuring compliance to protect data integrity and maintain stakeholder trust in platform operations.</li>
+          <li>Prohibition of Brand or System Use: The institute cannot use Larn2Pay's brand or system post-termination, with Rishishwar Industry enforcing restrictions to protect intellectual property and platform integrity.</li>
+          <li>Termination Rights Protection: Larn2Pay's termination process protects Rishishwar Industry's rights, ensuring control over platform assets and preventing institute actions that could compromise operational or financial interests.</li>
           <li>Pre-Termination Review Meeting: Larn2Pay holds a review meeting 30 days prior to termination, with Rishishwar Industry managing discussions to ensure orderly closure and protect platform interests.</li>
           <li>Termination of User Logins: Larn2Pay terminates all user logins upon agreement closure, with Rishishwar Industry ensuring security to prevent unauthorized access and protect platform data integrity.</li>
           <li>Cessation of Transaction Processing: Larn2Pay stops all transactions upon termination, with Rishishwar Industry ensuring orderly cessation to protect financial operations and maintain platform reliability and trust.</li>
@@ -337,12 +344,12 @@ const privacyContent = {
           <li>Nullification of Clauses Post-Termination: Larn2Pay clauses are declared null in writing post-termination, with Rishishwar Industry controlling documentation to ensure clarity, compliance, and protection of platform interests.</li>
           <li>Premature Termination Fee Policy: Larn2Pay may impose a fee for premature termination, with Rishishwar Industry determining charges to protect financial stability and ensure orderly platform operations.</li>
           <li>No Post-Termination Liability: Rishishwar Industry is not liable for issues post-Larn2Pay termination, protecting against claims and ensuring focus on platform reliability during the active agreement period.</li>
-          <li>Termination Process Control Rights: Rishishwar Industry controls Larn2Pay’s termination process, ensuring orderly closure, protecting platform assets, and maintaining compliance with financial and operational standards.</li>
+          <li>Termination Process Control Rights: Rishishwar Industry controls Larn2Pay's termination process, ensuring orderly closure, protecting platform assets, and maintaining compliance with financial and operational standards.</li>
           <li>Retention of Transaction Logs: Larn2Pay retains transaction logs post-termination for compliance, with Rishishwar Industry ensuring secure storage to protect against disputes and maintain platform transparency.</li>
           <li>No Post-Termination Support Obligation: Rishishwar Industry is not obligated to provide Larn2Pay support post-termination, protecting resources and ensuring focus on active agreements and platform reliability.</li>
-          <li>Termination Notification Channels: Rishishwar Industry selects Larn2Pay’s termination communication channels, ensuring secure, transparent notifications to protect platform operations and maintain institute trust during closure.</li>
-          <li>Data Deletion Timeline Control: Rishishwar Industry determines Larn2Pay’s data deletion timelines post-termination, ensuring compliance and protecting against unauthorized data retention or access by institutes or third parties.</li>
-          <li>No Reinstatement Without Approval: Larn2Pay services cannot resume post-termination without Rishishwar Industry’s approval, ensuring control and protecting platform integrity from unauthorized re-engagement attempts.</li>
+          <li>Termination Notification Channels: Rishishwar Industry selects Larn2Pay's termination communication channels, ensuring secure, transparent notifications to protect platform operations and maintain institute trust during closure.</li>
+          <li>Data Deletion Timeline Control: Rishishwar Industry determines Larn2Pay's data deletion timelines post-termination, ensuring compliance and protecting against unauthorized data retention or access by institutes or third parties.</li>
+          <li>No Reinstatement Without Approval: Larn2Pay services cannot resume post-termination without Rishishwar Industry's approval, ensuring control and protecting platform integrity from unauthorized re-engagement attempts.</li>
         </ul>
       </section>
 
@@ -354,13 +361,13 @@ const privacyContent = {
           <li>Exemption for Civil Disruptions: Larn2Pay is not liable for delays due to riots, war, strikes, or lockdowns, with Rishishwar Industry managing suspensions to protect platform operations and stakeholder trust.</li>
           <li>Uncontrollable Event Protections: Neither party is liable for Larn2Pay delays due to force majeure, with Rishishwar Industry ensuring clear communication to maintain transparency and protect platform reliability.</li>
           <li>No Liability for Service Delays: Rishishwar Industry is not responsible for Larn2Pay delays during force majeure, ensuring protection from liability while prioritizing platform recovery and operational continuity.</li>
-          <li>SLA Exemption During Force Majeure: Larn2Pay’s SLAs do not apply during force majeure events, with Rishishwar Industry ensuring flexibility to protect platform operations and maintain stakeholder confidence.</li>
+          <li>SLA Exemption During Force Majeure: Larn2Pay's SLAs do not apply during force majeure events, with Rishishwar Industry ensuring flexibility to protect platform operations and maintain stakeholder confidence.</li>
           <li>Prompt Force Majeure Notifications: Larn2Pay notifies institutes of force majeure impacts and timelines, with Rishishwar Industry controlling communications to ensure transparency and maintain trust in platform operations.</li>
           <li>Prioritized Service Restoration: Larn2Pay prioritizes service restoration post-force majeure, with Rishishwar Industry managing recovery to ensure rapid return to normal operations and maintain platform reliability.</li>
           <li>No Penalties During Force Majeure: Rishishwar Industry faces no penalties for Larn2Pay disruptions during force majeure, protecting against claims and ensuring focus on platform recovery and operational stability.</li>
-          <li>Extended Force Majeure Flexibility: Larn2Pay’s force majeure period may extend beyond 60 days, with Rishishwar Industry ensuring flexibility to protect platform operations and maintain institute trust during prolonged disruptions.</li>
+          <li>Extended Force Majeure Flexibility: Larn2Pay's force majeure period may extend beyond 60 days, with Rishishwar Industry ensuring flexibility to protect platform operations and maintain institute trust during prolonged disruptions.</li>
           <li>No Compensation for Delays: Rishishwar Industry is not obligated to compensate for Larn2Pay delays during force majeure, protecting financial interests while ensuring focus on platform recovery and reliability.</li>
-          <li>Secure Communication Channels: Rishishwar Industry determines Larn2Pay’s force majeure notification channels, ensuring secure, transparent communication to protect platform operations and maintain institute trust during disruptions.</li>
+          <li>Secure Communication Channels: Rishishwar Industry determines Larn2Pay's force majeure notification channels, ensuring secure, transparent communication to protect platform operations and maintain institute trust during disruptions.</li>
           <li>System Protection Prioritization: Larn2Pay prioritizes system protection over service continuity during force majeure, with Rishishwar Industry ensuring robust measures to safeguard platform data and operational integrity.</li>
           <li>Institute Cooperation Requirement: The institute must cooperate with Larn2Pay during force majeure recovery, with Rishishwar Industry enforcing compliance to ensure efficient restoration and protect platform operations.</li>
           <li>Force Majeure Event Documentation: Larn2Pay documents force majeure events and actions, with Rishishwar Industry ensuring transparency to protect against disputes and maintain accountability in platform operations.</li>
@@ -379,16 +386,16 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">13. Legal Safeguards</h2>
-        <p className="mb-2">This section ensures Rishishwar Industry’s legal protection for Larn2Pay operations.</p>
+        <p className="mb-2">This section ensures Rishishwar Industry's legal protection for Larn2Pay operations.</p>
         <ul className="list-disc pl-6">
           <li>Institute Indemnity for Negligence: The institute indemnifies Rishishwar Industry against claims arising from institute negligence in Larn2Pay usage, protecting against legal risks and ensuring accountability for client actions.</li>
           <li>No Liability for External Lawsuits: Rishishwar Industry is not liable for third-party lawsuits against the institute related to Larn2Pay, ensuring protection from external legal risks and maintaining platform focus.</li>
-          <li>Proprietary UI Protection Rights: Larn2Pay’s user interface is proprietary, with Rishishwar Industry preventing institute replication to protect intellectual property and maintain platform uniqueness and operational integrity.</li>
+          <li>Proprietary UI Protection Rights: Larn2Pay's user interface is proprietary, with Rishishwar Industry preventing institute replication to protect intellectual property and maintain platform uniqueness and operational integrity.</li>
           <li>Institute Legal Compliance Requirement: The institute must comply with applicable laws in Larn2Pay usage, absolving Rishishwar Industry of liability for client non-compliance and protecting against legal risks.</li>
           <li>No Claims for Update Disruptions: The institute cannot claim compensation for disruptions caused by Larn2Pay updates, with Rishishwar Industry ensuring protection from liability while maintaining platform improvement rights.</li>
           <li>Legal Fee Reimbursement Policy: The institute reimburses Rishishwar Industry for legal fees due to client disputes in Larn2Pay, ensuring financial protection and accountability for institute actions or errors.</li>
           <li>Binding Arbitration for Disputes: Larn2Pay disputes are resolved via arbitration in Gwalior, Madhya Pradesh, with Rishishwar Industry ensuring compliance to protect against prolonged legal conflicts and maintain platform trust.</li>
-          <li>Finality of Dispute Reports: Larn2Pay’s reports are final in legal disputes, with Rishishwar Industry ensuring accuracy and transparency to resolve conflicts and protect platform integrity and stakeholder trust.</li>
+          <li>Finality of Dispute Reports: Larn2Pay's reports are final in legal disputes, with Rishishwar Industry ensuring accuracy and transparency to resolve conflicts and protect platform integrity and stakeholder trust.</li>
           <li>Legal Compliance Monitoring System: Larn2Pay monitors institute compliance with legal requirements, with Rishishwar Industry overseeing processes to ensure adherence and protect against regulatory risks or disputes.</li>
           <li>No Liability for Third-Party Actions: Rishishwar Industry is not liable for third-party actions affecting Larn2Pay, ensuring protection from external risks and maintaining focus on platform reliability and operations.</li>
         </ul>
@@ -396,39 +403,39 @@ const privacyContent = {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">14. Platform Enhancements and Innovation</h2>
-        <p className="mb-2">This section covers Larn2Pay’s improvement and innovation rights, ensuring continuous advancement.</p>
+        <p className="mb-2">This section covers Larn2Pay's improvement and innovation rights, ensuring continuous advancement.</p>
         <ul className="list-disc pl-6">
           <li>Proprietary Feature Development Rights: Rishishwar Industry retains exclusive rights to develop and deploy new Larn2Pay features, ensuring innovation and protecting platform competitiveness without requiring institute approval.</li>
           <li>Controlled Beta Feature Testing: Larn2Pay may test beta features with select institutes, with Rishishwar Industry controlling deployment to ensure stability and protect platform performance during innovation phases.</li>
           <li>AI Integration for Functionality: Rishishwar Industry may integrate AI tools into Larn2Pay to enhance functionality, at no cost to institutes, ensuring cutting-edge performance and maintaining platform reliability.</li>
-          <li>No Institute Ownership of Enhancements: Larn2Pay enhancements remain Rishishwar Industry’s property, protecting intellectual property and ensuring institutes cannot claim ownership or replicate platform features or technology.</li>
+          <li>No Institute Ownership of Enhancements: Larn2Pay enhancements remain Rishishwar Industry's property, protecting intellectual property and ensuring institutes cannot claim ownership or replicate platform features or technology.</li>
           <li>Discretionary Feedback Utilization: Larn2Pay collects institute feedback for improvements, with Rishishwar Industry determining implementation to ensure alignment with platform goals and maintaining operational reliability and efficiency.</li>
           <li>Secure Innovation Testing Environment: Larn2Pay provides a testing environment for feature trials, with Rishishwar Industry controlling access to ensure security and protect live data from experimental disruptions.</li>
-          <li>No Liability for Experimental Features: Rishishwar Industry is not liable for issues from Larn2Pay’s experimental features, protecting against claims while ensuring freedom to innovate and enhance platform capabilities.</li>
-          <li>Controlled Feature Rollout Schedules: Rishishwar Industry controls Larn2Pay’s feature rollout schedules, ensuring orderly deployment, protecting platform stability, and maintaining institute trust through seamless integration of enhancements.</li>
+          <li>No Liability for Experimental Features: Rishishwar Industry is not liable for issues from Larn2Pay's experimental features, protecting against claims while ensuring freedom to innovate and enhance platform capabilities.</li>
+          <li>Controlled Feature Rollout Schedules: Rishishwar Industry controls Larn2Pay's feature rollout schedules, ensuring orderly deployment, protecting platform stability, and maintaining institute trust through seamless integration of enhancements.</li>
           <li>Innovation-Driven Platform Upgrades: Larn2Pay undergoes regular upgrades to maintain industry leadership, with Rishishwar Industry ensuring enhancements protect platform reliability and deliver value without institute costs.</li>
         </ul>
       </section>
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">15. Client Obligations</h2>
-        <p className="mb-2">This section outlines the institute’s responsibilities to support Larn2Pay operations.</p>
+        <p className="mb-2">This section outlines the institute's responsibilities to support Larn2Pay operations.</p>
         <ul className="list-disc pl-6">
           <li>Timely Data Update Requirement: The institute must provide timely student and fee data updates to Larn2Pay, with Rishishwar Industry ensuring compliance to maintain platform accuracy and operational efficiency.</li>
-          <li>Adherence to Communication Protocols: The institute must follow Larn2Pay’s communication protocols, with Rishishwar Industry enforcing compliance to ensure consistency, transparency, and protection of platform operations and reputation.</li>
+          <li>Adherence to Communication Protocols: The institute must follow Larn2Pay's communication protocols, with Rishishwar Industry enforcing compliance to ensure consistency, transparency, and protection of platform operations and reputation.</li>
           <li>Exclusive Platform Usage: The institute must use Larn2Pay exclusively for fee collection, with Rishishwar Industry enforcing restrictions to protect data consistency and maintain platform security and reliability.</li>
           <li>Mandatory Staff Training Compliance: The institute must ensure staff complete Larn2Pay training, with Rishishwar Industry controlling programs to ensure proficiency and protect platform operations from user errors.</li>
           <li>Support for Dispute Resolution: The institute must assist in resolving parental disputes in Larn2Pay, with Rishishwar Industry overseeing processes to ensure fairness and protect platform integrity and reputation.</li>
           <li>Prohibition of Public Criticism: The institute must refrain from publicly criticizing Larn2Pay, with Rishishwar Industry enforcing restrictions to protect platform reputation and maintain stakeholder trust and confidence.</li>
           <li>Data Accuracy Guarantee Obligation: The institute guarantees data accuracy in Larn2Pay, absolving Rishishwar Industry of liability for errors and ensuring accountability for maintaining platform reliability and trust.</li>
           <li>Mandatory Platform Promotion: The institute must promote Larn2Pay to parents and students, with Rishishwar Industry ensuring compliance to enhance adoption and maintain platform visibility and operational success.</li>
-          <li>Compliance with Usage Guidelines: The institute must adhere to Larn2Pay’s usage guidelines, with Rishishwar Industry enforcing compliance to protect platform functionality and prevent misuse or operational disruptions.</li>
+          <li>Compliance with Usage Guidelines: The institute must adhere to Larn2Pay's usage guidelines, with Rishishwar Industry enforcing compliance to protect platform functionality and prevent misuse or operational disruptions.</li>
         </ul>
       </section>
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">16. Financial Safeguards</h2>
-        <p className="mb-2">This section ensures Rishishwar Industry’s financial stability for Larn2Pay operations.</p>
+        <p className="mb-2">This section ensures Rishishwar Industry's financial stability for Larn2Pay operations.</p>
         <ul className="list-disc pl-6">
           <li>Revenue Retention for Operations: Rishishwar Industry may retain Larn2Pay fees as a reserve for operational costs, ensuring financial stability and protecting platform reliability without institute approval or liability.</li>
           <li>No Liability for Currency Fluctuations: Rishishwar Industry is not liable for losses from currency fluctuations in Larn2Pay transactions, protecting against financial risks and ensuring focus on platform reliability and operations.</li>
@@ -437,31 +444,37 @@ const privacyContent = {
           <li>Non-Refundable Overpayment Policy: Larn2Pay does not refund overpayments due to institute errors, with Rishishwar Industry ensuring financial protection and accountability for accurate data submission and platform usage.</li>
           <li>Flexible Transaction Fee Adjustments: Larn2Pay may adjust fees based on transaction volume, with Rishishwar Industry notifying institutes to ensure transparency, scalability, and protection of financial interests.</li>
           <li>Institute Liability for Fraud: The institute is liable for fraudulent payments via Larn2Pay due to its data, with Rishishwar Industry protected from financial risks and ensuring platform integrity and trust.</li>
-          <li>Financial Reporting Control Rights: Rishishwar Industry controls Larn2Pay’s financial report formats and delivery, ensuring accuracy, security, and alignment with platform goals to support institute planning and trust.</li>
+          <li>Financial Reporting Control Rights: Rishishwar Industry controls Larn2Pay's financial report formats and delivery, ensuring accuracy, security, and alignment with platform goals to support institute planning and trust.</li>
           <li>Secure Financial Data Storage: Larn2Pay stores financial data securely, with Rishishwar Industry ensuring restricted access to protect against unauthorized use and maintain platform reliability and compliance.</li>
         </ul>
       </section>
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">17. Intellectual Property Protection</h2>
-        <p className="mb-2">This section protects Rishishwar Industry’s intellectual property rights for Larn2Pay.</p>
+        <p className="mb-2">This section protects Rishishwar Industry's intellectual property rights for Larn2Pay.</p>
         <ul className="list-disc pl-6">
           <li>Exclusive IP Ownership Rights: All Larn2Pay software, designs, and algorithms are exclusively owned by Rishishwar Industry, protecting against unauthorized use and maintaining platform uniqueness and integrity.</li>
           <li>Prohibition of Platform Replication: The institute cannot replicate or reverse-engineer Larn2Pay, with Rishishwar Industry enforcing restrictions to protect intellectual property and maintain platform competitiveness and reliability.</li>
-          <li>Branding Control Authority: Rishishwar Industry controls Larn2Pay’s branding, even when customized, ensuring consistency and protecting platform identity from misuse or unauthorized modifications by institutes or third parties.</li>
-          <li>No Source Code Access Rights: The institute has no access to Larn2Pay’s source code, with Rishishwar Industry ensuring protection of proprietary technology and maintaining platform security and operational integrity.</li>
+          <li>Branding Control Authority: Rishishwar Industry controls Larn2Pay's branding, even when customized, ensuring consistency and protecting platform identity from misuse or unauthorized modifications by institutes or third parties.</li>
+          <li>No Source Code Access Rights: The institute has no access to Larn2Pay's source code, with Rishishwar Industry ensuring protection of proprietary technology and maintaining platform security and operational integrity.</li>
           <li>Institute Liability for IP Infringement: The institute is liable for any IP infringements caused in Larn2Pay, with Rishishwar Industry protected from legal risks and ensuring accountability for client actions.</li>
-          <li>Proprietary Reporting Algorithm Protection: Larn2Pay’s reporting algorithms are proprietary, with Rishishwar Industry ensuring protection against replication to maintain platform uniqueness and operational reliability for institutes.</li>
-          <li>Third-Party IP Integration Approval: Third-party IP integration into Larn2Pay requires Rishishwar Industry’s approval, ensuring control and protecting platform integrity from unauthorized or incompatible technologies.</li>
-          <li>Post-Termination IP Protection: Larn2Pay’s IP protections persist after termination, with Rishishwar Industry enforcing restrictions to prevent unauthorized use and maintain platform competitiveness and operational integrity.</li>
-          <li>Secure IP Development Processes: Rishishwar Industry ensures Larn2Pay’s development processes are secure, protecting intellectual property.</li>
+          <li>Proprietary Reporting Algorithm Protection: Larn2Pay's reporting algorithms are proprietary, with Rishishwar Industry ensuring protection against replication to maintain platform uniqueness and operational reliability for institutes.</li>
+          <li>Third-Party IP Integration Approval: Third-party IP integration into Larn2Pay requires Rishishwar Industry's approval, ensuring control and protecting platform integrity from unauthorized or incompatible technologies.</li>
+          <li>Post-Termination IP Protection: Larn2Pay's IP protections persist after termination, with Rishishwar Industry enforcing restrictions to prevent unauthorized use and maintain platform competitiveness and operational integrity.</li>
+          <li>Secure IP Development Processes: Rishishwar Industry ensures Larn2Pay's development processes are secure, protecting intellectual property.</li>
              </ul>
       </section>
       </div>
   ),
   hi:(
      <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Larn2Pay सॉफ्टवेयर प्लेटफॉर्म के लिए नियम और शर्तें</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        <span className="font-bold">
+          <span className="text-[#FF7F1A]">लर्न</span>
+          <span className="text-gray-900 dark:text-white">2पे सॉफ्टवेयर प्लेटफॉर्म के लिए नियम और शर्तें
+          </span>
+        </span>
+      </h1>
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">1. समझौते का उद्देश्य</h2>
         <p className="mb-2">यह अनुभाग Larn2Pay प्लेटफॉर्म के माध्यम से शुल्क संग्रहण की कुशल, सुरक्षित और पारदर्शी प्रक्रिया को सुनिश्चित करने के उद्देश्यों को रेखांकित करता है।</p>
@@ -575,7 +588,7 @@ const privacyContent = {
           <li>शुल्क छूट के लिए अनुमोदन प्रक्रिया: Larn2Pay में शुल्क छूट के लिए Rishishwar Industry की पूर्व सहमति आवश्यक है, जिससे वित्तीय नीतियों के साथ संरेखण सुनिश्चित होता है।</li>
           <li>सदस्यता-आधारित प्रीमियम शुल्क: Larn2Pay प्रीमियम सुविधाओं के लिए वैकल्पिक सदस्यता शुल्क प्रदान करता है, और Rishishwar Industry मूल्य निर्धारण को नियंत्रित करता है।</li>
           <li>बैच शुल्क छूट नीति: Larn2Pay थोक भुगतानों पर छूट प्रदान कर सकता है, और Rishishwar Industry छूट की शर्तों को नियंत्रित करता है, जिससे वित्तीय स्थिरता बनी रहती है।</li>
-          <li>शुल्क भुगतान की समय-सीमा: Larn2Pay संस्थानों को शुल्क भुगतान के लिए 30 दिन की समय-सीमा देता है, और Rishishwar Industry समय पर भुगतान लागू करता है।</li>
+          <li>शुल्क संरचना समय-सीमा: Larn2Pay संस्थानों को शुल्क भुगतान के लिए 30 दिन की समय-सीमा देता है, और Rishishwar Industry समय पर भुगतान लागू करता है।</li>
           <li>विलंबित शुल्क भुगतान शुल्क: Larn2Pay विलंबित शुल्क भुगतानों पर ₹200 का विलंब शुल्क लागू करता है, और Rishishwar Industry वित्तीय अनुशासन सुनिश्चित करता है।</li>
           <li>शुल्क अधिसूचना प्रक्रिया: Larn2Pay शुल्क परिवर्तनों की 30 दिन पहले अधिसूचना देता है, और Rishishwar Industry पारदर्शी संचार सुनिश्चित करता है।</li>
         </ul>
@@ -627,7 +640,7 @@ const privacyContent = {
           <li>निर्धारित सहायता घंटे: Larn2Pay सोमवार से शनिवार, सुबह 10 बजे से शाम 6 बजे तक सहायता प्रदान करता है, और Rishishwar Industry समय पर प्रतिक्रियाएँ सुनिश्चित करता है।</li>
           <li>आपातकालीन हेल्पलाइन उपलब्धता: Larn2Pay महत्वपूर्ण समस्याओं के लिए आपातकालीन हेल्पलाइन प्रदान करता है, और Rishishwar Industry त्वरित समाधान सुनिश्चित करता है, जिससे प्लेटफॉर्म की विश्वसनीयता बनी रहती है।</li>
           <li>नियमित सिस्टम अपडेट अधिसूचनाएँ: Larn2Pay साप्ताहिक और मासिक अपडेट अधिसूचनाएँ साझा करता है, और Rishishwar Industry पारदर्शिता और प्लेटफॉर्म कार्यक्षमता को बनाए रखता है।</li>
-          <li>सरल मुद्दा रिपोर्टिंग सुविधा: Larn2Pay का डैशबोर्ड “मुद्दा रिपोर्ट करें” सुविधा प्रदान करता है, और Rishishwar Industry त्वरित समाधान और प्लेटफॉर्म स्थिरता सुनिश्चित करता है।</li>
+          <li>सरल मुद्दा रिपोर्टिंग सुविधा: Larn2Pay का डैशबोर्ड "मुद्दा रिपोर्ट करें" सुविधा प्रदान करता है, और Rishishwar Industry त्वरित समाधान और प्लेटफॉर्म स्थिरता सुनिश्चित करता है।</li>
           <li>विस्तृत प्रशिक्षण सामग्री: Larn2Pay स्व-गति प्रशिक्षण के लिए PDF और वीडियो ट्यूटोरियल प्रदान करता है, और Rishishwar Industry सामग्री की सटीकता और प्रासंगिकता सुनिश्चित करता है।</li>
           <li>प्रशिक्षण सत्र रिकॉर्डिंग तक पहुँच: Larn2Pay कर्मचारियों के लिए रिकॉर्डेड प्रशिक्षण सत्र प्रदान करता है, और Rishishwar Industry सुरक्षित पहुँच और सामग्री नियंत्रण सुनिश्चित करता है।</li>
           <li>सुरक्षित लॉगिन निर्देश: Larn2Pay कर्मचारियों के लिए विस्तृत लॉगिन निर्देश प्रदान करता है, और Rishishwar Industry सुरक्षित प्रोटोकॉल सुनिश्चित करता है, जिससे अनधिकृत उपयोग रोका जाता है।</li>
@@ -768,55 +781,21 @@ const PrivacyPolicy = () => {
   const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
   return (
-    <div className={darkMode ? 'dark bg-black text-white min-h-screen' : 'bg-white text-black min-h-screen'}>
-      {/* Top Bar: Language & Theme Switcher */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12, padding: 16 }}>
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-white relative">
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-4">
         <button
           onClick={() => setLanguage('en')}
-          style={{
-            marginRight: 8,
-            fontWeight: language === 'en' ? 'bold' : 'normal',
-            textDecoration: language === 'en' ? 'underline' : 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: darkMode ? 'white' : 'black',
-          }}
+          className={`font-semibold px-2 ${language === 'en' ? 'underline text-orange-500' : 'text-gray-500 dark:text-gray-300'}`}
         >
           English
         </button>
         <button
           onClick={() => setLanguage('hi')}
-          style={{
-            fontWeight: language === 'hi' ? 'bold' : 'normal',
-            textDecoration: language === 'hi' ? 'underline' : 'none',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: darkMode ? 'white' : 'black',
-          }}
+          className={`font-semibold px-2 ${language === 'hi' ? 'underline text-orange-500' : 'text-gray-500 dark:text-gray-300'}`}
         >
           हिन्दी
         </button>
-        <button
-          onClick={() => setDarkMode((prev) => !prev)}
-          style={{
-            marginLeft: 16,
-            background: darkMode ? '#222' : '#eee',
-            color: darkMode ? 'white' : 'black',
-            border: '1px solid',
-            borderColor: darkMode ? '#444' : '#ccc',
-            borderRadius: 6,
-            padding: '4px 12px',
-            cursor: 'pointer',
-            fontSize: 16,
-          }}
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? 'Bright Mode' : 'Dark Mode'}
-        </button>
+        <ThemeToggle />
       </div>
       <div className="px-6 py-12 max-w-6xl mx-auto space-y-10">
         {privacyContent[language]}

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAuth } from "../contexts/AuthContext";
 import {
   Card,
   CardContent,
@@ -9,8 +10,16 @@ import {
 import { Button } from '../components/ui/Button';
 import { useNavigate } from 'react-router-dom'; 
 import footer from '../components/Footer';
+
 const BlogPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:to-gray-900 text-gray-900 dark:text-white">
@@ -52,12 +61,12 @@ const BlogPage = () => {
         <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
         
         <p className="mb-6">Join thousands of parents and institutions simplifying fee payments.</p>
-        <Button
-            className="bg-orange-700 hover:bg-orange-500 text-white px-6 py-3 rounded-lg dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
-             onClick={() => navigate('/register')} // Navigate to the route
-        >
-          Get Started
-        </Button>
+       <Button
+                    className="px-8 py-4 text-base bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 font-bold rounded-xl shadow-lg"
+                    onClick={() => navigate("/register")}
+                  >
+                    Get started
+                  </Button>
       </section>
     </div>
   );

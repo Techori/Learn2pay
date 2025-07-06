@@ -60,7 +60,7 @@ const About: React.FC = () => {
   const milestones = [
     {
       year: "2020",
-      event: "Learn2Pay founded with a vision to transform fee collection",
+              event: "Larn2Pay founded with a vision to transform fee collection",
     },
     {
       year: "2021",
@@ -87,7 +87,10 @@ const About: React.FC = () => {
       <section className="py-20 px-4 text-center">
         <div className="container mx-auto">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-            About Learn2Pay
+            <span className="font-bold">
+              <span className="text-[#FF7F1A]">LARN</span>
+              <span className="text-gray-900 dark:text-white">2PAY</span>
+            </span>
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             We're on a mission to revolutionize fee collection for educational institutions across India,
