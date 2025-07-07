@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./Themetoggle";
 import { useAuth } from "../contexts/AuthContext";
-import { Moon, Sun } from 'lucide-react';
+import { useTheme } from "../contexts/ThemeContext";
+import { Moon, Sun } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, institute, parent, userType, logout, isLoading } =
     useAuth();
-  const [darkMode, setDarkMode] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -43,18 +44,6 @@ const Navbar = () => {
   const handleLogout = async () => {
     await logout();
     setIsProfileMenuOpen(false);
-  };
-
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newMode = !prev;
-      if (newMode) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-      return newMode;
-    });
   };
 
   // Get current user data
@@ -113,11 +102,19 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="hidden md:flex items-center space-x-4">
             <button
-              onClick={toggleDarkMode}
+              onClick={toggleTheme}
               className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-              title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={
+                theme === "dark"
+                  ? "Switch to Light Mode"
+                  : "Switch to Dark Mode"
+              }
             >
-              {darkMode ? <Sun className="w-6 h-6 text-yellow-400" /> : <Moon className="w-6 h-6 text-gray-500" />}
+              {theme === "dark" ? (
+                <Sun className="w-6 h-6 text-yellow-400" />
+              ) : (
+                <Moon className="w-6 h-6 text-gray-500" />
+              )}
             </button>
 
             {isLoading ? (

@@ -17,14 +17,18 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
   try {
     const response = await fetch(url, defaultOptions);
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || `HTTP error! status: ${response.status}`);
-    }
-
-    return data;
+    if (response.status === 401) {
+      // Handle unauthorized access silently - no console log
+      return { error: "Unauthorized access - your session has expired" };
+    } else if (!response.ok) {
+      // Handle other HTTP errors
+      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+    } else return data;
   } catch (error) {
-    console.error("API call failed:", error);
+    // Only log non-401 errors
+    if (error instanceof Error && !error.message.includes("Unauthorized")) {
+      console.log("API call failed:", error);
+    }
     throw error;
   }
 }
@@ -89,7 +93,7 @@ export const authAPI = {
     }),
 
   // Generic session check based on stored user type
-  getSession: () => {
+  getSession: async () => {
     const storedUserType = localStorage.getItem("userType");
     if (storedUserType === "institute") {
       return apiCall("/api/institute/session");
@@ -97,9 +101,12 @@ export const authAPI = {
       return apiCall("/api/parent/session");
     } else {
       // Try both if no stored type (fallback)
-      return apiCall("/api/institute/session").catch(() =>
-        apiCall("/api/parent/session")
-      );
+      const instituteResult = await apiCall("/api/institute/session");
+      if (instituteResult.error) {
+        const parentResult = await apiCall("/api/parent/session");
+        return parentResult;
+      }
+      return instituteResult;
     }
   },
 

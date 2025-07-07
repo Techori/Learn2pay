@@ -68,6 +68,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       const response = await authAPI.getSession();
 
+      // Check if response has an error (like 401)
+      if (response.error) {
+        setInstitute(null);
+        setParent(null);
+        setUserType(null);
+        localStorage.removeItem("userType");
+        return;
+      }
+
       if (response.institute) {
         setInstitute(response.institute);
         setParent(null);
@@ -85,7 +94,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem("userType");
       }
     } catch (error) {
-      console.error("Session check failed:", error);
+      // Only log non-401 errors
+      if (error instanceof Error && !error.message.includes("Unauthorized")) {
+        console.error("Session check failed:", error);
+      }
       setInstitute(null);
       setParent(null);
       setUserType(null);

@@ -12,8 +12,8 @@
   --danger: #ef4444; /* Red 500 */
 
   /* Background Colors */
-  --bg-dark: #000000; /* Black */
-  --bg-gray: #0f172a; /* Slate 900 */
+  --bg-dark: #0f172a; /* Slate 900 */
+  --bg-gray: #1e293b; /* Slate 800 */
 
   /* Text Colors */
   --text-light: #f8fafc; /* Slate 50 */
@@ -25,14 +25,25 @@
   --border-dark: #1e293b; /* Slate 800 */
 }
 
-/* Light mode styles */
-body {
-  background-color: #f8f9fa;
+/* Light mode styles (default) */
+html {
+  background-color: #ffffff;
   color: var(--text-dark);
 }
 
+body {
+  background-color: #f8f9fa;
+  color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 /* Dark mode overrides */
-.dark body {
+html.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+html.dark body {
   background-color: var(--bg-dark);
   color: var(--text-light);
 }
