@@ -12,7 +12,6 @@ import {
   FileText,
   Users,
   GraduationCap,
-  Briefcase,
   Settings,
 } from "lucide-react";
 import InstituteDashboardOverview from "@/components/institute-dashboard/dashboard/InstituteDashboardOverview";
@@ -24,7 +23,6 @@ import QRTransactionManagement from "@/components/institute-dashboard/finance/QR
 import ReportsAndAnalytics from "@/components/institute-dashboard/reports/ReportsAndAnalytics";
 import UserManagement from "@/components/institute-dashboard/users/UserManagement";
 import StudentManagement from "@/components/institute-dashboard/students/StudentManagement";
-import StaffManagement from "@/components/institute-dashboard/staff/StaffManagement";
 import InstituteSettings from "@/components/institute-dashboard/settings/InstituteSettings";
 import DashboardHeader from "@/components/shared/DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
@@ -192,13 +190,6 @@ const Institute = () => {
               <span>Students</span>
             </TabsTrigger>
             <TabsTrigger
-              value="staff"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
-            >
-              <Briefcase className="h-4 w-4" />
-              <span>Staff</span>
-            </TabsTrigger>
-            <TabsTrigger
               value="settings"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
@@ -239,9 +230,6 @@ const Institute = () => {
               initialSubTab={studentSubTab}
               onSubTabChange={setStudentSubTab}
             />
-          </TabsContent>
-          <TabsContent value="staff">
-            <StaffManagement />
           </TabsContent>
           <TabsContent value="settings">
             <InstituteSettings />
