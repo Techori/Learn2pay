@@ -16,10 +16,10 @@ export const registerInstitute = async (
     }
 
     const {
-      institute_name,
-      institute_type,
+      instituteName,
+      instituteType,
       description,
-      contact_person,
+      contactPerson,
       contactEmail,
       contactPhone,
       address,
@@ -27,7 +27,7 @@ export const registerInstitute = async (
       documents,
     } = parsed.data;
 
-    const exists = await Institute.findOne({ contactEmail, institute_name });
+    const exists = await Institute.findOne({ contactEmail, instituteName });
     if (exists) {
       res
         .status(400)
@@ -38,10 +38,10 @@ export const registerInstitute = async (
     const hashedPassword = await hashPassword(password);
 
     const newInstitute = await Institute.create({
-      instituteName: institute_name,
-      instituteType: institute_type,
+      instituteName: instituteName,
+      instituteType: instituteType,
       description,
-      contactPerson: contact_person,
+      contactPerson: contactPerson,
       contactEmail,
       contactPhone,
       address,
