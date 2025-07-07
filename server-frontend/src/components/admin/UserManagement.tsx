@@ -54,10 +54,10 @@ const UserManagement = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active': return 'bg-[var(--success)] text-[var(--button-text)]';
-      case 'Inactive': return 'bg-[var(--warning)] text-[var(--button-text)]';
-      case 'Suspended': return 'bg-[var(--danger)] text-[var(--button-text)]';
-      default: return 'bg-[var(--secondary)] text-[var(--button-text)]';
+      case 'Active': return 'bg-success text-white';
+      case 'Inactive': return 'bg-warning text-white';
+      case 'Suspended': return 'bg-danger text-white';
+      default: return 'bg-secondary text-white';
     }
   };
 
@@ -95,36 +95,52 @@ const UserManagement = () => {
 
   const handleAddUser = () => {
     toast({ title: "Add User", description: "User addition feature coming soon!" });
-    // Add real implementation (e.g., dialog) as needed
   };
 
   return (
-    <div className="min-h-screen bg-background-color text-text-color">
-      <Card className="bg-card-bg border-border-color shadow-card">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-3xl font-bold flex items-center text-text-color">
-            <Users className="h-8 w-8 mr-2 text-warning" /> User Management
-          </CardTitle>
-          <CardDescription className="text-text-secondary">Manage all platform users</CardDescription>
+    <div className="space-y-6 bg-background-color p-6 text-text-color min-h-screen">
+      <Card className="bg-card-bg border-card-border">
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <div>
+              <CardTitle className="flex items-center text-text-color">
+                <Users className="h-5 w-5 mr-2 text-orange-400" />
+                User Management
+              </CardTitle>
+              <CardDescription className="text-text-secondary">
+                Manage all platform users
+              </CardDescription>
+            </div>
+            <Button 
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+              onClick={handleAddUser}
+            >
+              <UserPlus className="h-4 w-4 mr-2" />
+              Add User
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           {/* Search and Actions */}
-          <div className="flex flex-wrap gap-4 mb-6">
-            <div className="relative flex-1 min-w-[200px]">
-              <Input
-                type="text"
-                placeholder="Search by name or email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-input-bg pl-10 rounded-lg text-foreground border-input-border"
-              />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
-            </div>
-            <div className="flex gap-2">
+          <div className="mb-6">
+            <div className="flex flex-wrap gap-4">
+              <div className="relative flex-1 min-w-[200px]">
+                <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary" />
+                <Input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full"
+                />
+              </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex items-center gap-2 border-border-color text-foreground hover:bg-warning hover:text-white group">
-                    <FilterIcon className="h-4 w-4 text-text-secondary group-hover:text-white" /> Filters
+                  <Button 
+                    variant="outline" 
+                    className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
+                  >
+                    <FilterIcon className="h-4 w-4 mr-2" /> Filters
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
@@ -148,20 +164,17 @@ const UserManagement = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button onClick={handleAddUser} className="bg-warning hover:bg-warning text-white">
-                <UserPlus className="h-4 w-4 mr-2" /> Add User
-              </Button>
             </div>
           </div>
 
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-            <TabsList className="bg-input-bg border border-border-color rounded-xl p-1 flex flex-wrap gap-2">
+            <TabsList className="bg-input-bg border border-card-border rounded-xl p-1 flex flex-wrap gap-2">
               {roles.map((role) => (
                 <TabsTrigger
                   key={role}
                   value={role}
-                  className="data-[state=active]:bg-warning data-[state=active]:text-white text-foreground"
+                  className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-text-color"
                 >
                   {role}
                 </TabsTrigger>
@@ -171,21 +184,23 @@ const UserManagement = () => {
             {/* Tab Content */}
             {roles.map((role) => (
               <TabsContent key={role} value={role} className="mt-4">
-              
+                <div className="rounded-md border border-card-border overflow-hidden">
                   <Table>
-                    <TableHeader>
-                      <TableRow className="bg-input-bg border-input-border">
+                    <TableHeader className="bg-card-bg">
+                      <TableRow className="hover:bg-card-hover border-card-border">
                         <TableHead className="text-text-secondary">Name</TableHead>
                         <TableHead className="text-text-secondary">Email</TableHead>
                         <TableHead className="text-text-secondary">Role</TableHead>
                         <TableHead className="text-text-secondary">Status</TableHead>
+                        <TableHead className="text-text-secondary">City</TableHead>
+                        <TableHead className="text-text-secondary">Join Date</TableHead>
                         <TableHead className="text-text-secondary">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {paginatedUsers.filter(user => user.role === role || role === "All").length === 0 ? (
                         <TableRow>
-                          <TableCell colSpan={5} className="text-center py-6 text-text-secondary">
+                          <TableCell colSpan={7} className="text-center py-8 text-text-secondary">
                             No users found for {role}.
                           </TableCell>
                         </TableRow>
@@ -193,65 +208,88 @@ const UserManagement = () => {
                         paginatedUsers
                           .filter(user => user.role === role || role === "All")
                           .map((user) => (
-                            <TableRow key={user.id} className="bg-input-bg border-input-border" >
-                              <TableCell className="text-text-secondary">{user.name}</TableCell>
-                              <TableCell className="text-text-secondary">{user.email}</TableCell>
-                              <TableCell className="text-text-secondary">{user.role}</TableCell>
+                            <TableRow key={user.id} className="hover:bg-card-hover border-card-border">
+                              <TableCell>
+                                <div className="text-text-secondary">{user.name}</div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="text-text-secondary">{user.email}</div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="text-text-secondary">{user.role}</div>
+                              </TableCell>
                               <TableCell>
                                 <Badge className={getStatusColor(user.status)}>
                                   {user.status}
                                 </Badge>
                               </TableCell>
                               <TableCell>
-                                <DropdownMenu>
-                                  <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="border-orange-500 text-foreground hover:bg-warning">
-                                      <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
-                                    </Button>
-                                  </DropdownMenuTrigger>
-                                  <DropdownMenuContent>
-                                    <DropdownMenuItem onClick={() => handleAction("Assign Role", user)}>
-                                      <UserCheck className="h-4 w-4 mr-2 text-success" /> Assign Role
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleAction(user.status === "Active" ? "Deactivate" : "Reactivate", user)}>
-                                      {user.status === "Active" ? <UserX className="h-4 w-4 mr-2 text-danger" /> : <UserCheck className="h-4 w-4 mr-2 text-success" />}
-                                      {user.status === "Active" ? "Deactivate" : "Reactivate"}
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleAction("View Profile", user)}>
-                                      <Eye className="h-4 w-4 mr-2 text-warning" /> View Profile
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => handleAction("Ban", user)}>
-                                      <Ban className="h-4 w-4 mr-2 text-danger" />
-                                      {user.status === "Active" ? "Suspend" : "Reactivate"}
-                                    </DropdownMenuItem>
-                                  </DropdownMenuContent>
-                                </DropdownMenu>
+                                <div className="text-text-secondary">{user.city}</div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="text-text-secondary">{user.joinDate}</div>
+                              </TableCell>
+                              <TableCell>
+                                <div className="flex space-x-1">
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline" 
+                                    className="border-orange-500 text-text-color hover:bg-warning"
+                                    onClick={() => handleAction("View Profile", user)}
+                                  >
+                                    <Eye className="h-4 w-4 text-text-secondary hover:text-white" />
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline" 
+                                    className="border-orange-500 text-text-color hover:bg-warning"
+                                    onClick={() => handleAction("Assign Role", user)}
+                                  >
+                                    <Edit className="h-4 w-4 text-text-secondary hover:text-white" />
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="outline" 
+                                    className="border-orange-500 text-text-color hover:bg-warning"
+                                    onClick={() => handleAction("Ban", user)}
+                                  >
+                                    {user.status === "Active" ? 
+                                      <Ban className="h-4 w-4 text-text-secondary hover:text-white" /> : 
+                                      <UserCheck className="h-4 w-4 text-text-secondary hover:text-white" />
+                                    }
+                                  </Button>
+                                </div>
                               </TableCell>
                             </TableRow>
                           ))
                       )}
                     </TableBody>
                   </Table>
-                
+                </div>
 
                 {/* Pagination */}
                 {filteredUsers.length > pageSize && (
                   <div className="flex justify-between items-center mt-4">
-                    <span className="text-foreground">Page {currentPage} of {totalPages}</span>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
+                    <div className="text-sm text-text-secondary">
+                      Showing {paginatedUsers.length} of {filteredUsers.length} users
+                      {filteredUsers.length !== users.length && ` (filtered from ${users.length} total)`}
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                         disabled={currentPage === 1}
-                        onClick={() => setCurrentPage(currentPage - 1)}
-                        className="border-border-color text-foreground hover:bg-orange-500"
+                        onClick={() => setCurrentPage(prev => prev - 1)}
                       >
                         Previous
                       </Button>
-                      <Button
-                        variant="outline"
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="border-orange-500 text-text-secondary hover:bg-orange-500 hover:text-white"
                         disabled={currentPage === totalPages}
-                        onClick={() => setCurrentPage(currentPage + 1)}
-                        className="border-border-color text-foreground hover:bg-orange-500"
+                        onClick={() => setCurrentPage(prev => prev + 1)}
                       >
                         Next
                       </Button>

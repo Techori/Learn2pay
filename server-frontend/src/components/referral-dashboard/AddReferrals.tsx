@@ -187,7 +187,7 @@ const AddReferrals = () => {
 
       {/* Step 1: Institute Details */}
       {step === 1 && (
-        <Card className="shadow-sm">
+        <Card className="shadow-sm bg-card-bg">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center text-lg">
               <Building className="h-5 w-5 mr-2 text-blue-600" />
@@ -684,7 +684,7 @@ const AddReferrals = () => {
       </div>
 
       {/* Recent Referrals */}
-      <Card className="shadow-sm">
+      <Card className="shadow-sm bg-card-bg">
         <CardHeader>
           <CardTitle className="text-lg">Recent Referrals</CardTitle>
           <CardDescription>Your recently added referrals</CardDescription>
@@ -694,15 +694,15 @@ const AddReferrals = () => {
             {recentReferrals.map((referral, index) => (
               <div key={index} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200">
                 <div>
-                  <div className="font-medium text-gray-900">{referral.name}</div>
+                  <div className="font-medium text-gray-600">{referral.name}</div>
                   <div className="text-sm text-gray-600">{referral.contact}</div>
                 </div>
                 <div className="text-right">
                   <Badge className={`text-xs ${
-                    referral.status === 'Submitted' ? 'bg-blue-100 text-blue-800' :
-                    referral.status === 'Under Review' ? 'bg-yellow-100 text-yellow-800' :
-                    referral.status === 'Approved' ? 'bg-green-100 text-green-800' :
-                    referral.status === 'Onboarded' ? 'bg-purple-100 text-purple-800' :
+                    referral.status === 'Submitted' ? 'bg-blue-800 text-blue-800' :
+                    referral.status === 'Under Review' ? 'bg-yellow-800 text-white' :
+                    referral.status === 'Approved' ? 'bg-green-800 text-green-800' :
+                    referral.status === 'Onboarded' ? 'bg-purple-800 text-purple-800' :
                     'bg-gray-100 text-gray-800' // fallback
                   }`}>
                     {referral.status}

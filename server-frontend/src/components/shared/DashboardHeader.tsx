@@ -62,7 +62,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 className={`${
                   badge.isPrimary
                     ? "bg-primary text-white"
-                    : "bg-card-bg text-text-secondary"
+                    : "bg-card-bg text-text-color"
                 } px-3 py-1 rounded text-sm`}
               >
                 {badge.text}

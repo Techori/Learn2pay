@@ -139,7 +139,7 @@ const DashboardOverview: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Stats Overview */}
-      <Card className="bg-surface border-color backdrop-blur-sm">
+      <Card className="bg-card-bg border-color backdrop-blur-sm">
         <CardHeader className="pb-2 flex justify-between items-center">
           <div>
             <CardTitle>Dashboard Overview</CardTitle>
@@ -149,7 +149,7 @@ const DashboardOverview: React.FC = () => {
             <div className="text-sm text-secondary">Last updated: {lastUpdate}</div>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent >
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {stats.map((stat, index) => (
               <div key={index} className="bg-input border border-color rounded-lg p-4">

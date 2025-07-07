@@ -94,7 +94,7 @@ const FraudDetectionSystem = () => {
   };
 
   return (
-    <Card>
+    <Card className='bg-card-bg border-border-color'>
       <CardHeader>
         <CardTitle className="flex items-center">
           <Shield className="h-5 w-5 mr-2" />
@@ -102,7 +102,7 @@ const FraudDetectionSystem = () => {
         </CardTitle>
         <CardDescription>Flag unusual activity and prevent fraudulent transactions</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 ">
         {/* Fraud Statistics */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {fraudStats.map((stat, index) => (
@@ -126,7 +126,7 @@ const FraudDetectionSystem = () => {
             </Button> */}
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3 ">
             {fraudAlerts.map((alert) => (
               <Card key={alert.id} className="cursor-pointer hover:shadow-md transition-shadow">
                 <CardContent className="p-4">

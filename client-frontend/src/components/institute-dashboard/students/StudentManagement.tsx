@@ -389,7 +389,7 @@ const StudentManagement = ({
         onValueChange={handleSubTabChange}
         className="space-y-6"
       >
-        <TabsList className="grid w-full grid-cols-6 bg-gray-800 p-1 rounded-md">
+        <TabsList className="grid w-full grid-cols-3 bg-gray-800 p-1 rounded-md">
           <TabsTrigger
             value="all-students"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -401,24 +401,6 @@ const StudentManagement = ({
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
           >
             Add Student
-          </TabsTrigger>
-          <TabsTrigger
-            value="admissions"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-          >
-            Admissions
-          </TabsTrigger>
-          <TabsTrigger
-            value="transfers"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-          >
-            Transfers
-          </TabsTrigger>
-          <TabsTrigger
-            value="alumni"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-          >
-            Alumni
           </TabsTrigger>
           <TabsTrigger
             value="kyc"
@@ -664,180 +646,6 @@ const StudentManagement = ({
               handleSubTabChange("all-students");
             }}
           />
-        </TabsContent>
-
-        {/* Admissions Tab Content */}
-        <TabsContent value="admissions">
-          <Card className="bg-gray-800/50 border-gray-700 shadow-md h-[400px] flex flex-col items-center justify-center">
-            <CardTitle className="text-xl text-white mb-4">
-              Admission Management
-            </CardTitle>
-            <CardDescription className="text-gray-400 text-center mb-6">
-              Track and process new student applications
-            </CardDescription>
-            <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
-              onClick={() => setShowAddStudentDialog(true)} // Reusing the Add Student dialog for now
-            >
-              <Plus className="h-5 w-5" />
-              <span>New Admission</span>
-            </Button>
-          </Card>
-        </TabsContent>
-
-        {/* Transfers Tab Content */}
-        <TabsContent value="transfers">
-          <Card className="bg-gray-800/50 border-gray-700 shadow-md">
-            <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
-              <div>
-                <CardTitle className="text-lg text-white">
-                  Transfer Management
-                </CardTitle>
-                <p className="text-gray-400 text-sm">
-                  Manage student transfers to other institutes
-                </p>
-              </div>
-              <div className="flex space-x-2">
-                <Button
-                  className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
-                  onClick={() => setShowAddTransferDialog(true)}
-                >
-                  <Plus className="h-4 w-4" />
-                  <span>Add Transfer</span>
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Student Details
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Transfer Date
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Reason
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Destination Institute
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-800">
-                    {transfersData.map((transfer) => (
-                      <tr key={transfer.id} className="hover:bg-gray-800/70">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">
-                            {transfer.studentName}
-                          </div>
-                          <div className="text-xs text-gray-400">
-                            {transfer.studentId}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {transfer.transferDate}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {transfer.reason}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {transfer.destinationInstitute}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Alumni Tab Content */}
-        <TabsContent value="alumni">
-          <Card className="bg-gray-800/50 border-gray-700 shadow-md">
-            <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
-              <div>
-                <CardTitle className="text-lg text-white">
-                  Alumni Records
-                </CardTitle>
-                <p className="text-gray-400 text-sm">
-                  View and manage records of graduated students
-                </p>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Student Details
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Graduation Year
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Career Path
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Contact Email
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-800">
-                    {alumniData.map((alumnus) => (
-                      <tr key={alumnus.id} className="hover:bg-gray-800/70">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-white">
-                            {alumnus.studentName}
-                          </div>
-                          <div className="text-xs text-gray-400">
-                            {alumnus.studentId}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {alumnus.graduationYear}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {alumnus.careerPath}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {alumnus.contactEmail}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </TabsContent>
 
         {/* Complete KYC Tab Content */}

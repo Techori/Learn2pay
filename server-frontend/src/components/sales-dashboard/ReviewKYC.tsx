@@ -173,9 +173,11 @@ const ReviewKYC = () => {
   const cardBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
   const cardBorder = theme === "dark" ? "border-[#232b45]" : "border-gray-200";
   const textColor = theme === "dark" ? "text-white" : "text-gray-900";
-  const textSecondary = theme === "dark" ? "text-gray-300" : "text-gray-600";
+  // Make subtitle much more visible
+  const subtitleColor = theme === "dark" ? "text-gray-100" : "text-gray-800";
+  const textSecondary = theme === "dark" ? "text-gray-200" : "text-gray-700"; // changed for better visibility
   const tableBg = theme === "dark" ? "bg-[#181f32]" : "bg-white";
-  const tableHeaderBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100";
+  const tableHeaderBg = theme === "dark" ? "bg-[#232b45]" : "bg-gray-100 ";
   const tableHeaderText = theme === "dark" ? "text-orange-400" : "text-orange-600";
   const inputBg = theme === "dark" ? "bg-[#232b45] border-[#232b45]" : "bg-white border-gray-300";
   const inputText = theme === "dark" ? "text-white placeholder-gray-400" : "text-gray-900 placeholder-gray-500";
@@ -205,12 +207,18 @@ const ReviewKYC = () => {
         <div className="flex items-center space-x-2"><input type="date" className={`rounded ${dateBg} px-2 py-2`} value={dateRange.from} onChange={(e) => setDateRange({ ...dateRange, from: e.target.value })} /><span className={textSecondary}>to</span><input type="date" className={`rounded ${dateBg} px-2 py-2`} value={dateRange.to} onChange={(e) => setDateRange({ ...dateRange, to: e.target.value })} /></div>
         {(salespersonFilter || statusFilter || dateRange.from || dateRange.to) && <Button variant="outline" className={buttonOutline} onClick={() => { setSalespersonFilter(null); setStatusFilter(null); setDateRange({ from: "", to: "" }); }}>Reset Filters</Button>}
       </div>
-      <Filter className="h-4 w-4 text-gray-400 mt-2 md:mt-0" />
       <Card className={`${cardBg} border ${cardBorder} shadow-none`}>
         <CardHeader>
           <div className="flex justify-between items-center">
-            <div><CardTitle className={textColor}>KYC Review</CardTitle><CardDescription className={textSecondary}>Review and manage KYC submissions</CardDescription></div>
-            <Button variant="outline" className="border-[#ff7900] text-orange-400 hover:bg-orange-500/10" onClick={handleGenerateReport}><FileText className="h-4 w-4 mr-2" /> Generate Report</Button>
+            <div>
+              <CardTitle className={textColor}>KYC Review</CardTitle>
+              <CardDescription className={`${subtitleColor} font-semibold text-base`}>
+                Review and manage KYC submissions
+              </CardDescription>
+            </div>
+            <Button variant="outline" className="border-[#ff7900] text-orange-400 hover:bg-orange-500/10" onClick={handleGenerateReport}>
+              <FileText className="h-4 w-4 mr-2" /> Generate Report
+            </Button>
           </div>
         </CardHeader>
         <CardContent>
@@ -228,10 +236,10 @@ const ReviewKYC = () => {
             <TableBody>
               {sortedKyCs.map((kyc) => (
                 <TableRow key={kyc.id} className={hoverBg}>
-                  <TableCell className="font-medium">{kyc.id}</TableCell>
-                  <TableCell>{kyc.instituteName}</TableCell>
-                  <TableCell>{kyc.salesperson}</TableCell>
-                  <TableCell>{kyc.submissionDate}</TableCell>
+                  <TableCell className={textColor}>{kyc.id}</TableCell>
+                  <TableCell className={textColor}>{kyc.instituteName}</TableCell>
+                  <TableCell className={textColor}>{kyc.salesperson}</TableCell>
+                  <TableCell className={textColor}>{kyc.submissionDate}</TableCell>
                   <TableCell><Badge className={getStatusColor(kyc.status)}>{kyc.status}</Badge></TableCell>
                   <TableCell>
                     <div className="flex space-x-1">

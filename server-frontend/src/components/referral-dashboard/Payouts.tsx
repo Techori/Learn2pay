@@ -165,7 +165,7 @@ const Payouts = () => {
             <div className="space-y-2">
               <Label className="text-gray-700">Payment Method</Label>
               <select 
-                className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                className="w-full p-2 border bg-input-bg rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                 value={selectedPaymentMethod}
                 onChange={(e) => setSelectedPaymentMethod(e.target.value)}
               >
@@ -207,7 +207,7 @@ const Payouts = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       {method.isDefault && (
-                        <Badge className="bg-green-100 text-green-800 text-xs">Default</Badge>
+                        <Badge className="bg-green-800 text-green-800 text-xs">Default</Badge>
                       )}
                       <Button size="sm" variant="outline" className={referralButtonStyle}>Edit</Button>
                     </div>
@@ -272,16 +272,16 @@ const Payouts = () => {
               <TableBody>
                 {payoutHistory.map((payout) => (
                   <TableRow key={payout.id} className="bg-background-color">
-                    <TableCell className="text-text-color">{payout.date}</TableCell>
-                    <TableCell className="text-text-color">{payout.amount}</TableCell>
-                    <TableCell className="text-text-color">{payout.method}</TableCell>
-                    <TableCell className="text-text-color">{payout.transactionId}</TableCell>
+                    <TableCell className="text-input-text">{payout.date}</TableCell>
+                    <TableCell className="text-input-text">{payout.amount}</TableCell>
+                    <TableCell className="text-input-text">{payout.method}</TableCell>
+                    <TableCell className="text-input-text">{payout.transactionId}</TableCell>
                     <TableCell>
                       <Badge className={`text-xs ${
-                        payout.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                        payout.status === 'Processing' ? 'bg-blue-100 text-blue-800' :
-                        payout.status === 'Failed' ? 'bg-red-100 text-red-800' :
-                        payout.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                        payout.status === 'Completed' ? 'bg-green-800 text-green-800' :
+                        payout.status === 'Processing' ? 'bg-blue-800 text-blue-800' :
+                        payout.status === 'Failed' ? 'bg-red-800 text-red-800' :
+                        payout.status === 'Pending' ? 'bg-yellow-800 text-yellow-800' :
                         'bg-gray-100 text-gray-800'
                       }`}>
                         {payout.status === 'Completed' ? 'Paid' : payout.status}
