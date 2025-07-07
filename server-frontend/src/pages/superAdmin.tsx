@@ -94,7 +94,7 @@ const SuperAdmin = () => {
     <div className="min-h-screen bg-[var(--background-color)] flex flex-col">
       <DashboardHeader
         dashboardName="Super Admin"
-        badges={[{ text: 'This Month' }, { text: 'Nov 2024', isPrimary: true }]}
+        badges={[]}
         user={mockUser}
         onLogout={handleLogout}
         onUserUpdate={handleUserUpdate}

@@ -265,40 +265,50 @@ const BroadcastCenter: React.FC<BroadcastCenterProps> = ({
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-text-color">Campaign Name</TableHead>
-                  <TableHead className="text-text-color">Type</TableHead>
-                  <TableHead className="text-text-color">Sent/Delivered</TableHead>
-                  <TableHead className="text-text-color">Open Rate</TableHead>
-                  <TableHead className="text-text-color">Date</TableHead>
-                  <TableHead className="text-text-color">Status</TableHead>
-                  <TableHead className="text-text-color">Actions</TableHead>
+                  <TableHead className="text-text-secondary">Campaign Name</TableHead>
+                  <TableHead className="text-text-secondary">Type</TableHead>
+                  <TableHead className="text-text-secondary">Sent/Delivered</TableHead>
+                  <TableHead className="text-text-secondary">Open Rate</TableHead>
+                  <TableHead className="text-text-secondary">Date</TableHead>
+                  <TableHead className="text-text-secondary">Status</TableHead>
+                  <TableHead className="text-text-secondary">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {recentCampaigns.map((campaign) => (
-                  <TableRow key={campaign.id} className="hover:bg-surface-hover">
-                    <TableCell className="font-medium text-text-color">{campaign.name}</TableCell>
-                    <TableCell className="text-text-color">
-                      <Badge variant="outline" className="border-border-color text-text-secondary">{campaign.type}</Badge>
-                    </TableCell>
-                    <TableCell className="text-text-color">
-                      <div className="text-sm">
-                        <div>{campaign.sent} sent</div>
-                        <div className="text-text-secondary">{campaign.delivered} delivered</div>
+                  <TableRow key={campaign.id} className="hover:bg-card-hover border-card-border">
+                    <TableCell>
+                      <div>
+                        <div className="font-medium text-text-secondary">{campaign.name}</div>
                       </div>
                     </TableCell>
-                    <TableCell className="text-text-color">
-                      <span className="font-medium text-success">{campaign.openRate}</span>
+                    <TableCell>
+                      <Badge variant="outline" className="border-orange-500 text-text-color">{campaign.type}</Badge>
                     </TableCell>
-                    <TableCell className="text-text-color">{campaign.date}</TableCell>
-                    <TableCell className="text-text-color">
+                    <TableCell>
+                      <div>
+                        <div className="text-text-color text-text-secondary ">{campaign.sent} sent</div>
+                        <div className="text-sm text-text-secondary">{campaign.delivered} delivered</div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-text-secondary">{campaign.openRate}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-text-secondary">{campaign.date}</div>
+                    </TableCell>
+                    <TableCell>
                       <Badge className={getStatusColor(campaign.status)}>
                         {campaign.status}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Button variant="outline" className="text-text-color border-secondary hover:bg-secondary hover:text-white" onClick={() => handleViewCampaign(campaign.name)}>
-                        <Eye className="h-3 w-3 text-secondary  hover:text-white" />
+                      <Button 
+                        variant="outline" 
+                        className="border-orange-500 text-text-color hover:bg-warning" 
+                        onClick={() => handleViewCampaign(campaign.name)}
+                      >
+                        <Eye className="h-3 w-3 text-text-secondary hover:text-white" />
                       </Button>
                     </TableCell>
                   </TableRow>

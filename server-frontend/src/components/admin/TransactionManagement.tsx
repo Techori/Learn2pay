@@ -76,11 +76,11 @@ const TransactionManagement = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Success': return 'bg-green-100 text-green-800';
-      case 'Failed': return 'bg-red-100 text-red-800';
-      case 'Pending': return 'bg-yellow-100 text-yellow-800';
-      case 'Processing': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Success': return 'bg-green-800 text-green-800';
+      case 'Failed': return 'bg-red-800 text-red-800';
+      case 'Pending': return 'bg-yellow-800 text-white';
+      case 'Processing': return 'bg-blue-800 text-blue-800';
+      default: return 'bg-gray-800 text-gray-800';
     }
   };
 
@@ -238,7 +238,7 @@ const TransactionManagement = () => {
       </div>
 
       {/* Payment Gateway Stats */}
-      <Card>
+      <Card className='bg-card-bg border-border-color'>
         <CardHeader>
           <CardTitle>Payment Gateway Performance</CardTitle>
           <CardDescription>Success rates by payment method</CardDescription>
@@ -280,7 +280,7 @@ const TransactionManagement = () => {
       </Card>
 
       {/* Transaction Management Panel */}
-      <Card>
+      <Card className='bg-card-bg border-border-color'>
         <CardHeader>
           <div className="flex justify-between items-center">
             <div>
@@ -466,7 +466,7 @@ const TransactionManagement = () => {
       </Card>
 
       {/* Recent Alerts */}
-      <Card>
+      <Card className='bg-card-bg border-border-color'>
         <CardHeader>
           <CardTitle className="flex items-center text-lg">
             <AlertTriangle className="h-4 w-4 mr-2" />

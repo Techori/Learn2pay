@@ -241,7 +241,7 @@ const ReferralReports = () => {
               return (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  className="flex items-center justify-between p-4 border rounded-lg transition-colors duration-200"
                 >
                   <div className="flex items-center space-x-4">
                     <div className="bg-blue-100 p-3 rounded-lg">
@@ -268,8 +268,8 @@ const ReferralReports = () => {
                     <Badge
                       className={`text-xs ${
                         report.status === "Available"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
+                          ? "bg-green-800 text-green-800"
+                          : "bg-yellow-700 text-white"
                       }`}
                     >
                       {report.status}
@@ -313,13 +313,13 @@ const ReferralReports = () => {
             {performanceData.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                className="flex items-center justify-between p-4 bg-input-bg rounded-lg hover:bg-gray-100 transition-colors duration-200"
               >
-                <div className="font-medium text-gray-900">{item.metric}</div>
+                <div className="font-medium text-gray-500">{item.metric}</div>
                 <div className="flex items-center space-x-6">
                   <div className="text-center">
                     <div className="text-sm text-gray-600">This Month</div>
-                    <div className="font-bold text-gray-900">
+                    <div className="font-bold text-gray-500">
                       {item.thisMonth}
                     </div>
                   </div>
@@ -396,7 +396,7 @@ const ReferralReports = () => {
                   Report Type
                 </label>
                 <select
-                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border bg-input-bg rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customReportType}
                   onChange={(e) => setCustomReportType(e.target.value)}
                 >
@@ -412,7 +412,7 @@ const ReferralReports = () => {
                   Date Range
                 </label>
                 <select
-                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border bg-input-bg rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customDateRange}
                   onChange={(e) => setCustomDateRange(e.target.value)}
                 >
@@ -428,7 +428,7 @@ const ReferralReports = () => {
                   Format
                 </label>
                 <select
-                  className="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
+                  className="w-full p-2 border bg-input-bg rounded-md mt-1 focus:ring focus:ring-blue-200 focus:border-blue-500"
                   value={customFormat}
                   onChange={(e) => setCustomFormat(e.target.value)}
                 >
@@ -468,7 +468,7 @@ const ReferralReports = () => {
                   Every Monday at 9:00 AM
                 </div>
               </div>
-              <Badge className="bg-green-100 text-green-800">Active</Badge>
+              <Badge className="bg-green-800 text-green-800">Active</Badge>
             </div>
 
             <div className="flex items-center justify-between p-3 border rounded-lg">
@@ -476,7 +476,7 @@ const ReferralReports = () => {
                 <div className="font-medium">Monthly Revenue Report</div>
                 <div className="text-sm text-gray-600">1st of every month</div>
               </div>
-              <Badge className="bg-green-100 text-green-800">Active</Badge>
+              <Badge className="bg-green-800 text-green-800">Active</Badge>
             </div>
 
             <Button variant="outline" className={`w-full ${referralButtonStyle}`}>

@@ -12,17 +12,17 @@ export interface ButtonProps
 
 const variantClasses: Record<string, string> = {
   default:
-    "bg-primary text-button-text hover:bg-primary-hover dark:bg-primary dark:text-white dark:hover:bg-primary-hover",
+    "bg-[var(--primary)] text-[var(--button-text)] hover:bg-[var(--primary-hover)]",
   ghost:
-    "bg-transparent text-text-secondary hover:text-primary hover:bg-primary/10 dark:text-text-secondary dark:hover:text-primary dark:hover:bg-primary/5",
+    "bg-transparent text-[var(--text-secondary)] hover:text-[var(--primary)] hover:bg-[var(--primary)]/10",
   link:
-    "bg-transparent underline text-primary hover:text-primary-dark p-0 h-auto dark:text-primary dark:hover:text-primary-dark",
+    "bg-transparent underline text-[var(--primary)] hover:text-[var(--primary-dark)] p-0 h-auto",
   outline:
-    "border border-primary text-primary bg-transparent hover:bg-primary hover:text-button-text dark:border-primary dark:text-primary dark:hover:bg-primary dark:hover:text-white",
+    "border border-[var(--primary)] text-[var(--primary)] bg-transparent hover:bg-[var(--primary)] hover:text-[var(--button-text)]",
   destructive:
-    "bg-danger text-white hover:bg-danger/90 dark:bg-danger dark:text-white dark:hover:bg-danger/90",
+    "bg-[var(--danger)] text-white hover:bg-[var(--danger)]/90",
   secondary:
-    "bg-secondary text-white hover:bg-secondary/90 dark:bg-secondary dark:text-white dark:hover:bg-secondary/90",
+    "bg-[var(--secondary)] text-white hover:bg-[var(--secondary)]/90",
 };
 
 const sizeClasses: Record<string, string> = {
@@ -38,7 +38,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className={cn(
         variantClasses[variant],
         sizeClasses[size],
-        "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-primary dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
+        "rounded-md font-medium transition-colors",
+        "focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2",
+        "disabled:opacity-50 disabled:pointer-events-none",
         className
       )}
       {...props}
@@ -63,7 +65,9 @@ export function buttonVariants({
   return cn(
     variantClasses[variant],
     sizeClasses[size],
-    "rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-primary dark:focus:ring-offset-gray-900 disabled:opacity-50 disabled:pointer-events-none",
+    "rounded-md font-medium transition-colors",
+    "focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2",
+    "disabled:opacity-50 disabled:pointer-events-none",
     className
   );
 }

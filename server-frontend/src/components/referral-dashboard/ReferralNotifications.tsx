@@ -284,7 +284,7 @@ const ReferralNotifications = () => {
               const IconComponent = notification.icon;
               return (
                 <div key={notification.id} className={`p-4 rounded-lg border transition-colors duration-200 ${
-                  notification.read ? 'bg-gray-50' : 'bg-white border-blue-200 hover:bg-blue-50'
+                  notification.read ? 'bg-input-bg' : 'bg-input-bg '
                 }`}>
                   <div className="flex items-start space-x-4">
                     <div className={`p-3 rounded-lg bg-gray-100`}>

@@ -1,4 +1,5 @@
 import type { FC, ReactNode, CSSProperties } from 'react';
+import { cn } from "@/lib/utils";
 
 interface CardProps {
   children: ReactNode;
@@ -8,9 +9,12 @@ interface CardProps {
 
 export const Card: FC<CardProps> = ({ children, className, style }) => (
   <div
-    className={`border border-card-border bg-card-bg rounded-lg shadow-card p-4
-      transition-colors duration-200
-      ${className ?? ''}`}
+    className={cn(
+      "border border-[var(--card-border)] bg-[var(--card-bg)]",
+      "rounded-lg shadow-[var(--shadow)] p-4",
+      "transition-colors duration-200",
+      className
+    )}
     style={style}
   >
     {children}
@@ -19,9 +23,11 @@ export const Card: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardHeader: FC<CardProps> = ({ children, className, style }) => (
   <div
-    className={`mb-4 border-b border-card-border pb-2
-      transition-colors duration-200
-      ${className ?? ''}`}
+    className={cn(
+      "mb-4 border-b border-[var(--card-border)]",
+      "pb-2 transition-colors duration-200",
+      className
+    )}
     style={style}
   >
     {children}
@@ -30,9 +36,11 @@ export const CardHeader: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardTitle: FC<CardProps> = ({ children, className, style }) => (
   <h2
-    className={`text-xl font-bold text-text
-      transition-colors duration-200
-      ${className ?? ''}`}
+    className={cn(
+      "text-xl font-bold text-[var(--text-color)]",
+      "transition-colors duration-200",
+      className
+    )}
     style={style}
   >
     {children}
@@ -41,9 +49,11 @@ export const CardTitle: FC<CardProps> = ({ children, className, style }) => (
 
 export const CardDescription: FC<CardProps> = ({ children, className, style }) => (
   <p
-    className={`text-text-secondary
-      transition-colors duration-200
-      ${className ?? ''}`}
+    className={cn(
+      "text-[var(--text-secondary)]",
+      "transition-colors duration-200",
+      className
+    )}
     style={style}
   >
     {children}
@@ -52,7 +62,10 @@ export const CardDescription: FC<CardProps> = ({ children, className, style }) =
 
 export const CardContent: FC<CardProps> = ({ children, className, style }) => (
   <div
-    className={`mt-4 ${className ?? ''}`}
+    className={cn(
+      "mt-4",
+      className
+    )}
     style={style}
   >
     {children}
