@@ -74,20 +74,19 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
+        {/* FLEX ROW FOR ARROWS AND CARD */}
         <div
-          className="max-w-4xl mx-auto relative flex items-center"
+          className="max-w-4xl mx-auto flex items-center justify-between gap-4 relative"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
           {/* Left Arrow */}
           <motion.button
-            whileHover={{ scale: 1.1, x: -5 }}
-            whileTap={{ scale: 0.9 }}
-            className="z-20 absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white
-              sm:left-0 left-2 sm:-translate-y-1/2 -translate-y-1/2 sm:static sm:relative"
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.97 }}
+            className="bg-white dark:bg-black border-2 border-orange-500 shadow-lg transition-transform transition-colors duration-200 rounded-full w-14 h-14 flex items-center justify-center text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-400"
             onClick={prevSlide}
             aria-label="Previous testimonial"
-            style={{ left: undefined }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +94,7 @@ const Testimonials = () => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -116,7 +115,8 @@ const Testimonials = () => {
                 transition={{ duration: 0.5 }}
                 className="w-full"
               >
-                <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 rounded-xl p-8 md:p-10 shadow-xl w-full min-h-[220px] flex flex-col justify-between overflow-hidden">
+                <div className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black border border-gray-200 dark:border-gray-800 rounded-2xl p-10 md:p-14 shadow-2xl w-full min-h-[260px] flex flex-col justify-between overflow-hidden relative">
+                  <div className="absolute left-0 top-0 h-full w-2 bg-orange-500 rounded-l-2xl opacity-80" />
                   <div>
                     <svg
                       width="48"
@@ -124,28 +124,30 @@ const Testimonials = () => {
                       viewBox="0 0 48 48"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="text-orange-500/40 mb-4"
+                      className="text-orange-500/60 mb-4"
                     >
                       <path
                         d="M14 16H6C6 9.4 11.4 4 18 4V10C16.4087 10 14.8826 10.6321 13.7574 11.7574C12.6321 12.8826 12 14.4087 12 16H14V24H6V16ZM34 16H26C26 9.4 31.4 4 38 4V10C36.4087 10 34.8826 10.6321 33.7574 11.7574C32.6321 12.8826 32 14.4087 32 16H34V24H26V16Z"
                         fill="currentColor"
                       />
                     </svg>
-                    <p className="text-lg text-gray-900 dark:text-white mb-6 italic break-words">
+                    <p className="text-xl md:text-2xl text-gray-900 dark:text-white mb-8 italic font-medium leading-relaxed break-words">
                       "{testimonials[current].quote}"
                     </p>
                   </div>
                   <div className="flex items-center mt-4">
-                    <img
-                      src={testimonials[current].image}
-                      alt={testimonials[current].name}
-                      className="w-12 h-12 rounded-full object-cover mr-4 border-2 border-orange-500 flex-shrink-0"
-                    />
+                    <div className="w-14 h-14 rounded-full border-4 border-orange-500 shadow-md flex items-center justify-center overflow-hidden mr-5 bg-white dark:bg-black">
+                      <img
+                        src={testimonials[current].image}
+                        alt={testimonials[current].name}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    </div>
                     <div className="overflow-hidden">
-                      <h4 className="font-bold text-gray-900 dark:text-white truncate">
+                      <h4 className="font-bold text-gray-900 dark:text-white text-lg md:text-xl truncate">
                         {testimonials[current].name}
                       </h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm truncate">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base truncate">
                         {testimonials[current].role}
                       </p>
                     </div>
@@ -157,13 +159,11 @@ const Testimonials = () => {
 
           {/* Right Arrow */}
           <motion.button
-            whileHover={{ scale: 1.1, x: 5 }}
-            whileTap={{ scale: 0.9 }}
-            className="z-20 absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-sm border border-gray-700 rounded-full p-2 text-white
-              sm:right-0 right-2 sm:-translate-y-1/2 -translate-y-1/2 sm:static sm:relative"
+            whileHover={{ scale: 1.12 }}
+            whileTap={{ scale: 0.97 }}
+            className="bg-white dark:bg-black border-2 border-orange-500 shadow-lg transition-transform transition-colors duration-200 rounded-full w-14 h-14 flex items-center justify-center text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-400"
             onClick={nextSlide}
             aria-label="Next testimonial"
-            style={{ right: undefined }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +171,7 @@ const Testimonials = () => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-5 h-5"
+              className="w-7 h-7"
             >
               <path
                 strokeLinecap="round"
@@ -183,15 +183,17 @@ const Testimonials = () => {
         </div>
 
         {/* Dots */}
-        <div className="flex justify-center mt-8 gap-2 z-10">
+        <div className="flex justify-center mt-8 gap-3 z-10">
           {testimonials.map((_, index) => (
-            <button
+            <motion.button
               key={index}
               onClick={() => setCurrent(index)}
-              className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                current === index ? "bg-orange-500" : "bg-gray-300 dark:bg-gray-700"
+              className={`w-4 h-4 rounded-full border-2 border-orange-500 transition-all duration-300 flex items-center justify-center focus:outline-none ${
+                current === index ? "bg-orange-500 scale-110 shadow-lg" : "bg-white dark:bg-gray-800"
               }`}
               aria-label={`Go to slide ${index + 1}`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.95 }}
             />
           ))}
         </div>
