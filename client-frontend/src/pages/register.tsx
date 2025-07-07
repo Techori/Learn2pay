@@ -95,17 +95,24 @@ const Register = () => {
       institute_name: data.instituteName,
       institute_type: data.instituteType,
       description: data.description,
-      contact_person: data.contactPerson,
+      contact_person: {
+        firstName: data.contactPerson.split(' ')[0] || data.contactPerson,
+        lastName: data.contactPerson.split(' ').slice(1).join(' ') || data.contactPerson,
+      },
       contactEmail: data.email,
-      contactNumber: data.phone,
+      contactPhone: data.phone,
       website: data.website,
       address: {
-        street: data.address,
+        completeAddress: data.address,
         city: data.city,
         state: data.state,
-        pincode: data.pincode,
+        pinCode: data.pincode,
       },
       password: data.password,
+      documents: {
+        registerationCertificate: true,
+        panCard: true,
+      },
     };
 
     try {
