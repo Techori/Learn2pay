@@ -66,10 +66,63 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkSession = async () => {
     try {
       setIsLoading(true);
-      const response = await authAPI.getSession();
+      console.log("🔍 Checking session...");
+      let response = await authAPI.getSession();
+      console.log("📡 Initial session response:", response);
 
-      // Check if response has an error (like 401)
-      if (response.error) {
+      // If session check fails (401 - token expired), try to refresh token
+      if (response.error && response.error.includes("Unauthorized")) {
+        console.log("🔄 Access token expired, attempting refresh...");
+        try {
+          // Attempt to refresh the token
+          const refreshResponse = await authAPI.refreshToken();
+          console.log("🔄 Refresh response:", refreshResponse);
+
+          // Check if refresh was successful
+          if (refreshResponse.error) {
+            console.log("❌ Refresh failed, clearing session");
+            // Refresh failed, clear session
+            setInstitute(null);
+            setParent(null);
+            setUserType(null);
+            localStorage.removeItem("userType");
+            return;
+          }
+
+          console.log("✅ Refresh successful, retrying session...");
+          // Retry the session call with new access token
+          response = await authAPI.getSession();
+          console.log("📡 Retry session response:", response);
+          // If still getting error after refresh, session is truly invalid
+          if (response.error) {
+            console.log("❌ Session still invalid after refresh");
+            setInstitute(null);
+            setParent(null);
+            setUserType(null);
+            localStorage.removeItem("userType");
+            return;
+          }
+
+          // After successful refresh, set userType if it wasn't set
+          if (!localStorage.getItem("userType")) {
+            if (response.institute) {
+              localStorage.setItem("userType", "institute");
+            } else if (response.parent) {
+              localStorage.setItem("userType", "parent");
+            }
+          }
+        } catch (refreshError) {
+          console.error("❌ Refresh error:", refreshError);
+          // Refresh failed, clear session
+          setInstitute(null);
+          setParent(null);
+          setUserType(null);
+          localStorage.removeItem("userType");
+          return;
+        }
+      } else if (response.error) {
+        console.log("❌ Other error (not 401):", response.error);
+        // Other errors (not 401), clear session
         setInstitute(null);
         setParent(null);
         setUserType(null);
@@ -78,16 +131,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       if (response.institute) {
+        console.log("✅ Institute session active:", response.institute.name);
         setInstitute(response.institute);
         setParent(null);
         setUserType("institute");
         localStorage.setItem("userType", "institute");
       } else if (response.parent) {
+        console.log("✅ Parent session active:", response.parent.parentName);
         setParent(response.parent);
         setInstitute(null);
         setUserType("parent");
         localStorage.setItem("userType", "parent");
       } else {
+        console.log("❌ No valid session data found");
         setInstitute(null);
         setParent(null);
         setUserType(null);

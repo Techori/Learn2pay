@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
 const Hero = () => {
-  const { isAuthenticated, institute,parent, isLoading } = useAuth();
+  const { isAuthenticated, institute, parent, isLoading } = useAuth();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,8 +58,7 @@ const Hero = () => {
           variants={itemVariants}
         >
           Join 15,000+ educational institutions that have revolutionized their
-          payment processes and achieved 95% collection efficiency with
-          Larn2Pay
+          payment processes and achieved 95% collection efficiency with Larn2Pay
         </motion.p>
 
         <motion.div
@@ -119,7 +118,10 @@ const Hero = () => {
                 variants={itemVariants}
               >
                 Welcome,{" "}
-                <span className="text-orange-400">{institute?.name || parent.parentName}</span>!
+                <span className="text-orange-400">
+                  {institute?.name || parent?.parentName}
+                </span>
+                !
               </motion.div>
             </div>
           ) : (

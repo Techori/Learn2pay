@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://learn2pay.onrender.com";
+  import.meta.env.VITE_LOCAL_API_BASE_URL || "https://learn2pay.onrender.com";
 
 // Generic API call function
 async function apiCall(endpoint: string, options: RequestInit = {}) {
@@ -17,13 +17,16 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
   try {
     const response = await fetch(url, defaultOptions);
     const data = await response.json();
+
     if (response.status === 401) {
-      // Handle unauthorized access silently - no console log
+      // Return 401 errors as part of response data instead of throwing
       return { error: "Unauthorized access - your session has expired" };
     } else if (!response.ok) {
       // Handle other HTTP errors
       throw new Error(data.message || `HTTP error! status: ${response.status}`);
-    } else return data;
+    }
+
+    return data;
   } catch (error) {
     // Only log non-401 errors
     if (error instanceof Error && !error.message.includes("Unauthorized")) {
@@ -95,18 +98,33 @@ export const authAPI = {
   // Generic session check based on stored user type
   getSession: async () => {
     const storedUserType = localStorage.getItem("userType");
+    console.log("📍 Getting session for userType:", storedUserType);
+
     if (storedUserType === "institute") {
       return apiCall("/api/institute/session");
     } else if (storedUserType === "parent") {
       return apiCall("/api/parent/session");
     } else {
       // Try both if no stored type (fallback)
-      const instituteResult = await apiCall("/api/institute/session");
-      if (instituteResult.error) {
-        const parentResult = await apiCall("/api/parent/session");
-        return parentResult;
+      console.log("🔄 No stored userType, trying both endpoints...");
+      try {
+        const instituteResult = await apiCall("/api/institute/session");
+        if (!instituteResult.error) {
+          console.log("✅ Institute session found");
+          return instituteResult;
+        }
+      } catch (error) {
+        console.log("❌ Institute session failed");
       }
-      return instituteResult;
+
+      try {
+        const parentResult = await apiCall("/api/parent/session");
+        console.log("📱 Parent session result:", parentResult);
+        return parentResult;
+      } catch (error) {
+        console.log("❌ Parent session failed");
+        return { error: "No valid session found" };
+      }
     }
   },
 
@@ -126,17 +144,39 @@ export const authAPI = {
   },
 
   // Generic refresh token based on stored user type
-  refreshToken: () => {
+  refreshToken: async () => {
     const storedUserType = localStorage.getItem("userType");
+    console.log("🔄 Refreshing token for userType:", storedUserType);
+
     if (storedUserType === "institute") {
       return apiCall("/api/institute/refresh", { method: "POST" });
     } else if (storedUserType === "parent") {
       return apiCall("/api/parent/refresh", { method: "POST" });
     } else {
       // Try both if no stored type (fallback)
-      return apiCall("/api/institute/refresh", { method: "POST" }).catch(() =>
-        apiCall("/api/parent/refresh", { method: "POST" })
-      );
+      console.log("🔄 No stored userType for refresh, trying both...");
+      try {
+        const instituteResult = await apiCall("/api/institute/refresh", {
+          method: "POST",
+        });
+        if (!instituteResult.error) {
+          console.log("✅ Institute refresh successful");
+          return instituteResult;
+        }
+      } catch (error) {
+        console.log("❌ Institute refresh failed");
+      }
+
+      try {
+        const parentResult = await apiCall("/api/parent/refresh", {
+          method: "POST",
+        });
+        console.log("📱 Parent refresh result:", parentResult);
+        return parentResult;
+      } catch (error) {
+        console.log("❌ Parent refresh failed");
+        return { error: "Refresh failed for both user types" };
+      }
     }
   },
 };

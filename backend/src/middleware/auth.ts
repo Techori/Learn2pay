@@ -13,13 +13,13 @@ const authenticateToken = async (
     const token =
       req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
     if (!token) {
-      res.status(401).json({ message: "Authentication token required" });
+      res.status(401).json({ message: "Access token required" });
       return;
     }
 
     const decoded = verifyAccessToken(token);
     if (!decoded) {
-      res.status(401).json({ message: "Invalid token" });
+      res.status(401).json({ message: "Access token expired or invalid" });
       return;
     }
 

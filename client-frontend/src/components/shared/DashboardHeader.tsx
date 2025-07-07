@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 interface DashboardHeaderProps {
   dashboardName?: string;
@@ -123,8 +124,16 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               animate={{ opacity: 1, x: 0 }}
               className="text-xl font-bold text-white flex items-center"
             >
-              <span className="text-orange-500">LARN</span>
-              <span className="text-white">2PAY</span>
+                        <Link to="/" className="flex items-center">
+                          <motion.div
+                            className="text-xl sm:text-2xl font-bold"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                          >
+                            <span className="text-orange-500">LARN</span>
+                            <span className="text-gray-900 dark:text-white">2PAY</span>
+                          </motion.div>
+                        </Link>
               <span className="text-gray-400 mx-2">|</span>
               <span className="text-gray-200">
                 {dashboardName || defaultDashboardName} Dashboard

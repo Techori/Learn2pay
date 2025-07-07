@@ -15,12 +15,20 @@ export const getSession = async (
   res: Response
 ): Promise<void> => {
   try {
+    console.log("Session check - User role:", req.user?.role);
+
     if (req.user?.role === "institute") {
       if (!req.institute) {
+        console.log("Institute data not found for user:", req.user);
         res.status(401).json({ message: "Institute data not found" });
         return;
       }
 
+      console.log("Institute session active for:", req.institute.instituteName);
+      console.log(
+        "Full institute object:",
+        JSON.stringify(req.institute, null, 2)
+      );
       res.json({
         institute: {
           id: req.institute._id,
@@ -39,10 +47,12 @@ export const getSession = async (
 
     if (req.user?.role === "parent") {
       if (!req.parent) {
+        console.log("Parent data not found for user:", req.user);
         res.status(401).json({ message: "Parent data not found" });
         return;
       }
 
+      console.log("Parent session active for:", req.parent.parentName);
       res.json({
         parent: {
           id: req.parent._id,
@@ -56,8 +66,10 @@ export const getSession = async (
       return;
     }
 
+    console.log("Invalid session - no valid role found");
     res.status(401).json({ message: "Invalid session" });
   } catch (error) {
+    console.error("Session error:", error);
     res.status(500).json({ message: "Session error" });
   }
 };
