@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import MobileMenu from "./MobileMenu";
 import ThemeToggle from "./Themetoggle";
 import { useAuth } from "../contexts/AuthContext";
-import { useTheme } from "../contexts/ThemeContext";
 import { Moon, Sun } from "lucide-react";
 
 const Navbar = () => {
@@ -14,7 +13,7 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, institute, parent, userType, logout, isLoading } =
     useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const [darkMode, setDarkMode] = useState(false);
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -46,6 +45,18 @@ const Navbar = () => {
     setIsProfileMenuOpen(false);
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const newMode = !prev;
+      if (newMode) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return newMode;
+    });
+  };
+
   // Get current user data
   const currentUser = institute || parent;
   const userName = institute?.name || parent?.parentName || "User";
@@ -65,10 +76,11 @@ const Navbar = () => {
   return (
     <>
       <motion.header className="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/95 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800/50">
-        <div className="container mx-auto flex items-center justify-between px-6 py-4">
+        <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+          {/* Logo */}
           <Link to="/" className="flex items-center">
             <motion.div
-              className="text-2xl font-bold"
+              className="text-xl sm:text-2xl font-bold"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -77,8 +89,8 @@ const Navbar = () => {
             </motion.div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation - Hidden on mobile/tablet */}
+          <div className="hidden lg:flex items-center space-x-8">
             <NavLink to="/" isActive={location.pathname === "/"}>
               Home
             </NavLink>
@@ -99,18 +111,14 @@ const Navbar = () => {
             </NavLink>
           </div>
 
-          {/* Right Section */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Desktop Right Section - Hidden on mobile/tablet */}
+          <div className="hidden lg:flex items-center space-x-4">
             <button
-              onClick={toggleTheme}
+              onClick={toggleDarkMode}
               className="w-10 h-10 flex items-center justify-center rounded-xl bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
-              title={
-                theme === "dark"
-                  ? "Switch to Light Mode"
-                  : "Switch to Dark Mode"
-              }
+              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {theme === "dark" ? (
+              {darkMode ? (
                 <Sun className="w-6 h-6 text-yellow-400" />
               ) : (
                 <Moon className="w-6 h-6 text-gray-500" />
@@ -118,13 +126,11 @@ const Navbar = () => {
             </button>
 
             {isLoading ? (
-              // Enhanced Loading state
               <div className="flex items-center space-x-2">
                 <div className="w-5 h-5 border-2 border-orange-400/30 border-t-orange-400 rounded-full animate-spin" />
                 <span className="text-gray-400 text-sm">Loading...</span>
               </div>
             ) : isAuthenticated && currentUser ? (
-              // Enhanced Authenticated state
               <div className="flex items-center space-x-4">
                 {/* Dashboard Button */}
                 <motion.div
@@ -166,8 +172,8 @@ const Navbar = () => {
                       {getUserInitials(userName)}
                     </div>
 
-                    {/* User Info */}
-                    <div className="text-left hidden lg:block">
+                    {/* User Info - Hidden on smaller desktop screens */}
+                    <div className="text-left hidden xl:block">
                       <div className="text-gray-900 dark:text-white text-sm font-medium truncate max-w-[120px]">
                         {userName}
                       </div>
@@ -317,7 +323,6 @@ const Navbar = () => {
                 </div>
               </div>
             ) : (
-              // Enhanced Not authenticated state
               <>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
@@ -337,7 +342,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 xl:px-6 py-2 rounded-lg transition-all duration-300 font-medium shadow-lg text-sm xl:text-base"
                   >
                     Get Started
                   </Link>
@@ -346,38 +351,51 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <ThemeToggle />
+          {/* Mobile Menu Button and Theme Toggle */}
+          <div className="lg:hidden flex items-center space-x-3">
+            {/* Theme Toggle for Mobile */}
+            <button
+              onClick={toggleDarkMode}
+              className="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {darkMode ? (
+                <Sun className="w-5 h-5 text-yellow-400" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-500" />
+              )}
+            </button>
+
+            {/* Mobile Menu Button */}
             <button
               onClick={toggleMenu}
-              className="text-white focus:outline-none"
+              className="text-gray-900 dark:text-white focus:outline-none w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               aria-label="Toggle menu"
             >
               <motion.div
                 animate={isMenuOpen ? "open" : "closed"}
-                className="w-6 h-6 flex flex-col justify-center items-center"
+                className="w-5 h-5 flex flex-col justify-center items-center"
               >
                 <motion.span
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 6 },
+                    open: { rotate: 45, y: 4 },
                   }}
-                  className="w-6 h-0.5 bg-white block transition-all duration-300 origin-center"
+                  className="w-5 h-0.5 bg-current block transition-all duration-300 origin-center"
                 />
                 <motion.span
                   variants={{
                     closed: { opacity: 1 },
                     open: { opacity: 0 },
                   }}
-                  className="w-6 h-0.5 bg-white block transition-all duration-300 mt-1"
+                  className="w-5 h-0.5 bg-current block transition-all duration-300 mt-1"
                 />
                 <motion.span
                   variants={{
                     closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -6 },
+                    open: { rotate: -45, y: -4 },
                   }}
-                  className="w-6 h-0.5 bg-white block transition-all duration-300 mt-1 origin-center"
+                  className="w-5 h-0.5 bg-current block transition-all duration-300 mt-1 origin-center"
                 />
               </motion.div>
             </button>
