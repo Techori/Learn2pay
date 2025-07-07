@@ -1,11 +1,11 @@
 import React from "react";
 import { LogOut, Home } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import UserProfile from "@/components/shared/UserProfile";
 import NotificationCenter from "@/components/shared/NotificationCenter";
 import ThemeToggle from "../ThemeToggle";
-
+import { motion } from "framer-motion";
 interface Badge {
   text: string;
   isPrimary?: boolean;
@@ -51,9 +51,17 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     <header className="bg-surface-color/90 backdrop-blur-md border-b border-border-color px-6 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <h1 className="text-xl font-semibold text-text-color">
-            <span className="text-primary">Larn</span>
-            <span className="text-text-color">2Pay</span> | {dashboardName} Dashboard
+          <h1 className="text-xl font-semibold text-text-color inline-flex items-center gap-1">
+            <Link to="/" className="flex items-center">
+            <motion.div
+              className="text-2xl font-bold"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <span className="text-orange-500">LARN</span>
+              <span className="text-gray-900 dark:text-white">2PAY</span>
+            </motion.div>
+          </Link> | {dashboardName} Dashboard
           </h1>
           <div className="flex items-center space-x-2">
             {badges.map((badge, index) => (
