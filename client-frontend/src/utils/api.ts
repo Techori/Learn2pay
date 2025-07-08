@@ -181,4 +181,11 @@ export const authAPI = {
   },
 };
 
+export const sendChatbotMessage = async (message: string) => {
+  return apiCall("/api/chatbot/message", {
+    method: "POST",
+    body: JSON.stringify({ message }),
+  });
+};
+
 export default apiCall;

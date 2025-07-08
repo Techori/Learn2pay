@@ -4,6 +4,7 @@ import cors from "cors";
 import connectDB from "./config/db";
 import instituteRoutes from "./routes/instituteRoute";
 import parentRoutes from "./routes/parentRoutes";
+import chatbotRoute from "./routes/chatbotRoute";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use(
 // Routes
 app.use("/api/institute", instituteRoutes);
 app.use("/api/parent", parentRoutes);
+app.use("/api/chatbot", chatbotRoute);
 
 // Health check route
 app.get("/", (req, res) => {
