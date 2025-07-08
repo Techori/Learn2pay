@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
-import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
 

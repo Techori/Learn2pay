@@ -29,7 +29,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Institute = () => {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("analytics");
+  const [activeTab, setActiveTab] = useState("overview");
   const [studentSubTab, setStudentSubTab] = useState("all-students");
 
   const handleQuickActionRedirect = (tabName: string) => {
@@ -40,33 +40,6 @@ const Institute = () => {
     setStudentSubTab(action);
   };
 
-  const mockUser = {
-    name: "Dr. Rajesh Kumar",
-    email: "rajesh.kumar@institute.com",
-    phone: "+91 9876543210",
-    role: "Institute Admin",
-    avatar: "",
-    address: "Anup nagar",
-  };
-
-  const handleLogout = () => {
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
-  };
-
-  const handleUserUpdate = () => {
-    toast({
-      title: "Profile Updated",
-      description: "Your profile has been successfully updated.",
-    });
-  };
-
-  const instituteBadges = [
-    { text: "AY 20-21" },
-    { text: "AY 21-22", isPrimary: true },
-  ];
 
   return (
     <motion.div
@@ -77,57 +50,16 @@ const Institute = () => {
     >
       <DashboardHeader dashboardName="Institute" />
 
-      <div className="p-6 overflow-y-auto">
-        {/* Institute selector and add institute button */}
-        <div className="flex items-center space-x-4 mb-6">
-          <div className="relative">
-            <select className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md appearance-none pr-8 border border-gray-300 dark:border-gray-700">
-              <option>National Public School - Main Campus</option>
-              <option>National Public School - Branch 2</option>
-            </select>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-              <svg
-                className="h-5 w-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center space-x-2 text-orange-600 dark:text-orange-400 border-orange-500 hover:bg-orange-500/10 dark:hover:bg-orange-400/10"
-            onClick={() => setActiveTab("multi-institute")}
-          >
-            <Building2 className="h-4 w-4" />
-            <span>Add Branch</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800/10"
-          >
-            Filters
-          </Button>
-        </div>
+      <div className="p-6 overflow-y-hidden">
 
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto whitespace-nowrap">
+          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto overflow-y-hidden whitespace-nowrap">
             <TabsTrigger
-              value="analytics"
+              value="overview"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
               <LayoutDashboard className="h-4 w-4" />
