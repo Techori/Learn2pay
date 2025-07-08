@@ -23,6 +23,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import KycPage from "./components/KycPage";
 function App() {
   return (
     <AuthProvider>
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/kyc" element={<KycPage/>}/>
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Button } from "@/components/ui/Button";
@@ -26,11 +27,32 @@ import StudentManagement from "@/components/institute-dashboard/students/Student
 import InstituteSettings from "@/components/institute-dashboard/settings/InstituteSettings";
 import DashboardHeader from "@/components/shared/DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
+import {authAPI } from "@/utils/api";
 
 const Institute = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("analytics");
   const [studentSubTab, setStudentSubTab] = useState("all-students");
+
+  useEffect(() => {
+    const checkKycStatus = async () => {
+      try {
+        const response = await authAPI.getKycStatus();
+        if (response.kycStatus !== 'verified') {
+          navigate('/kyc');
+        }
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to check KYC status",
+          variant: "destructive",
+        });
+        navigate('/kyc');
+      }
+    };
+    checkKycStatus();
+  }, [navigate, toast]);
 
   const handleQuickActionRedirect = (tabName: string) => {
     setActiveTab(tabName);
@@ -64,8 +86,8 @@ const Institute = () => {
   };
 
   const instituteBadges = [
-    { text: "AY 20-21" },
-    { text: "AY 21-22", isPrimary: true },
+    { text: "AY 2020-2021" },
+    { text: "AY 2021-2022", isPrimary: true },
   ];
 
   return (
@@ -78,7 +100,6 @@ const Institute = () => {
       <DashboardHeader dashboardName="Institute" />
 
       <div className="p-6 overflow-y-auto">
-        {/* Institute selector and add institute button */}
         <div className="flex items-center space-x-4 mb-6">
           <div className="relative">
             <select className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md appearance-none pr-8 border border-gray-300 dark:border-gray-700">
