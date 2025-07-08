@@ -105,7 +105,7 @@ const Contact = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-orange-950 text-gray-900 dark:text-white">
       <Navbar />
       {/* Hero Section */}
-      <section className="py-22 px-4 relative overflow-hidden">
+      <section className="py-16 px-4 relative overflow-hidden">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="container mx-auto text-center relative z-10 flex flex-col items-center">
           <div className="flex justify-center mb-4">
