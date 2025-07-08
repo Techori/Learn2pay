@@ -92,12 +92,14 @@ const Register = () => {
 
     // Prepare data for backend
     const registrationData = {
-      institute_name: data.instituteName,
-      institute_type: data.instituteType,
+      instituteName: data.instituteName,
+      instituteType: data.instituteType,
       description: data.description,
-      contact_person: {
-        firstName: data.contactPerson.split(' ')[0] || data.contactPerson,
-        lastName: data.contactPerson.split(' ').slice(1).join(' ') || data.contactPerson,
+      contactPerson: {
+        firstName: data.contactPerson.split(" ")[0] || data.contactPerson,
+        lastName:
+          data.contactPerson.split(" ").slice(1).join(" ") ||
+          data.contactPerson,
       },
       contactEmail: data.email,
       contactPhone: data.phone,
@@ -614,7 +616,9 @@ const Register = () => {
                   <FormField
                     control={form.control}
                     name="agreeTerms"
-                    rules={{ required: "You must agree to the terms and conditions" }}
+                    rules={{
+                      required: "You must agree to the terms and conditions",
+                    }}
                     render={({ field }) => (
                       <FormItem className="flex items-center space-x-2">
                         <FormControl>
