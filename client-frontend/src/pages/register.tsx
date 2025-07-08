@@ -112,8 +112,8 @@ const Register = () => {
       },
       password: data.password,
       documents: {
-        registerationCertificate: true,
-        panCard: true,
+        registerationCertificate: false,
+        panCard: false,
       },
     };
 

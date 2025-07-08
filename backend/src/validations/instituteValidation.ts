@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const instituteRegisterSchema = z.object({
   instituteName: z.string().min(3),
-  instituteType: z.enum(["school", "college", "university", "other"]),
+  instituteType: z.enum(["school", "college", "academy", "gym", "other", "coaching"]),
   description: z.string().optional(),
 
   contactPerson: z.object({
