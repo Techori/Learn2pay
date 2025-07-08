@@ -66,7 +66,7 @@ const Pricing = () => {
         "Custom integrations",
         "White-label solution",
         "Fee Finance Facility",
-        " EMI facility "
+        " EMI facility",
         "Advanced security features",
       ],
       limitations: [],
