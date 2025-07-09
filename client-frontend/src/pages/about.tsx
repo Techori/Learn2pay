@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Users, Globe, Heart } from 'lucide-react';
+import { Shield, Users, Globe, Heart,Target,Award } from 'lucide-react';
 import Footer from '../components/Footer';
 import AboutUI from '../components/ui/AboutUi'; // Use the actual file name casing
 import Navbar from '@/components/Navbar';
+import {Card,CardContent,CardDescription,CardHeader,CardTitle} from '@/components/ui/Card';
 const About: React.FC = () => {
   const navigate = useNavigate();
 
