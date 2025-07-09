@@ -163,7 +163,7 @@ const Login = () => {
                     placeholder="Enter your email address"
                     value={loginId}
                     onChange={(e) => setLoginId(e.target.value)}
-                    className="h-12 pl-10 border-gray-700 bg-gray-900 text-white focus:border-orange-500"
+                    className="h-12 pl-10 border-gray-700 bg-white text-gray-900 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                     required
                   />
                 </div>
@@ -185,7 +185,7 @@ const Login = () => {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-12 pl-10 pr-10 border-gray-700 bg-gray-900 text-white focus:border-orange-500"
+                    className="h-12 pl-10 pr-10 border-gray-700 bg-white text-gray-900 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                     required
                   />
                   <button

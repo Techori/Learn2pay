@@ -201,7 +201,7 @@ const Register = () => {
                                 id="instituteName"
                                 placeholder="e.g., ABC Academy"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -267,7 +267,7 @@ const Register = () => {
                               placeholder="Brief description of your institute"
                               {...field}
                               rows={3}
-                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
+                              className="w-full h-32 rounded-lg p-4 bg-white text-gray-900 placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none dark:bg-gray-900 dark:text-white"
                             />
                           </FormControl>
                           <FormMessage />
@@ -297,7 +297,7 @@ const Register = () => {
                               id="contactPerson"
                               placeholder="Principal/Director/Owner name"
                               {...field}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                              className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                               required
                             />
                           </FormControl>
@@ -329,7 +329,7 @@ const Register = () => {
                                 type="email"
                                 placeholder="admin@institute.com"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -354,7 +354,7 @@ const Register = () => {
                                 type="tel"
                                 placeholder="+91 98765 43210"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -379,7 +379,7 @@ const Register = () => {
                               type="url"
                               placeholder="https://www.yourinstitute.com"
                               {...field}
-                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                              className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                             />
                           </FormControl>
                           <FormMessage />
@@ -414,7 +414,7 @@ const Register = () => {
                                 type="password"
                                 placeholder="Enter your password"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -439,7 +439,7 @@ const Register = () => {
                                 type="password"
                                 placeholder="Re-enter your password"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -471,7 +471,7 @@ const Register = () => {
                               placeholder="Street address, building name, etc."
                               {...field}
                               rows={2}
-                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
+                              className="w-full h-32 rounded-lg p-4 bg-white text-gray-900 placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none dark:bg-gray-900 dark:text-white"
                               required
                             />
                           </FormControl>
@@ -494,7 +494,7 @@ const Register = () => {
                                 id="city"
                                 placeholder="City name"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -516,7 +516,7 @@ const Register = () => {
                                 id="state"
                                 placeholder="State name"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
@@ -538,7 +538,7 @@ const Register = () => {
                                 id="pincode"
                                 placeholder="123456"
                                 {...field}
-                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
                                 required
                               />
                             </FormControl>
