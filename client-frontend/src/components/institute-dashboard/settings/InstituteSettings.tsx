@@ -648,12 +648,12 @@ const InstituteSettings = () => {
   return (
     <div className="space-y-6">
       {/* Settings Header */}
-      <div className="flex items-center mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center mb-6 gap-2">
         <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
           <Settings className="h-6 w-6 text-gray-400" />
           <span>Institute Settings</span>
         </h2>
-        <p className="text-gray-400 ml-4">
+        <p className="text-gray-400 sm:ml-4">
           Configure institute details, preferences, and system settings
         </p>
       </div>
@@ -663,34 +663,34 @@ const InstituteSettings = () => {
         onValueChange={setActiveTab}
         className="space-y-6"
       >
-        <TabsList className="grid w-full grid-cols-5 bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
+        <TabsList className="flex flex-wrap sm:flex-nowrap gap-2 w-full bg-gray-800 p-2 rounded-md [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <TabsTrigger
             value="general"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+            className="flex-1 data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center justify-center space-x-2 py-2 px-4 rounded-md min-w-[120px]"
           >
             General
           </TabsTrigger>
           <TabsTrigger
             value="academic"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+            className="flex-1 data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center justify-center space-x-2 py-2 px-4 rounded-md min-w-[120px]"
           >
             Academic
           </TabsTrigger>
           <TabsTrigger
             value="notifications"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+            className="flex-1 data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center justify-center space-x-2 py-2 px-4 rounded-md min-w-[120px]"
           >
             Notifications
           </TabsTrigger>
           <TabsTrigger
             value="security"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+            className="flex-1 data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center justify-center space-x-2 py-2 px-4 rounded-md min-w-[120px]"
           >
             Security
           </TabsTrigger>
           <TabsTrigger
             value="billing"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+            className="flex-1 data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center justify-center space-x-2 py-2 px-4 rounded-md min-w-[120px]"
           >
             Billing
           </TabsTrigger>

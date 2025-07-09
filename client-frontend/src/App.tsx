@@ -48,14 +48,15 @@ function App() {
           <Route path="/demo" element={<Demo />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/learnmore" element={<LearnMore />} />
-          <Route
+          <Route path="/dashboard/*" element={<DashboardRouter />} />
+          {/* <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <DashboardRouter />
               </ProtectedRoute>
             }
-          />
+          /> */}
         </Routes>
         <Toaster />
       </BrowserRouter>

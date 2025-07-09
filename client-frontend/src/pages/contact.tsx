@@ -107,10 +107,8 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="py-16 px-4 relative overflow-hidden">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="container mx-auto text-center relative z-10 flex flex-col items-center">
-          <div className="flex justify-center mb-4">
-            <Sparkles className="h-12 w-12 text-orange-400 animate-pulse" />
-          </div>
+        <div className="container mx-auto text-center relative z-10 flex flex-col items-center pt-5">
+
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-600 drop-shadow-lg">
             Get in Touch
           </h1>

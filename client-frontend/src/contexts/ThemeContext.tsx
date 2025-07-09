@@ -1,7 +1,7 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
-type Theme = "light" | "dark";
+type Theme = 'light' | 'dark';
 
 interface ThemeContextType {
   theme: Theme;
@@ -12,35 +12,28 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Safely get theme from localStorage during initialization
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme") as Theme | null;
-      return stored && (stored === "light" || stored === "dark")
-        ? stored
-        : "light";
-    }
-    return "light";
+    // Initialize from localStorage or default to dark
+    return (localStorage.getItem('theme') as Theme) || 'dark';
   });
 
-  // Apply theme to DOM and save to localStorage when theme changes
   useEffect(() => {
-    const root = document.documentElement;
+    // Apply theme to document
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(theme);
+    localStorage.setItem('theme', theme);
 
-    // Remove existing theme classes
-    root.classList.remove("light", "dark");
-
-    // Add current theme class
-    root.classList.add(theme);
-
-    // Save to localStorage
-    localStorage.setItem("theme", theme);
-
-    // Debug log to verify theme is being applied
-    console.log("Theme applied:", theme, "Classes:", root.classList.toString());
+    // Update meta theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute(
+        'content',
+        theme === 'dark' ? '#101624' : '#f8fafc'
+      );
+    }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
   };
 
   return (
@@ -52,6 +45,6 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) throw new Error("useTheme must be used within ThemeProvider");
+  if (!context) throw new Error('useTheme must be used within ThemeProvider');
   return context;
 };

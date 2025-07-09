@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Avatar, AvatarImage } from "../components/ui/Aavatar"; // Adjust the import path as needed
 
 const testimonials = [
   {
@@ -50,7 +51,6 @@ const Testimonials = () => {
 
   return (
     <section className="py-24 bg-gray-50 dark:bg-black relative overflow-hidden">
-      {/* Background pattern */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-orange-100 dark:bg-[#130900] opacity-30"></div>
         <div className="absolute top-0 left-1/2 w-40 h-40 bg-orange-500 rounded-full filter blur-[100px]"></div>
@@ -74,13 +74,11 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
-        {/* FLEX ROW FOR ARROWS AND CARD */}
         <div
           className="max-w-4xl mx-auto flex items-center justify-between gap-4 relative"
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
         >
-          {/* Left Arrow */}
           <motion.button
             whileHover={{ scale: 1.12 }}
             whileTap={{ scale: 0.97 }}
@@ -104,7 +102,6 @@ const Testimonials = () => {
             </svg>
           </motion.button>
 
-          {/* Testimonial Card */}
           <div className="w-full flex justify-center">
             <AnimatePresence mode="wait">
               <motion.div
@@ -135,14 +132,10 @@ const Testimonials = () => {
                       "{testimonials[current].quote}"
                     </p>
                   </div>
-                  <div className="flex items-center mt-4">
-                    <div className="w-14 h-14 rounded-full border-4 border-orange-500 shadow-md flex items-center justify-center overflow-hidden mr-5 bg-white dark:bg-black">
-                      <img
-                        src={testimonials[current].image}
-                        alt={testimonials[current].name}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                    </div>
+                  <div className="flex items-center mt-4 gap-5">
+                    <Avatar name={testimonials[current].name} className="w-14 h-14">
+                      <AvatarImage src={testimonials[current].image} alt={testimonials[current].name} />
+                    </Avatar>
                     <div className="overflow-hidden">
                       <h4 className="font-bold text-gray-900 dark:text-white text-lg md:text-xl truncate">
                         {testimonials[current].name}
@@ -157,7 +150,6 @@ const Testimonials = () => {
             </AnimatePresence>
           </div>
 
-          {/* Right Arrow */}
           <motion.button
             whileHover={{ scale: 1.12 }}
             whileTap={{ scale: 0.97 }}
@@ -182,7 +174,6 @@ const Testimonials = () => {
           </motion.button>
         </div>
 
-        {/* Dots */}
         <div className="flex justify-center mt-8 gap-3 z-10">
           {testimonials.map((_, index) => (
             <motion.button

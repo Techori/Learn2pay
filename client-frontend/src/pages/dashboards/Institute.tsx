@@ -13,6 +13,7 @@ import {
   Users,
   GraduationCap,
   Settings,
+  IndianRupee,
 } from "lucide-react";
 import InstituteDashboardOverview from "@/components/institute-dashboard/dashboard/InstituteDashboardOverview";
 import MultiInstituteManagement from "@/components/institute-dashboard/multi-institute/MultiInstituteManagement";
@@ -40,24 +41,22 @@ const Institute = () => {
     setStudentSubTab(action);
   };
 
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black text-gray-900 dark:text-white"
+      className="min-h-screen bg-gray-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black text-gray-900 dark:text-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
     >
       <DashboardHeader dashboardName="Institute" />
 
-      <div className="p-6 overflow-y-hidden">
-
+      <div className="p-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="space-y-6"
         >
-          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto overflow-y-hidden whitespace-nowrap">
+          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto overflow-y-hidden whitespace-nowrap [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <TabsTrigger
               value="overview"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
@@ -65,13 +64,15 @@ const Institute = () => {
               <LayoutDashboard className="h-4 w-4" />
               <span>Overview</span>
             </TabsTrigger>
+
             <TabsTrigger
-              value="multi-institute"
+              value="students"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
-              <Building2 className="h-4 w-4" />
-              <span>Multi-Institute</span>
+              <GraduationCap className="h-4 w-4" />
+              <span>Students</span>
             </TabsTrigger>
+
             <TabsTrigger
               value="fee-management"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
@@ -83,7 +84,7 @@ const Institute = () => {
               value="payments"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
-              <DollarSign className="h-4 w-4" />
+              <IndianRupee className="h-4 w-4" />
               <span>Payments</span>
             </TabsTrigger>
             <TabsTrigger
@@ -114,13 +115,7 @@ const Institute = () => {
               <Users className="h-4 w-4" />
               <span>Manage Users</span>
             </TabsTrigger>
-            <TabsTrigger
-              value="students"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
-            >
-              <GraduationCap className="h-4 w-4" />
-              <span>Students</span>
-            </TabsTrigger>
+
             <TabsTrigger
               value="settings"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"

@@ -29,7 +29,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen bg-white dark:bg-gradient-to-b dark:from-black dark:to-[#130900] flex items-center justify-center pt-24 pb-16">
+    <section className="relative min-h-screen bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-gray-900 dark:to-[#130900] flex items-center justify-center pt-24 pb-16">
       <div className="absolute inset-0 bg-[url('/bg-pattern.svg')] opacity-5"></div>
 
       <motion.div
@@ -39,7 +39,7 @@ const Hero = () => {
         animate="visible"
       >
         <motion.h2
-          className="text-orange-600 dark:text-orange-500 inline-block px-4 py-1 rounded-full border border-orange-500/30 bg-orange-100/10 dark:bg-orange-500/10 text-sm mb-6"
+          className="text-orange-600 dark:text-orange-400 inline-block px-4 py-1 rounded-full border border-orange-500/30 bg-orange-50 dark:bg-orange-500/10 text-sm mb-6"
           variants={itemVariants}
         >
           Educational Payment Solution
@@ -50,11 +50,11 @@ const Hero = () => {
           variants={itemVariants}
         >
           Focus on Studies,{" "}
-          <span className="text-orange-500">We Handle the Fees</span>
+          <span className="text-orange-600 dark:text-orange-400">We Handle the Fees</span>
         </motion.h1>
 
         <motion.p
-          className="text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-10"
+          className="text-gray-600 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto mb-10"
           variants={itemVariants}
         >
           Join 15,000+ educational institutions that have revolutionized their
@@ -80,7 +80,7 @@ const Hero = () => {
               >
                 <Link
                   to="/dashboard"
-                  className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300 dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
+                  className="bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +107,7 @@ const Hero = () => {
               >
                 <Link
                   to="/demo"
-                  className="border border-orange-200 hover:border-orange-500 w-full text-orange-600 hover:text-orange-500 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300 dark:border-orange-400 dark:text-orange-400 dark:hover:text-orange-500"
+                  className="border border-orange-200 hover:border-orange-500 dark:border-orange-500/30 dark:hover:border-orange-400 w-full text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
                 >
                   <span>Schedule a Demo</span>
                 </Link>
@@ -118,7 +118,7 @@ const Hero = () => {
                 variants={itemVariants}
               >
                 Welcome,{" "}
-                <span className="text-orange-400">
+                <span className="text-orange-600 dark:text-orange-400">
                   {institute?.name || parent?.parentName}
                 </span>
                 !
@@ -134,7 +134,7 @@ const Hero = () => {
               >
                 <Link
                   to="/register"
-                  className="bg-orange-500 hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300 dark:bg-orange-400 dark:hover:bg-orange-500 dark:text-gray-900"
+                  className="bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 w-full text-white flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
                 >
                   Get Started Free
                 </Link>
@@ -147,7 +147,7 @@ const Hero = () => {
               >
                 <Link
                   to="/demo"
-                  className="border border-orange-200 hover:border-orange-500 w-full text-orange-600 hover:text-orange-500 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300 dark:border-orange-400 dark:text-orange-400 dark:hover:text-orange-500"
+                  className="border border-orange-200 hover:border-orange-500 dark:border-orange-500/30 dark:hover:border-orange-400 w-full text-orange-600 dark:text-orange-400 hover:text-orange-500 dark:hover:text-orange-300 flex items-center justify-center gap-2 px-8 py-4 rounded-md font-medium transition-all duration-300"
                 >
                   <span>Schedule a Demo</span>
                 </Link>
@@ -161,14 +161,14 @@ const Hero = () => {
           variants={itemVariants}
           transition={{ delay: 0.6 }}
         >
-          <div className="flex items-center justify-center gap-3 text-gray-700 dark:text-gray-300">
+          <div className="flex items-center justify-center gap-3 text-gray-600 dark:text-gray-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5 text-green-500"
+              className="w-5 h-5 text-green-500 dark:text-green-400"
             >
               <path
                 strokeLinecap="round"
@@ -179,14 +179,14 @@ const Hero = () => {
             <span>Setup in 24 hours</span>
           </div>
 
-          <div className="flex items-center justify-center gap-3 text-gray-700 dark:text-gray-300">
+          <div className="flex items-center justify-center gap-3 text-gray-600 dark:text-gray-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5 text-green-500"
+              className="w-5 h-5 text-green-500 dark:text-green-400"
             >
               <path
                 strokeLinecap="round"
@@ -197,14 +197,14 @@ const Hero = () => {
             <span>Bank-grade security</span>
           </div>
 
-          <div className="flex items-center justify-center gap-3 text-gray-700 dark:text-gray-300">
+          <div className="flex items-center justify-center gap-3 text-gray-600 dark:text-gray-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-5 h-5 text-orange-500"
+              className="w-5 h-5 text-orange-500 dark:text-orange-400"
             >
               <path
                 strokeLinecap="round"
