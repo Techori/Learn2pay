@@ -60,19 +60,19 @@ const Contact = () => {
     {
       icon: <Mail className="h-6 w-6 text-orange-500" />,
       title: "Email Us",
-      details: "support@lern2pay.com",
+      details: "support@larn2pay.com",
       description: "Get support within 24 hours",
     },
     {
       icon: <Phone className="h-6 w-6 text-orange-500" />,
       title: "Call Us",
-      details: "+91 1234 567 890",
-      description: "Mon-Fri 9AM-6PM IST",
+      details: "+91 9403892408",
+      description: "Mon-Fri 10AM-07PM IST",
     },
     {
       icon: <MapPin className="h-6 w-6 text-orange-500" />,
       title: "Visit Us",
-      details: "Mumbai, Maharashtra, India",
+      details: "Noida Sector 37, Uttar Pradesh, Bharat",
       description: "Schedule an appointment",
     },
     {
@@ -105,7 +105,7 @@ const Contact = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-black dark:via-gray-900 dark:to-orange-950 text-gray-900 dark:text-white">
       <Navbar />
       {/* Hero Section */}
-      <section className="py-16 px-4 relative overflow-hidden">
+      <section className="py-24 px-4 relative overflow-hidden">
         <div className="absolute -top-20 -left-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="container mx-auto text-center relative z-10 flex flex-col items-center">
           <div className="flex justify-center mb-4">

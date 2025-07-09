@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Users, Globe, Heart } from 'lucide-react';
+import { Shield, Users, Globe, Heart,Target,Award } from 'lucide-react';
 import Footer from '../components/Footer';
 import AboutUI from '../components/ui/AboutUi'; // Use the actual file name casing
 import Navbar from '@/components/Navbar';
+import {Card,CardContent,CardDescription,CardHeader,CardTitle} from '@/components/ui/Card';
 const About: React.FC = () => {
   const navigate = useNavigate();
 
@@ -93,12 +94,49 @@ const About: React.FC = () => {
             </span>
           </h1>
           <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            We're on a mission to revolutionize fee collection for educational institutions across India,
-            making it smarter, faster, and more efficient than ever before.
+             Behind every successful payment on Larn2Pay is a team of passionate educators-turned-technologists at 
+            <span className="text-orange-400 font-semibold"> Rishishwar Industry Private Limited</span>. 
+            We understand the daily struggles of educational institutions because we've lived them. From late-night 
+            fee collection calls to managing complex spreadsheets, we've been there
           </p>
         </div>
       </section>
+{/* Mission & Vision */}
+      <section className="py-16 px-4 bg-gradient-to-r from-orange-600/10 via-orange-500/5 to-orange-600/10">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <Card className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20">
+              <CardHeader>
+                <Target className="h-12 w-12 text-orange-500 mb-4" />
+                <CardTitle className="text-2xl text-white">Our Mission</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-300 text-lg leading-relaxed">
+                  We believe education should be accessible to everyone, but financial barriers shouldn't get in the way. 
+                  That's why we created Larn2Pay - to help schools focus on teaching while we handle the money stuff. 
+                  Our goal is simple: make fee collection so smooth that administrators can sleep peacefully, knowing 
+                  parents can pay easily and students aren't stressed about finances.
+                </CardDescription>
+              </CardContent>
+            </Card>
 
+            <Card className="bg-gradient-to-br from-gray-900/80 to-gray-800/50 border-orange-500/20">
+              <CardHeader>
+                <Award className="h-12 w-12 text-orange-500 mb-4" />
+                <CardTitle className="text-2xl text-white">Our Vision</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-300 text-lg leading-relaxed">
+                  We dream of a world where every child can focus on learning instead of worrying about school fees. 
+                  Our vision is to become the trusted friend of every educational institution in India - from the small 
+                  coaching center in rural villages to the biggest universities in metros. We want to make advanced 
+                  payment technology so affordable and easy that every school can use it.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
       {/* About UI Section */}
       <AboutUI
         values={values}
