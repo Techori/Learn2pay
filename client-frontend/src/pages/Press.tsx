@@ -65,7 +65,7 @@ const PressPage = () => {
           </p>
           <div className="space-y-4">
             <p className="text-gray-700 dark:text-gray-400">
-              <strong>Email:</strong> <a href="mailto:media@larn2pay.com" className="text-orange-600 dark:text-orange-400">media@larn2pay.com</a>
+              <strong>Email:</strong> <a href="mailto:media@larn2pay.com" className="text-orange-600 dark:text-orange-400">support@larn2pay.com</a>
             </p>
           </div>
         </div>
