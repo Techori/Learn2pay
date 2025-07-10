@@ -536,31 +536,7 @@ const StudentManagement = ({
 
   return (
     <div className="w-full space-y-6 p-0 m-0">
-      {/* Student Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {studentSummary.map((item, index) => (
-          <Card
-            key={index}
-            className="bg-gray-800/50 border-gray-700 shadow-md"
-          >
-            <CardContent className="p-5 flex items-center space-x-4">
-              <div
-                className={`p-3 rounded-lg ${item.color.replace(
-                  "text",
-                  "bg"
-                )}/20`}
-              >
-                <item.icon className={`h-6 w-6 ${item.color}`} />
-              </div>
-              <div>
-                <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white">{item.value}</p>
-                <p className="text-xs text-gray-500 mt-1">{item.description}</p>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+
 
       {/* Inner Tabs for Student Management */}
       <Tabs
@@ -569,12 +545,7 @@ const StudentManagement = ({
         className="w-full space-y-6"
       >
         <TabsList className="w-full grid grid-cols-3 bg-gray-800 p-1 rounded-md">
-          <TabsTrigger
-            value="all-students"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-          >
-            All Students
-          </TabsTrigger>
+
           <TabsTrigger
             value="add-student"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -586,6 +557,12 @@ const StudentManagement = ({
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
           >
             Complete KYC
+          </TabsTrigger>
+          <TabsTrigger
+            value="all-students"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+          >
+            All Students
           </TabsTrigger>
         </TabsList>
 
@@ -601,14 +578,8 @@ const StudentManagement = ({
                   Manage all student records and information
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  className="bg-orange-500 hover:bg-orange-600 text-white flex items-center space-x-2"
-                  onClick={() => handleSubTabChange("add-student")}
-                >
-                  <Plus className="h-4 w-4" />
-                  <span>Add Student</span>
-                </Button>
+              <div className="flex flex-col sm:flex-row gap-2 pt-4">
+
                 <Button
                   variant="outline"
                   className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
@@ -628,48 +599,52 @@ const StudentManagement = ({
               </div>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="flex flex-col md:flex-row items-center justify-between p-4 border-b border-gray-700 gap-4">
-                <div className="w-full md:w-96">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <Input
-                      id="student-search-input"
-                      type="text"
-                      placeholder="Search by name, admission number, or class..."
-                      className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 pl-10 w-full"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
+              <div className="flex flex-col md:flex-row items-center justify-between p-4 border-b border-gray-700 gap-4 w-full">
+                <div className="relative flex-1 min-w-[200px] w-full">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="student-search-input"
+                    type="text"
+                    placeholder="Search by name, admission number, or class..."
+                    className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 pl-10 w-full"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
                 </div>
-                <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
-                      <SelectValue placeholder="All Classes" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      <SelectItem value="all">All Classes</SelectItem>
-                      {[...Array(12)].map((_, i) => (
-                        <SelectItem
-                          key={i + 1}
-                          value={`${i + 1}`}
-                          className="bg-gray-800 text-white hover:bg-gray-700"
-                        >
-                          Grade {i + 1}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
-                      <SelectValue placeholder="All Status" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-gray-800 border-gray-700">
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="Active">Active</SelectItem>
-                      <SelectItem value="Inactive">Inactive</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="flex items-center gap-4 flex-shrink-0">
+                  <div className="bg-gray-900 px-4 py-2 rounded-md border border-gray-700">
+                    <span className="text-gray-400 text-sm mr-2">Total Students:</span>
+                    <span className="text-orange-500 font-semibold">{filteredStudents.length}</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
+                        <SelectValue placeholder="All Classes" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-800 border-gray-700">
+                        <SelectItem value="all">All Classes</SelectItem>
+                        {[...Array(12)].map((_, i) => (
+                          <SelectItem
+                            key={i + 1}
+                            value={`${i + 1}`}
+                            className="bg-gray-800 text-white hover:bg-gray-700"
+                          >
+                            Grade {i + 1}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
+                        <SelectValue placeholder="All Status" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-gray-800 border-gray-700">
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="Active">Active</SelectItem>
+                        <SelectItem value="Inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
               <div className="overflow-x-auto">

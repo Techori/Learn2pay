@@ -11,29 +11,27 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  // Initialize theme state with the stored theme or default to dark
   const [theme, setTheme] = useState<Theme>(() => {
-    // Initialize from localStorage or default to dark
-    return (localStorage.getItem('theme') as Theme) || 'dark';
+    // Check localStorage first
+    const storedTheme = localStorage.getItem('theme') as Theme | null;
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      return storedTheme;
+    }
+    // Default to dark theme
+    return 'dark';
   });
 
+  // Apply theme class to document root and save to localStorage
   useEffect(() => {
-    // Apply theme to document
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(theme);
+    const root = document.documentElement;
+    root.classList.remove('light', 'dark');
+    root.classList.add(theme);
     localStorage.setItem('theme', theme);
-
-    // Update meta theme-color
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute(
-        'content',
-        theme === 'dark' ? '#101624' : '#f8fafc'
-      );
-    }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
+    setTheme(currentTheme => currentTheme === 'light' ? 'dark' : 'light');
   };
 
   return (
