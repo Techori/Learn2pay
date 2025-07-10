@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import AddStudentForm from "./AddStudentForm";
 import * as XLSX from 'xlsx';
+import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface Student {
   id: string;
@@ -53,7 +54,6 @@ interface Student {
   parentEmail: string;
   status: string;
   feeStatus: string;
-  attendance: string;
 }
 
 interface Transfer {
@@ -97,13 +97,12 @@ interface BulkUploadError {
 }
 
 const StudentManagement = ({
-  initialSubTab = "all-students",
+  initialSubTab = "add-student",  
   onSubTabChange,
 }: StudentManagementProps = {}) => {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeSubTab, setActiveSubTab] = useState(initialSubTab);
-  const [showAddStudentDialog, setShowAddStudentDialog] = useState(false);
   const [showViewStudentDialog, setShowViewStudentDialog] = useState(false);
   const [showEditStudentDialog, setShowEditStudentDialog] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
@@ -115,7 +114,8 @@ const StudentManagement = ({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-
+  // Remove showAddStudentDialog state and related code since we're using AddStudentForm
+  
   // Update activeSubTab when initialSubTab changes
   useEffect(() => {
     if (initialSubTab !== activeSubTab) {
@@ -124,6 +124,8 @@ const StudentManagement = ({
   }, [initialSubTab, activeSubTab]);
 
   // Handle sub tab changes
+
+
   const handleSubTabChange = (tab: string) => {
     setActiveSubTab(tab);
     onSubTabChange?.(tab);
@@ -150,8 +152,7 @@ const StudentManagement = ({
       parentContact: "9876543210",
       parentEmail: "rajesh@email.com",
       status: "Active",
-      feeStatus: "Paid",
-      attendance: "95%",
+      feeStatus: "Paid"
     },
     {
       id: "2",
@@ -163,8 +164,7 @@ const StudentManagement = ({
       parentContact: "9876543211",
       parentEmail: "priya@email.com",
       status: "Active",
-      feeStatus: "Pending",
-      attendance: "92%",
+      feeStatus: "Pending"
     },
     {
       id: "3",
@@ -176,8 +176,7 @@ const StudentManagement = ({
       parentContact: "9876543212",
       parentEmail: "arjun@email.com",
       status: "Active",
-      feeStatus: "Paid",
-      attendance: "88%",
+      feeStatus: "Paid"
     },
   ]);
 
@@ -289,29 +288,15 @@ const StudentManagement = ({
     },
   ];
 
-  const handleAddStudent = () => {
+  const handleAddStudent = (newStudentData: Omit<Student, 'id'>) => {
     const studentWithId: Student = {
-      ...newStudent,
+      ...newStudentData,
       id: (allStudentsData.length + 1).toString(),
-      status: "Active",
-      feeStatus: "Pending",
-      attendance: "0%", // Default for new student
     };
     setAllStudentsData([...allStudentsData, studentWithId]);
-    setShowAddStudentDialog(false);
-    setNewStudent({
-      studentName: "",
-      studentId: "",
-      class: "",
-      roll: "",
-      parentName: "",
-      parentContact: "",
-      parentEmail: "",
-    });
   };
 
   const handleEditStudent = (student: Student) => {
-    console.log("handleEditStudent: Editing student:", student);
     setSelectedStudent(student);
     setShowEditStudentDialog(true);
   };
@@ -622,16 +607,20 @@ const StudentManagement = ({
                         <SelectValue placeholder="All Classes" />
                       </SelectTrigger>
                       <SelectContent className="bg-gray-800 border-gray-700">
-                        <SelectItem value="all">All Classes</SelectItem>
-                        {[...Array(12)].map((_, i) => (
-                          <SelectItem
-                            key={i + 1}
-                            value={`${i + 1}`}
-                            className="bg-gray-800 text-white hover:bg-gray-700"
-                          >
-                            Grade {i + 1}
+                        <ScrollArea className="h-[180px]">
+                          <SelectItem value="all" className="bg-gray-800 text-white hover:bg-gray-700">
+                            All Classes
                           </SelectItem>
-                        ))}
+                          {[...Array(12)].map((_, i) => (
+                            <SelectItem
+                              key={i + 1}
+                              value={`${i + 1}`}
+                              className="bg-gray-800 text-white hover:bg-gray-700"
+                            >
+                              Grade {i + 1}
+                            </SelectItem>
+                          ))}
+                        </ScrollArea>
                       </SelectContent>
                     </Select>
                     <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -670,9 +659,6 @@ const StudentManagement = ({
                         Fee Status
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                        Attendance
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
@@ -680,7 +666,7 @@ const StudentManagement = ({
                   <tbody className="divide-y divide-gray-800">
                     {filteredStudents.length === 0 ? (
                       <tr>
-                        <td colSpan={8} className="px-6 py-8 text-center text-gray-400">
+                        <td colSpan={7} className="px-6 py-8 text-center text-gray-400">
                           No students found matching your search criteria
                         </td>
                       </tr>
@@ -732,9 +718,6 @@ const StudentManagement = ({
                             >
                               {student.feeStatus}
                             </Badge>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                            {student.attendance}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex items-center space-x-2">
@@ -862,135 +845,6 @@ const StudentManagement = ({
         </TabsContent>
       </Tabs>
 
-      {/* Add New Student Dialog */}
-      <Dialog
-        open={showAddStudentDialog}
-        onOpenChange={setShowAddStudentDialog}
-      >
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader>
-            <DialogTitle>Add New Student</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Student Name
-              </label>
-              <Input
-                id="add-student-name"
-                value={newStudent.studentName}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, studentName: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter student's full name"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Student ID
-              </label>
-              <Input
-                id="add-student-id"
-                value={newStudent.studentId}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, studentId: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter student ID"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">Class</label>
-              <Input
-                id="add-student-class"
-                value={newStudent.class}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, class: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="e.g., 10th A"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Roll No.
-              </label>
-              <Input
-                id="add-student-roll"
-                value={newStudent.roll}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, roll: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter roll number"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Parent Name
-              </label>
-              <Input
-                id="add-parent-name"
-                value={newStudent.parentName}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, parentName: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter parent's full name"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Parent Contact
-              </label>
-              <Input
-                id="add-parent-contact"
-                value={newStudent.parentContact}
-                onChange={(e) =>
-                  setNewStudent({
-                    ...newStudent,
-                    parentContact: e.target.value,
-                  })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter parent's contact number"
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300">
-                Parent Email
-              </label>
-              <Input
-                id="add-parent-email"
-                value={newStudent.parentEmail}
-                onChange={(e) =>
-                  setNewStudent({ ...newStudent, parentEmail: e.target.value })
-                }
-                className="bg-gray-800 border-gray-700 text-white"
-                placeholder="Enter parent's email address"
-                type="email"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              className="border-gray-700 text-gray-300 hover:bg-gray-800/50"
-              onClick={() => setShowAddStudentDialog(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="bg-orange-500 hover:bg-orange-600 text-white"
-              onClick={handleAddStudent}
-            >
-              Add Student
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
       {/* View Student Dialog */}
       <Dialog
         open={showViewStudentDialog}
@@ -1054,10 +908,6 @@ const StudentManagement = ({
                   >
                     {selectedStudent.feeStatus}
                   </Badge>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-400">Attendance</p>
-                  <p className="text-white">{selectedStudent.attendance}</p>
                 </div>
               </div>
             </div>
@@ -1244,22 +1094,6 @@ const StudentManagement = ({
                     </SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
-                  Attendance
-                </label>
-                <Input
-                  id="edit-student-attendance"
-                  value={selectedStudent.attendance}
-                  onChange={(e) =>
-                    setSelectedStudent({
-                      ...selectedStudent,
-                      attendance: e.target.value,
-                    })
-                  }
-                  className="bg-gray-800 border-gray-700 text-white"
-                />
               </div>
             </div>
           )}
