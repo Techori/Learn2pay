@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
-
+import ThemeToggle from "../Themetoggle";
 interface DashboardHeaderProps {
   dashboardName?: string;
   onLogout?: () => void;
@@ -17,23 +17,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const { institute, parent, userType, logout } = useAuth();
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    // Toggle dark class on document
-    if (!darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-  // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -159,15 +147,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {/* Right Section - User Actions */}
           <div className="flex items-center space-x-3">
             {/* Dark Mode Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleDarkMode}
-              className="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors duration-200 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800/50 dark:hover:bg-gray-700/60 rounded-lg"
-              title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            >
-              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.button>
+<ThemeToggle />
 
             {/* Notifications */}
             <div className="relative" ref={notificationRef}>

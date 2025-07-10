@@ -114,7 +114,7 @@ const StudentManagement = ({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  // Remove showAddStudentDialog state and related code since we're using AddStudentForm
+
   
   // Update activeSubTab when initialSubTab changes
   useEffect(() => {
@@ -275,14 +275,14 @@ const StudentManagement = ({
     {
       icon: UserPlus,
       title: "New Admissions",
-      value: "45", // This should be dynamic, but keeping as is for now
+      value: "45", 
       description: "This month",
       color: "text-orange-400",
     },
     {
       icon: GraduationCap,
       title: "Avg. Attendance",
-      value: "92.5%", // This should be dynamic, but keeping as is for now
+      value: "92.5%", 
       description: "School-wide",
       color: "text-purple-400",
     },
@@ -521,8 +521,6 @@ const StudentManagement = ({
 
   return (
     <div className="w-full space-y-6 p-0 m-0">
-
-
       {/* Inner Tabs for Student Management */}
       <Tabs
         value={activeSubTab}
@@ -530,7 +528,6 @@ const StudentManagement = ({
         className="w-full space-y-6"
       >
         <TabsList className="w-full grid grid-cols-3 bg-gray-800 p-1 rounded-md">
-
           <TabsTrigger
             value="add-student"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -565,14 +562,7 @@ const StudentManagement = ({
               </div>
               <div className="flex flex-col sm:flex-row gap-2 pt-4">
 
-                <Button
-                  variant="outline"
-                  className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
-                  onClick={() => setShowBulkUploadDialog(true)}
-                >
-                  <FileSpreadsheet className="h-4 w-4" />
-                  <span>Bulk Upload</span>
-                </Button>
+
                 <Button
                   variant="outline"
                   className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
@@ -749,11 +739,33 @@ const StudentManagement = ({
 
         {/* Add Student Tab Content */}
         <TabsContent value="add-student" className="m-0 p-0">
-          <AddStudentForm
-            onStudentAdded={() => {
-              handleSubTabChange("all-students");
-            }}
-          />
+          <Card className="w-full border-0 rounded-none bg-gray-800/50">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 px-4 md:px-6">
+              <div>
+                <CardTitle className="text-lg text-white">
+                  Student Registration Form
+                </CardTitle>
+                <p className="text-gray-400 text-sm">
+                  Add a new student to your institute
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+                onClick={() => setShowBulkUploadDialog(true)}
+              >
+                <FileSpreadsheet className="h-4 w-4" />
+                <span>Bulk Upload</span>
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <AddStudentForm
+                onStudentAdded={() => {
+                  handleSubTabChange("all-students");
+                }}
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
 
         {/* KYC Tab Content */}
