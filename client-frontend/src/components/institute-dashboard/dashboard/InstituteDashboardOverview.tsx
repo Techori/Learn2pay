@@ -112,22 +112,22 @@ const InstituteDashboardOverview = ({
   const financialMetrics = [
     {
       title: "Total fee collection",
-      amount: "₹10,50,00,000",
+      amount: "10,50,00,000",
       description: "for 1050 students",
     },
     {
       title: "Paid amount",
-      amount: "₹4,50,00,000",
+      amount: "4,50,00,000",
       description: "for 450 students",
     },
     {
       title: "Unpaid amount",
-      amount: "₹6,00,00,000",
+      amount: "6,00,00,000",
       description: "for 600 students",
     },
     {
       title: "One-time full payment done",
-      amount: "₹75,23,562",
+      amount: "75,23,562",
       description: "for 80 students",
     },
   ];

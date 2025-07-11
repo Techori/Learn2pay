@@ -10,7 +10,7 @@ const Teams = () => {
     },
     {
      name: 'Brijesh Singh',
-      position: 'Project manageer and full stack developer',
+      position: 'Project manager and full stack developer',
       Email : 'sbrijesh738@gmail.com',
     },
     {
