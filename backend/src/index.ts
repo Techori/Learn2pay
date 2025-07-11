@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser()); // Add this line for cookie support
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://learn2pay-client-frontend.vercel.app/",
+    origin: process.env.FRONTEND_URL || "http://localhost:8080",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true, // Important: allows cookies to be sent
   })
