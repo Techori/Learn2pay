@@ -15,7 +15,7 @@ import {
   Settings,
 } from "lucide-react";
 import InstituteDashboardOverview from "@/components/institute-dashboard/dashboard/InstituteDashboardOverview";
-import MultiInstituteManagement from "@/components/institute-dashboard/multi-institute/MultiInstituteManagement";
+
 import FeeManagement from "@/components/institute-dashboard/finance/FeeManagement";
 import PaymentManagement from "@/components/institute-dashboard/finance/PaymentManagement";
 import PaymentLinksManagement from "@/components/institute-dashboard/finance/PaymentLinksManagement";
@@ -30,7 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 const Institute = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
-  const [studentSubTab, setStudentSubTab] = useState("all-students");
+  const [studentSubTab, setStudentSubTab] = useState("add-student");
 
   const handleQuickActionRedirect = (tabName: string) => {
     setActiveTab(tabName);
@@ -66,11 +66,11 @@ const Institute = () => {
               <span>Overview</span>
             </TabsTrigger>
             <TabsTrigger
-              value="multi-institute"
+              value="students"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
             >
-              <Building2 className="h-4 w-4" />
-              <span>Multi-Institute</span>
+              <GraduationCap className="h-4 w-4" />
+              <span>Students</span>
             </TabsTrigger>
             <TabsTrigger
               value="fee-management"
@@ -114,13 +114,7 @@ const Institute = () => {
               <Users className="h-4 w-4" />
               <span>Manage Users</span>
             </TabsTrigger>
-            <TabsTrigger
-              value="students"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
-            >
-              <GraduationCap className="h-4 w-4" />
-              <span>Students</span>
-            </TabsTrigger>
+
             <TabsTrigger
               value="settings"
               className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
@@ -136,8 +130,11 @@ const Institute = () => {
               onStudentAction={handleStudentAction}
             />
           </TabsContent>
-          <TabsContent value="multi-institute">
-            <MultiInstituteManagement />
+          <TabsContent value="students">
+            <StudentManagement
+              initialSubTab={studentSubTab}
+              onSubTabChange={setStudentSubTab}
+            />
           </TabsContent>
           <TabsContent value="fee-management">
             <FeeManagement />
@@ -157,12 +154,7 @@ const Institute = () => {
           <TabsContent value="manage-users">
             <UserManagement />
           </TabsContent>
-          <TabsContent value="students">
-            <StudentManagement
-              initialSubTab={studentSubTab}
-              onSubTabChange={setStudentSubTab}
-            />
-          </TabsContent>
+
           <TabsContent value="settings">
             <InstituteSettings />
           </TabsContent>
