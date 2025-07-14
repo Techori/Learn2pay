@@ -7,6 +7,7 @@ import parentRoutes from "./routes/parentRoutes";
 import chatbotRoute from "./routes/chatbotRoute";
 import dotenv from "dotenv";
 dotenv.config();
+console.log('Loaded GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET');
 const app = express();
 const PORT = process.env.PORT || 3000;
 // Connect to database
