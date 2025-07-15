@@ -206,7 +206,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
     <form onSubmit={handleSubmit} className="w-full m-0 p-0">
       <Card className="w-full border-0 rounded-none bg-gray-800/50">
         <CardHeader className="px-4 md:px-6">
-          <CardTitle className="text-white flex items-center space-x-2">
+          <CardTitle className="text-gray-800 dark:text-gray-300 flex items-center space-x-2">
             <User className="h-5 w-5 text-orange-500" />
             <span>Student Registration Form</span>
           </CardTitle>
@@ -214,13 +214,13 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
         <CardContent className="space-y-6 px-4 md:px-6">
           {/* Student Information */}
           <div className="space-y-4 w-full">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-300 flex items-center gap-2">
               <User className="h-4 w-4 text-orange-500" />
               Student Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Full Name *
                 </label>
                 <Input
@@ -228,12 +228,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => updateFormData("name", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className= "border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter student's full name"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Date of Birth *
                 </label>
                 <Input
@@ -241,32 +241,35 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="date"
                   value={formData.dateOfBirth}
                   onChange={(e) => handleDateOfBirthChange(e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+                  placeholder="Select date of birth"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Age
                 </label>
                 <Input
                   type="number"
                   value={formData.age}
                   readOnly
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+                  placeholder="Age will be calculated automatically"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Grade *
                 </label>
                 <Select
+                  
                   value={formData.grade}
                   onValueChange={(value) => updateFormData("grade", value)}
                 >
-                  <SelectTrigger className="bg-gray-900 border-gray-700 text-white">
+                  <SelectTrigger className="bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
                     <SelectValue placeholder="Select grade" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                     {[...Array(12)].map((_, i) => (
                       <SelectItem key={i + 1} value={`${i + 1}`}>
                         Grade {i + 1}
@@ -276,17 +279,17 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Section *
                 </label>
                 <Select
                   value={formData.section}
                   onValueChange={(value) => updateFormData("section", value)}
                 >
-                  <SelectTrigger className="bg-gray-900 border-gray-700 text-white">
+                  <SelectTrigger className="bg-white text-gray-900 border border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
                     <SelectValue placeholder="Select section" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                     {["A", "B", "C", "D"].map((section) => (
                       <SelectItem key={section} value={section}>
                         Section {section}
@@ -296,7 +299,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Roll Number *
                 </label>
                 <Input
@@ -304,12 +307,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.rollNumber}
                   onChange={(e) => updateFormData("rollNumber", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter roll number"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Password *
                 </label>
                 <Input
@@ -317,7 +320,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="password"
                   value={formData.password}
                   onChange={(e) => updateFormData("password", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter password"
                 />
               </div>
@@ -332,7 +335,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Parent Name *
                 </label>
                 <Input
@@ -340,12 +343,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.parentName}
                   onChange={(e) => updateFormData("parentName", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter parent's name"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Parent Email *
                 </label>
                 <Input
@@ -353,12 +356,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="email"
                   value={formData.parentEmail}
                   onChange={(e) => updateFormData("parentEmail", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter parent's email"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Parent Phone *
                 </label>
                 <Input
@@ -366,7 +369,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="tel"
                   value={formData.parentPhone}
                   onChange={(e) => updateFormData("parentPhone", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter parent's phone number"
                 />
               </div>
@@ -381,7 +384,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="md:col-span-2 lg:col-span-3">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Complete Address *
                 </label>
                 <Input
@@ -389,12 +392,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.address.completeAddress}
                   onChange={(e) => updateFormData("address.completeAddress", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter complete address"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   City *
                 </label>
                 <Input
@@ -402,12 +405,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.address.city}
                   onChange={(e) => updateFormData("address.city", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter city"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   State *
                 </label>
                 <Input
@@ -415,12 +418,12 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.address.state}
                   onChange={(e) => updateFormData("address.state", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter state"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   PIN Code *
                 </label>
                 <Input
@@ -428,7 +431,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.address.pinCode}
                   onChange={(e) => updateFormData("address.pinCode", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter PIN code"
                 />
               </div>
@@ -443,7 +446,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-400">
                   Institute Name *
                 </label>
                 <Input
@@ -451,7 +454,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.instituteName}
                   onChange={(e) => updateFormData("instituteName", e.target.value)}
-                  className="bg-gray-900 border-gray-700 text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter institute name"
                 />
               </div>
