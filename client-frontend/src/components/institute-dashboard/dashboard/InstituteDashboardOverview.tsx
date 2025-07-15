@@ -156,7 +156,7 @@ const InstituteDashboardOverview = ({
   return (
     <div className="space-y-6">
       {/* Quick Actions */}
-      <h2 className="text-xl font-semibold text-white">Quick Actions</h2>
+      <h2 className="text-xl font-semibold  text-gray-800 dark:text-white">Quick Actions</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {quickActions.map((action, index) => (
           <Card
@@ -170,10 +170,10 @@ const InstituteDashboardOverview = ({
             >
               <CardContent className="p-5 flex flex-col items-center text-center">
                 <action.icon className="h-8 w-8 text-orange-500 mb-3 group-hover:scale-110 transition-transform" />
-                <h3 className="text-lg font-semibold text-white mb-1">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-1">
                   {action.title}
                 </h3>
-                <p className="text-sm text-gray-400">{action.description}</p>
+                <p className="text-sm text-gray-500">{action.description}</p>
               </CardContent>
             </Button>
           </Card>
@@ -188,12 +188,12 @@ const InstituteDashboardOverview = ({
             className="bg-gray-800/50 border-gray-700 shadow-md"
           >
             <CardContent className="p-5">
-              <h3 className="text-sm text-gray-300 mb-1">{metric.title}</h3>
-              <p className="text-2xl font-bold text-white mb-2 flex items-center">
-                <IndianRupee className="h-6 w-6 mr-1" />
+              <h3 className="text-sm text-gray-500 mb-1">{metric.title}</h3>
+              <p className="text-2xl font-bold text-gray-800 dark:text-white mb-2 flex items-center">
+                <IndianRupee className="h-6 w-6 mr-1 text-gray-800 dark:text-white" />
                 {metric.amount}
               </p>
-              <p className="text-sm text-gray-400">{metric.description}</p>
+              <p className="text-sm text-gray-500">{metric.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -204,7 +204,7 @@ const InstituteDashboardOverview = ({
         {/* Amount covered across products (Donut Chart) */}
         <Card className="bg-gray-800/50 border-gray-700 shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">
+            <CardTitle className="text-lg text-gray-800 dark:text-white">
               Amount covered across products
             </CardTitle>
           </CardHeader>
@@ -226,6 +226,7 @@ const InstituteDashboardOverview = ({
                   ))}
                 </Pie>
                 <Tooltip
+                
                   formatter={(value, name, props) => [
                     `₹${value.toLocaleString("en-IN")}`,
                     props.payload.name,
@@ -234,8 +235,8 @@ const InstituteDashboardOverview = ({
               </PieChart>
             </ResponsiveContainer>
             <div className="text-center mt-4">
-              <p className="text-3xl font-bold text-white mb-1 flex items-center justify-center">
-                <IndianRupee className="h-6 w-6 mr-1" />
+              <p className="text-3xl font-bold text-gray-800 dark:text-white mb-1 flex items-center justify-center">
+                <IndianRupee className="h-6 w-6 mr-1 text-gray-800 dark:text-white" />
                 8,50,00,000
               </p>
               <p className="text-sm text-gray-400">Total amount</p>
@@ -247,7 +248,7 @@ const InstituteDashboardOverview = ({
                     className="h-3 w-3 rounded-full"
                     style={{ backgroundColor: item.color }}
                   ></span>
-                  <span className="text-sm text-gray-300">{item.name}</span>
+                  <span className="text-sm text-gray-300 ">{item.name}</span>
                   <span className="text-sm text-gray-400">
                     {item.students} students
                   </span>
@@ -265,7 +266,7 @@ const InstituteDashboardOverview = ({
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader>
               <div className="flex justify-between items-center">
-                <CardTitle className="text-lg text-white">
+                <CardTitle className="text-lg text-black dark:text-white">
                   Payment & Booking
                 </CardTitle>
                 <div className="flex space-x-2">
@@ -296,7 +297,7 @@ const InstituteDashboardOverview = ({
           {/* Student Coverage */}
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardContent className="p-5">
-              <h3 className="text-lg font-semibold text-white mb-2 flex items-center">
+              <h3 className="text-lg font-semibold text-black dark:text-white mb-2 flex items-center">
                 <Users className="h-5 w-5 mr-2 text-blue-400" />
                 Student coverage
               </h3>
@@ -306,7 +307,7 @@ const InstituteDashboardOverview = ({
               />
               <p className="text-2xl font-bold text-white mb-1">80.00%</p>
               <p className="text-sm text-gray-400">
-                850/1050 students covered by Jodo
+                850/1050 students covered by Larn2pay
               </p>
             </CardContent>
           </Card>
@@ -314,7 +315,7 @@ const InstituteDashboardOverview = ({
           {/* On-time Payment */}
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardContent className="p-5">
-              <h3 className="text-lg font-semibold text-white mb-2 flex items-center">
+              <h3 className="text-lg font-semibold text-black dark:text-white mb-2 flex items-center">
                 <CheckCircle className="h-5 w-5 mr-2 text-green-400" />
                 On-time payment
               </h3>

@@ -13,6 +13,7 @@ import {
   Users,
   GraduationCap,
   Settings,
+  IndianRupee,
 } from "lucide-react";
 import InstituteDashboardOverview from "@/components/institute-dashboard/dashboard/InstituteDashboardOverview";
 
@@ -55,61 +56,69 @@ const Institute = () => {
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
-          className="space-y-6"
+          className="space-y-6 "
         >
-          <TabsList className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-md overflow-x-auto overflow-y-hidden whitespace-nowrap">
+          <TabsList className="flex bg-gray-300  dark:bg-gray-800 p-1 rounded-md overflow-x-auto overflow-y-hidden whitespace-nowrap">
             <TabsTrigger
               value="overview"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <LayoutDashboard className="h-4 w-4" />
               <span>Overview</span>
             </TabsTrigger>
             <TabsTrigger
               value="students"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300
+"
             >
               <GraduationCap className="h-4 w-4" />
               <span>Students</span>
             </TabsTrigger>
             <TabsTrigger
               value="fee-management"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300
+"
             >
               <Wallet className="h-4 w-4" />
               <span>Fee Management</span>
             </TabsTrigger>
             <TabsTrigger
               value="payments"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
-              <DollarSign className="h-4 w-4" />
+              <IndianRupee className="h-4 w-4" />
               <span>Payments</span>
             </TabsTrigger>
             <TabsTrigger
               value="payment-links"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <Link className="h-4 w-4" />
               <span>Payment Links</span>
             </TabsTrigger>
             <TabsTrigger
               value="qr-transaction"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <QrCode className="h-4 w-4" />
               <span>QR Transaction</span>
             </TabsTrigger>
             <TabsTrigger
               value="reports"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <FileText className="h-4 w-4" />
               <span>Reports</span>
             </TabsTrigger>
             <TabsTrigger
               value="manage-users"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <Users className="h-4 w-4" />
               <span>Manage Users</span>
@@ -117,7 +126,8 @@ const Institute = () => {
 
             <TabsTrigger
               value="settings"
-              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"
+              className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md text-gray-800 dark:text-gray-300 
+"
             >
               <Settings className="h-4 w-4" />
               <span>Settings</span>

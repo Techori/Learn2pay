@@ -527,22 +527,22 @@ const StudentManagement = ({
         onValueChange={handleSubTabChange}
         className="w-full space-y-6"
       >
-        <TabsList className="w-full grid grid-cols-3 bg-gray-800 p-1 rounded-md">
+        <TabsList className="w-full grid grid-cols-3 bg-gray-300 dark:bg-gray-800 p-1 rounded-md">
           <TabsTrigger
             value="add-student"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-800 dark:text-gray-300 "
           >
             Add Student
           </TabsTrigger>
           <TabsTrigger
             value="kyc"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-800 dark:text-gray-300 "
           >
             Complete KYC
           </TabsTrigger>
           <TabsTrigger
             value="all-students"
-            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
+            className="data-[state=active]:bg-orange-500 data-[state=active]:text-white text-gray-800 dark:text-gray-300 "
           >
             All Students
           </TabsTrigger>
@@ -581,31 +581,31 @@ const StudentManagement = ({
                     id="student-search-input"
                     type="text"
                     placeholder="Search by name, admission number, or class..."
-                    className="bg-gray-900 border-gray-700 text-white placeholder-gray-500 focus:border-orange-500 pl-10 w-full"
+                    className="bg-gray-900 border-gray-700 text-gray-800 dark:text-gray-300  placeholder-gray-500 focus:border-orange-500 pl-10 w-full"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center gap-4 flex-shrink-0">
-                  <div className="bg-gray-900 px-4 py-2 rounded-md border border-gray-700">
-                    <span className="text-gray-400 text-sm mr-2">Total Students:</span>
+                  <div className="bg-white dark:bg-gray-900 px-4 py-2 rounded-md border border-gray-700">
+                    <span className=" text-gray-900  dark:text-white text-sm mr-2">Total Students:</span>
                     <span className="text-orange-500 font-semibold">{filteredStudents.length}</span>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                     <Select value={classFilter} onValueChange={setClassFilter}>
-                      <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
+                      <SelectTrigger className="w-full sm:w-[180px] bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
                         <SelectValue placeholder="All Classes" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                         <ScrollArea className="h-[180px]">
-                          <SelectItem value="all" className="bg-gray-800 text-white hover:bg-gray-700">
+                          <SelectItem value="all" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                             All Classes
-                          </SelectItem>
+                          </SelectItem >
                           {[...Array(12)].map((_, i) => (
                             <SelectItem
                               key={i + 1}
                               value={`${i + 1}`}
-                              className="bg-gray-800 text-white hover:bg-gray-700"
+                              className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                             >
                               Grade {i + 1}
                             </SelectItem>
@@ -614,10 +614,10 @@ const StudentManagement = ({
                       </SelectContent>
                     </Select>
                     <Select value={statusFilter} onValueChange={setStatusFilter}>
-                      <SelectTrigger className="w-full sm:w-[180px] bg-gray-900 border-gray-700 text-white">
+                      <SelectTrigger className="w-full sm:w-[180px] bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
                         <SelectValue placeholder="All Status" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                         <SelectItem value="all">All Status</SelectItem>
                         <SelectItem value="Active">Active</SelectItem>
                         <SelectItem value="Inactive">Inactive</SelectItem>
@@ -628,27 +628,27 @@ const StudentManagement = ({
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
+                  <thead className="bg-white dark:bg-gray-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Student Details
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Class & Roll No
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Parent Info
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Contact
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Fee Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                         Actions
                       </th>
                     </tr>
@@ -662,29 +662,29 @@ const StudentManagement = ({
                       </tr>
                     ) : (
                       filteredStudents.map((student) => (
-                        <tr key={student.id} className="hover:bg-gray-800/70">
+                        <tr key={student.id} >
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-white">
+                            <div className="text-sm font-medium text-gray-800 dark:text-gray-300 ">
                               {student.studentName}
                             </div>
                             <div className="text-xs text-gray-400">
                               {student.studentId}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 ">
                             {student.class}
                             <br />
                             Roll: {student.roll}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-white">
+                            <div className="text-sm text-gray-800 dark:text-gray-300 ">
                               {student.parentName}
                             </div>
                             <div className="text-xs text-gray-400">
                               {student.parentEmail}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 ">
                             {student.parentContact}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -742,7 +742,7 @@ const StudentManagement = ({
           <Card className="w-full border-0 rounded-none bg-gray-800/50">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 px-4 md:px-6">
               <div>
-                <CardTitle className="text-lg text-white">
+                <CardTitle className="text-lg text-gray-800 dark:text-gray-300">
                   Student Registration Form
                 </CardTitle>
                 <p className="text-gray-400 text-sm">
@@ -773,7 +773,7 @@ const StudentManagement = ({
           <Card className="w-full border-0 rounded-none bg-gray-800/50">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4 px-4 md:px-6">
               <div>
-                <CardTitle className="text-lg text-white">
+                <CardTitle className="text-lg text-gray-800 dark:text-gray-300">
                   KYC Management
                 </CardTitle>
                 <p className="text-gray-400 text-sm">
@@ -793,18 +793,18 @@ const StudentManagement = ({
             <CardContent className="p-0">
               <div className="overflow-x-auto">
                 <table className="w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
+                  <thead className="bg-gray-300 dark:bg-gray-900">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider">
                         Student Details
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider">
                         Aadhar No.
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider">
                         Verification Status
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-800 dark:text-gray-300 uppercase tracking-wider">
                         Submitted Date
                       </th>
                     </tr>
@@ -818,16 +818,16 @@ const StudentManagement = ({
                       </tr>
                     ) : (
                       kycData.map((kyc) => (
-                        <tr key={kyc.id} className="hover:bg-gray-800/70">
+                        <tr key={kyc.id} >
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-white">
+                            <div className="text-sm font-mediumtext-gray-800 dark:text-gray-300 ">
                               {kyc.studentName}
                             </div>
                             <div className="text-xs text-gray-400">
                               {kyc.studentId}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-smtext-gray-800 dark:text-gray-300 ">
                             {kyc.aadharNo}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -843,7 +843,7 @@ const StudentManagement = ({
                               {kyc.verificationStatus}
                             </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-smtext-gray-800 dark:text-gray-300 ">
                             {kyc.submittedDate}
                           </td>
                         </tr>
@@ -862,7 +862,7 @@ const StudentManagement = ({
         open={showViewStudentDialog}
         onOpenChange={setShowViewStudentDialog}
       >
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
+        <DialogContent className="bg-white text-gray-800  dark:bg-gray-900 dark:text-white dark:border-gray-700">
           <DialogHeader>
             <DialogTitle>Student Details</DialogTitle>
           </DialogHeader>
@@ -871,31 +871,31 @@ const StudentManagement = ({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-400">Student Name</p>
-                  <p className="text-white">{selectedStudent.studentName}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.studentName}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Student ID</p>
-                  <p className="text-white">{selectedStudent.studentId}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.studentId}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Class</p>
-                  <p className="text-white">{selectedStudent.class}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.class}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Roll No.</p>
-                  <p className="text-white">{selectedStudent.roll}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.roll}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Parent Name</p>
-                  <p className="text-white">{selectedStudent.parentName}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentName}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Parent Contact</p>
-                  <p className="text-white">{selectedStudent.parentContact}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentContact}</p>
                 </div>
                 <div className="col-span-2">
                   <p className="text-sm text-gray-400">Parent Email</p>
-                  <p className="text-white">{selectedStudent.parentEmail}</p>
+                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentEmail}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Status</p>
@@ -940,14 +940,14 @@ const StudentManagement = ({
         open={showEditStudentDialog}
         onOpenChange={setShowEditStudentDialog}
       >
-        <DialogContent className="bg-gray-900 text-white border-gray-700 max-h-[80vh] overflow-y-auto">
+        <DialogContent className= "bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 dark:border-gray-700 border-gray-700 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Student</DialogTitle>
           </DialogHeader>
           {selectedStudent && (
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+            <div className="space-y-4 py-4 ">
+              <div className="space-y-2 ">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Student Name
                 </label>
                 <Input
@@ -959,11 +959,11 @@ const StudentManagement = ({
                       studentName: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Class
                 </label>
                 <Input
@@ -975,11 +975,11 @@ const StudentManagement = ({
                       class: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Roll No.
                 </label>
                 <Input
@@ -991,11 +991,11 @@ const StudentManagement = ({
                       roll: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300 ">
                   Parent Name
                 </label>
                 <Input
@@ -1007,11 +1007,11 @@ const StudentManagement = ({
                       parentName: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Parent Contact
                 </label>
                 <Input
@@ -1023,11 +1023,11 @@ const StudentManagement = ({
                       parentContact: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Parent Email
                 </label>
                 <Input
@@ -1039,12 +1039,12 @@ const StudentManagement = ({
                       parentEmail: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
                   type="email"
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300">
                   Status
                 </label>
                 <Select
@@ -1053,19 +1053,19 @@ const StudentManagement = ({
                     setSelectedStudent({ ...selectedStudent, status: value })
                   }
                 >
-                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectTrigger className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectContent className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700">
                     <SelectItem
                       value="Active"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
+                      className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700"
                     >
                       Active
                     </SelectItem>
                     <SelectItem
                       value="Inactive"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
+                      className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700"
                     >
                       Inactive
                     </SelectItem>
@@ -1073,7 +1073,7 @@ const StudentManagement = ({
                 </Select>
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">
+                <label className="text-sm font-medium text-gray-800 dark:text-gray-300 ">
                   Fee Status
                 </label>
                 <Select
@@ -1082,25 +1082,25 @@ const StudentManagement = ({
                     setSelectedStudent({ ...selectedStudent, feeStatus: value })
                   }
                 >
-                  <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                  <SelectTrigger className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700">
                     <SelectValue placeholder="Select fee status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
+                  <SelectContent className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700">
                     <SelectItem
                       value="Paid"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
+                      className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700"
                     >
                       Paid
                     </SelectItem>
                     <SelectItem
                       value="Pending"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
+                      className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700"
                     >
                       Pending
                     </SelectItem>
                     <SelectItem
                       value="Overdue"
-                      className="bg-gray-800 text-white hover:bg-gray-700"
+                      className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700"
                     >
                       Overdue
                     </SelectItem>
@@ -1316,92 +1316,100 @@ const StudentManagement = ({
       </Dialog>
 
       {/* Bulk Upload Dialog */}
-      <Dialog open={showBulkUploadDialog} onOpenChange={setShowBulkUploadDialog}>
-        <DialogContent className="bg-gray-900 text-white border-gray-700">
-          <DialogHeader>
-            <DialogTitle>Bulk Upload Students</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-2">
-              <p className="text-sm text-gray-400">
-                Download the template, fill in the student details, and upload the file.
-              </p>
-              <Button
-                variant="outline"
-                className="border-gray-700 text-gray-300 hover:bg-gray-800/50 w-full sm:w-auto"
-                onClick={downloadTemplate}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Download Template
-              </Button>
-            </div>
+<Dialog open={showBulkUploadDialog} onOpenChange={setShowBulkUploadDialog}>
+  <DialogContent className="bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700">
+    <DialogHeader>
+      <DialogTitle>Bulk Upload Students</DialogTitle>
+    </DialogHeader>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-gray-300">
-                Upload Excel File
-              </label>
-              <Input
-                ref={fileInputRef}
-                type="file"
-                accept=".xlsx,.xls"
-                onChange={handleFileUpload}
-                disabled={isUploading}
-                className="bg-gray-900 border-gray-700 text-white"
-              />
-            </div>
+    <div className="space-y-4">
+      {/* Info Text + Download Button */}
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          Download the template, fill in the student details, and upload the file.
+        </p>
+        <Button
+          variant="outline"
+          className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 w-full sm:w-auto"
+          onClick={downloadTemplate}
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Download Template
+        </Button>
+      </div>
 
-            {isUploading && (
-              <div className="space-y-2">
-                <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-orange-500 transition-all duration-300"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
-                </div>
-                <p className="text-sm text-gray-400 text-center">
-                  Uploading... {Math.round(uploadProgress)}%
-                </p>
-              </div>
-            )}
+      {/* File Upload */}
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-medium text-gray-900 dark:text-gray-300">
+          Upload Excel File
+        </label>
+        <Input
+          ref={fileInputRef}
+          type="file"
+          accept=".xlsx,.xls"
+          onChange={handleFileUpload}
+          disabled={isUploading}
+          className="bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700"
+        />
+      </div>
 
-            {bulkUploadErrors.length > 0 && (
-              <div className="space-y-2 max-h-60 overflow-y-auto">
-                <p className="text-sm font-medium text-red-400 flex items-center gap-1">
-                  <AlertCircle className="h-4 w-4" />
-                  Found errors in the following rows:
-                </p>
-                {bulkUploadErrors.map((error, index) => (
-                  <div key={index} className="bg-red-500/10 p-3 rounded-md">
-                    <p className="text-sm font-medium text-red-400">
-                      Row {error.row}:
-                    </p>
-                    <ul className="list-disc list-inside text-sm text-red-300">
-                      {error.errors.map((err, i) => (
-                        <li key={i}>{err}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            )}
+      {/* Upload Progress */}
+      {isUploading && (
+        <div className="space-y-2">
+          <div className="h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-orange-500 transition-all duration-300"
+              style={{ width: `${uploadProgress}%` }}
+            />
           </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              className="border-gray-700 text-gray-300 hover:bg-gray-800/50"
-              onClick={() => {
-                setShowBulkUploadDialog(false);
-                setBulkUploadErrors([]);
-                if (fileInputRef.current) {
-                  fileInputRef.current.value = '';
-                }
-              }}
-            >
-              Cancel
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+            Uploading... {Math.round(uploadProgress)}%
+          </p>
+        </div>
+      )}
+
+      {/* Upload Errors */}
+      {bulkUploadErrors.length > 0 && (
+        <div className="space-y-2 max-h-60 overflow-y-auto">
+          <p className="text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
+            <AlertCircle className="h-4 w-4" />
+            Found errors in the following rows:
+          </p>
+          {bulkUploadErrors.map((error, index) => (
+            <div key={index} className="bg-red-100 dark:bg-red-500/10 p-3 rounded-md">
+              <p className="text-sm font-medium text-red-600 dark:text-red-400">
+                Row {error.row}:
+              </p>
+              <ul className="list-disc list-inside text-sm text-red-500 dark:text-red-300">
+                {error.errors.map((err, i) => (
+                  <li key={i}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* Footer Buttons */}
+    <DialogFooter>
+      <Button
+        variant="outline"
+        className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
+        onClick={() => {
+          setShowBulkUploadDialog(false);
+          setBulkUploadErrors([]);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
+        }}
+      >
+        Cancel
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };
