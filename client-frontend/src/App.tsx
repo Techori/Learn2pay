@@ -23,6 +23,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { Toaster } from "./components/ui/Toaster";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ChatbotButton from "./components/chatbot/ChatbotButton";
 function App() {
   return (
     <AuthProvider>
@@ -58,6 +59,7 @@ function App() {
           />
         </Routes>
         <Toaster />
+        <ChatbotButton />
       </BrowserRouter>
     </AuthProvider>
   );
