@@ -78,14 +78,14 @@ const PaymentManagement = () => {
     {
       icon: IndianRupee,
       title: "Today's Collection",
-      amount: "₹12,45,000",
+      amount: "12,45,000",
       description: "+15% from yesterday",
       color: "text-green-400",
     },
     {
       icon: TrendingUp,
       title: "This Month",
-      amount: "₹45,60,000",
+      amount: "45,60,000",
       description: "Target: ₹50,00,000",
       color: "text-blue-400",
     },
@@ -181,7 +181,7 @@ const PaymentManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white flex items-center">
+                <p className="text-2xl font-bold  flex items-center">
                   <span className="text-xl"></span>
                   {item.amount}
                 </p>
@@ -196,7 +196,7 @@ const PaymentManagement = () => {
       <Card className="bg-gray-800/50 border-gray-700 shadow-md">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
           <div>
-            <CardTitle className="text-lg text-white">
+            <CardTitle className="text-lg ">
               Payment Management
             </CardTitle>
             <p className="text-gray-400 text-sm">
@@ -206,7 +206,7 @@ const PaymentManagement = () => {
           <div className="flex space-x-2">
             <Button
               variant="outline"
-              className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+              className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2 mt-2"
             >
               <Upload className="h-4 w-4" />
               <span>Export</span>
@@ -251,47 +251,47 @@ const PaymentManagement = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-900">
+              <thead className="bg-gray-400 dark:bg-gray-900">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Student Details
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Amount
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Payment Date
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Payment Method
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Transaction ID
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -333,19 +333,19 @@ const PaymentManagement = () => {
                     return true;
                   })
                   .map((transaction, index) => (
-                    <tr key={index} className="hover:bg-gray-800/70">
+                    <tr key={index} >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-white">
+                        <div className="text-sm font-medium ">
                           {transaction.studentName}
                         </div>
                         <div className="text-xs text-gray-400">
                           {transaction.studentId}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {transaction.amount}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {transaction.paymentDate}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -356,7 +356,7 @@ const PaymentManagement = () => {
                           {transaction.paymentMethod}
                         </Badge>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {transaction.transactionId}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -404,9 +404,9 @@ const PaymentManagement = () => {
           open={isViewPaymentDialogOpen}
           onOpenChange={setIsViewPaymentDialogOpen}
         >
-          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+          <DialogContent className="max-w-xl bg-white text-gray-900 dark:bg-gray-800 dark:text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">
+              <DialogTitle className="text-2xl font-bold ">
                 Payment Details
               </DialogTitle>
               <DialogDescription className="text-gray-400">
@@ -417,37 +417,37 @@ const PaymentManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
               <div>
                 <p className="text-sm text-gray-400">Student Name:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.studentName}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Student ID:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.studentId}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Amount:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.amount}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Payment Date:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.paymentDate}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Payment Method:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.paymentMethod}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Transaction ID:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedPayment.transactionId}
                 </p>
               </div>
@@ -479,9 +479,9 @@ const PaymentManagement = () => {
           open={isEditPaymentDialogOpen}
           onOpenChange={setIsEditPaymentDialogOpen}
         >
-          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+          <DialogContent className="max-w-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">
+              <DialogTitle className="text-2xl font-bold">
                 Edit Payment
               </DialogTitle>
               <DialogDescription className="text-gray-400">
@@ -494,7 +494,7 @@ const PaymentManagement = () => {
                 id="editPaymentStudentName"
                 type="text"
                 placeholder="Student Name"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.studentName}
                 onChange={handleEditInputChange}
               />
@@ -502,7 +502,7 @@ const PaymentManagement = () => {
                 id="editPaymentStudentId"
                 type="text"
                 placeholder="Student ID"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.studentId}
                 onChange={handleEditInputChange}
               />
@@ -510,7 +510,7 @@ const PaymentManagement = () => {
                 id="editPaymentAmount"
                 type="text"
                 placeholder="Amount"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.amount}
                 onChange={handleEditInputChange}
               />
@@ -518,7 +518,7 @@ const PaymentManagement = () => {
                 id="editPaymentPaymentDate"
                 type="text"
                 placeholder="Payment Date"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.paymentDate}
                 onChange={handleEditInputChange}
               />
@@ -526,7 +526,7 @@ const PaymentManagement = () => {
                 id="editPaymentPaymentMethod"
                 type="text"
                 placeholder="Payment Method"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.paymentMethod}
                 onChange={handleEditInputChange}
               />
@@ -534,7 +534,7 @@ const PaymentManagement = () => {
                 id="editPaymentTransactionId"
                 type="text"
                 placeholder="Transaction ID"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.transactionId}
                 onChange={handleEditInputChange}
               />
@@ -542,7 +542,7 @@ const PaymentManagement = () => {
                 id="editPaymentStatus"
                 type="text"
                 placeholder="Status"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedPayment.status}
                 onChange={handleEditInputChange}
               />

@@ -285,14 +285,14 @@ const FeeManagement = () => {
     {
       icon: IndianRupee,
       title: "Total Collected",
-      amount: "₹45,60,00,000",
+      amount: "45,60,00,000",
       description: "This academic year",
       color: "text-green-400",
     },
     {
       icon: IndianRupee,
       title: "Pending Amount",
-      amount: "₹12,40,000",
+      amount: "12,40,000",
       description: "Due this month",
       color: "text-blue-400",
     },
@@ -332,7 +332,7 @@ const FeeManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white flex items-center">
+                <p className="text-2xl font-bold flex items-center">
                   <span className="text-xl"></span>
                   {item.amount}
                 </p>
@@ -349,7 +349,7 @@ const FeeManagement = () => {
         onValueChange={setActiveSubTab}
         className="space-y-6"
       >
-        <TabsList className="grid w-full grid-cols-4 bg-gray-800 p-1 rounded-md">
+        <TabsList className="grid w-full grid-cols-4  p-1 rounded-md">
           <TabsTrigger
             value="student-fees"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white"
@@ -381,7 +381,7 @@ const FeeManagement = () => {
           <Card className="bg-gray-800/50 border-gray-700 shadow-md">
             <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
               <div>
-                <CardTitle className="text-lg text-white">
+                <CardTitle className="text-lg ">
                   Student Fee Management
                 </CardTitle>
                 <p className="text-gray-400 text-sm">
@@ -498,59 +498,59 @@ const FeeManagement = () => {
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
+                  <thead className="">
                     <tr>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Student Details
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Class
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Fee Structure
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Payment Status
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Paid Amount
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Pending Amount
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Due Date
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Last Payment
                       </th>
                       <th
                         scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider"
                       >
                         Actions
                       </th>
@@ -583,19 +583,19 @@ const FeeManagement = () => {
                         return true;
                       })
                       .map((fee, index) => (
-                        <tr key={index} className="hover:bg-gray-800/70">
+                        <tr key={index} >
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium text-white">
+                            <div className="text-sm font-medium ">
                               {fee.studentName}
                             </div>
-                            <div className="text-xs text-gray-400">
+                            <div className="text-xs text-gray-500">
                               {fee.studentId}
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
                             {fee.class}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm">
                             {fee.feeStructure}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -611,16 +611,16 @@ const FeeManagement = () => {
                               {fee.paymentStatus}
                             </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
                             {fee.paidAmount}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
                             {fee.pendingAmount}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
                             {fee.dueDate}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
                             {fee.lastPayment}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -835,9 +835,9 @@ const FeeManagement = () => {
           open={isViewStudentFeeDialogOpen}
           onOpenChange={setIsViewStudentFeeDialogOpen}
         >
-          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+          <DialogContent className="max-w-xl bg:white text-gray-900 dark:bg-gray-800 dark:text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">
+              <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                 Student Fee Details
               </DialogTitle>
               <DialogDescription className="text-gray-400">
@@ -847,25 +847,25 @@ const FeeManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
               <div>
                 <p className="text-sm text-gray-400">Student Name:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.studentName}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Student ID:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.studentId}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Class:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.class}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Fee Structure:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.feeStructure}
                 </p>
               </div>
@@ -885,25 +885,25 @@ const FeeManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">Paid Amount:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.paidAmount}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Pending Amount:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.pendingAmount}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Due Date:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.dueDate}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Last Payment:</p>
-                <p className="text-white font-medium">
+                <p className="text-gray-900 dark:text-white font-medium">
                   {selectedStudentFee.lastPayment}
                 </p>
               </div>
@@ -923,9 +923,9 @@ const FeeManagement = () => {
           open={isEditStudentFeeDialogOpen}
           onOpenChange={setIsEditStudentFeeDialogOpen}
         >
-          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+          <DialogContent className="max-w-xl  bg-white dark:bg-gray-800 p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">
+              <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
                 Edit Student Fee
               </DialogTitle>
               <DialogDescription className="text-gray-400">
@@ -937,7 +937,7 @@ const FeeManagement = () => {
                 id="editStudentFeeStudentName"
                 type="text"
                 placeholder="Student Name"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.studentName}
                 onChange={handleStudentFeeInputChange}
               />
@@ -945,7 +945,7 @@ const FeeManagement = () => {
                 id="editStudentFeeStudentId"
                 type="text"
                 placeholder="Student ID"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.studentId}
                 onChange={handleStudentFeeInputChange}
               />
@@ -953,7 +953,7 @@ const FeeManagement = () => {
                 id="editStudentFeeClass"
                 type="text"
                 placeholder="Class"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.class}
                 onChange={handleStudentFeeInputChange}
               />
@@ -961,7 +961,7 @@ const FeeManagement = () => {
                 id="editStudentFeeFeeStructure"
                 type="text"
                 placeholder="Fee Structure"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.feeStructure}
                 onChange={handleStudentFeeInputChange}
               />
@@ -969,7 +969,7 @@ const FeeManagement = () => {
                 id="editStudentFeePaymentStatus"
                 type="text"
                 placeholder="Payment Status"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.paymentStatus}
                 onChange={handleStudentFeeInputChange}
               />
@@ -977,7 +977,7 @@ const FeeManagement = () => {
                 id="editStudentFeePaidAmount"
                 type="text"
                 placeholder="Paid Amount"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.paidAmount}
                 onChange={handleStudentFeeInputChange}
               />
@@ -985,7 +985,7 @@ const FeeManagement = () => {
                 id="editStudentFeePendingAmount"
                 type="text"
                 placeholder="Pending Amount"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.pendingAmount}
                 onChange={handleStudentFeeInputChange}
               />
@@ -993,7 +993,7 @@ const FeeManagement = () => {
                 id="editStudentFeeDueDate"
                 type="text"
                 placeholder="Due Date"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.dueDate}
                 onChange={handleStudentFeeInputChange}
               />
@@ -1001,7 +1001,7 @@ const FeeManagement = () => {
                 id="editStudentFeeLastPayment"
                 type="text"
                 placeholder="Last Payment"
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                className="bg-gray-700 border-gray-600 text-gray-900 dark:text-white placeholder-gray-400"
                 value={selectedStudentFee.lastPayment}
                 onChange={handleStudentFeeInputChange}
               />

@@ -219,12 +219,13 @@ const PaymentLinksManagement = () => {
       value: paymentLinks
         .filter((link) => link.status === "Active")
         .length.toString(),
+      
       color: "text-blue-400",
     },
     {
       icon: IndianRupee,
       title: "Total Collections",
-      value: `₹${paymentLinks
+      value: `${paymentLinks
         .reduce(
           (sum, link) =>
             sum + parseFloat(link.amount.replace("₹", "").replace("L", "")),
@@ -258,7 +259,7 @@ const PaymentLinksManagement = () => {
       {/* Payment Link Summary Cards */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold ">
             Payment Links Management
           </h2>
           <p className="text-gray-400">
@@ -382,7 +383,7 @@ const PaymentLinksManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white">{item.value}</p>
+                <p className="text-2xl font-bold ">{item.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -393,7 +394,7 @@ const PaymentLinksManagement = () => {
       <Card className="bg-gray-800/50 border-gray-700 shadow-md">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
           <div>
-            <CardTitle className="text-lg text-white">Payment Links</CardTitle>
+            <CardTitle className="text-lg">Payment Links</CardTitle>
             <p className="text-gray-400 text-sm">
               Manage all your payment links and track their performance
             </p>
@@ -421,41 +422,41 @@ const PaymentLinksManagement = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-900">
+              <thead className="bg-gray-400 dark:bg-gray-900">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Link Name
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Amount
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Expiry Date
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Status
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Performance
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-00 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -479,14 +480,14 @@ const PaymentLinksManagement = () => {
                     return true;
                   })
                   .map((link, index) => (
-                    <tr key={index} className="hover:bg-gray-800/70">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                    <tr key={index} >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium ">
                         {link.linkName}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {link.amount}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {link.expires}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -500,7 +501,7 @@ const PaymentLinksManagement = () => {
                           {link.status}
                         </Badge>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         <div>Clicks: {link.clicks}</div>
                         <div>Payments: {link.payments}</div>
                         <div>{link.conversion}</div>
