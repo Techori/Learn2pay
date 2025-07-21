@@ -493,7 +493,7 @@ const BillingSettings = () => {
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
       <CardHeader>
-        <CardTitle className="text-lg text-white">
+        <CardTitle className="text-lg ">
           Billing Information
         </CardTitle>
         <p className="text-gray-400 text-sm">
@@ -503,31 +503,31 @@ const BillingSettings = () => {
       <CardContent className="space-y-6">
         {/* Subscription Details */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">
+          <h3 className="text-lg font-semibold">
             Current Subscription
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <Label className="text-gray-300">Plan:</Label>
-              <p className="text-white">{subscriptionDetails.plan}</p>
+              <p className="">{subscriptionDetails.plan}</p>
             </div>
             <div>
               <Label className="text-gray-300">Status:</Label>
-              <p className="text-white">{subscriptionDetails.status}</p>
+              <p className="">{subscriptionDetails.status}</p>
             </div>
             <div>
               <Label className="text-gray-300">Renewal Date:</Label>
-              <p className="text-white">{subscriptionDetails.renewalDate}</p>
+              <p className="">{subscriptionDetails.renewalDate}</p>
             </div>
             <div>
               <Label className="text-gray-300">Price:</Label>
-              <p className="text-white">{subscriptionDetails.price}</p>
+              <p className="">{subscriptionDetails.price}</p>
             </div>
           </div>
           <div className="flex space-x-2">
             <Button
               onClick={handleChangePlan}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-orange-500 hover:bg-orange-600 "
             >
               Change Plan
             </Button>
@@ -543,24 +543,24 @@ const BillingSettings = () => {
 
         {/* Payment Method */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Payment Method</h3>
+          <h3 className="text-lg font-semibold ">Payment Method</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <div>
               <Label className="text-gray-300">Card Type:</Label>
-              <p className="text-white">{paymentMethod.cardType}</p>
+              <p className="">{paymentMethod.cardType}</p>
             </div>
             <div>
               <Label className="text-gray-300">Last 4 Digits:</Label>
-              <p className="text-white">**** {paymentMethod.last4}</p>
+              <p className="">**** {paymentMethod.last4}</p>
             </div>
             <div>
               <Label className="text-gray-300">Expires:</Label>
-              <p className="text-white">{paymentMethod.expiry}</p>
+              <p className="">{paymentMethod.expiry}</p>
             </div>
           </div>
           <Button
             onClick={handleUpdatePaymentMethod}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-blue-600 hover:bg-blue-700 "
           >
             Update Payment Method
           </Button>
@@ -568,38 +568,38 @@ const BillingSettings = () => {
 
         {/* Payment History */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Payment History</h3>
+          <h3 className="text-lg font-semibold ">Payment History</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-900">
+              <thead className="bg-gray-400 dark:bg-gray-900">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Invoice ID
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Date
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Description
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Amount
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Status
                   </th>
@@ -607,17 +607,17 @@ const BillingSettings = () => {
               </thead>
               <tbody className="divide-y divide-gray-800">
                 {paymentHistory.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-800/70">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                  <tr key={item.id} >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium ">
                       {item.id}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm ">
                       {item.date}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm ">
                       {item.description}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm ">
                       {item.amount}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -649,7 +649,7 @@ const InstituteSettings = () => {
     <div className="space-y-6">
       {/* Settings Header */}
       <div className="flex items-center mb-6">
-        <h2 className="text-2xl font-bold text-white flex items-center space-x-2">
+        <h2 className="text-2xl font-bold flex items-center space-x-2">
           <Settings className="h-6 w-6 text-gray-400" />
           <span>Institute Settings</span>
         </h2>
@@ -663,7 +663,7 @@ const InstituteSettings = () => {
         onValueChange={setActiveTab}
         className="space-y-6"
       >
-        <TabsList className="grid w-full grid-cols-5 bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
+        <TabsList className="grid w-full grid-cols-5 bg-gray-400 dark:bg-gray-800 p-1 rounded-md overflow-x-auto justify-start">
           <TabsTrigger
             value="general"
             className="data-[state=active]:bg-orange-500 data-[state=active]:text-white flex items-center space-x-2 py-2 px-4 rounded-md"

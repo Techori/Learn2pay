@@ -233,7 +233,7 @@ const QRTransactionManagement = () => {
       {/* QR Transaction Summary Cards */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">
+          <h2 className="text-2xl font-bold ">
             QR Transaction Management
           </h2>
           <p className="text-gray-400">
@@ -362,7 +362,7 @@ const QRTransactionManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white">{item.value}</p>
+                <p className="text-2xl font-bold ">{item.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -373,7 +373,7 @@ const QRTransactionManagement = () => {
       <Card className="bg-gray-800/50 border-gray-700 shadow-md">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
           <div>
-            <CardTitle className="text-lg text-white">
+            <CardTitle className="text-lg ">
               QR Code Transactions
             </CardTitle>
             <p className="text-gray-400 text-sm">
@@ -383,7 +383,7 @@ const QRTransactionManagement = () => {
           <div className="flex space-x-2">
             <Button
               variant="outline"
-              className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+              className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2 mt-2"
               onClick={handleExport}
             >
               <Upload className="h-4 w-4" />
@@ -424,41 +424,41 @@ const QRTransactionManagement = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-900">
+              <thead className="bg-gray-400 dark:bg-gray-900">
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Transaction ID
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Student / Fee Type
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Amount
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Method & Status
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Timestamp
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider"
                   >
                     Actions
                   </th>
@@ -494,9 +494,9 @@ const QRTransactionManagement = () => {
                     return true;
                   })
                   .map((transaction, index) => (
-                    <tr key={index} className="hover:bg-gray-800/70">
+                    <tr key={index} >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-white">
+                        <div className="text-sm font-medium ">
                           {transaction.transactionId}
                         </div>
                         <div className="text-xs text-gray-400">
@@ -504,18 +504,18 @@ const QRTransactionManagement = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-white">
+                        <div className="text-sm ">
                           {transaction.studentName}
                         </div>
                         <div className="text-xs text-gray-400">
                           {transaction.feeType}
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {transaction.amount}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-white">
+                        <div className="text-sm ">
                           {transaction.paymentMethod}
                         </div>
                         <Badge
@@ -530,7 +530,7 @@ const QRTransactionManagement = () => {
                           {transaction.status}
                         </Badge>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm ">
                         {transaction.timestamp}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -565,9 +565,9 @@ const QRTransactionManagement = () => {
           open={isViewTransactionDialogOpen}
           onOpenChange={setIsViewTransactionDialogOpen}
         >
-          <DialogContent className="max-w-xl bg-gray-800 text-white p-6 rounded-lg">
+          <DialogContent className="max-w-xl bg-white text-gray-900 dark:bg-gray-800 dark:text-white p-6 rounded-lg">
             <DialogHeader>
-              <DialogTitle className="text-2xl font-bold text-white">
+              <DialogTitle className="text-2xl font-bold ">
                 QR Transaction Details
               </DialogTitle>
               <DialogDescription className="text-gray-400">
@@ -578,37 +578,37 @@ const QRTransactionManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
               <div>
                 <p className="text-sm text-gray-400">Transaction ID:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.transactionId}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Full Transaction ID:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.fullTransactionId}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Student Name:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.studentName}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Fee Type:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.feeType}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Amount:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.amount}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-400">Payment Method:</p>
-                <p className="text-white font-medium">
+                <p className=" font-medium">
                   {selectedTransaction.paymentMethod}
                 </p>
               </div>
@@ -628,7 +628,7 @@ const QRTransactionManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">Timestamp:</p>
-                <p className="text-white font-medium">
+                <p className="font-medium">
                   {selectedTransaction.timestamp}
                 </p>
               </div>

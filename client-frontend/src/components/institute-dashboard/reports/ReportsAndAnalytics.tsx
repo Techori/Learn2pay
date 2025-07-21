@@ -133,7 +133,7 @@ const ReportsAndAnalytics = () => {
       <CardHeader>
         <div className="flex items-center space-x-3">
           <Icon className="h-6 w-6 text-orange-500" />
-          <CardTitle className="text-lg text-white">{title}</CardTitle>
+          <CardTitle className="text-lg">{title}</CardTitle>
         </div>
         <CardDescription className="text-gray-400">
           {description}
@@ -191,7 +191,7 @@ const ReportsAndAnalytics = () => {
       {/* Reports & Analytics Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">Reports & Analytics</h2>
+          <h2 className="text-2xl font-bold ">Reports & Analytics</h2>
           <p className="text-gray-400">
             Generate comprehensive reports for fee management and analytics
           </p>
@@ -223,7 +223,7 @@ const ReportsAndAnalytics = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white">{item.value}</p>
+                <p className="text-2xl font-bold ">{item.value}</p>
                 <p className="text-xs text-gray-500 mt-1">{item.description}</p>
               </div>
             </CardContent>
@@ -270,7 +270,7 @@ const ReportsAndAnalytics = () => {
       {/* Recent Reports Section */}
       <Card className="bg-gray-800/50 border-gray-700 shadow-md">
         <CardHeader>
-          <CardTitle className="text-lg text-white">Recent Reports</CardTitle>
+          <CardTitle className="text-lg ">Recent Reports</CardTitle>
           <CardDescription className="text-gray-400">
             Your recently generated reports and analytics
           </CardDescription>
@@ -285,7 +285,7 @@ const ReportsAndAnalytics = () => {
                 <div className="flex items-center space-x-3">
                   <FileText className="h-5 w-5 text-gray-400" />
                   <div>
-                    <div className="text-sm font-medium text-white">
+                    <div className="text-sm font-medium">
                       {report.title}
                     </div>
                     <div className="text-xs text-gray-400">

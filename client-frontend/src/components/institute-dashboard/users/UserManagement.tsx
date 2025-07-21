@@ -352,7 +352,7 @@ const UserManagement = () => {
       {/* User Management Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-white">User Management</h2>
+          <h2 className="text-2xl font-bold">User Management</h2>
           <p className="text-gray-400">
             Manage system users and their permissions
           </p>
@@ -395,7 +395,7 @@ const UserManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{item.title}</p>
-                <p className="text-2xl font-bold text-white">{item.value}</p>
+                <p className="text-2xl font-bold ">{item.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -406,7 +406,7 @@ const UserManagement = () => {
       <Card className="bg-gray-800/50 border-gray-700 shadow-md">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-4">
           <div>
-            <CardTitle className="text-lg text-white">System Users</CardTitle>
+            <CardTitle className="text-lg">System Users</CardTitle>
             <p className="text-gray-400 text-sm">
               Manage all users with access to the system
             </p>
@@ -432,10 +432,10 @@ const UserManagement = () => {
                 value={roleFilter}
                 onValueChange={(value: string) => setRoleFilter(value)}
               >
-                <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                <SelectTrigger className="w-[180px] bg-white text-gray-900  dark:bg-gray-900 dark:text-white border-gray-700">
                   <SelectValue placeholder="All Roles" />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
+                <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                   <SelectItem value="all">All Roles</SelectItem>
                   <SelectItem value="Principal">Principal</SelectItem>
                   <SelectItem value="Accountant">Accountant</SelectItem>
@@ -447,10 +447,10 @@ const UserManagement = () => {
                 value={statusFilter}
                 onValueChange={(value: string) => setStatusFilter(value)}
               >
-                <SelectTrigger className="w-[180px] bg-gray-900 border-gray-700 text-white">
+                <SelectTrigger className="w-[180px] bg-white text-gray-900  dark:bg-gray-900 dark:text-white border-gray-700">
                   <SelectValue placeholder="All Status" />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
+                <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                   <SelectItem value="all">All Status</SelectItem>
                   <SelectItem value="Active">Active</SelectItem>
                   <SelectItem value="Inactive">Inactive</SelectItem>
@@ -461,24 +461,24 @@ const UserManagement = () => {
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead>
+              <thead className="bg-gray-400 dark:bg-gray-900">
                 <tr className="border-b border-gray-700">
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Name
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Email
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Role
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Status
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Last Login
                   </th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-400">
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-200">
                     Actions
                   </th>
                 </tr>
@@ -487,15 +487,15 @@ const UserManagement = () => {
                 {filteredUsers.map((user) => (
                   <tr
                     key={user.id}
-                    className="border-b border-gray-700 hover:bg-gray-800/50"
+                    className="border-b border-gray-700"
                   >
-                    <td className="px-4 py-3 text-sm text-white">
+                    <td className="px-4 py-3 text-sm ">
                       {user.name}
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-300">
+                    <td className="px-4 py-3 text-sm ">
                       {user.email}
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-300">
+                    <td className="px-4 py-3 text-sm ">
                       {user.role}
                     </td>
                     <td className="px-4 py-3 text-sm">
@@ -508,7 +508,7 @@ const UserManagement = () => {
                         {user.status}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-sm text-gray-300">
+                    <td className="px-4 py-3 text-sm ">
                       {user.lastLogin}
                     </td>
                     <td className="px-4 py-3 text-sm">
@@ -517,7 +517,7 @@ const UserManagement = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleViewUser(user)}
-                          className="text-gray-400 hover:text-white"
+                          className="text-gray-400 "
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -525,7 +525,7 @@ const UserManagement = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleEditUser(user)}
-                          className="text-gray-400 hover:text-white"
+                          className="text-gray-400 "
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -533,7 +533,7 @@ const UserManagement = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleManagePermissions(user)}
-                          className="text-gray-400 hover:text-white"
+                          className="text-gray-400 "
                         >
                           <ShieldOff className="h-4 w-4" />
                         </Button>
@@ -541,7 +541,7 @@ const UserManagement = () => {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleToggleUserStatus(user)}
-                          className="text-gray-400 hover:text-white"
+                          className="text-gray-400 "
                         >
                           {user.status === "Active" ? (
                             <Ban className="h-4 w-4" />
@@ -620,16 +620,16 @@ const UserManagement = () => {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300">Role</label>
-              <Select
+              <Select 
                 value={newUser.role}
                 onValueChange={(value: string) =>
                   setNewUser({ ...newUser, role: value })
                 }
               >
-                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                <SelectTrigger className="bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white">
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-800 border-gray-700">
+                <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                   <SelectItem value="Principal">Principal</SelectItem>
                   <SelectItem value="Accountant">Accountant</SelectItem>
                   <SelectItem value="Teacher">Teacher</SelectItem>
@@ -813,7 +813,7 @@ const UserManagement = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setSelectedUser({ ...selectedUser, name: e.target.value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-gray-800 border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
@@ -827,7 +827,7 @@ const UserManagement = () => {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setSelectedUser({ ...selectedUser, email: e.target.value })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-gray-800 border-gray-700"
                 />
               </div>
               <div className="space-y-2">
@@ -844,7 +844,7 @@ const UserManagement = () => {
                       contact: e.target.value,
                     })
                   }
-                  className="bg-gray-800 border-gray-700 text-white"
+                  className="bg-gray-800 border-gray-700 "
                 />
               </div>
               <div className="space-y-2">
