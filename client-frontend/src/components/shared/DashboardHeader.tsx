@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon } from "lucide-react";
+import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon,Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import ThemeToggle from "../Themetoggle";
 interface DashboardHeaderProps {
   dashboardName?: string;
+  kycStatus?: string;
   onLogout?: () => void;
   className?: string;
 }
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   dashboardName,
+  kycStatus = "not started",
   onLogout,
   className = "",
 }) => {
@@ -21,6 +23,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const { institute, parent, userType, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -146,6 +149,26 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
           {/* Right Section - User Actions */}
           <div className="flex items-center space-x-3">
+            {/* KYC Status Button - Only show for institutes */}
+            {userType === "institute" && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/kyc')}
+                className={`flex items-center space-x-2 p-2 transition-colors duration-200 rounded-lg
+                  ${kycStatus === "verified"
+                    ? "text-green-400 bg-green-800/30 hover:text-white hover:bg-green-700/60"
+                    : "text-gray-400 bg-gray-800/50 hover:text-white hover:bg-gray-700/60"
+                  }`}
+                title="KYC Status"
+              >
+                <Shield size={20} />
+                <span className="hidden sm:inline text-sm">
+                  {kycStatus === "verified" ? "KYC Verified" : "KYC Not Verified"}
+                </span>
+              </motion.button>
+            )}
+
             {/* Dark Mode Toggle */}
 <ThemeToggle />
 

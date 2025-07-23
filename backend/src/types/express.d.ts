@@ -3,7 +3,7 @@ import { Document, ObjectId } from "mongoose";
 export interface IInstitute {
   _id: any;
   instituteName: string;
-  instituteType: "school" | "college" | "university" | "other";
+  instituteType: "school" | "college" | "university" |"academy"| "other";
   description?: string | null;
   contactPerson?: {
     firstName: string;
