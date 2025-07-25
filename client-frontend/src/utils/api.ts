@@ -14,6 +14,11 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
     ...options,
   };
 
+  // Remove Content-Type for FormData
+  if (options.body instanceof FormData) {
+    delete defaultOptions.headers?.['Content-Type'];
+  }
+
   try {
     const response = await fetch(url, defaultOptions);
     const data = await response.json();
@@ -63,7 +68,7 @@ export const authAPI = {
     apiCall("/api/institute/register", {
       method: "POST",
       body: JSON.stringify(data),
-    }),
+      }),
 
   // Session management for institute
   instituteSession: () => apiCall("/api/institute/session"),
@@ -179,8 +184,29 @@ export const authAPI = {
       }
     }
   },
-};
 
+  
+
+  uploadDocument: (documentType: string, file: File) => {
+    const formData = new FormData();
+    formData.append('documentType', documentType);
+    formData.append('document', file);
+    
+    return apiCall("/api/institute/kyc/upload", {
+      method: "POST",
+      body: formData,
+    });
+  },
+
+  startKycVerification: (documents: { registrationCertificate: any; panCard: any }) =>
+    apiCall("/api/institute/kyc/verify", {
+      method: "POST",
+      body: JSON.stringify({ documents }),
+    }),
+
+  getKycStatus: () =>
+    apiCall("/api/institute/kyc/status"),
+};
 export const sendChatbotMessage = async (message: string) => {
   return apiCall("/api/chatbot/message", {
     method: "POST",

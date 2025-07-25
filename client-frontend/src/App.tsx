@@ -24,6 +24,7 @@ import { Toaster } from "./components/ui/Toaster";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ChatbotButton from "./components/chatbot/ChatbotButton";
+import KycPage from "./components/KycPage";
 function App() {
   return (
     <AuthProvider>
@@ -37,6 +38,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/applynow" element={<Applynow />} />
+          <Route path="/kyc" element={<KycPage />} />
           <Route path="/cookiespolicy" element={<CookiesPolicy />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/terms-of-service" element={<Terms />} />
