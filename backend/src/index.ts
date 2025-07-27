@@ -37,6 +37,8 @@ app.use(
   },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"],
     credentials: true, // Important: allows cookies to be sent
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'],
+    optionsSuccessStatus: 200,
   })
 );
 
