@@ -13,14 +13,29 @@ const PORT = process.env.PORT || 3000;
 // Connect to database
 connectDB();
 
+const allowedOrigins = [
+  'http://localhost:8080',
+  'https://learn2pay-production.up.railway.app',
+  'https://learn2pay-client.vercel.app',
+  'https://learn2pay-server.vercel.app',
+];
+
 // Middleware
 app.use(express.json({ limit: '50mb' })); // Increased limit for file uploads
 app.use(express.urlencoded({ limit: '50mb', extended: true })); // Added for form data
 app.use(cookieParser()); // Add this line for cookie support
 app.use(
   cors({
-    origin: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin:  function (origin, callback) {
+    if (!origin) return callback(null, true);
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    const normalizedAllowedOrigins = allowedOrigins.map(o => o.replace(/\/$/, ''));
+    if (normalizedAllowedOrigins.includes(normalizedOrigin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS not allowed for origin: ${origin}`), false);
+  },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"],
     credentials: true, // Important: allows cookies to be sent
   })
 );

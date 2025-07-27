@@ -1,5 +1,8 @@
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app";
+// const API_BASE_URL =
+//   import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app";
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app"
+  : 'http://localhost:3000';
 
 // Generic API call function
 async function apiCall(endpoint: string, options: RequestInit = {}) {
