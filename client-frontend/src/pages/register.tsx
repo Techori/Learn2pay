@@ -1,3 +1,4 @@
+
 import { Button } from "../components/ui/Button";
 import {
   Card,
@@ -17,7 +18,7 @@ import {
   SelectValue,
 } from "../components/ui/Select";
 import { Checkbox } from "../components/ui/Checkbox";
-import { ArrowLeft, Upload } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -32,6 +33,14 @@ import { authAPI } from "../utils/api";
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import RegistrationDocumentUpload from "../components/RegistrationDocumentUpload";
+
+interface SelectedDocument {
+  name: string;
+  type: string;
+  data: string;
+  file: File;
+}
 
 const Register = () => {
   const navigate = useNavigate();
@@ -39,6 +48,11 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [kycDocuments, setKycDocuments] = useState<{
+    registrationCertificate?: SelectedDocument;
+    panCard?: SelectedDocument;
+  } | null>(null);
+  const [optOutKyc, setOptOutKyc] = useState(false);
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -118,27 +132,45 @@ const Register = () => {
     };
 
     try {
-      await authAPI.register(registrationData);
-      setSuccess("Registration successful! You can now login.");
+      const registerResponse = await authAPI.register(registrationData);
+      
+      if (registerResponse.error) {
+        throw new Error(registerResponse.error);
+      }
 
-      // Redirect to login after 2 seconds
+      // If KYC documents are provided and user didn't opt out, start KYC verification
+      if (kycDocuments && !optOutKyc && kycDocuments.registrationCertificate && kycDocuments.panCard) {
+        try {
+          // Login first to get authentication for KYC
+          const loginResponse = await authAPI.instituteLogin(data.email, data.password);
+          
+          if (!loginResponse.error) {
+            // Start KYC verification with uploaded documents
+            await authAPI.startKycVerification({
+              registrationCertificate: kycDocuments.registrationCertificate,
+              panCard: kycDocuments.panCard
+            });
+            
+            setSuccess("Registration successful! KYC verification has been started. You can now login.");
+          } else {
+            setSuccess("Registration successful! Please login to complete KYC verification.");
+          }
+        } catch (kycError) {
+          console.error("KYC verification failed:", kycError);
+          setSuccess("Registration successful! Please login to complete KYC verification.");
+        }
+      } else {
+        setSuccess("Registration successful! You can now login.");
+      }
+
+      // Redirect to login after 3 seconds
       setTimeout(() => {
         navigate("/login");
-      }, 2000);
+      }, 3000);
     } catch (err: any) {
       setError(err.message || "Registration failed. Please try again.");
     } finally {
       setIsLoading(false);
-    }
-  };
-  const handleFileUpload = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      console.log(`${field} uploaded:`, file.name);
-      // Additional processing can be added here (e.g., validation, uploading to a server)
     }
   };
 
@@ -201,7 +233,7 @@ const Register = () => {
                                 id="instituteName"
                                 placeholder="e.g., ABC Academy"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -267,7 +299,7 @@ const Register = () => {
                               placeholder="Brief description of your institute"
                               {...field}
                               rows={3}
-                              className="w-full h-32 rounded-lg p-4 bg-white text-gray-900 placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none dark:bg-gray-900 dark:text-white"
+                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                             />
                           </FormControl>
                           <FormMessage />
@@ -297,7 +329,7 @@ const Register = () => {
                               id="contactPerson"
                               placeholder="Principal/Director/Owner name"
                               {...field}
-                              className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                               required
                             />
                           </FormControl>
@@ -329,7 +361,7 @@ const Register = () => {
                                 type="email"
                                 placeholder="admin@institute.com"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -354,7 +386,7 @@ const Register = () => {
                                 type="tel"
                                 placeholder="+91 98765 43210"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -379,7 +411,7 @@ const Register = () => {
                               type="url"
                               placeholder="https://www.yourinstitute.com"
                               {...field}
-                              className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                              className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                             />
                           </FormControl>
                           <FormMessage />
@@ -388,6 +420,7 @@ const Register = () => {
                     />
                   </div>
                 </div>
+
                 {/* Create Password */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-orange-400">
@@ -414,7 +447,7 @@ const Register = () => {
                                 type="password"
                                 placeholder="Enter your password"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -439,7 +472,7 @@ const Register = () => {
                                 type="password"
                                 placeholder="Re-enter your password"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -450,6 +483,7 @@ const Register = () => {
                     </div>
                   </div>
                 </div>
+
                 {/* Address Information */}
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold text-orange-400">
@@ -471,7 +505,7 @@ const Register = () => {
                               placeholder="Street address, building name, etc."
                               {...field}
                               rows={2}
-                              className="w-full h-32 rounded-lg p-4 bg-white text-gray-900 placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none dark:bg-gray-900 dark:text-white"
+                              className="w-full h-32 rounded-lg p-4 bg-gray-900 text-white placeholder-gray-500 border border-gray-700 focus:border-blue-500 focus:ring-blue-500 resize-none"
                               required
                             />
                           </FormControl>
@@ -494,7 +528,7 @@ const Register = () => {
                                 id="city"
                                 placeholder="City name"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -516,7 +550,7 @@ const Register = () => {
                                 id="state"
                                 placeholder="State name"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -538,7 +572,7 @@ const Register = () => {
                                 id="pincode"
                                 placeholder="123456"
                                 {...field}
-                                className="bg-white text-gray-900 border-gray-700 placeholder-gray-400 focus:border-orange-500 dark:bg-gray-900 dark:text-white"
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
                                 required
                               />
                             </FormControl>
@@ -549,67 +583,12 @@ const Register = () => {
                     </div>
                   </div>
                 </div>
+
                 {/* KYC Documents */}
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-orange-400">
-                    KYC Documents
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    Upload required documents for verification (PDF/JPG format,
-                    max 5MB each)
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Institute Registration Certificate */}
-                    <div className="space-y-2">
-                      <Label>Institute Registration Certificate</Label>
-                      <div
-                        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
-                        onClick={() =>
-                          document.getElementById("institute-upload")?.click()
-                        }
-                      >
-                        <input
-                          id="institute-upload"
-                          type="file"
-                          className="hidden"
-                          onChange={(e) =>
-                            handleFileUpload(
-                              e,
-                              "Institute Registration Certificate"
-                            )
-                          }
-                          accept=".pdf,.jpg,.jpeg,.png"
-                        />
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-                    {/* PAN Card */}
-                    <div className="space-y-2">
-                      <Label>PAN Card</Label>
-                      <div
-                        className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition-colors cursor-pointer"
-                        onClick={() =>
-                          document.getElementById("pan-upload")?.click()
-                        }
-                      >
-                        <input
-                          id="pan-upload"
-                          type="file"
-                          className="hidden"
-                          onChange={(e) => handleFileUpload(e, "PAN Card")}
-                          accept=".pdf,.jpg,.jpeg,.png"
-                        />
-                        <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-600">
-                          Click to upload or drag and drop
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <RegistrationDocumentUpload
+                  onDocumentsChange={setKycDocuments}
+                  onOptOutChange={setOptOutKyc}
+                />
 
                 {/* Terms and Conditions */}
                 <div className="flex items-center space-x-2">
