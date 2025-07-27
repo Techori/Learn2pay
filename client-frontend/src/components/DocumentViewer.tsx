@@ -25,8 +25,9 @@ const DocumentViewer = ({ fileName, documentType }: DocumentViewerProps) => {
   const [documentInfo, setDocumentInfo] = useState<DocumentInfo | null>(null);
   const [fetchingInfo, setFetchingInfo] = useState(false);
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app";
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app"
+  : 'http://localhost:3000';
   const documentUrl = `${API_BASE_URL}/api/institute/kyc/document/${documentType}`;
   const downloadUrl = `${API_BASE_URL}/api/institute/kyc/document/${fileName}`;
 
