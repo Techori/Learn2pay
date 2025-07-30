@@ -27,8 +27,7 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
     const existingStudent = await Student.findOne({
       parentEmail,
       name,
-      instituteName,
-      rollNumber,
+      instituteName
     });
     if (existingStudent) {
       res.status(400).json({

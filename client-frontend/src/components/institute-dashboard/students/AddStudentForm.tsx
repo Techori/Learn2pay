@@ -10,18 +10,8 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { useToast } from "@/hooks/use-toast";
-import {
-  User,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
-  GraduationCap,
-  Save,
-  Building,
-  Lock,
-  Users,
-} from "lucide-react";
+import { User, MapPin, Save, Building, Users } from "lucide-react";
+import { authAPI } from "@/utils/api";
 
 interface StudentFormData {
   name: string;
@@ -50,6 +40,7 @@ interface AddStudentFormProps {
 const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitAttempt, setSubmitAttempt] = useState(0);
 
   const [formData, setFormData] = useState<StudentFormData>({
     name: "",
@@ -94,51 +85,75 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
-    
+
     return age;
   };
 
   const handleDateOfBirthChange = (dob: string) => {
     const calculatedAge = calculateAge(dob);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       dateOfBirth: dob,
-      age: calculatedAge
+      age: calculatedAge,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitAttempt(0);
+
     try {
       // Here you would typically make an API call to your backend
-      const response = await fetch('/api/students/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          parentName: formData.parentName,
-          parentEmail: formData.parentEmail,
-          parentPhone: formData.parentPhone,
-          password: formData.password,
-          dateOfBirth: formData.dateOfBirth,
-          age: formData.age,
-          grade: formData.grade,
-          section: formData.section,
-          rollNumber: formData.rollNumber,
-          address: formData.address,
-          instituteName: formData.instituteName,
-        }),
-      });
+      const registrationData = {
+        name: formData.name,
+        parentName: formData.parentName,
+        parentEmail: formData.parentEmail,
+        parentPhone: formData.parentPhone,
+        password: formData.password,
+        dateOfBirth: formData.dateOfBirth,
+        age: Number(formData.age),
+        grade: formData.grade,
+        rollNumber: formData.rollNumber,
+        address: formData.address,
+        instituteName: formData.instituteName,
+      };
 
-      if (!response.ok) {
-        throw new Error('Registration failed');
+      console.log(
+        "Sending registration data:",
+        JSON.stringify(registrationData, null, 2)
+      );
+
+      // Listen for retry attempts
+      const originalConsoleLog = console.log;
+      console.log = (...args) => {
+        if (args[0] && args[0].includes("Registration attempt")) {
+          const attemptMatch = args[0].match(/Registration attempt (\d+)/);
+          if (attemptMatch) {
+            setSubmitAttempt(parseInt(attemptMatch[1]));
+          }
+        }
+        originalConsoleLog(...args);
+      };
+
+      const response = await authAPI.registerStudent(registrationData);
+
+      // Restore original console.log
+      console.log = originalConsoleLog;
+
+      console.log("API response:", response);
+      console.log("Response type:", typeof response);
+      console.log("Response keys:", Object.keys(response || {}));
+
+      if (response.error) {
+        throw new Error(response.error);
       }
 
       toast({
@@ -172,9 +187,25 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
         onStudentAdded();
       }
     } catch (error) {
+      console.error("Registration error:", error);
+
+      let errorDescription = "Failed to register student. Please try again.";
+
+      if (error instanceof Error) {
+        errorDescription = error.message;
+
+        // Handle specific error types
+        if (error.message.includes("Student with this parent email")) {
+          errorDescription =
+            "A student with this parent email and name already exists in this institute.";
+        } else if (error.message.includes("validation")) {
+          errorDescription = "Please check your input data and try again.";
+        }
+      }
+
       toast({
-        title: "Error",
-        description: "Failed to register student. Please try again.",
+        title: "Registration Failed",
+        description: errorDescription,
         variant: "destructive",
       });
     } finally {
@@ -228,7 +259,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => updateFormData("name", e.target.value)}
-                  className= "border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter student's full name"
                 />
               </div>
@@ -246,9 +277,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-400">
-                  Age
-                </label>
+                <label className="text-sm font-medium text-gray-400">Age</label>
                 <Input
                   type="number"
                   value={formData.age}
@@ -262,7 +291,6 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   Grade *
                 </label>
                 <Select
-                  
                   value={formData.grade}
                   onValueChange={(value) => updateFormData("grade", value)}
                 >
@@ -355,7 +383,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="email"
                   value={formData.parentEmail}
-                  onChange={(e) => updateFormData("parentEmail", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("parentEmail", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter parent's email"
                 />
@@ -368,7 +398,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="tel"
                   value={formData.parentPhone}
-                  onChange={(e) => updateFormData("parentPhone", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("parentPhone", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter parent's phone number"
                 />
@@ -391,7 +423,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="text"
                   value={formData.address.completeAddress}
-                  onChange={(e) => updateFormData("address.completeAddress", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("address.completeAddress", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter complete address"
                 />
@@ -404,7 +438,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="text"
                   value={formData.address.city}
-                  onChange={(e) => updateFormData("address.city", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("address.city", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter city"
                 />
@@ -417,7 +453,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="text"
                   value={formData.address.state}
-                  onChange={(e) => updateFormData("address.state", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("address.state", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter state"
                 />
@@ -430,7 +468,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="text"
                   value={formData.address.pinCode}
-                  onChange={(e) => updateFormData("address.pinCode", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("address.pinCode", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter PIN code"
                 />
@@ -453,7 +493,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   required
                   type="text"
                   value={formData.instituteName}
-                  onChange={(e) => updateFormData("instituteName", e.target.value)}
+                  onChange={(e) =>
+                    updateFormData("instituteName", e.target.value)
+                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter institute name"
                 />
@@ -471,7 +513,11 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                  <span>Registering Student...</span>
+                  <span>
+                    {submitAttempt > 1
+                      ? `Retrying... (Attempt ${submitAttempt}/3)`
+                      : "Registering Student..."}
+                  </span>
                 </>
               ) : (
                 <>

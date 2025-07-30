@@ -1343,13 +1343,13 @@ const StudentManagement = ({
         <label className="text-sm font-medium text-gray-900 dark:text-gray-300">
           Upload Excel File
         </label>
-        <Input
+        <input
           ref={fileInputRef}
           type="file"
           accept=".xlsx,.xls"
           onChange={handleFileUpload}
           disabled={isUploading}
-          className="bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700"
         />
       </div>
 
