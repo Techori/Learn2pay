@@ -1,8 +1,12 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { sendChatbotMessage } from '../../utils/api';
+import React, { useRef, useEffect, useState } from "react";
+import { sendChatbotMessage } from "../../utils/api";
+import { useTheme } from "../../contexts/ThemeContext";
+import { X, Send, Bot, User, Minimize2, Maximize2 } from "lucide-react";
+import { Button } from "../ui/Button";
+import { cn } from "../../lib/utils";
 
 interface Message {
-  sender: 'user' | 'bot';
+  sender: "user" | "bot";
   text: string;
   timestamp: number;
 }
@@ -12,28 +16,36 @@ interface ChatbotWindowProps {
 }
 
 const initialMessages: Message[] = [
-  { sender: 'bot', text: 'Hello! How can I help you today?', timestamp: Date.now() },
+  {
+    sender: "bot",
+    text: "Hello! How can I help you today?",
+    timestamp: Date.now(),
+  },
 ];
 
-// SVGs for avatars
-const BotAvatar = () => (
-  <span className="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-2">
-    <svg viewBox="0 0 32 32" fill="none" className="w-6 h-6">
-      <circle cx="16" cy="16" r="15" fill="#0A1747" />
-      <path d="M6 19c0-5.523 4.477-10 10-10s10 4.477 10 10c0 2.209-1.791 4-4 4H10c-2.209 0-4-1.791-4-4z" fill="white" />
-      <rect x="9" y="15" width="14" height="6" rx="3" fill="#0A1747" />
-      <circle cx="12" cy="19" r="1.5" fill="#00E6FF" />
-      <circle cx="20" cy="19" r="1.5" fill="#00E6FF" />
-      <rect x="14" y="5" width="4" height="4" rx="2" fill="white" />
-      <circle cx="16" cy="4" r="1" fill="white" />
-    </svg>
-  </span>
+// Enhanced SVGs for avatars that match your theme
+const BotAvatar = ({ isDark }: { isDark: boolean }) => (
+  <div
+    className={`w-8 h-8 flex items-center justify-center rounded-full mr-3 ${
+      isDark
+        ? "bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg"
+        : "bg-gradient-to-br from-orange-400 to-orange-500 shadow-md"
+    }`}
+  >
+    <Bot className={`w-4 h-4 ${isDark ? "text-white" : "text-white"}`} />
+  </div>
 );
 
-const UserAvatar = () => (
-  <span className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full ml-2 overflow-hidden">
-    <img src="/user-avatar.png" alt="User" className="w-8 h-8 object-cover" />
-  </span>
+const UserAvatar = ({ isDark }: { isDark: boolean }) => (
+  <div
+    className={`w-8 h-8 flex items-center justify-center rounded-full ml-3 ${
+      isDark
+        ? "bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg"
+        : "bg-gradient-to-br from-blue-400 to-blue-500 shadow-md"
+    }`}
+  >
+    <User className={`w-4 h-4 ${isDark ? "text-white" : "text-white"}`} />
+  </div>
 );
 
 const MIN_HEIGHT = 320; // px
@@ -44,13 +56,16 @@ const MAX_WIDTH = 480; // px
 const DEFAULT_WIDTH = 320; // px (20rem)
 
 const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const [messages, setMessages] = useState<Message[]>(initialMessages);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [height, setHeight] = useState<number>(DEFAULT_HEIGHT);
   const [width, setWidth] = useState<number>(DEFAULT_WIDTH);
   const [isResizingHeight, setIsResizingHeight] = useState(false);
   const [isResizingWidth, setIsResizingWidth] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const prevMessagesLength = useRef(messages.length);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -60,7 +75,7 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
   const startWidthRef = useRef<number>(DEFAULT_WIDTH);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
   useEffect(() => {
@@ -79,14 +94,14 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
     setIsResizingHeight(true);
     startYRef.current = e.clientY;
     startHeightRef.current = height;
-    document.body.style.cursor = 'ns-resize';
+    document.body.style.cursor = "ns-resize";
   };
   // Horizontal resize handlers
   const onResizeWidthMouseDown = (e: React.MouseEvent) => {
     setIsResizingWidth(true);
     startXRef.current = e.clientX;
     startWidthRef.current = width;
-    document.body.style.cursor = 'ew-resize';
+    document.body.style.cursor = "ew-resize";
   };
   useEffect(() => {
     if (!isResizingHeight && !isResizingWidth) return;
@@ -107,13 +122,13 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
     const onMouseUp = () => {
       setIsResizingHeight(false);
       setIsResizingWidth(false);
-      document.body.style.cursor = '';
+      document.body.style.cursor = "";
     };
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
     };
   }, [isResizingHeight, isResizingWidth]);
 
@@ -123,9 +138,9 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
     if (!trimmed || isTyping) return;
     setMessages((msgs) => [
       ...msgs,
-      { sender: 'user', text: trimmed, timestamp: Date.now() },
+      { sender: "user", text: trimmed, timestamp: Date.now() },
     ]);
-    setInput('');
+    setInput("");
     setIsTyping(true);
     setTimeout(async () => {
       try {
@@ -133,18 +148,26 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
         if (res && res.reply) {
           setMessages((msgs) => [
             ...msgs,
-            { sender: 'bot', text: res.reply, timestamp: Date.now() },
+            { sender: "bot", text: res.reply, timestamp: Date.now() },
           ]);
         } else {
           setMessages((msgs) => [
             ...msgs,
-            { sender: 'bot', text: 'Sorry, I could not get a response.', timestamp: Date.now() },
+            {
+              sender: "bot",
+              text: "Sorry, I could not get a response.",
+              timestamp: Date.now(),
+            },
           ]);
         }
       } catch (error) {
         setMessages((msgs) => [
           ...msgs,
-          { sender: 'bot', text: 'Sorry, something went wrong.', timestamp: Date.now() },
+          {
+            sender: "bot",
+            text: "Sorry, something went wrong.",
+            timestamp: Date.now(),
+          },
         ]);
       }
       setIsTyping(false);
@@ -152,104 +175,262 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({ onClose }) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
+    if (e.key === "Escape") onClose();
   };
 
   return (
     <div
-      className="fixed bottom-20 right-6 bg-white shadow-lg rounded-lg flex flex-col z-50 animate-fade-in"
-      style={{ height, width }}
+      className={`fixed bottom-20 right-6 shadow-2xl rounded-xl flex flex-col z-50 transition-all duration-300 border ${
+        isDark
+          ? "bg-gray-900 border-gray-700 shadow-orange-500/10"
+          : "bg-white border-gray-200 shadow-black/10"
+      } ${isMinimized ? "h-14" : ""}`}
+      style={{ height: isMinimized ? 56 : height, width }}
       role="dialog"
       aria-modal="true"
-      aria-label="Chatbot window"
+      aria-label="Learn2Pay AI Assistant"
       tabIndex={-1}
       onKeyDown={handleKeyDown}
     >
-      {/* Vertical resize handle */}
-      <div
-        className="w-full h-2 cursor-ns-resize flex items-center justify-center"
-        style={{ marginTop: '-8px', zIndex: 10 }}
-        onMouseDown={onResizeHeightMouseDown}
-        title="Drag to resize vertically"
-      >
-        <div className="w-12 h-1.5 bg-gray-300 rounded-full" />
-      </div>
-      {/* Horizontal resize handle */}
-      <div
-        className="absolute left-0 top-8 h-[calc(100%-2rem)] w-2 cursor-ew-resize z-20"
-        style={{ marginLeft: '-8px' }}
-        onMouseDown={onResizeWidthMouseDown}
-        title="Drag to resize horizontally"
-      />
-      <div className="p-4 border-b font-semibold flex justify-between items-center">
-        <span>Chatbot</span>
-        <button
-          className="text-gray-400 hover:text-gray-600 text-xl font-bold focus:outline-none"
-          aria-label="Close Chatbot"
-          onClick={onClose}
+      {/* Vertical resize handle - only show when not minimized */}
+      {!isMinimized && (
+        <div
+          className={`w-full h-2 cursor-ns-resize flex items-center justify-center ${
+            isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } rounded-t-xl transition-colors`}
+          style={{ marginTop: "-8px", zIndex: 10 }}
+          onMouseDown={onResizeHeightMouseDown}
+          title="Drag to resize vertically"
         >
-          &times;
-        </button>
-      </div>
-      <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-2" id="chatbot-messages">
-        {messages.map((msg, idx) => (
           <div
-            key={idx}
-            className={`flex items-end ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
-            {msg.sender === 'bot' && <BotAvatar />}
-            <div
-              className={
-                msg.sender === 'user'
-                  ? 'bg-blue-500 text-white rounded-lg px-3 py-2 max-w-[75%] text-sm shadow ml-2'
-                  : 'bg-gray-200 text-gray-800 rounded-lg px-3 py-2 max-w-[75%] text-sm shadow mr-2'
-              }
-              aria-label={msg.sender === 'user' ? 'Your message' : 'Bot message'}
-            >
-              {msg.text}
-              <div className="text-xs mt-1 text-right select-none rounded px-1 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 opacity-80 w-fit ml-auto">
-                {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </div>
-            </div>
-            {msg.sender === 'user' && <UserAvatar />}
-          </div>
-        ))}
-        {isTyping && (
-          <div className="flex items-end justify-start">
-            <BotAvatar />
-            <div className="bg-gray-200 text-gray-500 rounded-lg px-3 py-2 max-w-[75%] text-sm shadow mr-2 flex items-center">
-              <span className="inline-flex gap-1">
-                <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-              </span>
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <form className="p-3 border-t flex gap-2 bg-white" onSubmit={handleSend} aria-label="Send message form">
-        <input
-          type="text"
-          className="flex-1 border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900 placeholder-gray-400"
-          placeholder="Type your message..."
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          aria-label="Type your message"
+            className={`w-12 h-1.5 rounded-full transition-colors ${
+              isDark ? "bg-gray-600" : "bg-gray-300"
+            }`}
+          />
+        </div>
+      )}
+
+      {/* Horizontal resize handle - only show when not minimized */}
+      {!isMinimized && (
+        <div
+          className={`absolute left-0 top-8 h-[calc(100%-2rem)] w-2 cursor-ew-resize z-20 ${
+            isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
+          } transition-colors`}
+          style={{ marginLeft: "-8px" }}
+          onMouseDown={onResizeWidthMouseDown}
+          title="Drag to resize horizontally"
         />
-        <button
-          type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:opacity-50"
-          disabled={!input.trim() || isTyping}
-          aria-label="Send message"
-        >
-          Send
-        </button>
-      </form>
+      )}
+
+      {/* Header */}
+      <div
+        className={`p-4 border-b font-semibold flex justify-between items-center ${
+          isDark
+            ? "border-gray-700 text-white bg-gradient-to-r from-gray-800 to-gray-900"
+            : "border-gray-200 text-gray-900 bg-gradient-to-r from-orange-50 to-orange-100"
+        } rounded-t-xl`}
+      >
+        <div className="flex items-center space-x-2">
+          <div
+            className={`w-3 h-3 rounded-full ${
+              isDark ? "bg-orange-400" : "bg-orange-500"
+            } animate-pulse`}
+          />
+          <span
+            className={`text-sm font-medium ${
+              isDark ? "text-orange-300" : "text-orange-700"
+            }`}
+          >
+            Learn2Pay AI Assistant
+          </span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-8 w-8 p-0 hover:scale-110 transition-transform",
+              isDark ? "hover:bg-gray-700" : "hover:bg-orange-100"
+            )}
+            aria-label={isMinimized ? "Maximize" : "Minimize"}
+            onClick={() => setIsMinimized(!isMinimized)}
+          >
+            {isMinimized ? <Maximize2 size={14} /> : <Minimize2 size={14} />}
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-8 w-8 p-0 hover:scale-110 transition-transform",
+              isDark
+                ? "hover:bg-gray-700 hover:text-red-300"
+                : "hover:bg-red-50 hover:text-red-600"
+            )}
+            aria-label="Close Chatbot"
+            onClick={onClose}
+          >
+            <X size={14} />
+          </Button>
+        </div>
+      </div>
+
+      {/* Messages area - hide when minimized */}
+      {!isMinimized && (
+        <>
+          <div
+            className={`flex-1 p-4 overflow-y-auto space-y-4 ${
+              isDark
+                ? "bg-gradient-to-b from-gray-900 to-gray-800"
+                : "bg-gradient-to-b from-gray-50 to-white"
+            }`}
+            id="chatbot-messages"
+          >
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`flex items-end ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
+                }`}
+              >
+                {msg.sender === "bot" && <BotAvatar isDark={isDark} />}
+                <div className={`relative max-w-[75%] group`}>
+                  <div
+                    className={`px-4 py-3 rounded-2xl text-sm leading-relaxed shadow-lg transition-all duration-200 ${
+                      msg.sender === "user"
+                        ? isDark
+                          ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-orange-500/20"
+                          : "bg-gradient-to-r from-orange-400 to-orange-500 text-white shadow-orange-500/20"
+                        : isDark
+                        ? "bg-gradient-to-r from-gray-700 to-gray-600 text-gray-100 shadow-gray-700/20"
+                        : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 shadow-gray-200/20"
+                    } ${
+                      msg.sender === "user" ? "rounded-br-md" : "rounded-bl-md"
+                    }`}
+                    aria-label={
+                      msg.sender === "user"
+                        ? "Your message"
+                        : "AI Assistant message"
+                    }
+                  >
+                    {msg.text}
+                  </div>
+                  <div
+                    className={`text-xs mt-1 px-2 opacity-60 transition-opacity group-hover:opacity-80 ${
+                      msg.sender === "user" ? "text-right" : "text-left"
+                    } ${isDark ? "text-gray-400" : "text-gray-500"}`}
+                  >
+                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </div>
+                </div>
+                {msg.sender === "user" && <UserAvatar isDark={isDark} />}
+              </div>
+            ))}
+
+            {/* Typing indicator */}
+            {isTyping && (
+              <div className="flex items-end justify-start">
+                <BotAvatar isDark={isDark} />
+                <div
+                  className={`px-4 py-3 rounded-2xl rounded-bl-md max-w-[75%] text-sm shadow-lg transition-all duration-200 ${
+                    isDark
+                      ? "bg-gradient-to-r from-gray-700 to-gray-600 text-gray-300 shadow-gray-700/20"
+                      : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 shadow-gray-200/20"
+                  }`}
+                >
+                  <div className="flex items-center space-x-1">
+                    <span
+                      className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDark ? "bg-orange-400" : "bg-orange-500"
+                      }`}
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <span
+                      className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDark ? "bg-orange-400" : "bg-orange-500"
+                      }`}
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <span
+                      className={`w-2 h-2 rounded-full animate-bounce ${
+                        isDark ? "bg-orange-400" : "bg-orange-500"
+                      }`}
+                      style={{ animationDelay: "300ms" }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input form */}
+          <form
+            className={`p-4 border-t flex gap-3 items-center ${
+              isDark
+                ? "border-gray-700 bg-gradient-to-r from-gray-800 to-gray-900"
+                : "border-gray-200 bg-gradient-to-r from-gray-50 to-white"
+            } rounded-b-xl`}
+            onSubmit={handleSend}
+            aria-label="Send message form"
+          >
+            <input
+              type="text"
+              className={`flex-1 border rounded-xl px-4 py-3 text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${
+                isDark
+                  ? "border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400"
+                  : "border-gray-300 bg-white text-gray-900 placeholder-gray-500"
+              }`}
+              placeholder="Ask me anything about Learn2Pay..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              aria-label="Type your message"
+            />
+            <Button
+              type="submit"
+              size="sm"
+              className={cn(
+                "p-3 h-auto shadow-lg transition-all duration-300",
+                !input.trim() || isTyping
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:scale-105 active:scale-95 hover:shadow-xl"
+              )}
+              disabled={!input.trim() || isTyping}
+              aria-label="Send message"
+            >
+              {isTyping ? (
+                <div className="flex items-center space-x-1">
+                  <div
+                    className="w-1 h-1 rounded-full bg-white animate-bounce"
+                    style={{ animationDelay: "0ms" }}
+                  />
+                  <div
+                    className="w-1 h-1 rounded-full bg-white animate-bounce"
+                    style={{ animationDelay: "150ms" }}
+                  />
+                  <div
+                    className="w-1 h-1 rounded-full bg-white animate-bounce"
+                    style={{ animationDelay: "300ms" }}
+                  />
+                </div>
+              ) : (
+                <Send
+                  size={16}
+                  className="transition-transform hover:translate-x-0.5"
+                />
+              )}
+            </Button>
+          </form>
+        </>
+      )}
+
       {/* Add audio element for notification sound */}
       <audio ref={audioRef} src="/notify.mp3.wav" preload="auto" />
     </div>
   );
 };
 
-export default ChatbotWindow; 
+export default ChatbotWindow;
