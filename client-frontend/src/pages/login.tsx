@@ -39,7 +39,7 @@ const Login = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && authUserType) {
-        navigate("/dashboard");
+      navigate("/dashboard");
     }
   }, [isAuthenticated, authUserType, navigate]);
 
@@ -69,12 +69,42 @@ const Login = () => {
 
       if (result.success) {
         // Redirect based on selected user type
-        navigate("/dashboard")
+        navigate("/dashboard");
       } else {
-        setError(result.error || "Login failed");
+        // Provide more specific error messages
+        let errorMessage = result.error || "Login failed";
+
+        // Handle specific known error cases
+        if (
+          errorMessage.includes("Invalid credentials") ||
+          errorMessage.includes("invalid")
+        ) {
+          errorMessage =
+            "Invalid email or password. Please check your credentials and try again.";
+        } else if (
+          errorMessage.includes("not found") ||
+          errorMessage.includes("Not found")
+        ) {
+          errorMessage = `No ${userType} account found with this email address.`;
+        } else if (errorMessage.includes("Unauthorized")) {
+          errorMessage = "Your session has expired. Please login again.";
+        } else if (
+          errorMessage.includes("network") ||
+          errorMessage.includes("Network")
+        ) {
+          errorMessage =
+            "Network error. Please check your connection and try again.";
+        } else if (errorMessage.includes("user type")) {
+          errorMessage = `Please check if you selected the correct user type (${userType}).`;
+        }
+
+        setError(errorMessage);
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(
+        err.message || "An unexpected error occurred. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -98,7 +128,11 @@ const Login = () => {
             </div>
             <div className="space-y-2">
               <CardTitle className="text-2xl font-bold">
-                Welcome to <span className="font-bold"><span className="text-[#FF7F1A]">LARN</span><span className="text-gray-900 dark:text-white">2PAY</span></span>
+                Welcome to{" "}
+                <span className="font-bold">
+                  <span className="text-[#FF7F1A]">LARN</span>
+                  <span className="text-gray-900 dark:text-white">2PAY</span>
+                </span>
               </CardTitle>
               <CardDescription className="text-orange-200">
                 Smart Fee Collection Platform
@@ -111,7 +145,22 @@ const Login = () => {
               {/* Error Message */}
               {error && (
                 <div className="p-3 bg-red-900/50 border border-red-500 rounded-md">
-                  <p className="text-red-300 text-sm">{error}</p>
+                  <div className="flex items-start space-x-2">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="h-5 w-5 text-red-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                    <p className="text-red-300 text-sm font-medium">{error}</p>
+                  </div>
                 </div>
               )}
 

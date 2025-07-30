@@ -1,8 +1,7 @@
-// const API_BASE_URL =
-//   import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app";
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? import.meta.env.VITE_API_BASE_URL || "https://learn2pay-production.up.railway.app"
-  : 'http://localhost:3000';
+const API_BASE_URL =
+  import.meta.env.MODE === "production"
+    ? import.meta.env.VITE_API_BASE_URL
+    : import.meta.env.VITE_LOCAL_API_BASE_URL;
 
 // Generic API call function
 async function apiCall(endpoint: string, options: RequestInit = {}) {
@@ -19,7 +18,7 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
 
   // Remove Content-Type for FormData
   if (options.body instanceof FormData) {
-    delete defaultOptions.headers?.['Content-Type'];
+    delete defaultOptions.headers?.["Content-Type"];
   }
 
   try {
@@ -30,17 +29,32 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
       // Return 401 errors as part of response data instead of throwing
       return { error: "Unauthorized access - your session has expired" };
     } else if (!response.ok) {
-      // Handle other HTTP errors
-      throw new Error(data.message || `HTTP error! status: ${response.status}`);
+      // Handle other HTTP errors - return error in response instead of throwing
+      const errorMessage =
+        data.message || data.error || `HTTP error! status: ${response.status}`;
+      return { error: errorMessage };
     }
 
     return data;
   } catch (error) {
-    // Only log non-401 errors
-    if (error instanceof Error && !error.message.includes("Unauthorized")) {
-      console.log("API call failed:", error);
+    // Handle network errors and other exceptions
+    if (error instanceof Error) {
+      // Only log non-401 errors
+      if (!error.message.includes("Unauthorized")) {
+        console.log("API call failed:", error);
+      }
+
+      // Return error in response format instead of throwing
+      if (error.name === "TypeError" && error.message.includes("fetch")) {
+        return {
+          error: "Network error. Please check your internet connection.",
+        };
+      }
+
+      return { error: error.message };
     }
-    throw error;
+
+    return { error: "An unexpected error occurred" };
   }
 }
 
@@ -71,7 +85,7 @@ export const authAPI = {
     apiCall("/api/institute/register", {
       method: "POST",
       body: JSON.stringify(data),
-      }),
+    }),
 
   // Session management for institute
   instituteSession: () => apiCall("/api/institute/session"),
@@ -188,27 +202,27 @@ export const authAPI = {
     }
   },
 
-  
-
   uploadDocument: (documentType: string, file: File) => {
     const formData = new FormData();
-    formData.append('documentType', documentType);
-    formData.append('document', file);
-    
+    formData.append("documentType", documentType);
+    formData.append("document", file);
+
     return apiCall("/api/institute/kyc/upload", {
       method: "POST",
       body: formData,
     });
   },
 
-  startKycVerification: (documents: { registrationCertificate: any; panCard: any }) =>
+  startKycVerification: (documents: {
+    registrationCertificate: any;
+    panCard: any;
+  }) =>
     apiCall("/api/institute/kyc/verify", {
       method: "POST",
       body: JSON.stringify({ documents }),
     }),
 
-  getKycStatus: () =>
-    apiCall("/api/institute/kyc/status"),
+  getKycStatus: () => apiCall("/api/institute/kyc/status"),
 };
 export const sendChatbotMessage = async (message: string) => {
   return apiCall("/api/chatbot/message", {

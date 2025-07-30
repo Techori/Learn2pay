@@ -178,6 +178,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         response = await authAPI.parentLogin(email, password);
       }
 
+      // Check if response contains an error
+      if (response.error) {
+        return {
+          success: false,
+          error:
+            response.error || "Login failed. Please check your credentials.",
+        };
+      }
+
       if (response.institute) {
         setInstitute(response.institute);
         setParent(null);
@@ -192,7 +201,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return { success: true };
       }
 
-      return { success: false, error: "Login failed" };
+      return {
+        success: false,
+        error: "Login failed. Invalid credentials or user type.",
+      };
     } catch (error: any) {
       console.error("Login failed:", error);
       return {

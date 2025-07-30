@@ -1,4 +1,3 @@
-
 import { Button } from "../components/ui/Button";
 import {
   Card,
@@ -18,7 +17,7 @@ import {
   SelectValue,
 } from "../components/ui/Select";
 import { Checkbox } from "../components/ui/Checkbox";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
@@ -34,6 +33,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import RegistrationDocumentUpload from "../components/RegistrationDocumentUpload";
+import { useToast } from "../hooks/use-toast";
 
 interface SelectedDocument {
   name: string;
@@ -45,6 +45,7 @@ interface SelectedDocument {
 const Register = () => {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -97,10 +98,31 @@ const Register = () => {
     setError("");
     setSuccess("");
 
+    console.log("🚀 Starting registration process:", {
+      instituteName: data.instituteName,
+      instituteType: data.instituteType,
+      contactEmail: data.email,
+      hasKycDocuments: !!(
+        kycDocuments?.registrationCertificate && kycDocuments?.panCard
+      ),
+      optOutKyc,
+      timestamp: new Date().toISOString(),
+    });
+
     // Validate passwords match
     if (data.password !== data.confirmPassword) {
-      setError("Passwords do not match");
+      const errorMsg = "Passwords do not match";
+      setError(errorMsg);
       setIsLoading(false);
+
+      toast({
+        title: "❌ Password Mismatch",
+        description:
+          "The passwords you entered do not match. Please check and try again.",
+        variant: "destructive",
+      });
+
+      console.warn("⚠️ Password validation failed: passwords do not match");
       return;
     }
 
@@ -133,34 +155,116 @@ const Register = () => {
 
     try {
       const registerResponse = await authAPI.register(registrationData);
-      
+
+      // Check if response contains an error
       if (registerResponse.error) {
-        throw new Error(registerResponse.error);
+        // Handle structured error response from backend
+        let errorMessage = registerResponse.error;
+
+        if (registerResponse.message) {
+          errorMessage = registerResponse.message;
+        } else if (
+          registerResponse.details &&
+          Array.isArray(registerResponse.details)
+        ) {
+          errorMessage = registerResponse.details.join("\n");
+        }
+
+        throw new Error(errorMessage);
       }
 
+      // Log successful registration
+      console.log("✅ Registration successful:", {
+        instituteId: registerResponse.id,
+        instituteName: registrationData.instituteName,
+        contactEmail: registrationData.contactEmail,
+        timestamp: new Date().toISOString(),
+      });
+
       // If KYC documents are provided and user didn't opt out, start KYC verification
-      if (kycDocuments && !optOutKyc && kycDocuments.registrationCertificate && kycDocuments.panCard) {
+      if (
+        kycDocuments &&
+        !optOutKyc &&
+        kycDocuments.registrationCertificate &&
+        kycDocuments.panCard
+      ) {
         try {
           // Login first to get authentication for KYC
-          const loginResponse = await authAPI.instituteLogin(data.email, data.password);
-          
+          const loginResponse = await authAPI.instituteLogin(
+            data.email,
+            data.password
+          );
+
           if (!loginResponse.error) {
             // Start KYC verification with uploaded documents
             await authAPI.startKycVerification({
               registrationCertificate: kycDocuments.registrationCertificate,
-              panCard: kycDocuments.panCard
+              panCard: kycDocuments.panCard,
             });
-            
-            setSuccess("Registration successful! KYC verification has been started. You can now login.");
+
+            const successMessage =
+              "Registration successful! KYC verification has been started. You can now login.";
+            setSuccess(successMessage);
+
+            // Show success toast
+            toast({
+              title: "🎉 Registration Complete!",
+              description:
+                "Your institute has been registered and KYC verification has started. Redirecting to login...",
+              variant: "default",
+              className:
+                "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-700 dark:text-green-100",
+            });
+
+            console.log("✅ KYC verification started automatically");
           } else {
-            setSuccess("Registration successful! Please login to complete KYC verification.");
+            const successMessage =
+              "Registration successful! Please login to complete KYC verification.";
+            setSuccess(successMessage);
+
+            // Show success toast
+            toast({
+              title: "🎉 Registration Complete!",
+              description:
+                "Your institute has been registered successfully. Please login to complete KYC verification.",
+              variant: "default",
+              className:
+                "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-700 dark:text-green-100",
+            });
+
+            console.log("✅ Registration successful, manual KYC required");
           }
-        } catch (kycError) {
-          console.error("KYC verification failed:", kycError);
-          setSuccess("Registration successful! Please login to complete KYC verification.");
+        } catch (kycError: any) {
+          console.error("❌ KYC verification failed:", kycError);
+          const successMessage =
+            "Registration successful! Please login to complete KYC verification.";
+          setSuccess(successMessage);
+
+          // Show success toast with KYC note
+          toast({
+            title: "🎉 Registration Complete!",
+            description:
+              "Your institute has been registered successfully. Please login to complete KYC verification.",
+            variant: "default",
+            className:
+              "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-700 dark:text-green-100",
+          });
         }
       } else {
-        setSuccess("Registration successful! You can now login.");
+        const successMessage = "Registration successful! You can now login.";
+        setSuccess(successMessage);
+
+        // Show success toast
+        toast({
+          title: "🎉 Welcome to Learn2Pay!",
+          description:
+            "Your institute has been registered successfully. Redirecting to login page...",
+          variant: "default",
+          className:
+            "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-700 dark:text-green-100",
+        });
+
+        console.log("✅ Registration successful, no KYC documents provided");
       }
 
       // Redirect to login after 3 seconds
@@ -168,7 +272,73 @@ const Register = () => {
         navigate("/login");
       }, 3000);
     } catch (err: any) {
-      setError(err.message || "Registration failed. Please try again.");
+      console.error("❌ Registration failed:", {
+        error: err,
+        timestamp: new Date().toISOString(),
+        attemptedData: {
+          instituteName: registrationData.instituteName,
+          instituteType: registrationData.instituteType,
+          contactEmail: registrationData.contactEmail,
+        },
+      });
+
+      // Provide more specific error messages
+      let errorMessage = "Registration failed. Please try again.";
+
+      if (err.message) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      } else if (err.error) {
+        errorMessage = err.error;
+      }
+
+      // Handle specific known error cases
+      if (errorMessage.includes("email") || errorMessage.includes("Email")) {
+        errorMessage =
+          "Email address is already registered. Please use a different email or try logging in.";
+
+        // Show specific error toast
+        toast({
+          title: "❌ Email Already Exists",
+          description:
+            "This email is already registered. Please use a different email or try logging in.",
+          variant: "destructive",
+        });
+      } else if (
+        errorMessage.includes("validation") ||
+        errorMessage.includes("Validation")
+      ) {
+        // Keep the detailed validation message for better UX
+        // Show validation error toast
+        toast({
+          title: "❌ Validation Error",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      } else if (
+        errorMessage.includes("network") ||
+        errorMessage.includes("Network")
+      ) {
+        errorMessage =
+          "Network error. Please check your connection and try again.";
+
+        // Show network error toast
+        toast({
+          title: "❌ Network Error",
+          description: "Please check your internet connection and try again.",
+          variant: "destructive",
+        });
+      } else {
+        // General error toast
+        toast({
+          title: "❌ Registration Failed",
+          description: errorMessage,
+          variant: "destructive",
+        });
+      }
+
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -195,15 +365,49 @@ const Register = () => {
           <CardContent>
             {/* Success Message */}
             {success && (
-              <div className="mb-6 p-4 bg-green-900/50 border border-green-500 rounded-md">
-                <p className="text-green-300 text-sm">{success}</p>
+              <div className="mb-6 p-4 bg-gradient-to-r from-green-900/30 to-green-800/30 border border-green-500/50 rounded-lg shadow-lg backdrop-blur-sm">
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0">
+                    <CheckCircle className="h-5 w-5 text-green-400 mt-0.5" />
+                  </div>
+                  <div>
+                    <p className="text-green-300 text-sm font-medium leading-relaxed">
+                      {success}
+                    </p>
+                    <p className="text-green-400/70 text-xs mt-1">
+                      Redirecting to login page in 3 seconds...
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
             {/* Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-900/50 border border-red-500 rounded-md">
-                <p className="text-red-300 text-sm">{error}</p>
+              <div className="mb-6 p-4 bg-gradient-to-r from-red-900/30 to-red-800/30 border border-red-500/50 rounded-lg shadow-lg backdrop-blur-sm">
+                <div className="flex items-start space-x-3">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="h-5 w-5 text-red-400 mt-0.5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-red-300 text-sm font-medium leading-relaxed whitespace-pre-line">
+                      {error}
+                    </p>
+                    <p className="text-red-400/70 text-xs mt-1">
+                      Please correct the errors and try again.
+                    </p>
+                  </div>
+                </div>
               </div>
             )}
 
