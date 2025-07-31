@@ -66,19 +66,33 @@ export const setTokenCookies = (
   accessToken: string,
   refreshToken: string
 ) => {
+  // Determine cookie settings based on environment
+  const isProduction = process.env.NODE_ENV === "production";
+  
+  // Log environment for debugging
+  console.log("Setting cookies with NODE_ENV:", process.env.NODE_ENV);
+  console.log("Is production:", isProduction);
+  
+  // Cookie settings for production vs development
+  const cookieOptions = {
+    httpOnly: true, // Prevents XSS attacks
+    secure: isProduction, // HTTPS in production only
+    sameSite: isProduction ? ("none" as const) : ("lax" as const), // Allow cross-site in production
+    // Add domain for production if your backend and frontend are on different subdomains
+    // domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
+  };
+
+  console.log("Cookie options:", cookieOptions);
+
   // Access token - shorter expiry, sent with every request
   res.cookie("accessToken", accessToken, {
-    httpOnly: true, // Prevents XSS attacks
-    secure: process.env.NODE_ENV === "production", // HTTPS in production
-    sameSite: "strict", // CSRF protection
+    ...cookieOptions,
     maxAge: 15 * 60 * 1000, // 15 minutes in milliseconds for cookie
   });
 
   // Refresh token - longer expiry, used to get new access tokens
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
+    ...cookieOptions,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds for cookie
   });
 };

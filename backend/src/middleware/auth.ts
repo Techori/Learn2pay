@@ -10,15 +10,27 @@ const authenticateToken = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const token =
-      req.cookies.accessToken || req.headers.authorization?.split(" ")[1];
+    // Check for token in cookies first, then authorization header
+    const cookieToken = req.cookies.accessToken;
+    const headerToken = req.headers.authorization?.split(" ")[1];
+    const token = cookieToken || headerToken;
+    
+    // Debug logging
+    console.log("Auth Debug:");
+    console.log("- Cookie token present:", !!cookieToken);
+    console.log("- Header token present:", !!headerToken);
+    console.log("- Using token from:", cookieToken ? "cookies" : headerToken ? "header" : "none");
+    console.log("- NODE_ENV:", process.env.NODE_ENV);
+    
     if (!token) {
+      console.log("❌ No access token found");
       res.status(401).json({ message: "Access token required" });
       return;
     }
 
     const decoded = verifyAccessToken(token);
     if (!decoded) {
+      console.log("❌ Access token verification failed");
       res.status(401).json({ message: "Access token expired or invalid" });
       return;
     }

@@ -144,9 +144,19 @@ export const refreshToken = async (
 // Logout
 export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Clear cookies
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    // Determine cookie settings based on environment (must match setTokenCookies)
+    const isProduction = process.env.NODE_ENV === "production";
+    
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? ("none" as const) : ("lax" as const),
+      // domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
+    };
+
+    // Clear cookies with the same options used to set them
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
 
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
