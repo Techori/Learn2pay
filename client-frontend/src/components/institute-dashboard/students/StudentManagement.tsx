@@ -493,12 +493,15 @@ const StudentManagement = ({
       } else {
         // Success
         setUploadProgress(100);
-        
+
         // Enhanced success notification with detailed information
-        const successMessage = result.registeredStudents && result.registeredStudents.length > 0 
-          ? `Students successfully registered: ${result.registeredStudents.map((student: any) => student.name || student.studentName).join(', ')}`
-          : `Successfully registered ${result.successfulRegistrations} out of ${result.totalStudents} students`;
-        
+        const successMessage =
+          result.registeredStudents && result.registeredStudents.length > 0
+            ? `Students successfully registered: ${result.registeredStudents
+                .map((student: any) => student.name || student.studentName)
+                .join(", ")}`
+            : `Successfully registered ${result.successfulRegistrations} out of ${result.totalStudents} students`;
+
         toast({
           title: "🎉 Bulk Registration Successful!",
           description: successMessage,

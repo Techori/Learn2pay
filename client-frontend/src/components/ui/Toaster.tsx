@@ -29,8 +29,10 @@ const toastVariants = cva(
     variants: {
       variant: {
         default: "",
-        destructive: "destructive group border-destructive bg-destructive text-destructive-foreground dark:bg-red-900 dark:text-red-100 dark:border-red-700",
-        success: "success group border-green-500 bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-300 dark:border-green-500",
+        destructive:
+          "destructive group border-destructive bg-destructive text-destructive-foreground dark:bg-red-900 dark:text-red-100 dark:border-red-700",
+        success:
+          "success group border-green-500 bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-300 dark:border-green-500",
       },
     },
     defaultVariants: {
@@ -41,7 +43,8 @@ const toastVariants = cva(
 
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & VariantProps<typeof toastVariants>
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
+    VariantProps<typeof toastVariants>
 >(({ className, variant, ...props }, ref) => (
   <ToastPrimitives.Root
     ref={ref}
@@ -88,7 +91,11 @@ const ToastTitle = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
 >(({ className, ...props }, ref) => (
-  <ToastPrimitives.Title ref={ref} className={cn("text-sm font-semibold", className)} {...props} />
+  <ToastPrimitives.Title
+    ref={ref}
+    className={cn("text-sm font-semibold", className)}
+    {...props}
+  />
 ));
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
 
@@ -96,7 +103,11 @@ const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
 >(({ className, ...props }, ref) => (
-  <ToastPrimitives.Description ref={ref} className={cn("text-sm opacity-90", className)} {...props} />
+  <ToastPrimitives.Description
+    ref={ref}
+    className={cn("text-sm opacity-90", className)}
+    {...props}
+  />
 ));
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
@@ -123,9 +134,13 @@ export function Toaster() {
   const getIcon = (variant?: string) => {
     switch (variant) {
       case "success":
-        return <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />;
+        return (
+          <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
+        );
       case "destructive":
-        return <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />;
+        return (
+          <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />
+        );
       default:
         return null;
     }
@@ -139,7 +154,9 @@ export function Toaster() {
             {getIcon(variant)}
             <div className="grid gap-1 flex-1">
               {title && <ToastTitle>{title}</ToastTitle>}
-              {description && <ToastDescription>{description}</ToastDescription>}
+              {description && (
+                <ToastDescription>{description}</ToastDescription>
+              )}
             </div>
           </div>
           {action}
