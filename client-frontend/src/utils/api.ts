@@ -315,6 +315,22 @@ export const authAPI = {
     }),
 
   getKycStatus: () => apiCall("/api/institute/kyc/status"),
+
+  // Bulk student registration functions
+  bulkRegisterStudents: (file: File) => {
+    const formData = new FormData();
+    formData.append("excelFile", file);
+
+    return apiCall("/api/parent/bulk-register", {
+      method: "POST",
+      body: formData,
+    });
+  },
+
+  downloadStudentTemplate: () =>
+    apiCall("/api/parent/download-template", {
+      method: "GET",
+    }),
 };
 export const sendChatbotMessage = async (message: string) => {
   return apiCall("/api/chatbot/message", {

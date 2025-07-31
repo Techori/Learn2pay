@@ -40,7 +40,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import AddStudentForm from "./AddStudentForm";
-import * as XLSX from 'xlsx';
+import { authAPI } from "@/utils/api";
+import * as XLSX from "xlsx";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface Student {
@@ -97,7 +98,7 @@ interface BulkUploadError {
 }
 
 const StudentManagement = ({
-  initialSubTab = "add-student",  
+  initialSubTab = "add-student",
   onSubTabChange,
 }: StudentManagementProps = {}) => {
   const { toast } = useToast();
@@ -110,12 +111,12 @@ const StudentManagement = ({
   const [classFilter, setClassFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showBulkUploadDialog, setShowBulkUploadDialog] = useState(false);
-  const [bulkUploadErrors, setBulkUploadErrors] = useState<BulkUploadError[]>([]);
+  const [bulkUploadErrors, setBulkUploadErrors] = useState<BulkUploadError[]>(
+    []
+  );
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-
-  
   // Update activeSubTab when initialSubTab changes
   useEffect(() => {
     if (initialSubTab !== activeSubTab) {
@@ -124,7 +125,6 @@ const StudentManagement = ({
   }, [initialSubTab, activeSubTab]);
 
   // Handle sub tab changes
-
 
   const handleSubTabChange = (tab: string) => {
     setActiveSubTab(tab);
@@ -152,7 +152,7 @@ const StudentManagement = ({
       parentContact: "9876543210",
       parentEmail: "rajesh@email.com",
       status: "Active",
-      feeStatus: "Paid"
+      feeStatus: "Paid",
     },
     {
       id: "2",
@@ -164,7 +164,7 @@ const StudentManagement = ({
       parentContact: "9876543211",
       parentEmail: "priya@email.com",
       status: "Active",
-      feeStatus: "Pending"
+      feeStatus: "Pending",
     },
     {
       id: "3",
@@ -176,7 +176,7 @@ const StudentManagement = ({
       parentContact: "9876543212",
       parentEmail: "arjun@email.com",
       status: "Active",
-      feeStatus: "Paid"
+      feeStatus: "Paid",
     },
   ]);
 
@@ -275,20 +275,20 @@ const StudentManagement = ({
     {
       icon: UserPlus,
       title: "New Admissions",
-      value: "45", 
+      value: "45",
       description: "This month",
       color: "text-orange-400",
     },
     {
       icon: GraduationCap,
       title: "Avg. Attendance",
-      value: "92.5%", 
+      value: "92.5%",
       description: "School-wide",
       color: "text-purple-400",
     },
   ];
 
-  const handleAddStudent = (newStudentData: Omit<Student, 'id'>) => {
+  const handleAddStudent = (newStudentData: Omit<Student, "id">) => {
     const studentWithId: Student = {
       ...newStudentData,
       id: (allStudentsData.length + 1).toString(),
@@ -362,63 +362,90 @@ const StudentManagement = ({
     const birthDate = new Date(dob);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
   };
 
-  const downloadTemplate = () => {
-    const template = {
-      'Student Name': '',
-      'Parent Name': '',
-      'Parent Email': '',
-      'Parent Phone': '',
-      'Password': '',
-      'Date of Birth (YYYY-MM-DD)': '',
-      'Grade': '',
-      'Section': '',
-      'Roll Number': '',
-      'Complete Address': '',
-      'City': '',
-      'State': '',
-      'PIN Code': '',
-      'Institute Name': ''
-    };
+  const downloadTemplate = async () => {
+    try {
+      const response = await authAPI.downloadStudentTemplate();
 
-    const ws = XLSX.utils.json_to_sheet([template]);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Template');
-    XLSX.writeFile(wb, 'student_upload_template.xlsx');
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      // For binary data like Excel files, we need to handle differently
+      const templateResponse = await fetch("/api/parent/download-template", {
+        method: "GET",
+      });
+
+      if (!templateResponse.ok) {
+        throw new Error("Failed to download template");
+      }
+
+      const blob = await templateResponse.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "student_registration_template.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      toast({
+        title: "Template Downloaded",
+        description: "Excel template has been downloaded successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to download template",
+        variant: "destructive",
+      });
+    }
   };
 
   const validateStudentData = (data: any): string[] => {
     const errors: string[] = [];
-    
-    if (!data['Student Name']) errors.push('Student Name is required');
-    if (!data['Parent Name']) errors.push('Parent Name is required');
-    if (!data['Parent Email'] || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data['Parent Email'])) 
-      errors.push('Valid Parent Email is required');
-    if (!data['Parent Phone'] || !/^\d{10}$/.test(data['Parent Phone']))
-      errors.push('Valid 10-digit Parent Phone is required');
-    if (!data['Password'] || data['Password'].length < 6)
-      errors.push('Password must be at least 6 characters');
-    if (!data['Date of Birth (YYYY-MM-DD)'] || !/^\d{4}-\d{2}-\d{2}$/.test(data['Date of Birth (YYYY-MM-DD)']))
-      errors.push('Valid Date of Birth is required (YYYY-MM-DD)');
-    if (!data['Grade']) errors.push('Grade is required');
-    if (!data['Section']) errors.push('Section is required');
-    if (!data['Roll Number']) errors.push('Roll Number is required');
-    if (!data['Complete Address']) errors.push('Complete Address is required');
-    if (!data['City']) errors.push('City is required');
-    if (!data['State']) errors.push('State is required');
-    if (!data['PIN Code'] || !/^\d{6}$/.test(data['PIN Code']))
-      errors.push('Valid 6-digit PIN Code is required');
-    if (!data['Institute Name']) errors.push('Institute Name is required');
+
+    if (!data["Student Name"]) errors.push("Student Name is required");
+    if (!data["Parent Name"]) errors.push("Parent Name is required");
+    if (
+      !data["Parent Email"] ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data["Parent Email"])
+    )
+      errors.push("Valid Parent Email is required");
+    if (!data["Parent Phone"] || !/^\d{10}$/.test(data["Parent Phone"]))
+      errors.push("Valid 10-digit Parent Phone is required");
+    if (!data["Password"] || data["Password"].length < 6)
+      errors.push("Password must be at least 6 characters");
+    if (
+      !data["Date of Birth (YYYY-MM-DD)"] ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(data["Date of Birth (YYYY-MM-DD)"])
+    )
+      errors.push("Valid Date of Birth is required (YYYY-MM-DD)");
+    if (!data["Grade"]) errors.push("Grade is required");
+    if (!data["Section"]) errors.push("Section is required");
+    if (!data["Roll Number"]) errors.push("Roll Number is required");
+    if (!data["Complete Address"]) errors.push("Complete Address is required");
+    if (!data["City"]) errors.push("City is required");
+    if (!data["State"]) errors.push("State is required");
+    if (!data["PIN Code"] || !/^\d{6}$/.test(data["PIN Code"]))
+      errors.push("Valid 6-digit PIN Code is required");
+    if (!data["Institute Name"]) errors.push("Institute Name is required");
 
     return errors;
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -427,90 +454,79 @@ const StudentManagement = ({
     setUploadProgress(0);
 
     try {
-      const data = await file.arrayBuffer();
-      const workbook = XLSX.read(data);
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      // Simply send the file to the backend for processing
+      setUploadProgress(50); // Show some progress
 
-      const errors: BulkUploadError[] = [];
-      const validStudents = [];
+      const result = await authAPI.bulkRegisterStudents(file);
 
-      for (let i = 0; i < jsonData.length; i++) {
-        const row = jsonData[i];
-        const rowErrors = validateStudentData(row);
-
-        if (rowErrors.length > 0) {
-          errors.push({ row: i + 2, errors: rowErrors }); // +2 because Excel rows start at 1 and we have a header row
-        } else {
-          validStudents.push({
-            name: row['Student Name'],
-            parentName: row['Parent Name'],
-            parentEmail: row['Parent Email'],
-            parentPhone: row['Parent Phone'],
-            password: row['Password'],
-            dateOfBirth: row['Date of Birth (YYYY-MM-DD)'],
-            age: calculateAge(row['Date of Birth (YYYY-MM-DD)']),
-            grade: row['Grade'],
-            section: row['Section'],
-            rollNumber: row['Roll Number'],
-            address: {
-              completeAddress: row['Complete Address'],
-              city: row['City'],
-              state: row['State'],
-              pinCode: row['PIN Code'],
-            },
-            instituteName: row['Institute Name'],
+      if (result.error) {
+        // Handle different types of errors
+        if (
+          result.error.includes("validation error") ||
+          result.error.includes("Invalid Excel format")
+        ) {
+          setBulkUploadErrors([{ row: 1, errors: [result.error] }]);
+          toast({
+            title: "Validation Error",
+            description: result.error,
+            variant: "destructive",
           });
+        } else if (result.conflicts) {
+          // Handle conflicts (existing students)
+          const conflictErrors = result.conflicts.map(
+            (conflict: any, index: number) => ({
+              row: index + 2,
+              errors: [
+                `Student already exists: ${conflict.name} (${conflict.rollNumber}) - ${conflict.parentEmail}`,
+              ],
+            })
+          );
+          setBulkUploadErrors(conflictErrors);
+          toast({
+            title: "Conflicts Found",
+            description: `Found ${result.conflicts.length} existing students. Please check the details.`,
+            variant: "destructive",
+          });
+        } else {
+          throw new Error(result.error);
         }
-
-        setUploadProgress(((i + 1) / jsonData.length) * 100);
-      }
-
-      if (errors.length > 0) {
-        setBulkUploadErrors(errors);
-        toast({
-          title: "Validation Errors",
-          description: `Found ${errors.length} rows with errors. Please check the details.`,
-          variant: "destructive",
-        });
       } else {
-        // Process valid students
-        for (const student of validStudents) {
-          try {
-            const response = await fetch('/api/students/register', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(student),
-            });
-
-            if (!response.ok) {
-              throw new Error('Failed to register student');
-            }
-          } catch (error) {
-            toast({
-              title: "Error",
-              description: `Failed to register student: ${student.name}`,
-              variant: "destructive",
-            });
-            return;
-          }
-        }
-
+        // Success
+        setUploadProgress(100);
+        
+        // Enhanced success notification with detailed information
+        const successMessage = result.registeredStudents && result.registeredStudents.length > 0 
+          ? `Students successfully registered: ${result.registeredStudents.map((student: any) => student.name || student.studentName).join(', ')}`
+          : `Successfully registered ${result.successfulRegistrations} out of ${result.totalStudents} students`;
+        
         toast({
-          title: "Success",
-          description: `Successfully registered ${validStudents.length} students`,
+          title: "🎉 Bulk Registration Successful!",
+          description: successMessage,
+          variant: "success",
         });
+
         setShowBulkUploadDialog(false);
         if (fileInputRef.current) {
-          fileInputRef.current.value = '';
+          fileInputRef.current.value = "";
         }
+
+        // Log detailed information for debugging
+        console.log("Bulk upload successful:", {
+          totalStudents: result.totalStudents,
+          successfulRegistrations: result.successfulRegistrations,
+          registeredStudents: result.registeredStudents,
+        });
+
+        // Refresh student list if needed
+        // You can add a callback here to refresh the student data
       }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to process Excel file. Please check the format.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Failed to process Excel file",
         variant: "destructive",
       });
     } finally {
@@ -561,8 +577,6 @@ const StudentManagement = ({
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 pt-4">
-
-
                 <Button
                   variant="outline"
                   className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
@@ -588,8 +602,12 @@ const StudentManagement = ({
                 </div>
                 <div className="flex items-center gap-4 flex-shrink-0">
                   <div className="bg-white dark:bg-gray-900 px-4 py-2 rounded-md border border-gray-700">
-                    <span className=" text-gray-900  dark:text-white text-sm mr-2">Total Students:</span>
-                    <span className="text-orange-500 font-semibold">{filteredStudents.length}</span>
+                    <span className=" text-gray-900  dark:text-white text-sm mr-2">
+                      Total Students:
+                    </span>
+                    <span className="text-orange-500 font-semibold">
+                      {filteredStudents.length}
+                    </span>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                     <Select value={classFilter} onValueChange={setClassFilter}>
@@ -598,9 +616,12 @@ const StudentManagement = ({
                       </SelectTrigger>
                       <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                         <ScrollArea className="h-[180px]">
-                          <SelectItem value="all" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                          <SelectItem
+                            value="all"
+                            className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
+                          >
                             All Classes
-                          </SelectItem >
+                          </SelectItem>
                           {[...Array(12)].map((_, i) => (
                             <SelectItem
                               key={i + 1}
@@ -613,7 +634,10 @@ const StudentManagement = ({
                         </ScrollArea>
                       </SelectContent>
                     </Select>
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <Select
+                      value={statusFilter}
+                      onValueChange={setStatusFilter}
+                    >
                       <SelectTrigger className="w-full sm:w-[180px] bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
                         <SelectValue placeholder="All Status" />
                       </SelectTrigger>
@@ -656,13 +680,16 @@ const StudentManagement = ({
                   <tbody className="divide-y divide-gray-800">
                     {filteredStudents.length === 0 ? (
                       <tr>
-                        <td colSpan={7} className="px-6 py-8 text-center text-gray-400">
+                        <td
+                          colSpan={7}
+                          className="px-6 py-8 text-center text-gray-400"
+                        >
                           No students found matching your search criteria
                         </td>
                       </tr>
                     ) : (
                       filteredStudents.map((student) => (
-                        <tr key={student.id} >
+                        <tr key={student.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-800 dark:text-gray-300 ">
                               {student.studentName}
@@ -812,13 +839,16 @@ const StudentManagement = ({
                   <tbody className="divide-y divide-gray-800">
                     {kycData.length === 0 ? (
                       <tr>
-                        <td colSpan={4} className="px-6 py-8 text-center text-gray-400">
+                        <td
+                          colSpan={4}
+                          className="px-6 py-8 text-center text-gray-400"
+                        >
                           No KYC records found
                         </td>
                       </tr>
                     ) : (
                       kycData.map((kyc) => (
-                        <tr key={kyc.id} >
+                        <tr key={kyc.id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-mediumtext-gray-800 dark:text-gray-300 ">
                               {kyc.studentName}
@@ -871,31 +901,45 @@ const StudentManagement = ({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-400">Student Name</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.studentName}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.studentName}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Student ID</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.studentId}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.studentId}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Class</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.class}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.class}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Roll No.</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.roll}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.roll}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Parent Name</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentName}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.parentName}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Parent Contact</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentContact}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.parentContact}
+                  </p>
                 </div>
                 <div className="col-span-2">
                   <p className="text-sm text-gray-400">Parent Email</p>
-                  <p className=" text-gray-900  dark:text-white">{selectedStudent.parentEmail}</p>
+                  <p className=" text-gray-900  dark:text-white">
+                    {selectedStudent.parentEmail}
+                  </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Status</p>
@@ -940,7 +984,7 @@ const StudentManagement = ({
         open={showEditStudentDialog}
         onOpenChange={setShowEditStudentDialog}
       >
-        <DialogContent className= "bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 dark:border-gray-700 border-gray-700 max-h-[80vh] overflow-y-auto">
+        <DialogContent className="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 dark:border-gray-700 border-gray-700 max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Edit Student</DialogTitle>
           </DialogHeader>
@@ -1316,100 +1360,106 @@ const StudentManagement = ({
       </Dialog>
 
       {/* Bulk Upload Dialog */}
-<Dialog open={showBulkUploadDialog} onOpenChange={setShowBulkUploadDialog}>
-  <DialogContent className="bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700">
-    <DialogHeader>
-      <DialogTitle>Bulk Upload Students</DialogTitle>
-    </DialogHeader>
-
-    <div className="space-y-4">
-      {/* Info Text + Download Button */}
-      <div className="flex flex-col gap-2">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          Download the template, fill in the student details, and upload the file.
-        </p>
-        <Button
-          variant="outline"
-          className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 w-full sm:w-auto"
-          onClick={downloadTemplate}
-        >
-          <Download className="h-4 w-4 mr-2" />
-          Download Template
-        </Button>
-      </div>
-
-      {/* File Upload */}
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-900 dark:text-gray-300">
-          Upload Excel File
-        </label>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".xlsx,.xls"
-          onChange={handleFileUpload}
-          disabled={isUploading}
-          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700"
-        />
-      </div>
-
-      {/* Upload Progress */}
-      {isUploading && (
-        <div className="space-y-2">
-          <div className="h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-orange-500 transition-all duration-300"
-              style={{ width: `${uploadProgress}%` }}
-            />
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-            Uploading... {Math.round(uploadProgress)}%
-          </p>
-        </div>
-      )}
-
-      {/* Upload Errors */}
-      {bulkUploadErrors.length > 0 && (
-        <div className="space-y-2 max-h-60 overflow-y-auto">
-          <p className="text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
-            <AlertCircle className="h-4 w-4" />
-            Found errors in the following rows:
-          </p>
-          {bulkUploadErrors.map((error, index) => (
-            <div key={index} className="bg-red-100 dark:bg-red-500/10 p-3 rounded-md">
-              <p className="text-sm font-medium text-red-600 dark:text-red-400">
-                Row {error.row}:
-              </p>
-              <ul className="list-disc list-inside text-sm text-red-500 dark:text-red-300">
-                {error.errors.map((err, i) => (
-                  <li key={i}>{err}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-
-    {/* Footer Buttons */}
-    <DialogFooter>
-      <Button
-        variant="outline"
-        className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
-        onClick={() => {
-          setShowBulkUploadDialog(false);
-          setBulkUploadErrors([]);
-          if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-          }
-        }}
+      <Dialog
+        open={showBulkUploadDialog}
+        onOpenChange={setShowBulkUploadDialog}
       >
-        Cancel
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
+        <DialogContent className="bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700">
+          <DialogHeader>
+            <DialogTitle>Bulk Upload Students</DialogTitle>
+          </DialogHeader>
 
+          <div className="space-y-4">
+            {/* Info Text + Download Button */}
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Download the template, fill in the student details, and upload
+                the file.
+              </p>
+              <Button
+                variant="outline"
+                className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50 w-full sm:w-auto"
+                onClick={downloadTemplate}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download Template
+              </Button>
+            </div>
+
+            {/* File Upload */}
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium text-gray-900 dark:text-gray-300">
+                Upload Excel File
+              </label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".xlsx,.xls"
+                onChange={handleFileUpload}
+                disabled={isUploading}
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium bg-white text-gray-900 border-gray-300 dark:bg-gray-900 dark:text-white dark:border-gray-700"
+              />
+            </div>
+
+            {/* Upload Progress */}
+            {isUploading && (
+              <div className="space-y-2">
+                <div className="h-2 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-orange-500 transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+                  Uploading... {Math.round(uploadProgress)}%
+                </p>
+              </div>
+            )}
+
+            {/* Upload Errors */}
+            {bulkUploadErrors.length > 0 && (
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                <p className="text-sm font-medium text-red-600 dark:text-red-400 flex items-center gap-1">
+                  <AlertCircle className="h-4 w-4" />
+                  Found errors in the following rows:
+                </p>
+                {bulkUploadErrors.map((error, index) => (
+                  <div
+                    key={index}
+                    className="bg-red-100 dark:bg-red-500/10 p-3 rounded-md"
+                  >
+                    <p className="text-sm font-medium text-red-600 dark:text-red-400">
+                      Row {error.row}:
+                    </p>
+                    <ul className="list-disc list-inside text-sm text-red-500 dark:text-red-300">
+                      {error.errors.map((err, i) => (
+                        <li key={i}>{err}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Footer Buttons */}
+          <DialogFooter>
+            <Button
+              variant="outline"
+              className="border-gray-300 text-gray-800 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800/50"
+              onClick={() => {
+                setShowBulkUploadDialog(false);
+                setBulkUploadErrors([]);
+                if (fileInputRef.current) {
+                  fileInputRef.current.value = "";
+                }
+              }}
+            >
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

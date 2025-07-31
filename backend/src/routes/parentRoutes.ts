@@ -1,4 +1,4 @@
-import { registerStudent } from "@/controllers/parents/regStudent";
+import { registerStudent, bulkRegisterStudents, uploadMiddleware } from "@/controllers/parents/regStudent";
 import { loginParent } from "@/controllers/parents/logParent";
 
 import { getSession, refreshToken, logout } from "@/controllers/session";
@@ -9,6 +9,7 @@ const router = express.Router();
 
 // Public routes
 router.post("/register", registerStudent);
+router.post("/bulk-register", uploadMiddleware, bulkRegisterStudents);
 router.post("/login", loginParent);
 router.post("/refresh", refreshToken);
 

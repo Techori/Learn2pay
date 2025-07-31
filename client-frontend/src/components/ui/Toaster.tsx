@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
 import { cva, type VariantProps } from "class-variance-authority";
-import { X } from "lucide-react";
+import { X, CheckCircle, AlertCircle } from "lucide-react";
 
 import { cn } from "../../lib/utils";
 import { useToast } from "../../hooks/use-toast";
@@ -30,6 +30,7 @@ const toastVariants = cva(
       variant: {
         default: "",
         destructive: "destructive group border-destructive bg-destructive text-destructive-foreground dark:bg-red-900 dark:text-red-100 dark:border-red-700",
+        success: "success group border-green-500 bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-300 dark:border-green-500",
       },
     },
     defaultVariants: {
@@ -72,7 +73,7 @@ const ToastClose = React.forwardRef<
   <ToastPrimitives.Close
     ref={ref}
     className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600",
+      "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600 group-[.success]:text-green-300 group-[.success]:hover:text-green-50 group-[.success]:focus:ring-green-400 group-[.success]:focus:ring-offset-green-600",
       className
     )}
     toast-close=""
@@ -119,13 +120,27 @@ export function Toaster() {
   const { toasts } = useToast();
   // console.log("Current toasts in Toaster:", toasts);
 
+  const getIcon = (variant?: string) => {
+    switch (variant) {
+      case "success":
+        return <CheckCircle className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />;
+      case "destructive":
+        return <AlertCircle className="h-5 w-5 text-red-500 mr-2 flex-shrink-0" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <ToastProvider>
-      {toasts.map(({ id, title, description, action, ...props }) => (
-        <Toast key={id} {...props} open={props.open}>
-          <div className="grid gap-1">
-            {title && <ToastTitle>{title}</ToastTitle>}
-            {description && <ToastDescription>{description}</ToastDescription>}
+      {toasts.map(({ id, title, description, action, variant, ...props }) => (
+        <Toast key={id} variant={variant} {...props} open={props.open}>
+          <div className="flex items-start">
+            {getIcon(variant)}
+            <div className="grid gap-1 flex-1">
+              {title && <ToastTitle>{title}</ToastTitle>}
+              {description && <ToastDescription>{description}</ToastDescription>}
+            </div>
           </div>
           {action}
           <ToastClose />
