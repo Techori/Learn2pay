@@ -18,7 +18,7 @@ const studentRegisterSchema = z.object({
     completeAddress: z.string().min(1, "Complete address is required"),
     city: z.string().min(1, "City is required"),
     state: z.string().min(1, "State is required"),
-    pinCode: z.string().min(1, "Pin code is required"),
+    pinCode: z.union([z.string().min(1, "Pin code is required"), z.number().min(1, "Pin code is required")]),
   }),
   instituteName: z.string().min(1, "Institute name is required"),
 });
