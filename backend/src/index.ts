@@ -5,6 +5,7 @@ import connectDB from "./config/db";
 import instituteRoutes from "./routes/instituteRoute";
 import parentRoutes from "./routes/parentRoutes";
 import chatbotRoute from "./routes/chatbotRoute";
+import userRoutes from "./routes/userRoute";
 import dotenv from "dotenv";
 dotenv.config();
 console.log('Loaded GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET');
@@ -47,6 +48,7 @@ app.use(
 app.use("/api/institute", instituteRoutes);
 app.use("/api/parent", parentRoutes);
 app.use("/api/chatbot", chatbotRoute);
+app.use("/api/user", userRoutes);
 
 // Health check route
 app.get("/", (req, res) => {

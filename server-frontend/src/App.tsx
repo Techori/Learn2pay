@@ -17,13 +17,13 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* <Route path="/login" element={<Home />} /> */}
           <Route path="/superAdmin-dashboard" element={<SuperAdminDashboard />}/>
           <Route path="/referral-dashboard" element={<ReferralDashboard />} />
           <Route path="/support-dashboard" element={<SupportDashboard />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/sales-dashboard/salesperson" element={<SalesDashboard />} />
-          <Route path="/sales-dashbaord/manager" element={<SalesDashboard />} />
+          <Route path="/sales-dashboard/manager" element={<SalesDashboard />} />
           <Route path="/support-team-dashboard" element={<SupportDashboard role="member" />} />
           <Route path="/sales-dashboard" element={<SalesDashboard />} />
           
