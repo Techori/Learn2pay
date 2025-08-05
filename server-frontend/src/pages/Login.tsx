@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card";
+import { loginUser } from "../utils/api";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,22 +31,9 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Important for cookies
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-        }),
-      });
+      const data = await loginUser(formData.email, formData.password, formData.role);
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (!data.error) {
         // Login successful - redirect based on role
         const mockRoutes = {
           "Salesperson": "/sales-dashboard/salesperson",

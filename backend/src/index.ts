@@ -16,6 +16,10 @@ connectDB();
 
 const allowedOrigins = [
   'http://localhost:8080',
+  'http://localhost:8081',
+  'http://localhost:5173',
+  'http://192.168.29.220:8080',
+  'http://192.168.29.220:8081',
   'https://www.larn2pay.com',
   'https://learn2pay-production.up.railway.app',
   'https://learn2pay-client-frontend.vercel.app',

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // User Schema (copied from the model)
 const userSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const User = mongoose.model("User", userSchema);
 async function createDashboardUsers() {
     try {
         // Connect to database
-        await mongoose.connect("mongodb://localhost:27017/learn2pay");
+        await mongoose.connect("mongodb+srv://coderrrx:Passit%401234@learningserver.mu9jzil.mongodb.net/Learn2Pay");
         console.log("Connected to MongoDB");
 
         // Hash password
