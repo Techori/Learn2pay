@@ -3,7 +3,7 @@ import { Button } from "../../components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
 import { Input } from "../../components/ui/Input";
 import { useTheme } from "../../context/ThemeContext";
-import { leadsApi, type Lead, type CreateLeadData, type UpdateLeadData, type LeadsFilters } from "../../services/leadsApi";
+import { leadsApi, type Lead, type CreateLeadData, type LeadsFilters } from "../../services/leadsApi";
 import ViewLeadModal from "./ViewLeadModal";
 import EditLeadModal from "./EditLeadModal";
 
@@ -212,13 +212,15 @@ const MyLeads = () => {
               </button>
             </div>
           )}
+
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <select
               name="stage"
-              value={filters.stage}
+              value={filters.stage || ""}
               onChange={handleFilterChange}
               className={`w-full md:w-1/4 p-2 rounded ${inputBg} border ${inputBorder} ${textMuted}`}
+              disabled={loading}
             >
               <option value="">All Stages</option>
               <option value="New">New</option>
@@ -229,26 +231,29 @@ const MyLeads = () => {
             <Input
               type="date"
               name="startDate"
-              value={filters.startDate}
+              value={filters.startDate || ""}
               onChange={handleFilterChange}
               placeholder="Start Date"
               className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+              disabled={loading}
             />
             <Input
               type="date"
               name="endDate"
-              value={filters.endDate}
+              value={filters.endDate || ""}
               onChange={handleFilterChange}
               placeholder="End Date"
               className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+              disabled={loading}
             />
             <Input
               type="text"
               name="search"
-              value={filters.search}
+              value={filters.search || ""}
               onChange={handleFilterChange}
               placeholder="Search by Name or Institute"
               className={`w-full md:w-1/4 ${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+              disabled={loading}
             />
           </div>
 
@@ -273,7 +278,7 @@ const MyLeads = () => {
                 </tr>
               </thead>
               <tbody>
-                {leads.map((lead: Lead) => (
+                {leads.map((lead) => (
                   <tr key={lead._id} className={`border-t ${tableBorderColor} ${hoverBg}`}>
                     <td className="p-2">{lead.leadName}</td>
                     <td className="p-2">{lead.instituteName}</td>
@@ -291,10 +296,7 @@ const MyLeads = () => {
                     <td className="p-2">{formatDate(lead.lastUpdated)}</td>
                     <td className="p-2 space-x-2">
                       <Button 
-                        onClick={() => {
-                          setSelectedLead(lead);
-                          setShowViewModal(true);
-                        }} 
+                        onClick={() => handleView(lead._id)} 
                         variant="outline" 
                         className="bg-blue-500 hover:bg-blue-600 text-white text-xs"
                         disabled={loading}
@@ -302,10 +304,15 @@ const MyLeads = () => {
                         View
                       </Button>
                       <Button 
-                        onClick={() => {
-                          setSelectedLead(lead);
-                          setShowEditModal(true);
-                        }} 
+                        onClick={() => handleUpdateStage(lead._id)} 
+                        variant="outline" 
+                        className="bg-green-500 hover:bg-green-600 text-white text-xs"
+                        disabled={loading}
+                      >
+                        Update Stage
+                      </Button>
+                      <Button 
+                        onClick={() => handleEdit(lead._id)} 
                         variant="outline" 
                         className="bg-yellow-500 hover:bg-yellow-600 text-white text-xs"
                         disabled={loading}
@@ -362,7 +369,7 @@ const MyLeads = () => {
           {/* Modal for Add New Lead */}
           {showAddModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className={`${modalBg} p-6 rounded-lg w-full max-w-md`}>
+              <div className={`${modalBg} p-6 rounded-lg w-full max-w-md border ${inputBorder}`}>
                 <h3 className={`${textColor} text-xl mb-4`}>Add New Lead</h3>
                 <form onSubmit={handleAddLead} className="space-y-4">
                   <Input 
@@ -372,6 +379,8 @@ const MyLeads = () => {
                     onChange={handleInputChange} 
                     placeholder="Lead Name"
                     className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                    required
+                    disabled={loading}
                   />
                   <Input 
                     type="text" 
@@ -380,6 +389,8 @@ const MyLeads = () => {
                     onChange={handleInputChange} 
                     placeholder="Contact Phone"
                     className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                    required
+                    disabled={loading}
                   />
                   <Input 
                     type="text" 
@@ -388,12 +399,15 @@ const MyLeads = () => {
                     onChange={handleInputChange} 
                     placeholder="Institute Name"
                     className={`${inputBg} border ${inputBorder} ${inputText} ${placeholderText}`}
+                    required
+                    disabled={loading}
                   />
                   <select 
                     name="stage" 
                     value={newLead.stage} 
                     onChange={handleInputChange} 
                     className={`w-full p-2 rounded ${inputBg} border ${inputBorder} ${textMuted}`}
+                    disabled={loading}
                   >
                     <option value="New">New</option>
                     <option value="Contacted">Contacted</option>
@@ -401,8 +415,23 @@ const MyLeads = () => {
                     <option value="Onboarded">Onboarded</option>
                   </select>
                   <div className="flex justify-end space-x-2">
-                    <Button onClick={() => setShowAddModal(false)} variant="outline" className="bg-red-500 text-white">Cancel</Button>
-                    <Button type="submit" variant="outline" className="bg-green-500 text-white">Save</Button>
+                    <Button 
+                      type="button"
+                      onClick={() => setShowAddModal(false)} 
+                      variant="outline" 
+                      className="bg-red-500 text-white"
+                      disabled={loading}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      type="submit" 
+                      variant="outline" 
+                      className="bg-green-500 text-white"
+                      disabled={loading}
+                    >
+                      {loading ? 'Saving...' : 'Save'}
+                    </Button>
                   </div>
                 </form>
               </div>
@@ -410,39 +439,26 @@ const MyLeads = () => {
           )}
 
           {/* View Lead Modal */}
-          {showViewModal && selectedLead && (
-            <ViewLeadModal
-              lead={selectedLead}
-              isOpen={showViewModal}
-              onClose={() => {
-                setShowViewModal(false);
-                setSelectedLead(null);
-              }}
-            />
-          )}
+          <ViewLeadModal
+            lead={selectedLead}
+            isOpen={showViewModal}
+            onClose={() => {
+              setShowViewModal(false);
+              setSelectedLead(null);
+            }}
+          />
 
           {/* Edit Lead Modal */}
-          {showEditModal && selectedLead && (
-            <EditLeadModal
-              lead={selectedLead}
-              isOpen={showEditModal}
-              onClose={() => {
-                setShowEditModal(false);
-                setSelectedLead(null);
-              }}
-              onSave={async (id: string, updatedLeadData: UpdateLeadData) => {
-                try {
-                  await leadsApi.updateLead(id, updatedLeadData);
-                  setShowEditModal(false);
-                  setSelectedLead(null);
-                  loadLeads(); // Refresh the leads list
-                } catch (error) {
-                  console.error('Error updating lead:', error);
-                  setError('Failed to update lead');
-                }
-              }}
-            />
-          )}
+          <EditLeadModal
+            lead={selectedLead}
+            isOpen={showEditModal}
+            onClose={() => {
+              setShowEditModal(false);
+              setSelectedLead(null);
+            }}
+            onSave={handleSaveEdit}
+            isLoading={loading}
+          />
         </CardContent>
       </Card>
     </div>
