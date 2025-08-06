@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Student from "@/models/parents/studentsModel";
-
+import Institute from "@/models/institute/instituteModel";
 
 // Get all students for an institute
 export const getInstituteStudents = async (
@@ -178,4 +178,28 @@ export const getInstituteStats = async (
     console.error("Get institute stats error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+export const getAllInstitutes = async (req: Request, res: Response) : Promise<void> => {
+    try {
+        const institutes = await Institute.find({});
+        console.log(institutes);
+        res.json({
+          message: "Institute details retrieved successfully",
+          data : institutes.map((institute) => ({
+            name : institute.instituteName,
+            contactPerson : institute.contactPerson,
+            contactEmail : institute.contactEmail,
+            contactPhone : institute.contactPhone,
+            instituteType : institute.instituteType,
+            kycStatus : institute.kycStatus
+          }))
+        }).status(200);
+    } catch (error : any) {
+        console.error(error);
+        res.json({
+          message: "Internal server error",
+          error : error
+        }).status(500);
+    }
 };

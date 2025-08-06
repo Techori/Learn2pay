@@ -12,6 +12,7 @@ import autoTable from 'jspdf-autotable';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../../components/ui/Dialog";
 import { Label } from "../../components/ui/Label";
 import { Select } from "../../components/ui/Select";
+import { getAllInstitutes } from "../../utils/api";
 
 interface Institute {
   id: number;
@@ -57,71 +58,72 @@ const InstituteManagement = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [institutes, setInstitutes] = useState<Institute[]>([
-    {
-      id: 1,
-      name: "Modern Public School",
-      type: "School",
-      location: "Delhi",
-      principal: "Dr. Rajesh Kumar",
-      phone: "9876543210",
-      email: "info@mps.edu",
-      students: 1250,
-      status: "Active",
-      kycStatus: "Approved",
-      joinDate: "2024-01-15"
-    },
-    {
-      id: 2,
-      name: "Excel Coaching Center",
-      type: "Coaching",
-      location: "Mumbai",
-      principal: "Priya Sharma",
-      phone: "9876543211",
-      email: "excel@coaching.com",
-      students: 450,
-      status: "Active",
-      kycStatus: "Pending",
-      joinDate: "2024-01-20"
-    },
-    {
-      id: 3,
-      name: "Sunrise College",
-      type: "College",
-      location: "Bangalore",
-      principal: "Prof. Amit Singh",
-      phone: "9876543212",
-      email: "admin@sunrise.edu",
-      students: 2100,
-      status: "Suspended",
-      kycStatus: "Rejected",
-      joinDate: "2024-01-10"
-    },
-    {
-      id: 4,
-      name: "Global Education Institute",
-      type: "School",
-      location: "Chennai",
-      principal: "Dr. Lakshmi Nair",
-      phone: "9876543213",
-      email: "contact@globaledu.org",
-      students: 850,
-      status: "Active",
-      kycStatus: "Approved",
-      joinDate: "2024-01-25"
-    },
-    {
-      id: 5,
-      name: "Future Academy",
-      type: "Coaching",
-      location: "Delhi",
-      principal: "Vikram Malhotra",
-      phone: "9876543214",
-      email: "info@futureacademy.com",
-      students: 350,
-      status: "Pending",
-      kycStatus: "Pending",
-      joinDate: "2024-02-01"
-    }
+
+    // {
+    //   id: 1,
+    //   name: "Modern Public School",
+    //   type: "School",
+    //   location: "Delhi",
+    //   principal: "Dr. Rajesh Kumar",
+    //   phone: "9876543210",
+    //   email: "info@mps.edu",
+    //   students: 1250,
+    //   status: "Active",
+    //   kycStatus: "Approved",
+    //   joinDate: "2024-01-15"
+    // },
+    // {
+    //   id: 2,
+    //   name: "Excel Coaching Center",
+    //   type: "Coaching",
+    //   location: "Mumbai",
+    //   principal: "Priya Sharma",
+    //   phone: "9876543211",
+    //   email: "excel@coaching.com",
+    //   students: 450,
+    //   status: "Active",
+    //   kycStatus: "Pending",
+    //   joinDate: "2024-01-20"
+    // },
+    // {
+    //   id: 3,
+    //   name: "Sunrise College",
+    //   type: "College",
+    //   location: "Bangalore",
+    //   principal: "Prof. Amit Singh",
+    //   phone: "9876543212",
+    //   email: "admin@sunrise.edu",
+    //   students: 2100,
+    //   status: "Suspended",
+    //   kycStatus: "Rejected",
+    //   joinDate: "2024-01-10"
+    // },
+    // {
+    //   id: 4,
+    //   name: "Global Education Institute",
+    //   type: "School",
+    //   location: "Chennai",
+    //   principal: "Dr. Lakshmi Nair",
+    //   phone: "9876543213",
+    //   email: "contact@globaledu.org",
+    //   students: 850,
+    //   status: "Active",
+    //   kycStatus: "Approved",
+    //   joinDate: "2024-01-25"
+    // },
+    // {
+    //   id: 5,
+    //   name: "Future Academy",
+    //   type: "Coaching",
+    //   location: "Delhi",
+    //   principal: "Vikram Malhotra",
+    //   phone: "9876543214",
+    //   email: "info@futureacademy.com",
+    //   students: 350,
+    //   status: "Pending",
+    //   kycStatus: "Pending",
+    //   joinDate: "2024-02-01"
+    // }
   ]);
   const [filteredInstitutes, setFilteredInstitutes] = useState<Institute[]>(institutes);
   const [isAddInstituteOpen, setIsAddInstituteOpen] = useState(false);
@@ -185,7 +187,33 @@ const InstituteManagement = () => {
   const [filteredFranchises, setFilteredFranchises] = useState<FranchiseData[]>(franchises);
 
   // Update filtered institutes when search term or filters change
-  useEffect(() => {
+ useEffect(()=> {
+  const fetchInstitutes = async () => {
+    const institutes = await getAllInstitutes();
+    const institutesData = institutes.data.map((institute : any) => ({
+
+      // id: institute._id,
+      name: institute.name,
+      principal : `${institute.contactPerson.firstName} ${institute.contactPerson.lastName}`,
+
+      type: institute.instituteType,
+      // location: institute.location,
+      // principal: institute.contactPerson,
+      phone: institute.contactPhone,
+      email: institute.contactEmail,
+      students: 1250,
+      status: institute.status,
+      kycStatus: institute.kycStatus,
+      // joinDate: institute.joinDate,
+    }))
+
+    setInstitutes(institutesData);
+    
+
+  }
+
+  fetchInstitutes();
+    
     let filtered = [...institutes];
     
     if (searchTerm) {
@@ -253,6 +281,8 @@ const InstituteManagement = () => {
       default: return 'bg-text-secondary text-white';
     }
   };
+
+
 
   const getKycStatusColor = (status: string) => {
     switch (status) {

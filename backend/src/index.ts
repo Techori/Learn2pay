@@ -54,6 +54,8 @@ app.use("/api/parent", parentRoutes);
 app.use("/api/chatbot", chatbotRoute);
 app.use("/api/user", userRoutes);
 
+
+
 // Health check route
 app.get("/", (req, res) => {
   res.json({ message: "Learn2Pay Backend API is running!" });

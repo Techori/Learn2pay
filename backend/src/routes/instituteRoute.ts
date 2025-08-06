@@ -5,7 +5,7 @@ import { getSession, refreshToken, logout } from "@/controllers/session";
 import { authenticateToken } from "@/middleware/auth";
 import express from "express";
 import { startKycVerification, getKycStatus, getDocument, getDocumentInfo } from "@/controllers/kyc/kycController";
-
+import { getAllInstitutes } from "@/controllers/institute/instituteController";
 const router = express.Router();
 
 // Public routes
@@ -26,5 +26,14 @@ router.get('/kyc/document/:documentType/info', authenticateToken, getDocumentInf
 
 // Route to serve documents from MongoDB
 router.get('/kyc/document/:documentType', authenticateToken, getDocument);
+
+
+//Route to get institute details for server-side
+
+router.get("/fetch-all-institutes", getAllInstitutes)
+
+
+
+
 
 export default router;

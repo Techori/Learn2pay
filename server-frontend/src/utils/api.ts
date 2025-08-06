@@ -19,9 +19,9 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
   };
 
   // Remove Content-Type for FormData
-  if (options.body instanceof FormData) {
-    delete defaultOptions.headers?.["Content-Type"];
-  }
+  // if (options.body instanceof FormData) {
+  //   delete defaultOptions.headers?.["Content-Type"];
+  // }
 
   try {
     const response = await fetch(url, defaultOptions);
@@ -122,3 +122,9 @@ export const refreshToken = async () => {
     method: "POST",
   });
 }; 
+
+//routes for institute management - admin
+export const getAllInstitutes = async () => {
+  return apiCall("/api/institute/fetch-all-institutes");
+};
+
