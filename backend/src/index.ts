@@ -7,6 +7,7 @@ import parentRoutes from "./routes/parentRoutes";
 import chatbotRoute from "./routes/chatbotRoute";
 import userRoutes from "./routes/userRoute";
 import leadsRoutes from "./routes/leadsRoute";
+import ticketsRoutes from "./routes/ticketsRoute";
 import dotenv from "dotenv";
 dotenv.config();
 console.log('Loaded GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET');
@@ -55,6 +56,7 @@ app.use("/api/parent", parentRoutes);
 app.use("/api/chatbot", chatbotRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/leads", leadsRoutes);
+app.use("/api/tickets", ticketsRoutes);
 
 
 

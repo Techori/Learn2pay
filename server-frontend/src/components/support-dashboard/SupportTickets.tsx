@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -64,6 +64,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/AlertDailog";
 import { Textarea } from "@/components/ui/Textarea";
+import {
+  getAllTickets,
+  createTicket,
+  updateTicketStatus,
+  assignTicket,
+  getAllInstitutes,
+  getTicketStats,
+} from "@/services/ticketsApi";
 
 // Add Ticket interface for full ticket shape
 interface Ticket {
@@ -108,100 +116,185 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
     category: "",
     priority: "Medium",
   });
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [stats, setStats] = useState({
+    total: 0,
+    open: 0,
+    avgResponseTime: "0h",
+    resolutionRate: 0,
+  });
+  const [institutes, setInstitutes] = useState<
+    Array<{ id: string; name: string }>
+  >([]);
 
-  // Annotate tickets state to use Ticket[]
-  const [tickets, setTickets] = useState<Ticket[]>([
-    {
-      id: "TKT-001",
-      title: "Fee collection not working",
-      institute: "ABC School",
-      priority: "High",
-      status: "In Progress",
-      time: "2 hours ago",
-      assignee: "Rahul Sharma",
-    },
-    {
-      id: "TKT-002",
-      title: "Parent portal login issue",
-      institute: "XYZ Academy",
-      priority: "Medium",
-      status: "New",
-      time: "4 hours ago",
-      assignee: "Unassigned",
-    },
-    {
-      id: "TKT-003",
-      title: "Payment gateway integration",
-      institute: "Success Institute",
-      priority: "Low",
-      status: "Resolved",
-      time: "1 day ago",
-      assignee: "Priya Singh",
-    },
-    {
-      id: "TKT-004",
-      title: "Student data import failed",
-      institute: "Global School",
-      priority: "High",
-      status: "New",
-      time: "1 hour ago",
-      assignee: "Unassigned",
-    },
-    {
-      id: "TKT-005",
-      title: "Attendance module error",
-      institute: "New Horizon Academy",
-      priority: "Medium",
-      status: "In Progress",
-      time: "5 hours ago",
-      assignee: "Vikram Patel",
-    },
-    // Added for team member filtering test
-    {
-      id: "TKT-006",
-      title: "Test ticket for team member",
-      institute: "Test Institute",
-      priority: "Medium",
-      status: "Open",
-      time: "Just now",
-      assignee: "Support Team Member",
-    },
-  ]);
+  // Load tickets data from API
+  const fetchTickets = async () => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams();
 
-  const [summaryStats, setSummaryStats] = useState([
+      if (statusFilter !== "all") params.append("status", statusFilter);
+      if (priorityFilter !== "all") params.append("priority", priorityFilter);
+      if (categoryFilter !== "all") params.append("category", categoryFilter);
+      if (searchQuery) params.append("search", searchQuery);
+
+      const response = await getAllTickets(Object.fromEntries(params));
+
+      if (response.success && response.data) {
+        // Map MongoDB _id to id for frontend compatibility
+        const mappedTickets = response.data.map((ticket: any) => ({
+          ...ticket,
+          id: ticket._id || ticket.id,
+          time: ticket.createdAt
+            ? new Date(ticket.createdAt).toLocaleDateString()
+            : "N/A",
+          assignee: ticket.assignedTo || "Unassigned",
+        }));
+        setTickets(mappedTickets);
+        setError("");
+
+        // Update stats based on fetched tickets
+        const openTickets = mappedTickets.filter(
+          (ticket: any) =>
+            ticket.status === "New" ||
+            ticket.status === "Open" ||
+            ticket.status === "In Progress"
+        );
+        const resolvedTickets = mappedTickets.filter(
+          (ticket: any) => ticket.status === "Resolved"
+        );
+
+        setStats({
+          total: mappedTickets.length,
+          open: openTickets.length,
+          avgResponseTime: "2.3h", // This could be calculated from real data
+          resolutionRate:
+            mappedTickets.length > 0
+              ? Math.round(
+                  (resolvedTickets.length / mappedTickets.length) * 100
+                )
+              : 0,
+        });
+      } else {
+        setError(response.error || "Failed to fetch tickets");
+        setTickets([]);
+      }
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+      setError("Failed to fetch tickets. Please try again.");
+      setTickets([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle ticket click navigation
+  const handleTicketClick = (ticketId: string) => {
+    console.log("Navigating to ticket", ticketId);
+    // TODO: Implement ticket detail navigation
+    // For now, just log the ticket ID
+    if (!ticketId) {
+      console.error("No ticket ID provided");
+      return;
+    }
+    // You can add navigation logic here, e.g.:
+    // navigate(`/support/tickets/${ticketId}`);
+  };
+
+  // Fetch institutes for dropdown
+  const fetchInstitutes = async () => {
+    try {
+      console.log("Fetching institutes...");
+      const response = await getAllInstitutes();
+      console.log("Institutes API response:", response);
+
+      if (response.success && response.data) {
+        // Handle different possible response structures
+        const instituteData = Array.isArray(response.data)
+          ? response.data
+          : response.data.data || [];
+        console.log("Institute data:", instituteData);
+
+        const mappedInstitutes = instituteData.map((inst: any) => ({
+          id: inst._id || inst.id,
+          name: inst.name || inst.instituteName || "Unknown Institute",
+        }));
+
+        console.log("Mapped institutes:", mappedInstitutes);
+        setInstitutes(mappedInstitutes);
+      } else if (response.data && Array.isArray(response.data)) {
+        // Handle case where success field is missing but data is present
+        console.log("Direct institute data:", response.data);
+        const mappedInstitutes = response.data.map((inst: any) => ({
+          id: inst._id || inst.id,
+          name: inst.name || inst.instituteName || "Unknown Institute",
+        }));
+
+        console.log("Mapped institutes (direct):", mappedInstitutes);
+        setInstitutes(mappedInstitutes);
+      } else {
+        console.log("No institutes found or API error:", response);
+        // Set some default institutes if API fails
+        setInstitutes([
+          { id: "1", name: "Default Institute" },
+          { id: "2", name: "Sample School" },
+          { id: "3", name: "Test Academy" },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching institutes:", error);
+      // Set default institutes on error
+      setInstitutes([
+        { id: "1", name: "Default Institute" },
+        { id: "2", name: "Sample School" },
+        { id: "3", name: "Test Academy" },
+      ]);
+    }
+  };
+
+  // Fetch data on component mount and when filters change
+  useEffect(() => {
+    fetchTickets();
+  }, [statusFilter, priorityFilter, categoryFilter, searchQuery]);
+
+  // Fetch institutes only once on component mount
+  useEffect(() => {
+    fetchInstitutes();
+  }, []);
+
+  // Summary stats will be calculated from real data
+  const summaryStats = [
     {
       title: "Total Tickets",
-      value: "156",
+      value: stats.total.toString(),
       change: "+12%",
-      changeDirection: "up",
       icon: <Ticket className="h-5 w-5" />,
-      color: "text-blue-500",
+      color: "text-blue-600",
     },
     {
       title: "Open Tickets",
-      value: "23",
-      change: "-15%",
-      changeDirection: "down",
+      value: stats.open.toString(),
+      change: "-8%",
       icon: <AlertTriangle className="h-5 w-5" />,
-      color: "text-orange-500",
+      color: "text-orange-600",
     },
     {
       title: "Avg Response Time",
-      value: "2.3h",
+      value: stats.avgResponseTime,
       change: "-30min",
-      changeDirection: "down",
       icon: <Clock className="h-5 w-5" />,
-      color: "text-green-500",
+      color: "text-green-600",
     },
     {
       title: "Resolution Rate",
-      value: "94%",
+      value: `${stats.resolutionRate}%`,
       change: "+2%",
-      changeDirection: "up",
       icon: <CheckCircle className="h-5 w-5" />,
-      color: "text-green-500",
+      color: "text-green-600",
     },
-  ]);
+  ];
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -248,46 +341,47 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
     setCategoryFilter(value);
   };
 
-  const handleCreateTicket = () => {
-    if (
-      !newTicket.title ||
-      !newTicket.description ||
-      !newTicket.institute ||
-      !newTicket.category
-    ) {
-      alert("Please fill in all required fields");
-      return;
-    }
-
-    const ticket: Ticket = {
-      id: `TKT-${String(tickets.length + 1).padStart(3, "0")}`,
-      title: newTicket.title,
-      description: newTicket.description,
-      institute: newTicket.institute,
-      category: newTicket.category,
-      priority: newTicket.priority,
-      status: "New",
-      time: "Just now",
-      assignee: "Unassigned",
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      lastResponse: "Just now",
-      responseTime: "0",
-      resolutionTime: "0",
-      customerSatisfaction: 0,
-      attachments: 0,
-      comments: 0,
+  const handleCreateTicket = async () => {
+    // Set default values for optional fields to avoid validation issues
+    const ticketData = {
+      title: newTicket.title || "Support Request",
+      message: newTicket.description || "No description provided",
+      category: newTicket.category || "General",
+      priority: newTicket.priority || "Medium",
+      institute: newTicket.institute || null,
     };
 
-    setTickets((prevTickets) => [ticket, ...prevTickets]);
-    setNewTicket({
-      title: "",
-      description: "",
-      institute: "",
-      category: "",
-      priority: "Medium",
-    });
-    setIsCreateDialogOpen(false);
+    try {
+      setLoading(true);
+      const response = await createTicket({
+        title: ticketData.title,
+        message: ticketData.message,
+        category: ticketData.category,
+        priority: ticketData.priority,
+        institute: ticketData.institute || undefined,
+      });
+
+      if (response.success) {
+        // Refresh the tickets list to show the new ticket
+        await fetchTickets();
+
+        // Reset form
+        setNewTicket({
+          title: "",
+          description: "",
+          institute: "",
+          category: "",
+          priority: "Medium",
+        });
+        setIsCreateDialogOpen(false);
+      } else {
+        console.error("Error creating ticket:", response.error);
+      }
+    } catch (error) {
+      console.error("Error creating ticket:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleNewTicketChange = (field: string, value: string) => {
@@ -308,33 +402,41 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
     setIsActionDialogOpen(true);
   };
 
-  const confirmTicketAction = () => {
+  const confirmTicketAction = async () => {
     if (!selectedTicket) return;
 
-    const updatedTickets = tickets.map((ticket) => {
-      if (ticket.id === selectedTicket.id) {
-        switch (selectedAction) {
-          case "assign":
-            return { ...ticket, status: "In Progress", assignee: assignTo };
-          case "escalate":
-            return { ...ticket, priority: "High", status: "In Progress" };
-          case "close":
-            return {
-              ...ticket,
-              status: "Closed",
-              updatedAt: new Date().toISOString(),
-            };
-          default:
-            return ticket;
-        }
-      }
-      return ticket;
-    });
+    try {
+      let response;
 
-    setTickets(updatedTickets);
-    setIsActionDialogOpen(false);
-    setSelectedTicket(null);
-    setSelectedAction("");
+      switch (selectedAction) {
+        case "assign":
+          response = await assignTicket(selectedTicket.id, assignTo);
+          break;
+        case "escalate":
+          response = await updateTicketStatus(selectedTicket.id, "In Progress");
+          break;
+        case "close":
+          response = await updateTicketStatus(selectedTicket.id, "Resolved");
+          break;
+        default:
+          return;
+      }
+
+      if (response.error) {
+        alert(`Error updating ticket: ${response.error}`);
+        return;
+      }
+
+      // Refresh the tickets list
+      await fetchTickets();
+
+      setIsActionDialogOpen(false);
+      setSelectedTicket(null);
+      setSelectedAction("");
+    } catch (error) {
+      console.error("Error updating ticket:", error);
+      alert("Failed to update ticket. Please try again.");
+    }
   };
 
   const getActionDialogContent = () => {
@@ -489,13 +591,14 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
     if (role === "member" && user?.name) {
       matchesAssignee = ticket.assignee === user.name;
     }
-    return matchesSearch && matchesStatus && matchesPriority && matchesCategory && matchesAssignee;
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesPriority &&
+      matchesCategory &&
+      matchesAssignee
+    );
   });
-
-  const handleTicketClick = (ticketId: string) => {
-    // Navigate to ticket details page
-    console.log(`Navigating to ticket ${ticketId}`);
-  };
 
   return (
     <div className="space-y-6">
@@ -506,7 +609,14 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
             Manage and respond to support requests from institutes
           </p>
         </div>
-        <Button onClick={() => setIsCreateDialogOpen(true)}
+        <Button
+          onClick={() => {
+            setIsCreateDialogOpen(true);
+            // Ensure institutes are loaded when opening the dialog
+            if (institutes.length === 0) {
+              fetchInstitutes();
+            }
+          }}
           className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
         >
           <Plus className="mr-2 h-4 w-4" /> Create Ticket
@@ -518,13 +628,15 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
         {summaryStats.map((stat, index) => (
           <Card key={index}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                {stat.title}
+              </CardTitle>
               <div className={stat.color}>{stat.icon}</div>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stat.value}</div>
               <div className="flex items-center">
-                {stat.changeDirection === "up" ? (
+                {stat.change.startsWith("+") ? (
                   <ArrowUpRight className="h-4 w-4 text-success mr-1" />
                 ) : (
                   <ArrowDownRight className="h-4 w-4 text-success mr-1" />
@@ -601,8 +713,8 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
         </CardHeader>
         <CardContent>
           <div className="border border-card-border rounded-md overflow-hidden">
-            <div className="grid grid-cols-12 gap-2 p-3 bg-card-bg/80">
-              <div className="col-span-1 flex items-center">ID</div>
+            <div className="grid grid-cols-12 gap-4 p-3 bg-card-bg/80">
+              <div className="col-span-1 flex items-center">#</div>
               <div className="col-span-4 flex items-center">
                 Title
                 <ArrowUpDown className="ml-2 h-3 w-3" />
@@ -611,86 +723,130 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
               <div className="col-span-2 flex items-center">Status</div>
               <div className="col-span-2 flex items-center">Assignee</div>
               <div className="col-span-1 flex items-center">Time</div>
-              <div className="col-span-1 flex items-center text-right">Actions</div>
+              <div className="col-span-1 flex items-center text-right">
+                Actions
+              </div>
             </div>
 
-            {/* Ticket rows */}
-            {filteredTickets.map((ticket) => (
-              <div
-                key={ticket.id}
-                className="grid grid-cols-12 gap-2 p-3 border-t border-card-border hover:bg-card-bg/50 cursor-pointer"
-                onClick={() => handleTicketClick(ticket.id)}
-              >
-                <div className="col-span-1 flex items-center font-mono text-sm">
-                  {ticket.id}
-                </div>
-                <div className="col-span-4 flex items-center font-medium">
-                  {ticket.title}
-                </div>
-                <div className="col-span-1">
-                  <Badge className={`${getPriorityColor(ticket.priority)}`}>
-                    {ticket.priority}
-                  </Badge>
-                </div>
-                <div className="col-span-2">
-                  <Badge className={`${getStatusColor(ticket.status)}`}>
-                    {ticket.status}
-                  </Badge>
-                </div>
-                <div className="col-span-2 flex items-center text-text-secondary">
-                  {ticket.assignee}
-                </div>
-                <div className="col-span-1 flex items-center text-sm text-text-secondary">
-                  {ticket.time}
-                </div>
-                <div className="col-span-1 flex justify-end">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem 
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTicketAction(ticket.id, "view");
-                        }}
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        View Details
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTicketAction(ticket.id, "assign");
-                        }}
-                      >
-                        <Users className="mr-2 h-4 w-4" />
-                        Assign
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleTicketAction(ticket.id, "escalate");
-                        }}
-                        className="text-danger"
-                      >
-                        <AlertTriangle className="mr-2 h-4 w-4" />
-                        Escalate
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+            {/* Loading state */}
+            {loading && (
+              <div className="p-8 text-center">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                <p className="mt-2 text-text-secondary">Loading tickets...</p>
               </div>
-            ))}
+            )}
+
+            {/* Error state */}
+            {error && (
+              <div className="p-8 text-center">
+                <div className="text-red-500 mb-2">
+                  <AlertTriangle className="h-8 w-8 mx-auto" />
+                </div>
+                <p className="text-red-600 font-medium">
+                  Error loading tickets
+                </p>
+                <p className="text-text-secondary text-sm mt-1">{error}</p>
+                <Button
+                  onClick={fetchTickets}
+                  className="mt-4 bg-orange-500 hover:bg-orange-600 text-white"
+                >
+                  Try Again
+                </Button>
+              </div>
+            )}
+
+            {/* Empty state */}
+            {!loading && !error && filteredTickets.length === 0 && (
+              <div className="p-8 text-center">
+                <Ticket className="h-12 w-12 mx-auto text-text-secondary mb-4" />
+                <p className="text-text-secondary font-medium">
+                  No tickets found
+                </p>
+                <p className="text-text-secondary text-sm mt-1">
+                  Try adjusting your filters or create a new ticket
+                </p>
+              </div>
+            )}
+
+            {/* Ticket rows */}
+            {!loading &&
+              !error &&
+              filteredTickets.map((ticket, index) => (
+                <div
+                  key={ticket.id}
+                  className="grid grid-cols-12 gap-4 p-3 border-t border-card-border hover:bg-card-bg/50 cursor-pointer"
+                  onClick={() => handleTicketClick(ticket.id)}
+                >
+                  <div className="col-span-1 flex items-center font-mono text-sm">
+                    {index + 1}
+                  </div>
+                  <div className="col-span-4 flex items-center font-medium">
+                    {ticket.title}
+                  </div>
+                  <div className="col-span-1">
+                    <Badge className={`${getPriorityColor(ticket.priority)}`}>
+                      {ticket.priority}
+                    </Badge>
+                  </div>
+                  <div className="col-span-2">
+                    <Badge className={`${getStatusColor(ticket.status)}`}>
+                      {ticket.status}
+                    </Badge>
+                  </div>
+                  <div className="col-span-2 flex items-center text-text-secondary">
+                    {ticket.assignee}
+                  </div>
+                  <div className="col-span-1 flex items-center text-sm text-text-secondary">
+                    {ticket.time}
+                  </div>
+                  <div className="col-span-1 flex justify-end">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <MoreVertical className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTicketAction(ticket.id, "view");
+                          }}
+                        >
+                          <Eye className="mr-2 h-4 w-4" />
+                          View Details
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTicketAction(ticket.id, "assign");
+                          }}
+                        >
+                          <Users className="mr-2 h-4 w-4" />
+                          Assign
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTicketAction(ticket.id, "escalate");
+                          }}
+                          className="text-danger"
+                        >
+                          <AlertTriangle className="mr-2 h-4 w-4" />
+                          Escalate
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              ))}
           </div>
         </CardContent>
       </Card>
@@ -712,9 +868,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
               <Input
                 id="title"
                 value={newTicket.title}
-                onChange={(e) =>
-                  handleNewTicketChange("title", e.target.value)
-                }
+                onChange={(e) => handleNewTicketChange("title", e.target.value)}
                 placeholder="Brief description of the issue"
               />
             </div>
@@ -747,12 +901,17 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
                     <SelectValue placeholder="Select institute" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ABC School">ABC School</SelectItem>
-                    <SelectItem value="XYZ Academy">XYZ Academy</SelectItem>
-                    <SelectItem value="Success Institute">
-                      Success Institute
-                    </SelectItem>
-                    <SelectItem value="Global School">Global School</SelectItem>
+                    {institutes.length > 0 ? (
+                      institutes.map((institute) => (
+                        <SelectItem key={institute.id} value={institute.name}>
+                          {institute.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="loading" disabled>
+                        Loading institutes...
+                      </SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -786,7 +945,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
             >
               Cancel
             </Button>
-            <Button 
+            <Button
               className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
               onClick={handleCreateTicket}
             >
@@ -818,7 +977,7 @@ const SupportTickets = ({ role = "lead", user }: SupportTicketsProps) => {
               Cancel
             </Button>
             {selectedAction !== "view" && (
-              <Button 
+              <Button
                 className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
                 onClick={confirmTicketAction}
               >
