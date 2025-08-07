@@ -651,14 +651,14 @@ const SupportInstitutes = ({ role = "lead", user }: SupportInstitutesProps) => {
                     Add Institute
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="flex flex-col max-h-[90vh]">
                   <DialogHeader>
                     <DialogTitle>Add New Institute</DialogTitle>
                     <DialogDescription>
                       Fill in the details to add a new educational institute
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="space-y-4">
+                  <div className="space-y-4 overflow-y-auto flex-1 max-h-[70vh]">
                     <div>
                       <Label htmlFor="name">Institute Name</Label>
                       <Input

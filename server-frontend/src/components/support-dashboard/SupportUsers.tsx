@@ -575,6 +575,78 @@ const SupportUsers = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Create User Dialog */}
+      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New User</DialogTitle>
+            <DialogDescription>Fill in the details to add a new user.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <Input
+              placeholder="Name*"
+              value={newUser.name}
+              onChange={e => handleNewUserChange('name', e.target.value)}
+            />
+            <Input
+              placeholder="Email*"
+              value={newUser.email}
+              onChange={e => handleNewUserChange('email', e.target.value)}
+            />
+            <Input
+              placeholder="Phone*"
+              value={newUser.phone}
+              onChange={e => handleNewUserChange('phone', e.target.value)}
+            />
+            <Input
+              placeholder="Location*"
+              value={newUser.location}
+              onChange={e => handleNewUserChange('location', e.target.value)}
+            />
+            <Input
+              placeholder="Institute*"
+              value={newUser.institute}
+              onChange={e => handleNewUserChange('institute', e.target.value)}
+            />
+            <div className="flex space-x-2">
+              <select
+                className="border rounded px-2 py-1"
+                value={newUser.role}
+                onChange={e => handleNewUserChange('role', e.target.value)}
+              >
+                <option value="Parent">Parent</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Student">Student</option>
+                <option value="Institute Admin">Institute Admin</option>
+              </select>
+              <select
+                className="border rounded px-2 py-1"
+                value={newUser.status}
+                onChange={e => handleNewUserChange('status', e.target.value)}
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={() => setIsCreateDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              className="bg-white border-orange-500 border text-orange-500 hover:bg-orange-500 hover:text-white transition-colors"
+              onClick={handleCreateUser}
+            >
+              Create
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
