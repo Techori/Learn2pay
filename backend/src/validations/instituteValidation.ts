@@ -11,7 +11,7 @@ export const instituteRegisterSchema = z.object({
     .trim(),
 
   instituteType: z.enum(
-    ["school", "college", "academy", "gym", "other", "coaching"],
+    ["School", "College", "Academy", "Gym", "Other", "Coaching"],
     {
       required_error: "Institute type is required",
       invalid_type_error: "Please select a valid institute type",
@@ -186,3 +186,4 @@ export const instituteLoginSchema = z.object({
     })
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
+
