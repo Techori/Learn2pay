@@ -8,6 +8,7 @@ import chatbotRoute from "./routes/chatbotRoute";
 import userRoutes from "./routes/userRoute";
 import leadsRoutes from "./routes/leadsRoute";
 import ticketsRoutes from "./routes/ticketsRoute";
+import salesRoutes from "./routes/salesRoutes";
 import dotenv from "dotenv";
 dotenv.config();
 console.log('Loaded GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET');
@@ -27,6 +28,13 @@ const allowedOrigins = [
   'https://learn2pay-client-frontend.vercel.app',
   'https://learn2pay-server-frontend.vercel.app',
 ];
+
+// Debug middleware
+app.use((req, res, next) => {
+  const timestamp = new Date().toLocaleString();
+  console.log(`[${timestamp}] ${req.method} ${req.path}`);
+  next();
+});
 
 // Middleware
 app.use(express.json({ limit: '50mb' })); // Increased limit for file uploads
@@ -57,7 +65,7 @@ app.use("/api/chatbot", chatbotRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/leads", leadsRoutes);
 app.use("/api/tickets", ticketsRoutes);
-
+app.use('/api/sales', salesRoutes);
 
 
 // Health check route
