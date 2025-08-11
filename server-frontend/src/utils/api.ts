@@ -128,3 +128,10 @@ export const getAllInstitutes = async () => {
   return apiCall("/api/institute/fetch-all-institutes");
 };
 
+
+export const getAllUsers = async()=>{
+  return apiCall("/api/user/fetch-all-users" ,{
+    method : "GET"
+  });
+}
+

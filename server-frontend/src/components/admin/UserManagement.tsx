@@ -8,6 +8,7 @@ import { Badge } from "../../components/ui/Badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/DropdownMenu";
 import { Search, UserPlus, UserCheck, UserX, Eye, Filter as FilterIcon, Users, Edit, Ban } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
+import { getAllUsers } from "../../utils/api";
 
 interface User {
   id: number;
@@ -27,19 +28,41 @@ const UserManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  const initialUsers: User[] = [
-    { id: 1, name: "Raj Kumar", email: "raj@email.com", role: "Sales Manager", status: "Active", city: "Mumbai", joinDate: "2024-01-15" },
-    { id: 2, name: "Priya Sharma", email: "priya@email.com", role: "Sales Team", status: "Active", city: "Delhi", joinDate: "2024-01-10" },
-    { id: 3, name: "Amit Singh", email: "amit@email.com", role: "Support Manager", status: "Inactive", city: "Bangalore", joinDate: "2024-01-05" },
-    { id: 4, name: "Lakshmi Nair", email: "lakshmi@email.com", role: "Support Team", status: "Active", city: "Chennai", joinDate: "2024-01-20" },
-    { id: 5, name: "Rahul Verma", email: "rahul@email.com", role: "Referral Partner", status: "Inactive", city: "Pune", joinDate: "2024-01-18" },
-    { id: 6, name: "Sneha Patel", email: "sneha@email.com", role: "Institute Admin", status: "Active", city: "Hyderabad", joinDate: "2024-02-01" },
-    { id: 7, name: "Vikram Singh", email: "vikram@email.com", role: "Student", status: "Inactive", city: "Kolkata", joinDate: "2024-02-10" },
-  ];
-  const [users, setUsers] = useState<User[]>(initialUsers);
+  // const initialUsers: User[] = [
+  //   { id: 1, name: "Raj Kumar", email: "raj@email.com", role: "Sales Manager", status: "Active", city: "Mumbai", joinDate: "2024-01-15" },
+  //   { id: 2, name: "Priya Sharma", email: "priya@email.com", role: "Sales Team", status: "Active", city: "Delhi", joinDate: "2024-01-10" },
+  //   { id: 3, name: "Amit Singh", email: "amit@email.com", role: "Support Manager", status: "Inactive", city: "Bangalore", joinDate: "2024-01-05" },
+  //   { id: 4, name: "Lakshmi Nair", email: "lakshmi@email.com", role: "Support Team", status: "Active", city: "Chennai", joinDate: "2024-01-20" },
+  //   { id: 5, name: "Rahul Verma", email: "rahul@email.com", role: "Referral Partner", status: "Inactive", city: "Pune", joinDate: "2024-01-18" },
+  //   { id: 6, name: "Sneha Patel", email: "sneha@email.com", role: "Institute Admin", status: "Active", city: "Hyderabad", joinDate: "2024-02-01" },
+  //   { id: 7, name: "Vikram Singh", email: "vikram@email.com", role: "Student", status: "Inactive", city: "Kolkata", joinDate: "2024-02-10" },
+  // ];
+  const [users, setUsers] = useState<User[]>([]);
 
   const roles = ["All", "Sales Manager", "Sales Team", "Support Manager", "Support Team", "Referral Partner", "Institute Admin", "Student"];
 
+  useEffect(()=>{
+    const fetchUsers = async () => {
+      const response = await getAllUsers();
+      if (response) {
+        console.log(response);
+        const users = response.data;
+        const usersData = users.map((user: any)=>{
+          name : user.fullName
+          email : user.email
+          role : user.role
+          status : "Active"
+          city : "Mumbai"
+          joinDate : "2024-01-15"
+        })
+
+
+        setUsers(usersData)
+    
+      }
+    };
+    fetchUsers();
+  },[])
   // Filter and sort users
   const filteredUsers = users.filter((user) => {
     const matchesRole = activeTab === "All" || user.role === activeTab;

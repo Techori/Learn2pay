@@ -195,16 +195,15 @@ const InstituteManagement = () => {
       // id: institute._id,
       name: institute.name,
       principal : `${institute.contactPerson.firstName} ${institute.contactPerson.lastName}`,
-
+      status : "Active",
       type: institute.instituteType,
       // location: institute.location,
       // principal: institute.contactPerson,
       phone: institute.contactPhone,
       email: institute.contactEmail,
       students: 1250,
-      status: institute.status,
-      kycStatus: institute.kycStatus,
-      // joinDate: institute.joinDate,
+      kycStatus: "Pending",
+      joinDate: "2025-08-07",
     }))
 
     setInstitutes(institutesData);

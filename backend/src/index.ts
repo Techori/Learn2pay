@@ -20,6 +20,7 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:8080',
   'http://localhost:8081',
+  'http://localhost:8082',
   'http://localhost:5173',
   'http://192.168.29.220:8080',
   'http://192.168.29.220:8081',
@@ -29,12 +30,6 @@ const allowedOrigins = [
   'https://learn2pay-server-frontend.vercel.app',
 ];
 
-// Debug middleware
-app.use((req, res, next) => {
-  const timestamp = new Date().toLocaleString();
-  console.log(`[${timestamp}] ${req.method} ${req.path}`);
-  next();
-});
 
 // Middleware
 app.use(express.json({ limit: '50mb' })); // Increased limit for file uploads
