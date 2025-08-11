@@ -180,26 +180,32 @@ export const getInstituteStats = async (
   }
 };
 
-export const getAllInstitutes = async (req: Request, res: Response) : Promise<void> => {
-    try {
-        const institutes = await Institute.find({});
-        console.log(institutes);
-        res.json({
-          message: "Institute details retrieved successfully",
-          data : institutes.map((institute) => ({
-            name : institute.instituteName,
-            contactPerson : institute.contactPerson,
-            contactEmail : institute.contactEmail,
-            contactPhone : institute.contactPhone,
-            instituteType : institute.instituteType,
-            kycStatus : institute.kycStatus
-          }))
-        }).status(200);
-    } catch (error : any) {
-        console.error(error);
-        res.json({
-          message: "Internal server error",
-          error : error
-        }).status(500);
-    }
+export const getAllInstitutes = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const institutes = await Institute.find({});
+
+    res.status(200).json({
+      success: true,
+      message: "Institute details retrieved successfully",
+      data: institutes.map((institute) => ({
+        id: institute._id,
+        name: institute.instituteName,
+        contactPerson: institute.contactPerson,
+        contactEmail: institute.contactEmail,
+        contactPhone: institute.contactPhone,
+        instituteType: institute.instituteType,
+        kycStatus: institute.kycStatus,
+      })),
+    });
+  } catch (error: any) {
+    console.error("Error fetching institutes:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
 };
