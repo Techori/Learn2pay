@@ -89,6 +89,7 @@ const Register = () => {
       pincode: "",
       password: "",
       confirmPassword: "",
+      totalStudents: "",
       agreeTerms: false,
     },
   });
@@ -151,6 +152,7 @@ const Register = () => {
         registerationCertificate: false,
         panCard: false,
       },
+      totalStudents: data.totalStudents,
     };
 
     try {
@@ -449,44 +451,71 @@ const Register = () => {
                     <div className="space-y-2">
                       <FormField
                         control={form.control}
-                        name="instituteType"
-                        rules={{ required: "Please select an institute type" }}
+                        name="totalStudents"
+                        rules={{ required: "Total No. of Students is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Institute Type *</FormLabel>
+                            <FormLabel htmlFor="totalStudents">
+                              Total No. of Students *
+                            </FormLabel>
                             <FormControl>
-                              <Select
-                                value={field.value}
-                                onValueChange={field.onChange}
-                              >
-                                <SelectTrigger className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500">
-                                  <SelectValue placeholder="Select type">
-                                    {field.value || "Select type"}
-                                  </SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="school">School</SelectItem>
-                                  <SelectItem value="coaching">
-                                    Coaching Center
-                                  </SelectItem>
-                                  <SelectItem value="gym">
-                                    Gym/Fitness Center
-                                  </SelectItem>
-                                  <SelectItem value="academy">
-                                    Academy
-                                  </SelectItem>
-                                  <SelectItem value="college">
-                                    College
-                                  </SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <Input
+                                id="totalStudents"
+                                type="number"
+                                min={1}
+                                placeholder="e.g., 500"
+                                {...field}
+                                className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500"
+                                required
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="instituteType"
+                      rules={{ required: "Please select an institute type" }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Institute Type *</FormLabel>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger className="bg-gray-900 border-gray-700 text-white placeholder-gray-400 focus:border-orange-500 focus:ring-orange-500">
+                                <SelectValue placeholder="Select type">
+                                  {field.value || "Select type"}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="School">School</SelectItem>
+                                <SelectItem value="Coaching">
+                                  Coaching Center
+                                </SelectItem>
+                                <SelectItem value="Gym">
+                                  Gym/Fitness Center
+                                </SelectItem>
+                                <SelectItem value="Academy">
+                                  Academy
+                                </SelectItem>
+                                <SelectItem value="College">
+                                  College
+                                </SelectItem>
+                                <SelectItem value="Other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                
                   </div>
                   <div className="space-y-4">
                     <FormField
