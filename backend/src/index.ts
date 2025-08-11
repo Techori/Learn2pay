@@ -9,6 +9,8 @@ import userRoutes from "./routes/userRoute";
 import leadsRoutes from "./routes/leadsRoute";
 import ticketsRoutes from "./routes/ticketsRoute";
 import salesRoutes from "./routes/salesRoutes";
+import feeStructureRoutes from "./routes/feeStructureRoutes";
+import studentFeesRoutes from "./routes/studentFeesRoutes";
 import dotenv from "dotenv";
 dotenv.config();
 console.log('Loaded GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'SET' : 'NOT SET');
@@ -61,6 +63,8 @@ app.use("/api/user", userRoutes);
 app.use("/api/leads", leadsRoutes);
 app.use("/api/tickets", ticketsRoutes);
 app.use('/api/sales', salesRoutes);
+app.use('/api/fee-structures', feeStructureRoutes);
+app.use('/api/student-fees', studentFeesRoutes);
 
 
 // Health check route
