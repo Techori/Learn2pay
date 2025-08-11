@@ -30,6 +30,12 @@ const InstituteSchema = new mongoose.Schema(
       },
       panCard: { type: Boolean, required: true, default: false },
     },
+    documentUrls: {
+      affiliationProof: { type: String, default: null },
+      panCard: { type: String, default: null },
+      gstCertificate: { type: String, default: null },
+      otherDocuments: [{ type: String }],
+    },
     kycStatus: {
       type: String,
       enum: [
