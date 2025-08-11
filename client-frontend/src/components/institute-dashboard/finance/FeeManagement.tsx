@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -22,10 +22,12 @@ import {
   Upload,
   Eye,
   Pencil,
+  Trash2,
 } from "lucide-react";
 import PaymentHistory from "./PaymentHistory";
 import FeeReports from "./FeeReports";
 import SearchAndFilter from "@/components/shared/SearchAndFilter";
+import axios from "axios";
 
 const FeeManagement = () => {
   const [activeSubTab, setActiveSubTab] = useState("student-fees");
@@ -47,41 +49,8 @@ const FeeManagement = () => {
     examFee: "",
   });
 
-  const [studentFees, setStudentFees] = useState([
-    {
-      studentName: "Rajesh Kumar",
-      studentId: "STU001",
-      class: "10th A",
-      feeStructure: "₹22,000",
-      paymentStatus: "Partial",
-      paidAmount: "₹15,000",
-      pendingAmount: "₹7,000",
-      dueDate: "2024-07-15",
-      lastPayment: "2024-06-10",
-    },
-    {
-      studentName: "Priya Sharma",
-      studentId: "STU002",
-      class: "10th A",
-      feeStructure: "₹22,000",
-      paymentStatus: "Paid",
-      paidAmount: "₹22,000",
-      pendingAmount: "₹0",
-      dueDate: "2024-07-15",
-      lastPayment: "2024-06-01",
-    },
-    {
-      studentName: "Amit Singh",
-      studentId: "STU003",
-      class: "9th B",
-      feeStructure: "₹21,000",
-      paymentStatus: "Unpaid",
-      paidAmount: "₹0",
-      pendingAmount: "₹21,000",
-      dueDate: "2024-07-15",
-      lastPayment: "No payment yet",
-    },
-  ]);
+  const [studentFees, setStudentFees] = useState<any[]>([]);
+  const [isLoadingStudentFees, setIsLoadingStudentFees] = useState(true);
 
   const [isViewStudentFeeDialogOpen, setIsViewStudentFeeDialogOpen] =
     useState(false);
@@ -89,33 +58,103 @@ const FeeManagement = () => {
     useState(false);
   const [selectedStudentFee, setSelectedStudentFee] = useState<any>(null);
 
-  const [feeStructures, setFeeStructures] = useState([
-    {
-      class: "Class 10",
-      tuitionFee: "₹15,000",
-      admissionFee: "₹5,000",
-      examFee: "₹2,000",
-      totalFee: "₹22,000",
-    },
-    {
-      class: "Class 9",
-      tuitionFee: "₹14,000",
-      admissionFee: "₹5,000",
-      examFee: "₹2,000",
-      totalFee: "₹21,000",
-    },
-    {
-      class: "Class 8",
-      tuitionFee: "₹13,000",
-      admissionFee: "₹5,000",
-      examFee: "₹2,000",
-      totalFee: "₹20,000",
-    },
-  ]);
+  const [feeStructures, setFeeStructures] = useState<any[]>([]);
+  const [isLoadingFeeStructures, setIsLoadingFeeStructures] = useState(true);
+
+  // API Configuration
+  const API_BASE_URL = import.meta.env.MODE === "production"
+    ? import.meta.env.VITE_API_BASE_URL
+    : import.meta.env.VITE_LOCAL_API_BASE_URL || "http://localhost:3000";
+
+  // Fetch fee structures from API
+  const fetchFeeStructures = async () => {
+    try {
+      setIsLoadingFeeStructures(true);
+      const response = await axios.get(`${API_BASE_URL}/api/fee-structures`, {
+        withCredentials: true
+      });
+      
+      if (response.data.success && response.data.data) {
+        // Transform API data to match component format
+        const transformedData = response.data.data.map((item: any) => ({
+          id: item._id,
+          class: `Class ${item.class}`,
+          tuitionFee: `₹${item.tuitionFee.toLocaleString('en-IN')}`,
+          admissionFee: `₹${item.admissionFee.toLocaleString('en-IN')}`,
+          examFee: `₹${item.examFee.toLocaleString('en-IN')}`,
+          totalFee: `₹${item.totalFee.toLocaleString('en-IN')}`,
+          originalData: item // Keep original data for API operations
+        }));
+        setFeeStructures(transformedData);
+      } else {
+        console.error('Failed to fetch fee structures:', response.data);
+        // Fallback to empty array
+        setFeeStructures([]);
+      }
+    } catch (error: any) {
+      console.error('Error fetching fee structures:', error);
+      if (error.response?.status === 401) {
+        console.log('Authentication required for fee structures');
+      }
+      // Keep empty array on error
+      setFeeStructures([]);
+    } finally {
+      setIsLoadingFeeStructures(false);
+    }
+  };
+
+  // Fetch student fees from API
+  const fetchStudentFees = async () => {
+    try {
+      setIsLoadingStudentFees(true);
+      const response = await axios.get(`${API_BASE_URL}/api/student-fees`, {
+        withCredentials: true
+      });
+      
+      if (response.data.success && response.data.data) {
+        // Transform API data to match component format
+        const transformedData = response.data.data.map((item: any) => ({
+          id: item._id,
+          studentName: item.studentName,
+          studentId: item.studentId,
+          class: `${item.class}th A`, // Format class display
+          feeStructure: `₹${item.totalFeeAmount.toLocaleString('en-IN')}`,
+          paymentStatus: item.paymentStatus,
+          paidAmount: `₹${item.paidAmount.toLocaleString('en-IN')}`,
+          pendingAmount: `₹${item.pendingAmount.toLocaleString('en-IN')}`,
+          dueDate: new Date(item.dueDate).toISOString().slice(0, 10),
+          lastPayment: item.lastPaymentDate 
+            ? new Date(item.lastPaymentDate).toISOString().slice(0, 10)
+            : "No payment yet",
+          originalData: item // Keep original data for API operations
+        }));
+        setStudentFees(transformedData);
+      } else {
+        console.error('Failed to fetch student fees:', response.data);
+        setStudentFees([]);
+      }
+    } catch (error: any) {
+      console.error('Error fetching student fees:', error);
+      if (error.response?.status === 401) {
+        console.log('Authentication required for student fees');
+      }
+      setStudentFees([]);
+    } finally {
+      setIsLoadingStudentFees(false);
+    }
+  };
+
+  // Fetch fee structures on component mount
+  useEffect(() => {
+    fetchFeeStructures();
+    fetchStudentFees();
+  }, []);
 
   const [isViewFeeStructureDialogOpen, setIsViewFeeStructureDialogOpen] =
     useState(false);
   const [isEditFeeStructureDialogOpen, setIsEditFeeStructureDialogOpen] =
+    useState(false);
+  const [isDeleteFeeStructureDialogOpen, setIsDeleteFeeStructureDialogOpen] =
     useState(false);
   const [selectedFeeStructure, setSelectedFeeStructure] = useState<any>(null);
 
@@ -124,25 +163,49 @@ const FeeManagement = () => {
     setPaymentDetails((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleAddPaymentSubmit = () => {
-    console.log("Adding payment:", paymentDetails);
-    const newPayment = {
-      studentName: "N/A", // Placeholder, ideally fetched or entered
-      studentId: paymentDetails.studentId,
-      class: "N/A", // Placeholder
-      feeStructure: "N/A", // Placeholder
-      paymentStatus: "Paid", // Assuming immediate payment
-      paidAmount: `₹${parseFloat(paymentDetails.amount).toLocaleString()}`,
-      pendingAmount: "₹0",
-      dueDate: "N/A",
-      lastPayment: new Date().toISOString().slice(0, 10),
-    };
-    setStudentFees((prevFees) => [...prevFees, newPayment]);
-    alert(
-      `Payment of ₹${paymentDetails.amount} added for student ${paymentDetails.studentId}`
-    );
-    setShowAddPaymentDialog(false);
-    setPaymentDetails({ studentId: "", amount: "", date: "", method: "" }); // Clear form
+  const handleAddPaymentSubmit = async () => {
+    try {
+      // Find the student fee record
+      const studentFeeRecord = studentFees.find(
+        (fee) => fee.studentId === paymentDetails.studentId
+      );
+
+      if (!studentFeeRecord) {
+        alert('Student not found. Please check the student ID.');
+        return;
+      }
+
+      const payload = {
+        amount: parseFloat(paymentDetails.amount),
+        method: paymentDetails.method,
+        transactionId: `TXN_${Date.now()}`, // Generate a transaction ID
+        remarks: `Payment via ${paymentDetails.method}`
+      };
+
+      const response = await axios.post(
+        `${API_BASE_URL}/api/student-fees/${studentFeeRecord.id}/payment`,
+        payload,
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        alert(`Payment of ₹${paymentDetails.amount} added successfully for student ${paymentDetails.studentId}`);
+        await fetchStudentFees(); // Refresh the list
+        setShowAddPaymentDialog(false);
+        setPaymentDetails({ studentId: "", amount: "", date: "", method: "" });
+      } else {
+        alert('Failed to add payment. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error adding payment:', error);
+      if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
+      } else if (error.response?.status === 400) {
+        alert(error.response?.data?.message || 'Invalid payment details.');
+      } else {
+        alert('Failed to add payment. Please try again.');
+      }
+    }
   };
 
   const handleFeeStructureInputChange = (
@@ -152,38 +215,44 @@ const FeeManagement = () => {
     setNewFeeStructure((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleAddFeeStructureSubmit = () => {
-    const totalFeeValue =
-      parseFloat(newFeeStructure.tuitionFee || "0") +
-      parseFloat(newFeeStructure.admissionFee || "0") +
-      parseFloat(newFeeStructure.examFee || "0");
-    const newStructure = {
-      class: newFeeStructure.class,
-      tuitionFee: `₹${parseFloat(
-        newFeeStructure.tuitionFee || "0"
-      ).toLocaleString()}`,
-      admissionFee: `₹${parseFloat(
-        newFeeStructure.admissionFee || "0"
-      ).toLocaleString()}`,
-      examFee: `₹${parseFloat(
-        newFeeStructure.examFee || "0"
-      ).toLocaleString()}`,
-      totalFee: `₹${totalFeeValue.toLocaleString()}`,
-    };
-    setFeeStructures((prevStructures) => [...prevStructures, newStructure]);
-    console.log("Adding fee structure:", newStructure);
-    alert(
-      `Fee structure for ${
-        newFeeStructure.class
-      } added! Total: ₹${totalFeeValue.toLocaleString()}`
-    );
-    setShowAddFeeStructureDialog(false);
-    setNewFeeStructure({
-      class: "",
-      tuitionFee: "",
-      admissionFee: "",
-      examFee: "",
-    }); // Clear form
+  const handleAddFeeStructureSubmit = async () => {
+    try {
+      const payload = {
+        class: newFeeStructure.class,
+        tuitionFee: parseFloat(newFeeStructure.tuitionFee || "0"),
+        admissionFee: parseFloat(newFeeStructure.admissionFee || "0"),
+        examFee: parseFloat(newFeeStructure.examFee || "0"),
+        academicYear: `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`
+        // instituteId will be automatically set by the backend from authentication
+      };
+
+      const response = await axios.post(
+        `${API_BASE_URL}/api/fee-structures`, 
+        payload,
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        alert(`Fee structure for ${newFeeStructure.class} added successfully!`);
+        await fetchFeeStructures(); // Refresh the list
+        setShowAddFeeStructureDialog(false);
+        setNewFeeStructure({
+          class: "",
+          tuitionFee: "",
+          admissionFee: "",
+          examFee: "",
+        });
+      } else {
+        alert('Failed to add fee structure. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error adding fee structure:', error);
+      if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
+      } else {
+        alert('Failed to add fee structure. Please try again.');
+      }
+    }
   };
 
   const handleViewStudentFee = (fee: any) => {
@@ -235,15 +304,79 @@ const FeeManagement = () => {
     setIsEditFeeStructureDialogOpen(true);
   };
 
-  const handleSaveEditedFeeStructure = () => {
-    if (selectedFeeStructure) {
-      setFeeStructures(
-        feeStructures.map((fs) =>
-          fs.class === selectedFeeStructure.class ? selectedFeeStructure : fs
-        )
+  const handleDeleteFeeStructure = (structure: any) => {
+    setSelectedFeeStructure(structure);
+    setIsDeleteFeeStructureDialogOpen(true);
+  };
+
+  const confirmDeleteFeeStructure = async () => {
+    if (!selectedFeeStructure) return;
+
+    try {
+      const response = await axios.delete(
+        `${API_BASE_URL}/api/fee-structures/${selectedFeeStructure.id || selectedFeeStructure.originalData?._id}`,
+        { withCredentials: true }
       );
-      setIsEditFeeStructureDialogOpen(false);
-      setSelectedFeeStructure(null);
+
+      if (response.data.success) {
+        alert('Fee structure deleted successfully!');
+        await fetchFeeStructures(); // Refresh the list
+        setIsDeleteFeeStructureDialogOpen(false);
+        setSelectedFeeStructure(null);
+      } else {
+        alert('Failed to delete fee structure. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error deleting fee structure:', error);
+      if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
+      } else if (error.response?.status === 404) {
+        alert('Fee structure not found. It may have already been deleted.');
+      } else {
+        alert('Failed to delete fee structure. Please try again.');
+      }
+    }
+  };
+
+  const handleSaveEditedFeeStructure = async () => {
+    if (!selectedFeeStructure) return;
+
+    try {
+      // Parse the numeric values from the formatted strings
+      const parseAmount = (value: string) => {
+        return parseFloat(value.replace(/[₹,]/g, '') || "0");
+      };
+
+      const payload = {
+        class: selectedFeeStructure.class.replace('Class ', ''), // Remove 'Class ' prefix
+        tuitionFee: parseAmount(selectedFeeStructure.tuitionfee || selectedFeeStructure.tuitionFee),
+        admissionFee: parseAmount(selectedFeeStructure.admissionfee || selectedFeeStructure.admissionFee),
+        examFee: parseAmount(selectedFeeStructure.examfee || selectedFeeStructure.examFee),
+      };
+
+      const response = await axios.put(
+        `${API_BASE_URL}/api/fee-structures/${selectedFeeStructure.id || selectedFeeStructure.originalData?._id}`,
+        payload,
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        alert('Fee structure updated successfully!');
+        await fetchFeeStructures(); // Refresh the list
+        setIsEditFeeStructureDialogOpen(false);
+        setSelectedFeeStructure(null);
+      } else {
+        alert('Failed to update fee structure. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error updating fee structure:', error);
+      if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
+      } else if (error.response?.status === 404) {
+        alert('Fee structure not found. It may have been deleted.');
+      } else {
+        alert('Failed to update fee structure. Please try again.');
+      }
     }
   };
 
@@ -254,10 +387,34 @@ const FeeManagement = () => {
     if (selectedFeeStructure) {
       setSelectedFeeStructure((prev: any) => {
         if (!prev) return null;
-        return {
+        
+        // Map the input field IDs to the correct property names
+        let fieldName = id.replace("editFeeStructure", "").toLowerCase();
+        
+        // Handle specific field mappings
+        if (fieldName === "tuitionfee") fieldName = "tuitionFee";
+        if (fieldName === "admissionfee") fieldName = "admissionFee";
+        if (fieldName === "examfee") fieldName = "examFee";
+        if (fieldName === "totalfee") fieldName = "totalFee";
+        
+        const updatedStructure = {
           ...prev,
-          [id.replace("editFeeStructure", "").toLowerCase()]: value,
+          [fieldName]: value,
         };
+
+        // Auto-calculate total fee if any fee component changes
+        if (fieldName === "tuitionFee" || fieldName === "admissionFee" || fieldName === "examFee") {
+          const parseAmount = (val: string) => parseFloat(val.replace(/[₹,]/g, '') || "0");
+          
+          const tuition = parseAmount(fieldName === "tuitionFee" ? value : updatedStructure.tuitionFee);
+          const admission = parseAmount(fieldName === "admissionFee" ? value : updatedStructure.admissionFee);
+          const exam = parseAmount(fieldName === "examFee" ? value : updatedStructure.examFee);
+          
+          const total = tuition + admission + exam;
+          updatedStructure.totalFee = `₹${total.toLocaleString('en-IN')}`;
+        }
+
+        return updatedStructure;
       });
     }
   };
@@ -557,92 +714,109 @@ const FeeManagement = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
-                    {studentFees
-                      .filter(
-                        (fee) =>
-                          fee.studentName
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase()) ||
-                          fee.studentId
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase()) ||
-                          fee.class
-                            .toLowerCase()
-                            .includes(searchQuery.toLowerCase())
-                      )
-                      .filter((fee) => {
-                        if (
-                          filters.paymentStatus &&
-                          fee.paymentStatus !== filters.paymentStatus
-                        ) {
-                          return false;
-                        }
-                        if (filters.class && fee.class !== filters.class) {
-                          return false;
-                        }
-                        return true;
-                      })
-                      .map((fee, index) => (
-                        <tr key={index} >
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm font-medium ">
-                              {fee.studentName}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              {fee.studentId}
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                            {fee.class}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm">
-                            {fee.feeStructure}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge
-                              className={
-                                fee.paymentStatus === "Paid"
-                                  ? "bg-green-500/20 text-green-400"
-                                  : fee.paymentStatus === "Partial"
-                                  ? "bg-yellow-500/20 text-yellow-400"
-                                  : "bg-red-500/20 text-red-400"
-                              }
-                            >
-                              {fee.paymentStatus}
-                            </Badge>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                            {fee.paidAmount}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                            {fee.pendingAmount}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                            {fee.dueDate}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm ">
-                            {fee.lastPayment}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <div className="flex items-center space-x-2">
-                              <Button
-                                variant="ghost"
-                                className="text-gray-400 hover:text-orange-500"
-                                onClick={() => handleViewStudentFee(fee)}
+                    {isLoadingStudentFees ? (
+                      <tr>
+                        <td colSpan={9} className="px-6 py-8 text-center">
+                          <div className="flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mr-2"></div>
+                            <span className="text-gray-400">Loading student fees...</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : studentFees.length > 0 ? (
+                      studentFees
+                        .filter(
+                          (fee) =>
+                            fee.studentName
+                              .toLowerCase()
+                              .includes(searchQuery.toLowerCase()) ||
+                            fee.studentId
+                              .toLowerCase()
+                              .includes(searchQuery.toLowerCase()) ||
+                            fee.class
+                              .toLowerCase()
+                              .includes(searchQuery.toLowerCase())
+                        )
+                        .filter((fee) => {
+                          if (
+                            filters.paymentStatus &&
+                            fee.paymentStatus !== filters.paymentStatus
+                          ) {
+                            return false;
+                          }
+                          if (filters.class && fee.class !== filters.class) {
+                            return false;
+                          }
+                          return true;
+                        })
+                        .map((fee, index) => (
+                          <tr key={fee.id || index}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div className="text-sm font-medium ">
+                                {fee.studentName}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {fee.studentId}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                              {fee.class}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm">
+                              {fee.feeStructure}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <Badge
+                                className={
+                                  fee.paymentStatus === "Paid"
+                                    ? "bg-green-500/20 text-green-400"
+                                    : fee.paymentStatus === "Partial"
+                                    ? "bg-yellow-500/20 text-yellow-400"
+                                    : "bg-red-500/20 text-red-400"
+                                }
                               >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                className="text-gray-400 hover:text-orange-500"
-                                onClick={() => handleEditStudentFee(fee)}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                                {fee.paymentStatus}
+                              </Badge>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                              {fee.paidAmount}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                              {fee.pendingAmount}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                              {fee.dueDate}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm ">
+                              {fee.lastPayment}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                                <Button
+                                  variant="ghost"
+                                  className="text-gray-400 hover:text-orange-500"
+                                  onClick={() => handleViewStudentFee(fee)}
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  className="text-gray-400 hover:text-orange-500"
+                                  onClick={() => handleEditStudentFee(fee)}
+                                >
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                    ) : (
+                      <tr>
+                        <td colSpan={9} className="px-6 py-8 text-center text-gray-400">
+                          No student fee records found. Click "Add Payment" to create one.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -732,87 +906,111 @@ const FeeManagement = () => {
             </CardHeader>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-700">
-                  <thead className="bg-gray-900">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Class
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Tuition Fee
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Admission Fee
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Exam Fee
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Total Fee
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-800">
-                    {feeStructures.map((structure, index) => (
-                      <tr key={index} className="hover:bg-gray-800/70">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                          {structure.class}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {structure.tuitionFee}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {structure.admissionFee}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {structure.examFee}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                          {structure.totalFee}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                            <Button
-                              variant="ghost"
-                              className="text-gray-400 hover:text-orange-500"
-                              onClick={() => handleViewFeeStructure(structure)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              className="text-gray-400 hover:text-orange-500"
-                              onClick={() => handleEditFeeStructure(structure)}
-                            >
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </td>
+                {isLoadingFeeStructures ? (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto mb-2"></div>
+                      <p className="text-gray-400">Loading fee structures...</p>
+                    </div>
+                  </div>
+                ) : (
+                  <table className="min-w-full divide-y divide-gray-700">
+                    <thead className="bg-gray-900">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Class
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Tuition Fee
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Admission Fee
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Exam Fee
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Total Fee
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
+                        >
+                          Actions
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-gray-800">
+                      {feeStructures.length > 0 ? (
+                        feeStructures.map((structure, index) => (
+                          <tr key={structure.id || index} className="hover:bg-gray-800/70">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
+                              {structure.class}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                              {structure.tuitionFee}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                              {structure.admissionFee}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                              {structure.examFee}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                              {structure.totalFee}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                                <Button
+                                  variant="ghost"
+                                  className="text-gray-400 hover:text-orange-500"
+                                  onClick={() => handleViewFeeStructure(structure)}
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  className="text-gray-400 hover:text-orange-500"
+                                  onClick={() => handleEditFeeStructure(structure)}
+                                >
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  className="text-gray-400 hover:text-red-500"
+                                  onClick={() => handleDeleteFeeStructure(structure)}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
+                            No fee structures found. Click "Add Fee Structure" to create one.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -1130,6 +1328,8 @@ const FeeManagement = () => {
                 className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                 value={selectedFeeStructure.totalFee}
                 onChange={handleFeeStructureEditInputChange}
+                readOnly
+                title="Total fee is automatically calculated"
               />
             </div>
             <DialogFooter>
@@ -1141,6 +1341,42 @@ const FeeManagement = () => {
               </Button>
               <Button onClick={handleSaveEditedFeeStructure}>
                 Save Changes
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
+
+      {/* Delete Fee Structure Confirmation Dialog */}
+      {selectedFeeStructure && (
+        <Dialog
+          open={isDeleteFeeStructureDialogOpen}
+          onOpenChange={setIsDeleteFeeStructureDialogOpen}
+        >
+          <DialogContent className="max-w-md bg-gray-800 text-white p-6 rounded-lg">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-bold text-white">
+                Confirm Deletion
+              </DialogTitle>
+              <DialogDescription className="text-gray-400">
+                Are you sure you want to delete the fee structure for{" "}
+                <span className="font-semibold text-white">{selectedFeeStructure.class}</span>?
+                This action cannot be undone.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex justify-end space-x-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setIsDeleteFeeStructureDialogOpen(false)}
+                className="border-gray-600 text-gray-300 hover:bg-gray-700"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={confirmDeleteFeeStructure}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Delete
               </Button>
             </DialogFooter>
           </DialogContent>
