@@ -6,7 +6,9 @@
     "build": "tsc",
     "start": "ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed:fee-structures": "ts-node -r tsconfig-paths/register src/scripts/seedFeeStructures.ts",
+    "seed:student-fees": "ts-node -r tsconfig-paths/register src/scripts/seedStudentFees.ts"
   },
   "keywords": [],
   "author": "",
