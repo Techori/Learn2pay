@@ -20,7 +20,7 @@ const startKycVerification = async (req: Request, res: Response): Promise<void> 
     }
 
     // Check if KYC status allows verification start
-    if (institute.kycStatus !== 'not started' && institute.kycStatus !== 'rejected') {
+    if (institute.kycStatus !== 'Not Started' && institute.kycStatus !== 'Rejected') {
       res.status(400).json({ 
         message: "KYC verification can only be started when status is 'not started' or 'rejected'" 
       });
@@ -48,17 +48,17 @@ const startKycVerification = async (req: Request, res: Response): Promise<void> 
         institute: institute._id,
         submittedBy: req.institute?._id,
         documents: processedDocs,
-        status: 'under_review'
+        status: 'Under Review'
       });
     } else {
       kycRequest.documents = processedDocs;
-      kycRequest.status = 'under_review';
+      kycRequest.status = 'Under Review';
     }
 
     await kycRequest.save();
 
     // Update institute KYC status and document flags
-    institute.kycStatus = 'under_review';
+    institute.kycStatus = 'Under Review';
     if (!institute.documents) {
       institute.documents = {
         registerationCertificate: false,
@@ -80,12 +80,12 @@ const startKycVerification = async (req: Request, res: Response): Promise<void> 
           const isVerified = Math.random() > 0.1;
           
           if (isVerified) {
-            updatedKycRequest.status = 'verified';
-            updatedInstitute.kycStatus = 'verified';
+            updatedKycRequest.status = 'Verified';
+            updatedInstitute.kycStatus = 'Verified';
             console.log(`KYC verified for institute: ${updatedInstitute.instituteName}`);
           } else {
-            updatedKycRequest.status = 'rejected';
-            updatedInstitute.kycStatus = 'rejected';
+            updatedKycRequest.status = 'Rejected';
+            updatedInstitute.kycStatus = 'Rejected';
             console.log(`KYC rejected for institute: ${updatedInstitute.instituteName}`);
           }
           
