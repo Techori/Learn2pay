@@ -19,8 +19,10 @@ interface Parent {
   id: string;
   parentName: string;
   parentEmail: string;
+  parentPhone : string;
   studentName: string;
   instituteName: string;
+  
 }
 
 interface AuthContextType {

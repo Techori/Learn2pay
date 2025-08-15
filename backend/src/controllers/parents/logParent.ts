@@ -55,6 +55,7 @@ const loginParent = async (req: Request, res: Response): Promise<void> => {
         parentEmail: student.parentEmail,
         studentName: student.name,
         instituteName: student.instituteName,
+        parentPhone : student.parentPhone
       },
     });
   } catch (error) {

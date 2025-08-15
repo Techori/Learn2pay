@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { useToast } from "@/hooks/use-toast";
@@ -11,18 +11,24 @@ import Payment from "@/components/parent-dashboard/Payment";
 import ChildProfile from "@/components/parent-dashboard/ChildProfile";
 import AttendanceTracker from "@/components/parent-dashboard/AttendanceTracker";
 import Settings from "@/components/parent-dashboard/Settings";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Parent = () => {
   const [selectedTab, setSelectedTab] = useState("dashboard");
   const { toast } = useToast();
+  const {parent} = useAuth();
+  console.log("parent in parent.tsx",parent)
   // Mock data updated for EMI model - in real app, this would come from API
+  //we have to get parentData through api call...
+
+
   const parentData = {
-    name: "Mr. Rajesh Sharma",
-    parentId: "PAR2024001",
-    school: "ABC Academy",
+    name: parent.parentName,
+    childName: parent.studentName,
+    school: parent.instituteName,
     contactInfo: {
-      email: "rajesh.sharma@email.com",
-      phone: "+91 9876543210",
+      email: parent.parentEmail,
+      phone : parent.parentPhone
     },
   };
 
@@ -313,7 +319,7 @@ const Parent = () => {
                   {parentData.school}
                 </h1>
                 <p className="text-gray-400">
-                  Parent ID: {parentData.parentId}
+                  Child Name: {parentData.childName}
                 </p>
               </div>
               <Button className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg text-white text-sm transition-colors">

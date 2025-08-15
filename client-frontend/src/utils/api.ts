@@ -130,6 +130,10 @@ export const authAPI = {
       }),
     }),
 
+
+  
+    
+
   // Institute registration
   register: (data: any) =>
     apiCall("/api/institute/register", {
@@ -332,6 +336,8 @@ export const authAPI = {
       method: "GET",
     }),
 };
+
+
 export const sendChatbotMessage = async (message: string) => {
   return apiCall("/api/chatbot/message", {
     method: "POST",
