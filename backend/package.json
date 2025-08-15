@@ -8,7 +8,8 @@
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed:fee-structures": "ts-node -r tsconfig-paths/register src/scripts/seedFeeStructures.ts",
-    "seed:student-fees": "ts-node -r tsconfig-paths/register src/scripts/seedStudentFees.ts"
+    "seed:student-fees": "ts-node -r tsconfig-paths/register src/scripts/seedStudentFees.ts",
+    "seed:institute-users": "ts-node -r tsconfig-paths/register src/scripts/seedInstituteUsers.ts"
   },
   "keywords": [],
   "author": "",

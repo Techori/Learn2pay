@@ -1,7 +1,4 @@
-const API_BASE_URL =
-  import.meta.env.MODE === "production"
-    ? import.meta.env.VITE_API_BASE_URL
-    : import.meta.env.VITE_LOCAL_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Generic API call function
 async function apiCall(endpoint: string, options: RequestInit = {}) {

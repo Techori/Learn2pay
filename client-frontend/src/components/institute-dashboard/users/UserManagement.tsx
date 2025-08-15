@@ -32,15 +32,17 @@ import {
   Trash2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 
-interface User {
-  id: string;
+interface InstituteUser {
+  _id: string;
   name: string;
   email: string;
-  contact: string;
+  contact?: string;
   role: string;
-  status: string;
-  lastLogin: string;
+  status: 'Active' | 'Inactive';
+  lastLogin?: string;
+  createdAt: string;
   permissions: string;
 }
 
@@ -48,6 +50,7 @@ interface NewUser {
   name: string;
   email: string;
   contact: string;
+  password: string;
   role: string;
   permissions: string;
 }
@@ -59,62 +62,56 @@ const UserManagement = () => {
   const [showEditUserDialog, setShowEditUserDialog] = useState(false);
   const [showPermissionsDialog, setShowPermissionsDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<InstituteUser | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [newUser, setNewUser] = useState<NewUser>({
     name: "",
     email: "",
     contact: "",
+    password: "",
     role: "",
     permissions: "",
   });
 
-  const [systemUsersData, setSystemUsersData] = useState<User[]>([
-    {
-      id: "1",
-      name: "Dr. Rajesh Kumar",
-      email: "rajesh@nps.edu",
-      contact: "9876543210",
-      role: "Principal",
-      status: "Active",
-      lastLogin: "Today, 9:30 AM",
-      permissions: "Full Access",
-    },
-    {
-      id: "2",
-      name: "Mrs. Priya Sharma",
-      email: "priya@nps.edu",
-      contact: "9876543211",
-      role: "Accountant",
-      status: "Active",
-      lastLogin: "Today, 8:45 AM",
-      permissions: "Fee Management, Reports",
-    },
-    {
-      id: "3",
-      name: "Mr. Amit Singh",
-      email: "amit@nps.edu",
-      contact: "9876543212",
-      role: "Teacher",
-      status: "Active",
-      lastLogin: "Yesterday, 6:00 PM",
-      permissions: "Student Management, Attendance",
-    },
-    {
-      id: "4",
-      name: "Ms. Sunita Patel",
-      email: "sunita@nps.edu",
-      contact: "9876543213",
-      role: "Office Staff",
-      status: "Inactive",
-      lastLogin: "3 days ago",
-      permissions: "Basic Access",
-    },
-  ]);
+  const [systemUsersData, setSystemUsersData] = useState<InstituteUser[]>([]);
+
+  // Fetch institute users on component mount
+  useEffect(() => {
+    fetchInstituteUsers();
+  }, []);
+
+  const fetchInstituteUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users`, {
+        withCredentials: true
+      });
+      
+      if (response.data.success) {
+        setSystemUsersData(response.data.data);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to fetch institute users",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching institute users:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch institute users",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const userSummary = [
     {
@@ -187,7 +184,7 @@ const UserManagement = () => {
     return true;
   };
 
-  const handleAddUser = () => {
+  const handleAddUser = async () => {
     console.log("handleAddUser called.");
     console.log("handleAddUser: Current newUser state:", newUser);
 
@@ -196,54 +193,63 @@ const UserManagement = () => {
       return;
     }
 
-    setIsLoading(true);
     try {
-      const newUserWithId = {
-        ...newUser,
-        id: (systemUsersData.length + 1).toString(),
-        status: "Active",
-        lastLogin: "Never",
-      };
-      setSystemUsersData([...systemUsersData, newUserWithId]);
-      setShowAddUserDialog(false);
-      setNewUser({
-        name: "",
-        email: "",
-        contact: "",
-        role: "",
-        permissions: "",
+      setIsLoading(true);
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users`, {
+        name: newUser.name,
+        email: newUser.email,
+        contact: newUser.contact,
+        password: newUser.password,
+        role: newUser.role,
+        permissions: newUser.permissions || "Basic Access",
+      }, {
+        withCredentials: true
       });
-      toast({
-        title: "Success",
-        description: "User added successfully",
-      });
-      console.log("handleAddUser: User added successfully:", newUserWithId);
-    } catch (error) {
+
+      if (response.data.success) {
+        await fetchInstituteUsers(); // Refresh the list
+        setShowAddUserDialog(false);
+        setNewUser({ name: "", email: "", contact: "", password: "", role: "", permissions: "" });
+        
+        toast({
+          title: "Success", 
+          description: "User added successfully",
+        });
+        console.log("handleAddUser: User added successfully:", response.data.data);
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to add user",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      console.error('Error adding user:', error);
+      const errorMessage = error.response?.data?.message || "Failed to add user";
       toast({
         title: "Error",
-        description: "Failed to add user",
+        description: errorMessage,
         variant: "destructive",
       });
-      console.error("handleAddUser: Failed to add user:", error);
     } finally {
       setIsLoading(false);
       console.log("handleAddUser: Loading state set to false.");
     }
   };
 
-  const handleEditUser = (user: User) => {
+  const handleEditUser = (user: InstituteUser) => {
     console.log("handleEditUser: Editing user:", user);
     setSelectedUser(user);
     setShowEditUserDialog(true);
   };
 
-  const handleViewUser = (user: User) => {
+  const handleViewUser = (user: InstituteUser) => {
     console.log("handleViewUser: Viewing user:", user);
     setSelectedUser(user);
     setShowViewUserDialog(true);
   };
 
-  const handleManagePermissions = (user: User) => {
+  const handleManagePermissions = (user: InstituteUser) => {
     console.log(
       "handleManagePermissions: Managing permissions for user:",
       user
@@ -252,82 +258,92 @@ const UserManagement = () => {
     setShowPermissionsDialog(true);
   };
 
-  const handleDeleteUser = (user: User) => {
+  const handleDeleteUser = (user: InstituteUser) => {
     console.log("handleDeleteUser: Deleting user:", user);
     setSelectedUser(user);
     setShowDeleteDialog(true);
   };
 
-  const confirmDeleteUser = () => {
+  const confirmDeleteUser = async () => {
     console.log("confirmDeleteUser: Confirming delete for user:", selectedUser);
     if (!selectedUser) {
       console.log("confirmDeleteUser: No user selected for deletion.");
       return;
     }
 
-    setIsLoading(true);
     try {
-      setSystemUsersData(
-        systemUsersData.filter((u) => u.id !== selectedUser.id)
-      );
-      setShowDeleteDialog(false);
-      toast({
-        title: "Success",
-        description: "User deleted successfully",
+      setIsLoading(true);
+      const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${selectedUser._id}`, {
+        withCredentials: true
       });
-      console.log(
-        "confirmDeleteUser: User deleted successfully:",
-        selectedUser.id
-      );
-    } catch (error) {
+
+      if (response.data.success) {
+        await fetchInstituteUsers(); // Refresh the list
+        setShowDeleteDialog(false);
+        toast({
+          title: "Success",
+          description: "User deleted successfully",
+        });
+        console.log("confirmDeleteUser: User deleted successfully:", selectedUser);
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to delete user",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      console.error('Error deleting user:', error);
+      const errorMessage = error.response?.data?.message || "Failed to delete user";
       toast({
         title: "Error",
-        description: "Failed to delete user",
+        description: errorMessage,
         variant: "destructive",
       });
-      console.error("confirmDeleteUser: Failed to delete user:", error);
     } finally {
       setIsLoading(false);
-      console.log("confirmDeleteUser: Loading state set to false.");
     }
   };
 
-  const handleToggleUserStatus = (user: User) => {
+  const handleToggleUserStatus = async (user: InstituteUser) => {
     console.log("handleToggleUserStatus: Toggling status for user:", user);
     if (!user) {
       console.log("handleToggleUserStatus: No user provided.");
       return;
     }
-    setIsLoading(true);
+
     try {
-      setSystemUsersData(
-        systemUsersData.map((u) =>
-          u.id === user.id
-            ? { ...u, status: u.status === "Active" ? "Inactive" : "Active" }
-            : u
-        )
-      );
-      toast({
-        title: "Success",
-        description: `User ${
-          user.status === "Active" ? "deactivated" : "activated"
-        } successfully`,
+      setIsLoading(true);
+      const newStatus = user.status === "Active" ? "Inactive" : "Active";
+      
+      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${user._id}/status`, {
+        status: newStatus
+      }, {
+        withCredentials: true
       });
-      console.log(
-        `handleToggleUserStatus: User ${user.id} status toggled to ${
-          user.status === "Active" ? "Inactive" : "Active"
-        }`
-      );
-    } catch (error) {
+
+      if (response.data.success) {
+        await fetchInstituteUsers(); // Refresh the list
+        toast({
+          title: "Success",
+          description: `User ${user.status === "Active" ? "deactivated" : "activated"} successfully`,
+        });
+        console.log(`handleToggleUserStatus: User ${user._id} status toggled to ${newStatus}`);
+      } else {
+        toast({
+          title: "Error",
+          description: response.data.message || "Failed to update user status",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      console.error("handleToggleUserStatus: Failed to update user status:", error);
+      const errorMessage = error.response?.data?.message || "Failed to update user status";
       toast({
         title: "Error",
-        description: "Failed to update user status",
+        description: errorMessage,
         variant: "destructive",
       });
-      console.error(
-        "handleToggleUserStatus: Failed to update user status:",
-        error
-      );
     } finally {
       setIsLoading(false);
       console.log("handleToggleUserStatus: Loading state set to false.");
@@ -366,6 +382,7 @@ const UserManagement = () => {
               name: "",
               email: "",
               contact: "",
+              password: "",
               role: "",
               permissions: "",
             });
@@ -484,9 +501,22 @@ const UserManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user) => (
+                {loading ? (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                      Loading institute users...
+                    </td>
+                  </tr>
+                ) : filteredUsers.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                      No users found
+                    </td>
+                  </tr>
+                ) : (
+                  filteredUsers.map((user) => (
                   <tr
-                    key={user.id}
+                    key={user._id}
                     className="border-b border-gray-700"
                   >
                     <td className="px-4 py-3 text-sm ">
@@ -560,7 +590,8 @@ const UserManagement = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
@@ -614,6 +645,21 @@ const UserManagement = () => {
                 value={newUser.contact}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setNewUser({ ...newUser, contact: e.target.value })
+                }
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-300">
+                Password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter password"
+                value={newUser.password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setNewUser({ ...newUser, password: e.target.value })
                 }
                 className="bg-gray-800 border-gray-700 text-white"
               />
@@ -914,7 +960,7 @@ const UserManagement = () => {
                   try {
                     setSystemUsersData(
                       systemUsersData.map((u) =>
-                        u.id === selectedUser.id ? selectedUser : u
+                        u._id === selectedUser._id ? selectedUser : u
                       )
                     );
                     setShowEditUserDialog(false);
@@ -1018,7 +1064,7 @@ const UserManagement = () => {
                   try {
                     setSystemUsersData(
                       systemUsersData.map((u) =>
-                        u.id === selectedUser.id ? selectedUser : u
+                        u._id === selectedUser._id ? selectedUser : u
                       )
                     );
                     setShowPermissionsDialog(false);
