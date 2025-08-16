@@ -94,6 +94,7 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
       });
     }
   } catch (error) {
+    console.log("route error: ",(error as Error).message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
