@@ -12,6 +12,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { User, MapPin, Save, Building, Users } from "lucide-react";
 import { authAPI } from "@/utils/api";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface StudentFormData {
   name: string;
@@ -31,6 +32,7 @@ interface StudentFormData {
     pinCode: string;
   };
   instituteName: string;
+  admissionDate: string;
 }
 
 interface AddStudentFormProps {
@@ -41,6 +43,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitAttempt, setSubmitAttempt] = useState(0);
+  const { institute } = useAuth();
 
   const [formData, setFormData] = useState<StudentFormData>({
     name: "",
@@ -59,7 +62,8 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
       state: "",
       pinCode: "",
     },
-    instituteName: "",
+    instituteName: institute?.name,
+    admissionDate: new Date().toISOString().split('T')[0],
   });
 
   const updateFormData = (field: string, value: string | number) => {
@@ -124,6 +128,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
         rollNumber: formData.rollNumber,
         address: formData.address,
         instituteName: formData.instituteName,
+        admissionDate: formData.admissionDate,
       };
 
       console.log(
@@ -180,6 +185,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
           pinCode: "",
         },
         instituteName: "",
+        admissionDate: "",
       });
 
       // Call the callback if provided
@@ -229,7 +235,8 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
       formData.address.city &&
       formData.address.state &&
       formData.address.pinCode &&
-      formData.instituteName
+      formData.instituteName &&
+      formData.admissionDate
     );
   };
 
@@ -352,6 +359,19 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   placeholder="Enter password"
                 />
               </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-400">
+                  Admission Date *
+                </label>
+                <Input
+                  required
+                  type="date"
+                  value={formData.admissionDate}
+                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
+                  placeholder="Select Admission Date"
+                  readOnly
+                />
+              </div>
             </div>
           </div>
 
@@ -449,16 +469,53 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                 <label className="text-sm font-medium text-gray-400">
                   State *
                 </label>
-                <Input
+                <Select
                   required
-                  type="text"
                   value={formData.address.state}
-                  onChange={(e) =>
-                    updateFormData("address.state", e.target.value)
-                  }
-                  className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
-                  placeholder="Enter state"
-                />
+                  onValueChange={(value) => updateFormData("address.state", value)}
+                >
+                  <SelectTrigger className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white">
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-60 overflow-y-auto">
+                    <SelectItem value="Andhra Pradesh">Andhra Pradesh</SelectItem>
+                    <SelectItem value="Arunachal Pradesh">Arunachal Pradesh</SelectItem>
+                    <SelectItem value="Assam">Assam</SelectItem>
+                    <SelectItem value="Bihar">Bihar</SelectItem>
+                    <SelectItem value="Chhattisgarh">Chhattisgarh</SelectItem>
+                    <SelectItem value="Goa">Goa</SelectItem>
+                    <SelectItem value="Gujarat">Gujarat</SelectItem>
+                    <SelectItem value="Haryana">Haryana</SelectItem>
+                    <SelectItem value="Himachal Pradesh">Himachal Pradesh</SelectItem>
+                    <SelectItem value="Jharkhand">Jharkhand</SelectItem>
+                    <SelectItem value="Karnataka">Karnataka</SelectItem>
+                    <SelectItem value="Kerala">Kerala</SelectItem>
+                    <SelectItem value="Madhya Pradesh">Madhya Pradesh</SelectItem>
+                    <SelectItem value="Maharashtra">Maharashtra</SelectItem>
+                    <SelectItem value="Manipur">Manipur</SelectItem>
+                    <SelectItem value="Meghalaya">Meghalaya</SelectItem>
+                    <SelectItem value="Mizoram">Mizoram</SelectItem>
+                    <SelectItem value="Nagaland">Nagaland</SelectItem>
+                    <SelectItem value="Odisha">Odisha</SelectItem>
+                    <SelectItem value="Punjab">Punjab</SelectItem>
+                    <SelectItem value="Rajasthan">Rajasthan</SelectItem>
+                    <SelectItem value="Sikkim">Sikkim</SelectItem>
+                    <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
+                    <SelectItem value="Telangana">Telangana</SelectItem>
+                    <SelectItem value="Tripura">Tripura</SelectItem>
+                    <SelectItem value="Uttar Pradesh">Uttar Pradesh</SelectItem>
+                    <SelectItem value="Uttarakhand">Uttarakhand</SelectItem>
+                    <SelectItem value="West Bengal">West Bengal</SelectItem>
+                    <SelectItem value="Delhi">Delhi</SelectItem>
+                    <SelectItem value="Jammu and Kashmir">Jammu and Kashmir</SelectItem>
+                    <SelectItem value="Ladakh">Ladakh</SelectItem>
+                    <SelectItem value="Chandigarh">Chandigarh</SelectItem>
+                    <SelectItem value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</SelectItem>
+                    <SelectItem value="Lakshadweep">Lakshadweep</SelectItem>
+                    <SelectItem value="Puducherry">Puducherry</SelectItem>
+                    <SelectItem value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-400">
@@ -490,12 +547,9 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
                   Institute Name *
                 </label>
                 <Input
-                  required
+                  readOnly
                   type="text"
                   value={formData.instituteName}
-                  onChange={(e) =>
-                    updateFormData("instituteName", e.target.value)
-                  }
                   className="border-gray-900 text-gray-800 dark:bg-gray-900 dark:border-gray-700 dark:text-white"
                   placeholder="Enter institute name"
                 />
