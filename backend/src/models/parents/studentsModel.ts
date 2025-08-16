@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
+  studentId: { type: String, default: "STU-ID" }, // required: true, unique: true
   name: { type: String, required: true },
   parentName: { type: String, required: true },
   parentEmail: { type: String, required: true },
@@ -9,6 +10,7 @@ const studentSchema = new mongoose.Schema({
   dateOfBirth: { type: Date, required: true },
   age: { type: Number, required: true },
   grade: { type: String, required: true },
+  section: { type: String, required: true },
   rollNumber: { type: String, required: true, unique: true },
   address: { 
     completeAddress: { type: String, required: true },
@@ -17,6 +19,7 @@ const studentSchema = new mongoose.Schema({
     pinCode: { type: String, required: true },
    },
   instituteName: { type: String, required: true },
+  admissionDate: { type: Date, required: true },
 }, { timestamps: true });
 
 const Student = mongoose.model("Student", studentSchema);

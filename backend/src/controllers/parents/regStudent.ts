@@ -48,9 +48,11 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
       dateOfBirth,
       age,
       grade,
+      section,
       rollNumber,
       address,
       instituteName,
+      admissionDate,
     } = parsed.data;
     const existingStudent = await Student.findOne({
       parentEmail,
@@ -74,9 +76,11 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
         dateOfBirth: new Date(dateOfBirth),
         age,
         grade,
+        section,
         rollNumber,
         address,
         instituteName,
+        admissionDate: new Date(admissionDate),
       });
       res.status(201).json({
         message: "Student registered successfully",

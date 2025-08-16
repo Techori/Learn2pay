@@ -125,6 +125,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
         dateOfBirth: formData.dateOfBirth,
         age: Number(formData.age),
         grade: formData.grade,
+        section: formData.section,
         rollNumber: formData.rollNumber,
         address: formData.address,
         instituteName: formData.instituteName,
