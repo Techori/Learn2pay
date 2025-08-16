@@ -22,6 +22,9 @@ interface Parent {
   parentPhone : string;
   studentName: string;
   instituteName: string;
+  class : string;
+  section : string;
+  rollNo : string;
   
 }
 

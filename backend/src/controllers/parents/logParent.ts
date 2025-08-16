@@ -55,8 +55,10 @@ const loginParent = async (req: Request, res: Response): Promise<void> => {
         parentEmail: student.parentEmail,
         studentName: student.name,
         instituteName: student.instituteName,
-        parentPhone : student.parentPhone
-      },
+        parentPhone : student.parentPhone,
+        class : student.grade,
+        rollNo : student.rollNumber
+            },
     });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });

@@ -33,19 +33,20 @@ const Parent = () => {
   };
 
   const childInfo = {
-    name: "Aarav Sharma",
+    name: parent.studentName,
     studentId: "ABC2024001",
-    class: "10th A",
-    rollNumber: "15",
+    class: parent.class,
+    rollNumber: parent.rollNo ,
     admissionDate: "April 1, 2024",
-    email: "aarav.sharma@email.com",
-    phone: "9876543210",
+    email: parent.parentEmail,
+    phone: parent.parentPhone,
     address: "123 Main Street, Mumbai, Maharashtra - 400001",
     attendance: 95,
     currentGrade: "A+",
     subjects: 8,
     status: "Active",
-    school: "ABC Academy",
+    school: parent.instituteName
+  
   };
 
   // Updated for EMI-based model

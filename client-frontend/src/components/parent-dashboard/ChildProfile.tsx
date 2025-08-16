@@ -15,6 +15,7 @@ interface ChildProfileProps {
     subjects: number;
     status: string;
     school: string;
+  
   };
   parentData: {
     name: string;
@@ -101,7 +102,7 @@ const ChildProfile = ({
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Class</label>
-                  <p className="text-white font-medium">{childInfo.class}</p>
+                  <p className="text-white font-medium">{childInfo.class}th </p>
                 </div>
                 <div>
                   <label className="text-gray-400 text-sm">Roll Number</label>
