@@ -6,7 +6,7 @@ const InstituteSchema = new mongoose.Schema(
     instituteType: {
       type: String,
       required: true,
-      enum: ["school", "college", "academy", "gym", "other", "coaching"],
+      enum: ["School", "College", "Academy", "Gym", "Other", "Coaching"],
     },
     description: { type: String, required: false },
     contactPerson: {
@@ -39,20 +39,26 @@ const InstituteSchema = new mongoose.Schema(
     kycStatus: {
       type: String,
       enum: [
-        "not started",
-        "pending",
-        "under_review",
-        "verified",
-        "approved",
-        "rejected",
+        "Not Started",
+        "Pending",
+        "Under Review",
+        "Verified",
+        "Approved",
+        "Rejected",
       ],
-      default: "not started",
+      default: "Pending",
       required: true,
     },
     approved: { type: Boolean, default: false },
     premiumPlan: { type: Boolean, default: false },
     salesOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     referralOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    joinDate: {
+      type: Date,
+      default: () => new Date().toISOString().split("T")[0],
+      required: true,
+    },
+    totalNoOfStudents: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
@@ -60,3 +66,4 @@ const InstituteSchema = new mongoose.Schema(
 //add funtion to add kyc status to default if not created
 
 export default mongoose.model("Institute", InstituteSchema);
+

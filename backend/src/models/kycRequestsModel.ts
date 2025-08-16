@@ -15,7 +15,7 @@ const kycRequestSchema = new mongoose.Schema({
       data: { type: Buffer }
     }
   },
-  status: { type: String, required: true, enum: ["not started","pending","under_review","verified","approved","rejected"], default: "not started" },
+  status: { type: String, required: true, enum: ["Not Started","Pending","Under Review","Verified","Approved","Rejected"], default: "Not Started" },
 }, { timestamps: true });
 
 export default mongoose.model("KycRequest", kycRequestSchema); 

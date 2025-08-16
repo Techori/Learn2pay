@@ -3,7 +3,7 @@ import { Document, ObjectId } from "mongoose";
 export interface IInstitute {
   _id: any;
   instituteName: string;
-  instituteType: "school" | "college" | "university" |"academy"| "coaching" |"other"| "gym";
+  instituteType: "School" | "College" |"Academy"| "Coaching" |"Other"| "Gym";
   description?: string | null;
   contactPerson?: {
     firstName: string;
@@ -24,6 +24,10 @@ export interface IInstitute {
   } | null;
   createdAt?: Date;
   updatedAt?: Date;
+  joinDate?: Date;
+  kycStatus?: "Not Started" | "Pending" | "Under Review" | "Verified" | "Approved" | "Rejected";
+  approved?: boolean;
+  totalNoOfStudents: Number;
 }
 
 export interface IStudent {
