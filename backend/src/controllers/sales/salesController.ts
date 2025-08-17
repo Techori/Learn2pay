@@ -4,6 +4,7 @@ import cloudinary from 'cloudinary';
 import multer from 'multer';
 import { v2 as cloudinaryV2 } from 'cloudinary';
 import { hashPassword } from '../../utils/hashAuth';
+import { instituteRegisterSchema } from '../../validations/instituteValidation';
 
 // Configure Cloudinary
 cloudinaryV2.config({
@@ -102,9 +103,66 @@ export const onboardInstitute = async (req: Request, res: Response): Promise<voi
   try {
     const { instituteName, instituteAddress, city, state, pincode, contactPersonName, contactPersonNumber, email, instituteType, leadSource } = req.body;
 
-    // Validate required fields
-    if (!instituteName || !instituteAddress || !city || !state || !pincode || !contactPersonName || !contactPersonNumber) {
-      res.status(400).json({ message: 'All required fields must be filled.' });
+    // Prepare data for validation
+    const instituteData = {
+      instituteName,
+      instituteType: instituteType.charAt(0).toUpperCase() + instituteType.slice(1).toLowerCase(), // Ensure proper capitalization
+      description: req.body.description || '',
+      contactPerson: {
+        firstName: contactPersonName.split(' ')[0] || '',
+        lastName: contactPersonName.split(' ').slice(1).join(' ') || contactPersonName.split(' ')[0] || '', // Ensure lastName is never empty
+      },
+      contactEmail: email || '',
+      contactPhone: contactPersonNumber,
+      address: {
+        completeAddress: instituteAddress,
+        city,
+        state,
+        pinCode: pincode,
+      },
+      password: 'Password123', // Default password for onboarding - meets validation requirements
+      documents: {
+        registerationCertificate: false,
+        panCard: false,
+      }
+    };
+
+    // Validate data using the schema
+    const parsed = instituteRegisterSchema.safeParse(instituteData);
+    if (!parsed.success) {
+      const validationErrors = parsed.error.errors.map((err) => {
+        if (err.path.length > 0) {
+          const fieldPath = err.path.join(".");
+          return `${fieldPath}: ${err.message}`;
+        }
+        return err.message;
+      });
+
+      res.status(400).json({
+        error: "Validation failed",
+        message: validationErrors.join(", "),
+        details: validationErrors,
+      });
+      return;
+    }
+
+    // Check if institute with this email already exists
+    if (email) {
+      const existingInstitute = await Institute.findOne({ contactEmail: email });
+      if (existingInstitute) {
+        res.status(400).json({ 
+          message: `An institute with email ${email} already exists. Please use a different email address.` 
+        });
+        return;
+      }
+    }
+
+    // Check if institute with this phone number already exists
+    const existingInstituteByPhone = await Institute.findOne({ contactPhone: contactPersonNumber });
+    if (existingInstituteByPhone) {
+      res.status(400).json({ 
+        message: `An institute with phone number ${contactPersonNumber} already exists. Please use a different phone number.` 
+      });
       return;
     }
 
@@ -157,22 +215,9 @@ export const onboardInstitute = async (req: Request, res: Response): Promise<voi
       }
     }
 
-    // Save to database
+    // Save to database using validated data
     const newInstitute = await Institute.create({
-      instituteName,
-      instituteType: instituteType.toLowerCase(),
-      contactPerson: {
-        firstName: contactPersonName.split(' ')[0],
-        lastName: contactPersonName.split(' ')[1] || '',
-      },
-      contactEmail: email || '',
-      contactPhone: contactPersonNumber,
-      address: {
-        completeAddress: instituteAddress,
-        city,
-        state,
-        pinCode: pincode,
-      },
+      ...parsed.data,
       documents: {
         registerationCertificate: !!uploadedFiles['affiliationProof'],
         panCard: !!uploadedFiles['panCard'],
@@ -183,11 +228,12 @@ export const onboardInstitute = async (req: Request, res: Response): Promise<voi
         gstCertificate: uploadedFiles['gstCertificate'] || null,
         otherDocuments: uploadedFiles['otherDocuments'] || [],
       },
-      kycStatus: 'pending', // Set to pending since documents are uploaded
+      kycStatus: 'Pending', // Set to Pending (capital P) to match model enum
       approved: false,
       premiumPlan: false,
-      // Use a fixed password and hash it
-      password: await hashPassword('password123'),
+      joinDate: new Date().toISOString().split('T')[0], // Add join date
+      // Hash the password
+      password: await hashPassword(parsed.data.password),
     });
 
     // Respond with success
