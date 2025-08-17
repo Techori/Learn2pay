@@ -13,6 +13,7 @@ const studentRegisterSchema = z.object({
   dateOfBirth: z.string().min(1, "Date of birth is required"),
   age: z.union([z.string().min(1, "Age is required"), z.number().min(0, "Invalid age")]),
   grade: z.string().min(1, "Grade is required"),
+  section: z.string().min(1, "Section is required"),
   rollNumber: z.union([z.string().min(1, "Roll number is required"), z.number().min(1, "Roll number is required")]),
   address: z.object({
     completeAddress: z.string().min(1, "Complete address is required"),
@@ -21,6 +22,7 @@ const studentRegisterSchema = z.object({
     pinCode: z.union([z.string().min(1, "Pin code is required"), z.number().min(1, "Pin code is required")]),
   }),
   instituteName: z.string().min(1, "Institute name is required"),
+  admissionDate: z.string().min(1, "Admission date is required"),
 });
 
 const parentLoginSchema = z.object({
