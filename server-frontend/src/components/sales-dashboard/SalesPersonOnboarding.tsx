@@ -128,11 +128,21 @@ const SalesPersonOnboarding = () => {
   // Handle file uploads
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof typeof files) => {
     const file = e.target.files?.[0] || null;
+    console.log(`File change for ${field}:`, file); // Debug log
+    
     if (field === "otherDocuments") {
-      setFiles((prev) => ({ ...prev, [field]: file ? [...prev.otherDocuments, file] : prev.otherDocuments }));
+      setFiles((prev) => ({ 
+        ...prev, 
+        [field]: file ? [...(prev.otherDocuments || []), file] : (prev.otherDocuments || []) 
+      }));
     } else {
       setFiles((prev) => ({ ...prev, [field]: file }));
     }
+    
+    // Debug log the updated files state
+    setTimeout(() => {
+      console.log('Updated files state:', files);
+    }, 100);
   };
 
   // Handle form submission
@@ -142,25 +152,43 @@ const SalesPersonOnboarding = () => {
     // Set loading state to true
     setIsSubmitting(true);
     
-    const requiredFields = [
-      formData.instituteName,
-      formData.instituteAddress,
-      formData.city,
-      formData.state,
-      formData.pincode,
-      formData.contactPersonName,
-      formData.contactPersonNumber,
-      files.affiliationProof,
+    // Check if required text fields are filled (trim whitespace)
+    const requiredTextFields = [
+      formData.instituteName.trim(),
+      formData.instituteAddress.trim(),
+      formData.city.trim(),
+      formData.state.trim(),
+      formData.pincode.trim(),
+      formData.contactPersonName.trim(),
+      formData.contactPersonNumber.trim(),
     ];
-    if (requiredFields.some((field) => !field)) {
+    
+    // Check if any required text field is empty
+    if (requiredTextFields.some((field) => !field)) {
       toast({
         title: "Error",
-        description: "Please fill all mandatory fields and upload Affiliation Proof.",
+        description: "Please fill all mandatory fields.",
         variant: "destructive",
       });
       setIsSubmitting(false);
       return;
     }
+    
+    // Check if affiliation proof is uploaded
+    if (!files.affiliationProof) {
+      toast({
+        title: "Error",
+        description: "Please upload Affiliation Proof document.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+    
+    // Debug logging to help identify issues
+    console.log('Form data:', formData);
+    console.log('Files:', files);
+    console.log('Affiliation proof file:', files.affiliationProof);
     if (!/^\+91\d{10}$/.test(formData.contactPersonNumber)) {
       toast({
         title: "Error",
@@ -411,7 +439,7 @@ const SalesPersonOnboarding = () => {
                 />
               </div>
               <div>
-                <label className={`block text-sm font-medium ${textMuted}`}>School ID / Affiliation Proof</label>
+                <label className={`block text-sm font-medium ${textMuted}`}>School ID / Affiliation Proof *</label>
                 <input
                   type="file"
                   accept="application/pdf,image/*"
@@ -419,6 +447,16 @@ const SalesPersonOnboarding = () => {
                   className={`w-full p-2 mt-1 rounded ${inputBg} border ${inputBorder} ${textMuted}`}
                   required
                 />
+                {files.affiliationProof && (
+                  <div className="mt-2 p-2 bg-green-100 text-green-800 rounded text-sm">
+                    ✅ File selected: {files.affiliationProof.name}
+                  </div>
+                )}
+                {!files.affiliationProof && (
+                  <div className="mt-2 p-2 bg-red-100 text-red-800 rounded text-sm">
+                    ❌ Please select an Affiliation Proof document
+                  </div>
+                )}
               </div>
               <div>
                 <label className={`block text-sm font-medium ${textMuted}`}>Other Documents (Optional)</label>
