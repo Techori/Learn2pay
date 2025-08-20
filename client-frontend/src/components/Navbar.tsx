@@ -6,6 +6,7 @@ import ThemeToggle from "./Themetoggle";
 import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
 import { Moon, Sun } from "lucide-react";
+import DropdownPortal from "./ui/DropdownPortal";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +16,8 @@ const Navbar = () => {
   const { isAuthenticated, institute, parent, userType, logout, isLoading } =
     useAuth();
   const { theme, toggleTheme } = useTheme();
+
+
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -32,6 +35,8 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -192,128 +197,122 @@ const Navbar = () => {
                     </motion.svg>
                   </motion.button>
 
-                  {/* Profile Dropdown Menu */}
-                  <AnimatePresence>
-                    {isProfileMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2 z-50"
-                      >
-                        {/* User Info Header */}
-                        <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
-                          <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
-                              {getUserInitials(userName)}
-                            </div>
-                            <div>
-                              <div className="text-gray-900 dark:text-white font-medium">
-                                {userName}
-                              </div>
-                              <div className="text-gray-500 dark:text-gray-400 text-sm">
-                                {userEmail}
-                              </div>
-                              <div className="text-orange-400 text-xs font-medium">
-                                {userRole}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                                     {/* Profile Dropdown Menu */}
+                   <DropdownPortal
+                     isOpen={isProfileMenuOpen}
+                     triggerRef={profileMenuRef}
+                     className="w-64 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2"
+                   >
+                     {/* User Info Header */}
+                     <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
+                       <div className="flex items-center space-x-3">
+                         <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
+                           {getUserInitials(userName)}
+                         </div>
+                         <div>
+                           <div className="text-gray-900 dark:text-white font-medium">
+                             {userName}
+                           </div>
+                           <div className="text-gray-500 dark:text-gray-400 text-sm">
+                             {userEmail}
+                           </div>
+                           <div className="text-orange-400 text-xs font-medium">
+                             {userRole}
+                           </div>
+                         </div>
+                       </div>
+                     </div>
 
-                        {/* Menu Items */}
-                        <div className="py-2">
-                          <Link
-                            to="/dashboard"
-                            onClick={() => setIsProfileMenuOpen(false)}
-                            className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
-                          >
-                            <svg
-                              className="w-4 h-4 mr-3"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7zm0 0V5a2 2 0 012-2h6l2 2h6a2 2 0 012 2v2"
-                              />
-                            </svg>
-                            Dashboard
-                          </Link>
+                     {/* Menu Items */}
+                     <div className="py-2">
+                       <Link
+                         to="/dashboard"
+                         onClick={() => setIsProfileMenuOpen(false)}
+                         className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                       >
+                         <svg
+                           className="w-4 h-4 mr-3"
+                           fill="none"
+                           stroke="currentColor"
+                           viewBox="0 0 24 24"
+                         >
+                           <path
+                             strokeLinecap="round"
+                             strokeLinejoin="round"
+                             strokeWidth={2}
+                             d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7zm0 0V5a2 2 0 012-2h6l2 2h6a2 2 0 012 2v2"
+                           />
+                         </svg>
+                         Dashboard
+                       </Link>
 
-                          <Link
-                            to="/profile"
-                            onClick={() => setIsProfileMenuOpen(false)}
-                            className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
-                          >
-                            <svg
-                              className="w-4 h-4 mr-3"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                              />
-                            </svg>
-                            Profile Settings
-                          </Link>
+                       <Link
+                         to="/profile"
+                         onClick={() => setIsProfileMenuOpen(false)}
+                         className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                       >
+                         <svg
+                           className="w-4 h-4 mr-3"
+                           fill="none"
+                           stroke="currentColor"
+                           viewBox="0 0 24 24"
+                         >
+                           <path
+                             strokeLinecap="round"
+                             strokeLinejoin="round"
+                             strokeWidth={2}
+                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                           />
+                         </svg>
+                         Profile Settings
+                       </Link>
 
-                          {userType === "parent" && (
-                            <Link
-                              to="/student-info"
-                              onClick={() => setIsProfileMenuOpen(false)}
-                              className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
-                            >
-                              <svg
-                                className="w-4 h-4 mr-3"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                                />
-                              </svg>
-                              Student Info
-                            </Link>
-                          )}
+                       {userType === "parent" && (
+                         <Link
+                           to="/student-info"
+                           onClick={() => setIsProfileMenuOpen(false)}
+                           className="flex items-center px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800/50 transition-colors duration-200"
+                         >
+                           <svg
+                             className="w-4 h-4 mr-3"
+                             fill="none"
+                             stroke="currentColor"
+                             viewBox="0 0 24 24"
+                           >
+                             <path
+                               strokeLinecap="round"
+                               strokeLinejoin="round"
+                               strokeWidth={2}
+                               d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                             />
+                           </svg>
+                           Student Info
+                         </Link>
+                       )}
 
-                          <hr className="my-2 border-gray-700/50" />
+                       <hr className="my-2 border-gray-700/50" />
 
-                          <button
-                            onClick={handleLogout}
-                            className="flex items-center w-full px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-colors duration-200"
-                          >
-                            <svg
-                              className="w-4 h-4 mr-3"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                              />
-                            </svg>
-                            Sign Out
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                       <button
+                         onClick={handleLogout}
+                         className="flex items-center w-full px-4 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 transition-colors duration-200"
+                       >
+                         <svg
+                           className="w-4 h-4 mr-3"
+                           fill="none"
+                           stroke="currentColor"
+                           viewBox="0 0 24 24"
+                         >
+                           <path
+                             strokeLinecap="round"
+                             strokeLinejoin="round"
+                             strokeWidth={2}
+                             d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                           />
+                         </svg>
+                         Sign Out
+                       </button>
+                     </div>
+                   </DropdownPortal>
                 </div>
               </div>
             ) : (

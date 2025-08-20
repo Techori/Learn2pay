@@ -70,9 +70,9 @@ const ChildProfile = ({
       <motion.div variants={itemVariants}>
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-white">
-              Student & Plan Information
-            </h3>
+                         <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+               Student & Plan Information
+             </h3>
             <button className="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-lg text-white text-sm transition-colors">
               Edit Profile
             </button>
@@ -86,44 +86,44 @@ const ChildProfile = ({
               </h4>
               <div className="space-y-3">
                 <div>
-                  <label className="text-gray-400 text-sm">Full Name</label>
-                  <p className="text-white font-medium">{childInfo.name}</p>
-                </div>
+                                     <label className="text-gray-600 dark:text-gray-300 text-sm">Full Name</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{childInfo.name}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Student ID</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {childInfo.studentId}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">School</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{childInfo.school}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Class</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{childInfo.class}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Roll Number</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {childInfo.rollNumber}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">
+                     Admission Date
+                   </label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {childInfo.admissionDate}
+                   </p>
+                 </div>
                 <div>
-                  <label className="text-gray-400 text-sm">Student ID</label>
-                  <p className="text-white font-medium">
-                    {childInfo.studentId}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">School</label>
-                  <p className="text-white font-medium">{childInfo.school}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Class</label>
-                  <p className="text-white font-medium">{childInfo.class}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Roll Number</label>
-                  <p className="text-white font-medium">
-                    {childInfo.rollNumber}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">
-                    Admission Date
-                  </label>
-                  <p className="text-white font-medium">
-                    {childInfo.admissionDate}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">
-                    Current Status
-                  </label>
-                  <span className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-sm">
-                    {childInfo.status}
-                  </span>
+                                     <label className="text-gray-600 dark:text-gray-300 text-sm">
+                     Current Status
+                   </label>
+                                     <span className="bg-green-500/20 text-green-600 dark:text-green-400 px-2 py-1 rounded text-sm">
+                     {childInfo.status}
+                   </span>
                 </div>
               </div>
             </div>
@@ -135,33 +135,33 @@ const ChildProfile = ({
               </h4>
               <div className="space-y-3">
                 <div>
-                  <label className="text-gray-400 text-sm">Student Email</label>
-                  <p className="text-white font-medium">{childInfo.email}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Student Phone</label>
-                  <p className="text-white font-medium">{childInfo.phone}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Address</label>
-                  <p className="text-white font-medium">{childInfo.address}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Parent Name</label>
-                  <p className="text-white font-medium">{parentData.name}</p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Parent Phone</label>
-                  <p className="text-white font-medium">
-                    {parentData.contactInfo.phone}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Parent Email</label>
-                  <p className="text-white font-medium">
-                    {parentData.contactInfo.email}
-                  </p>
-                </div>
+                                     <label className="text-gray-600 dark:text-gray-300 text-sm">Student Email</label>
+                                     <p className="text-gray-800 dark:text-white font-medium">{childInfo.email}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Student Phone</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{childInfo.phone}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Address</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{childInfo.address}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Parent Name</label>
+                   <p className="text-gray-800 dark:text-white font-medium">{parentData.name}</p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Parent Phone</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {parentData.contactInfo.phone}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Parent Email</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {parentData.contactInfo.email}
+                   </p>
+                 </div>
               </div>
             </div>
 
@@ -172,45 +172,45 @@ const ChildProfile = ({
               </h4>
               <div className="space-y-3">
                 <div>
-                  <label className="text-gray-400 text-sm">Plan Type</label>
-                  <p className="text-white font-medium">
-                    {larn2payInfo.planType}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">
-                    Total Amount Financed
-                  </label>
-                  <p className="text-white font-medium">
-                    ₹{larn2payInfo.totalAmount.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Monthly EMI</label>
-                  <p className="text-white font-medium">
-                    ₹{larn2payInfo.emiAmount.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Tenure</label>
-                  <p className="text-white font-medium">
-                    {larn2payInfo.tenure}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">Interest Rate</label>
-                  <p className="text-white font-medium">
-                    {larn2payInfo.interestRate}% p.a.
-                  </p>
-                </div>
-                <div>
-                  <label className="text-gray-400 text-sm">
-                    Current Attendance
-                  </label>
-                  <p className="text-white font-medium">
-                    {childInfo.attendance}%
-                  </p>
-                </div>
+                                     <label className="text-gray-600 dark:text-gray-300 text-sm">Plan Type</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {larn2payInfo.planType}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">
+                     Total Amount Financed
+                   </label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     ₹{larn2payInfo.totalAmount.toLocaleString()}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Monthly EMI</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     ₹{larn2payInfo.emiAmount.toLocaleString()}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Tenure</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {larn2payInfo.tenure}
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">Interest Rate</label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {larn2payInfo.interestRate}% p.a.
+                   </p>
+                 </div>
+                 <div>
+                   <label className="text-gray-600 dark:text-gray-300 text-sm">
+                     Current Attendance
+                   </label>
+                   <p className="text-gray-800 dark:text-white font-medium">
+                     {childInfo.attendance}%
+                   </p>
+                 </div>
               </div>
             </div>
           </div>

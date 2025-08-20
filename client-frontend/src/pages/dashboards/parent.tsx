@@ -272,12 +272,12 @@ const Parent = () => {
                 } rounded-lg bg-slate-800/50`}
               >
                 <div className="flex justify-between">
-                  <h3 className="font-medium">{notification.title}</h3>
-                  <span className="text-sm text-gray-400">
-                    {notification.time}
-                  </span>
+                  <h3 className="font-medium text-gray-800 dark:text-white">{notification.title}</h3>
+                                     <span className="text-sm text-gray-600 dark:text-gray-400">
+                     {notification.time}
+                   </span>
                 </div>
-                <p className="text-gray-300 mt-1">{notification.message}</p>
+                                 <p className="text-gray-600 dark:text-gray-200 mt-1">{notification.message}</p>
               </div>
             ))}
           </div>
@@ -309,12 +309,12 @@ const Parent = () => {
           <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-gray-700">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-xl font-bold text-white">
-                  {parentData.school}
-                </h1>
-                <p className="text-gray-400">
-                  Parent ID: {parentData.parentId}
-                </p>
+                                 <h1 className="text-xl font-bold text-gray-800 dark:text-white">
+                   {parentData.school}
+                 </h1>
+                                 <p className="text-gray-600 dark:text-gray-300">
+                   Parent ID: {parentData.parentId}
+                 </p>
               </div>
               <Button className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg text-white text-sm transition-colors">
                 <svg
@@ -342,11 +342,11 @@ const Parent = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+                     <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-gradient-to-r from-pink-500/20 to-pink-600/20 border border-pink-500/30 rounded-lg p-6">
               <div className="flex items-center">
-                <div className="text-pink-400 mr-4">
+                                 <div className="text-pink-600 dark:text-pink-400 mr-4">
                   <svg
                     className="w-8 h-8"
                     fill="none"
@@ -362,17 +362,17 @@ const Parent = () => {
                   </svg>
                 </div>{" "}
                 <div>
-                  <h3 className="text-white font-medium">Contact School</h3>
-                  <p className="text-gray-300 text-sm">
-                    Send message to teacher
-                  </p>
+                                     <h3 className="text-gray-800 dark:text-white font-medium">Contact School</h3>
+                   <p className="text-gray-600 dark:text-gray-200 text-sm">
+                     Send message to teacher
+                   </p>
                 </div>
               </div>
             </div>
 
             <div className="bg-gradient-to-r from-teal-500/20 to-teal-600/20 border border-teal-500/30 rounded-lg p-6">
               <div className="flex items-center">
-                <div className="text-teal-400 mr-4">
+                                 <div className="text-teal-600 dark:text-teal-400 mr-4">
                   <svg
                     className="w-8 h-8"
                     fill="none"
@@ -388,12 +388,12 @@ const Parent = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-white font-medium">
-                    Pay EMI to Larn2Pay
-                  </h3>
-                  <p className="text-gray-300 text-sm">
-                    Make your monthly EMI payment
-                  </p>
+                                     <h3 className="text-gray-800 dark:text-white font-medium">
+                     Pay EMI to Larn2Pay
+                   </h3>
+                   <p className="text-gray-600 dark:text-gray-200 text-sm">
+                     Make your monthly EMI payment
+                   </p>
                 </div>
               </div>
             </div>

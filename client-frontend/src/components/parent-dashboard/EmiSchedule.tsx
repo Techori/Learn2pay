@@ -49,22 +49,22 @@ const EmiSchedule = ({ emiSchedule, emiData }: EmiScheduleProps) => {
       <motion.div variants={itemVariants}>
         <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-semibold text-white">
-              EMI Schedule Dashboard
-            </h3>
+                         <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+               EMI Schedule Dashboard
+             </h3>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-400">
-                Total Paid:{" "}
-                <span className="text-green-400 font-bold">
-                  ₹{emiData.totalPaid.toLocaleString()}
-                </span>
-              </div>
-              <div className="text-sm text-gray-400">
-                Pending:{" "}
-                <span className="text-red-400 font-bold">
-                  ₹{emiData.pendingAmount.toLocaleString()}
-                </span>
-              </div>
+                             <div className="text-sm text-gray-600 dark:text-gray-300">
+                 Total Paid:{" "}
+                 <span className="text-green-600 dark:text-green-400 font-bold">
+                   ₹{emiData.totalPaid.toLocaleString()}
+                 </span>
+               </div>
+               <div className="text-sm text-gray-600 dark:text-gray-300">
+                 Pending:{" "}
+                 <span className="text-red-600 dark:text-red-400 font-bold">
+                   ₹{emiData.pendingAmount.toLocaleString()}
+                 </span>
+               </div>
             </div>
           </div>
 
@@ -73,13 +73,13 @@ const EmiSchedule = ({ emiSchedule, emiData }: EmiScheduleProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                <span className="text-white font-medium">
-                  Auto EMI Deduction Active
-                </span>
+                                 <span className="text-gray-800 dark:text-white font-medium">
+                   Auto EMI Deduction Active
+                 </span>
               </div>
-              <button className="text-blue-400 hover:text-blue-300 text-sm">
-                Manage AutoPay
-              </button>
+                               <button className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm">
+                   Manage AutoPay
+                 </button>
             </div>
           </div>
 
@@ -97,32 +97,32 @@ const EmiSchedule = ({ emiSchedule, emiData }: EmiScheduleProps) => {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="text-white font-medium">{emi.month}</h4>
-                    <p className="text-gray-400 text-sm">
-                      EMI Due: {emi.dueDate}
-                    </p>
-                    <p className="text-gray-400 text-sm">
-                      School Fee Covered: ₹
-                      {emi.schoolFeeCovered.toLocaleString()}
-                    </p>
-                    {emi.paidDate && (
-                      <p className="text-green-400 text-sm">
-                        Paid: {emi.paidDate}
-                      </p>
-                    )}
+                                         <h4 className="text-gray-800 dark:text-white font-medium">{emi.month}</h4>
+                     <p className="text-gray-600 dark:text-gray-300 text-sm">
+                       EMI Due: {emi.dueDate}
+                     </p>
+                     <p className="text-gray-600 dark:text-gray-300 text-sm">
+                       School Fee Covered: ₹
+                       {emi.schoolFeeCovered.toLocaleString()}
+                     </p>
+                                         {emi.paidDate && (
+                       <p className="text-green-600 dark:text-green-400 text-sm">
+                         Paid: {emi.paidDate}
+                       </p>
+                     )}
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-bold">
-                      ₹{emi.amount.toLocaleString()}
-                    </p>
+                                         <p className="text-gray-800 dark:text-white font-bold">
+                       ₹{emi.amount.toLocaleString()}
+                     </p>
                     <span
-                      className={`px-2 py-1 rounded text-xs ${
-                        emi.status === "paid"
-                          ? "bg-green-500/20 text-green-400"
-                          : emi.status === "due"
-                          ? "bg-red-500/20 text-red-400"
-                          : "bg-gray-500/20 text-gray-400"
-                      }`}
+                                             className={`px-2 py-1 rounded text-xs ${
+                         emi.status === "paid"
+                           ? "bg-green-500/20 text-green-600 dark:text-green-400"
+                           : emi.status === "due"
+                           ? "bg-red-500/20 text-red-600 dark:text-red-400"
+                           : "bg-gray-500/20 text-gray-600 dark:text-gray-400"
+                       }`}
                     >
                       {emi.status === "paid"
                         ? "✅ Paid"
