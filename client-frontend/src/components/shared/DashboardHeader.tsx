@@ -4,6 +4,7 @@ import { LogOut, Bell, Settings, User, ChevronDown, Sun, Moon,Shield } from "luc
 import { useAuth } from "@/contexts/AuthContext";
 import { Link,useNavigate } from "react-router-dom";
 import ThemeToggle from "../Themetoggle";
+import DropdownPortal from "../ui/DropdownPortal";
 interface DashboardHeaderProps {
   dashboardName?: string;
   kycStatus?: string;
@@ -19,6 +20,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
 
   const profileMenuRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -47,6 +49,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     };
   }, []);
 
+
+
   const currentUser = institute || parent;
   const userName = institute?.name || parent?.parentName || "User";
   const userEmail = institute?.email || parent?.parentEmail || "";
@@ -58,6 +62,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     await (onLogout || logout)();
     setIsProfileMenuOpen(false);
   };
+
+
 
   // Get user initials for avatar
   const getUserInitials = (name: string) => {
@@ -193,66 +199,61 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               </motion.button>
 
               {/* Notifications Dropdown */}
-              <AnimatePresence>
-                {isNotificationOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2 z-50"
-                  >
-                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
-                      <h3 className="text-gray-900 dark:text-white font-semibold">
-                        Notifications
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        You have {unreadCount} unread notifications
-                      </p>
-                    </div>
-                    <div className="max-h-64 overflow-y-auto">
-                      {notifications.map((notification) => (
-                        <motion.div
-                          key={notification.id}
-                          whileHover={{
-                            backgroundColor: "rgba(75, 85, 99, 0.1)",
-                          }}
-                          className={`px-4 py-3 border-b border-gray-200 dark:border-gray-700/30 last:border-b-0 cursor-pointer ${
-                            notification.unread ? "bg-orange-50 dark:bg-orange-500/5" : ""
+              <DropdownPortal
+                isOpen={isNotificationOpen}
+                triggerRef={notificationRef}
+                className="w-80 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2"
+              >
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
+                  <h3 className="text-gray-900 dark:text-white font-semibold">
+                    Notifications
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    You have {unreadCount} unread notifications
+                  </p>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {notifications.map((notification) => (
+                    <motion.div
+                      key={notification.id}
+                      whileHover={{
+                        backgroundColor: "rgba(75, 85, 99, 0.1)",
+                      }}
+                      className={`px-4 py-3 border-b border-gray-200 dark:border-gray-700/30 last:border-b-0 cursor-pointer ${
+                        notification.unread ? "bg-orange-50 dark:bg-orange-500/5" : ""
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div
+                          className={`w-2 h-2 rounded-full mt-2 ${
+                            notification.type === "warning"
+                              ? "bg-yellow-500 dark:bg-yellow-400"
+                              : notification.type === "success"
+                              ? "bg-green-500 dark:bg-green-400"
+                              : "bg-blue-500 dark:bg-blue-400"
                           }`}
-                        >
-                          <div className="flex items-start space-x-3">
-                            <div
-                              className={`w-2 h-2 rounded-full mt-2 ${
-                                notification.type === "warning"
-                                  ? "bg-yellow-500 dark:bg-yellow-400"
-                                  : notification.type === "success"
-                                  ? "bg-green-500 dark:bg-green-400"
-                                  : "bg-blue-500 dark:bg-blue-400"
-                              }`}
-                            />
-                            <div className="flex-1">
-                              <p className="text-gray-900 dark:text-white text-sm font-medium">
-                                {notification.title}
-                              </p>
-                              <p className="text-gray-600 dark:text-gray-400 text-xs">
-                                {notification.message}
-                              </p>
-                              <p className="text-gray-500 text-xs mt-1">
-                                {notification.time}
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                    <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700/50">
-                      <button className="text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 text-sm font-medium">
-                        View all notifications
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                        />
+                        <div className="flex-1">
+                          <p className="text-gray-900 dark:text-white text-sm font-medium">
+                            {notification.title}
+                          </p>
+                          <p className="text-gray-600 dark:text-gray-400 text-xs">
+                            {notification.message}
+                          </p>
+                          <p className="text-gray-500 text-xs mt-1">
+                            {notification.time}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700/50">
+                  <button className="text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 text-sm font-medium">
+                    View all notifications
+                  </button>
+                </div>
+              </DropdownPortal>
             </div>
 
             {/* User Profile Dropdown */}
@@ -286,66 +287,61 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               </motion.button>
 
               {/* Profile Dropdown Menu */}
-              <AnimatePresence>
-                {isProfileMenuOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2 z-50"
-                  >
-                    {/* User Info Header */}
-                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {getUserInitials(userName)}
-                        </div>
-                        <div>
-                          <div className="text-gray-900 dark:text-white font-semibold">
-                            {userName}
-                          </div>
-                          <div className="text-gray-600 dark:text-gray-400 text-sm">
-                            {userEmail}
-                          </div>
-                          <div className="text-orange-600 dark:text-orange-400 text-xs font-medium">
-                            {userRole}
-                          </div>
-                        </div>
+              <DropdownPortal
+                isOpen={isProfileMenuOpen}
+                triggerRef={profileMenuRef}
+                className="w-72 bg-white dark:bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 py-2"
+              >
+                {/* User Info Header */}
+                <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700/50">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      {getUserInitials(userName)}
+                    </div>
+                    <div>
+                      <div className="text-gray-900 dark:text-white font-semibold">
+                        {userName}
+                      </div>
+                      <div className="text-gray-600 dark:text-gray-400 text-sm">
+                        {userEmail}
+                      </div>
+                      <div className="text-orange-600 dark:text-orange-400 text-xs font-medium">
+                        {userRole}
                       </div>
                     </div>
+                  </div>
+                </div>
 
-                    {/* Menu Items */}
-                    <div className="py-2">
-                      <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
-                        <User className="w-4 h-4 mr-3" />
-                        Profile Settings
-                      </button>
+                {/* Menu Items */}
+                <div className="py-2">
+                  <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
+                    <User className="w-4 h-4 mr-3" />
+                    Profile Settings
+                  </button>
 
-                      <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
-                        <Settings className="w-4 h-4 mr-3" />
-                        Account Settings
-                      </button>
+                  <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
+                    <Settings className="w-4 h-4 mr-3" />
+                    Account Settings
+                  </button>
 
-                      {userType === "parent" && (
-                        <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
-                          <User className="w-4 h-4 mr-3" />
-                          Student Information
-                        </button>
-                      )}
+                  {userType === "parent" && (
+                    <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800/50 transition-colors duration-200">
+                      <User className="w-4 h-4 mr-3" />
+                      Student Information
+                    </button>
+                  )}
 
-                      <hr className="my-2 border-gray-200 dark:border-gray-700/50" />
+                  <hr className="my-2 border-gray-200 dark:border-gray-700/50" />
 
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center w-full px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20 transition-colors duration-200"
-                      >
-                        <LogOut className="w-4 h-4 mr-3" />
-                        Sign Out
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/20 transition-colors duration-200"
+                  >
+                    <LogOut className="w-4 h-4 mr-3" />
+                    Sign Out
+                  </button>
+                </div>
+              </DropdownPortal>
             </div>
           </div>
         </div>

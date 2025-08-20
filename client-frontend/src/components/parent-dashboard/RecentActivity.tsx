@@ -25,12 +25,12 @@ const RecentActivity = ({ recentActivity }: RecentActivityProps) => {
   return (
     <motion.div variants={itemVariants}>
       <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
-        <h3 className="text-lg font-semibold text-white mb-6">
-          Recent Activity
-        </h3>
-        <p className="text-sm text-gray-400 mb-4">
-          Latest updates about your EMI and child
-        </p>
+                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-6">
+           Recent Activity
+         </h3>
+                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+           Latest updates about your EMI and child
+         </p>
 
         <div className="space-y-4">
           {recentActivity.map((activity) => (
@@ -47,30 +47,30 @@ const RecentActivity = ({ recentActivity }: RecentActivityProps) => {
                 }`}
               />
               <div className="flex-1">
-                <p className="text-white text-sm">{activity.action}</p>
-                <p className="text-gray-400 text-xs">{activity.time}</p>
+                                 <p className="text-gray-800 dark:text-white text-sm">{activity.action}</p>
+                 <p className="text-gray-600 dark:text-gray-300 text-xs">{activity.time}</p>
               </div>
               <div className="text-right">
-                {activity.status === "success" && (
-                  <span className="text-green-400 text-xs bg-green-500/20 px-2 py-1 rounded">
-                    Success
-                  </span>
-                )}
-                {activity.status === "complete" && (
-                  <span className="text-blue-400 text-xs bg-blue-500/20 px-2 py-1 rounded">
-                    Complete
-                  </span>
-                )}
-                {activity.status === "info" && (
-                  <span className="text-cyan-400 text-xs bg-cyan-500/20 px-2 py-1 rounded">
-                    Info
-                  </span>
-                )}
-                {activity.status === "warning" && (
-                  <span className="text-orange-400 text-xs bg-orange-500/20 px-2 py-1 rounded">
-                    Alert
-                  </span>
-                )}
+                                 {activity.status === "success" && (
+                   <span className="text-green-600 dark:text-green-400 text-xs bg-green-500/20 px-2 py-1 rounded">
+                     Success
+                   </span>
+                 )}
+                 {activity.status === "complete" && (
+                   <span className="text-blue-600 dark:text-blue-400 text-xs bg-blue-500/20 px-2 py-1 rounded">
+                     Complete
+                   </span>
+                 )}
+                 {activity.status === "info" && (
+                   <span className="text-cyan-600 dark:text-cyan-400 text-xs bg-cyan-500/20 px-2 py-1 rounded">
+                     Info
+                   </span>
+                 )}
+                 {activity.status === "warning" && (
+                   <span className="text-orange-600 dark:text-orange-400 text-xs bg-orange-500/20 px-2 py-1 rounded">
+                     Alert
+                   </span>
+                 )}
               </div>
             </div>
           ))}

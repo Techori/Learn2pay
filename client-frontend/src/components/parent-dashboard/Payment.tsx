@@ -49,16 +49,16 @@ const Payment = () => {
     <div className="space-y-8">
       {/* Quick Payment Section */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">Quick Payment</h3>
+        <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">Quick Payment</h3>
         <Card className="bg-slate-700/50 border-gray-600">
           <CardContent className="space-y-4">
             <div className="space-y-1">
-              <h4 className="text-white font-medium">Amount to Pay</h4>
-              <p className="text-green-500 text-2xl font-bold">₹12,500</p>
-              <p className="text-gray-400 text-sm">Q3 2024 Fee Due</p>
+              <h4 className="text-gray-800 dark:text-white font-medium">Amount to Pay</h4>
+              <p className="text-green-600 dark:text-green-500 text-2xl font-bold">₹12,500</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">Q3 2024 Fee Due</p>
             </div>
             <div className="space-y-2">
-              <h4 className="text-white font-medium">Select Payment Method</h4>
+              <h4 className="text-gray-800 dark:text-white font-medium">Select Payment Method</h4>
               {paymentMethods.map((method) => (
                 <div key={method.id} className="flex items-center gap-2">
                   <input
@@ -68,7 +68,7 @@ const Payment = () => {
                   />
                   <label
                     htmlFor={`method-${method.id}`}
-                    className="text-gray-300"
+                    className="text-gray-600 dark:text-gray-300"
                   >
                     {method.type} - {method.details}
                   </label>
@@ -84,7 +84,7 @@ const Payment = () => {
 
       {/* Recent Transactions */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">
+        <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
           Recent Transactions
         </h3>
         <div className="space-y-4">
@@ -95,12 +95,12 @@ const Payment = () => {
             >
               <CardContent className="flex items-center justify-between p-4">
                 <div className="space-y-1">
-                  <h4 className="text-white font-medium">{transaction.fee}</h4>
-                  <p className="text-gray-400 text-sm">{transaction.date}</p>
-                  <p className="text-gray-500 text-xs">{transaction.method}</p>
+                  <h4 className="text-gray-800 dark:text-white font-medium">{transaction.fee}</h4>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">{transaction.date}</p>
+                  <p className="text-gray-500 dark:text-gray-500 text-xs">{transaction.method}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <p className="text-green-500 font-bold">
+                  <p className="text-green-600 dark:text-green-500 font-bold">
                     {transaction.amount}
                   </p>
                   <Badge className="bg-green-500 text-white">
@@ -118,13 +118,13 @@ const Payment = () => {
 
       {/* Payment Methods Section */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">Payment Methods</h3>
+        <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">Payment Methods</h3>
         <div className="space-y-4">
           {paymentMethods.map((method) => (
             <Card key={method.id} className="bg-slate-700/50 border-gray-600">
               <CardContent className="flex items-center justify-between p-4">
                 <div className="space-y-1">
-                  <h4 className="text-white font-medium flex items-center gap-2">
+                  <h4 className="text-gray-800 dark:text-white font-medium flex items-center gap-2">
                     {method.type}
                     {method.default && (
                       <Badge className="bg-orange-500 text-white">
@@ -132,9 +132,9 @@ const Payment = () => {
                       </Badge>
                     )}
                   </h4>
-                  <p className="text-gray-400 text-sm">{method.details}</p>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">{method.details}</p>
                   {method.expires && (
-                    <p className="text-gray-500 text-xs">
+                    <p className="text-gray-500 dark:text-gray-500 text-xs">
                       Expires: {method.expires}
                     </p>
                   )}
@@ -155,7 +155,7 @@ const Payment = () => {
 
       {/* Payment Gateway Options */}
       <div>
-        <h3 className="text-lg font-medium text-white mb-4">
+        <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">
           Payment Gateway Options
         </h3>
         <div className="grid grid-cols-4 gap-4">

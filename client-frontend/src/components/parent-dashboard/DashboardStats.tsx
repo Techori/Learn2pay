@@ -31,13 +31,13 @@ const DashboardStats = ({ emiData }: DashboardStatsProps) => {
         <div className="bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-300 text-sm">Next EMI Due</p>
-              <p className="text-2xl font-bold text-white">
-                ₹{emiData.nextEmiDue.toLocaleString()}
-              </p>
-              <p className="text-red-400 text-sm">due on {emiData.dueDate}</p>
+                             <p className="text-gray-600 dark:text-gray-200 text-sm">Next EMI Due</p>
+                             <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                 ₹{emiData.nextEmiDue.toLocaleString()}
+               </p>
+               <p className="text-red-600 dark:text-red-400 text-sm">due on {emiData.dueDate}</p>
             </div>
-            <div className="text-red-400">
+                         <div className="text-red-600 dark:text-red-400">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -59,13 +59,13 @@ const DashboardStats = ({ emiData }: DashboardStatsProps) => {
         <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-300 text-sm">Child's Attendance</p>
-              <p className="text-2xl font-bold text-white">
-                {emiData.attendanceRate}%
-              </p>
-              <p className="text-green-400 text-sm">This month</p>
+                             <p className="text-gray-600 dark:text-gray-200 text-sm">Child's Attendance</p>
+                             <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                 {emiData.attendanceRate}%
+               </p>
+               <p className="text-green-600 dark:text-green-400 text-sm">This month</p>
             </div>
-            <div className="text-green-400">
+                         <div className="text-green-600 dark:text-green-400">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -87,13 +87,13 @@ const DashboardStats = ({ emiData }: DashboardStatsProps) => {
         <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-300 text-sm">Total Paid</p>
-              <p className="text-2xl font-bold text-white">
-                ₹{emiData.totalPaid.toLocaleString()}
-              </p>
-              <p className="text-blue-400 text-sm">to Learn2Pay</p>
+                             <p className="text-gray-600 dark:text-gray-200 text-sm">Total Paid</p>
+                             <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                 ₹{emiData.totalPaid.toLocaleString()}
+               </p>
+               <p className="text-blue-600 dark:text-blue-400 text-sm">to Learn2Pay</p>
             </div>
-            <div className="text-blue-400">
+                         <div className="text-blue-600 dark:text-blue-400">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -115,13 +115,13 @@ const DashboardStats = ({ emiData }: DashboardStatsProps) => {
         <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-300 text-sm">EMI Status</p>
-              <p className="text-2xl font-bold text-purple-400">
-                {emiData.emiStatus}
-              </p>
-              <p className="text-gray-300 text-sm">Current plan</p>
+                             <p className="text-gray-600 dark:text-gray-200 text-sm">EMI Status</p>
+                             <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                 {emiData.emiStatus}
+               </p>
+                             <p className="text-gray-600 dark:text-gray-200 text-sm">Current plan</p>
             </div>
-            <div className="text-purple-400">
+                         <div className="text-purple-600 dark:text-purple-400">
               <svg
                 className="w-8 h-8"
                 fill="none"
