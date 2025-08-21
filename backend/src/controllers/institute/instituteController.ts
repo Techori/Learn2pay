@@ -209,3 +209,147 @@ export const getAllInstitutes = async (
     });
   }
 };
+
+// Get current institute settings
+export const getInstituteSettings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    if (!req.institute) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    const instituteId = req.institute._id;
+    const institute = await Institute.findById(instituteId).select('-password');
+
+    if (!institute) {
+      res.status(404).json({ message: "Institute not found" });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Institute settings retrieved successfully",
+      institute: {
+        id: institute._id,
+        instituteName: institute.instituteName,
+        instituteCode: institute.instituteCode,
+        instituteType: institute.instituteType,
+        contactPerson: institute.contactPerson,
+        contactEmail: institute.contactEmail,
+        contactPhone: institute.contactPhone,
+        address: institute.address,
+        description: institute.description,
+        website: institute.website,
+        kycStatus: institute.kycStatus,
+        approved: institute.approved,
+        premiumPlan: institute.premiumPlan,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error fetching institute settings:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
+// Update institute settings
+export const updateInstituteSettings = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    if (!req.institute) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    const instituteId = req.institute._id;
+    const updateData = req.body;
+
+    // Remove sensitive fields that shouldn't be updated through this endpoint
+    delete updateData.password;
+    delete updateData.kycStatus;
+    delete updateData.approved;
+    delete updateData.salesOwner;
+    delete updateData.referralOwner;
+
+    // Validate required fields if they are being updated
+    if (updateData.instituteName && updateData.instituteName.trim() === '') {
+      res.status(400).json({ message: "Institute name cannot be empty" });
+      return;
+    }
+
+    if (updateData.contactEmail && !/\S+@\S+\.\S+/.test(updateData.contactEmail)) {
+      res.status(400).json({ message: "Invalid email format" });
+      return;
+    }
+
+    // Update the institute
+    const updatedInstitute = await Institute.findByIdAndUpdate(
+      instituteId,
+      updateData,
+      { 
+        new: true, 
+        runValidators: true,
+        select: '-password' // Don't return password in response
+      }
+    );
+
+    if (!updatedInstitute) {
+      res.status(404).json({ message: "Institute not found" });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Institute settings updated successfully",
+      data: {
+        id: updatedInstitute._id,
+        instituteName: updatedInstitute.instituteName,
+        instituteCode: updatedInstitute.instituteCode,
+        instituteType: updatedInstitute.instituteType,
+        contactPerson: updatedInstitute.contactPerson,
+        contactEmail: updatedInstitute.contactEmail,
+        contactPhone: updatedInstitute.contactPhone,
+        address: updatedInstitute.address,
+        description: updatedInstitute.description,
+        website: updatedInstitute.website,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error updating institute settings:", error);
+    
+    // Handle duplicate key errors
+    if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern)[0];
+      res.status(400).json({
+        success: false,
+        message: `${field} already exists. Please use a different ${field}.`,
+      });
+      return;
+    }
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map((err: any) => err.message);
+      res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors: validationErrors,
+      });
+      return;
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};

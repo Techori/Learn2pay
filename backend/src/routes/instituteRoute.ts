@@ -5,7 +5,7 @@ import { getSession, refreshToken, logout } from "@/controllers/session";
 import { authenticateToken } from "@/middleware/auth";
 import express from "express";
 import { startKycVerification, getKycStatus, getDocument, getDocumentInfo } from "@/controllers/kyc/kycController";
-import { getAllInstitutes } from "@/controllers/institute/instituteController";
+import { getAllInstitutes, getInstituteSettings, updateInstituteSettings } from "@/controllers/institute/instituteController";
 const router = express.Router();
 
 // Public routes
@@ -35,5 +35,9 @@ router.get("/fetch-all-institutes", getAllInstitutes)
 
 
 
+
+// Routes for institute settings
+router.get("/settings", authenticateToken, getInstituteSettings);
+router.put("/settings", authenticateToken, updateInstituteSettings);
 
 export default router;

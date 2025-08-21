@@ -34,19 +34,32 @@ const FeeManagement = () => {
   const [showAddPaymentDialog, setShowAddPaymentDialog] = useState(false);
   const [showAddFeeStructureDialog, setShowAddFeeStructureDialog] =
     useState(false);
+  const [showAddStudentFeeDialog, setShowAddStudentFeeDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [paymentDetails, setPaymentDetails] = useState({
-    studentId: "",
+    rollNumber: "",
     amount: "",
     date: "",
     method: "",
   });
+
+  const [studentFeeInfo, setStudentFeeInfo] = useState<any>(null);
+  const [isLoadingStudentInfo, setIsLoadingStudentInfo] = useState(false);
   const [newFeeStructure, setNewFeeStructure] = useState({
     class: "",
     tuitionFee: "",
     admissionFee: "",
     examFee: "",
+  });
+
+  const [newStudentFee, setNewStudentFee] = useState({
+    rollNumber: "",
+    studentName: "",
+    class: "",
+    feeStructureId: "",
+    academicYear: "",
+    dueDate: "",
   });
 
   const [studentFees, setStudentFees] = useState<any[]>([]);
@@ -158,50 +171,94 @@ const FeeManagement = () => {
     useState(false);
   const [selectedFeeStructure, setSelectedFeeStructure] = useState<any>(null);
 
-  const handlePaymentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePaymentInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setPaymentDetails((prev) => ({ ...prev, [id]: value }));
+
+    // If roll number is entered, fetch student fee information
+    if (id === 'rollNumber' && value.trim()) {
+      await fetchStudentFeeInfo(value.trim());
+    } else if (id === 'rollNumber' && !value.trim()) {
+      setStudentFeeInfo(null);
+    }
+  };
+
+  const fetchStudentFeeInfo = async (rollNumber: string) => {
+    setIsLoadingStudentInfo(true);
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/api/student-fees/student/roll/${rollNumber}`,
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        setStudentFeeInfo(response.data.data);
+      } else {
+        setStudentFeeInfo(null);
+      }
+    } catch (error: any) {
+      console.error('Error fetching student fee info:', error);
+      setStudentFeeInfo(null);
+    } finally {
+      setIsLoadingStudentInfo(false);
+    }
   };
 
   const handleAddPaymentSubmit = async () => {
     try {
-      // Find the student fee record
-      const studentFeeRecord = studentFees.find(
-        (fee) => fee.studentId === paymentDetails.studentId
-      );
+      // Validate required fields
+      if (!paymentDetails.rollNumber.trim()) {
+        alert('Please enter the roll number.');
+        return;
+      }
 
-      if (!studentFeeRecord) {
-        alert('Student not found. Please check the student ID.');
+      if (!paymentDetails.amount || parseFloat(paymentDetails.amount) <= 0) {
+        alert('Please enter a valid amount.');
+        return;
+      }
+
+      // Check payment limit if student fee info is available
+      if (studentFeeInfo && parseFloat(paymentDetails.amount) > studentFeeInfo.pendingAmount) {
+        alert(`Payment amount ₹${paymentDetails.amount} exceeds pending amount ₹${studentFeeInfo.pendingAmount}. Maximum allowed: ₹${studentFeeInfo.pendingAmount}`);
+        return;
+      }
+
+      if (!paymentDetails.method.trim()) {
+        alert('Please enter the payment method.');
         return;
       }
 
       const payload = {
+        rollNumber: paymentDetails.rollNumber.trim(),
         amount: parseFloat(paymentDetails.amount),
-        method: paymentDetails.method,
+        method: paymentDetails.method.trim(),
         transactionId: `TXN_${Date.now()}`, // Generate a transaction ID
         remarks: `Payment via ${paymentDetails.method}`
       };
 
       const response = await axios.post(
-        `${API_BASE_URL}/api/student-fees/${studentFeeRecord.id}/payment`,
+        `${API_BASE_URL}/api/student-fees/payment/by-roll-number`,
         payload,
         { withCredentials: true }
       );
 
       if (response.data.success) {
-        alert(`Payment of ₹${paymentDetails.amount} added successfully for student ${paymentDetails.studentId}`);
+        alert(response.data.message || `Payment of ₹${paymentDetails.amount} added successfully`);
         await fetchStudentFees(); // Refresh the list
         setShowAddPaymentDialog(false);
-        setPaymentDetails({ studentId: "", amount: "", date: "", method: "" });
+        setPaymentDetails({ rollNumber: "", amount: "", date: "", method: "" });
+        setStudentFeeInfo(null);
       } else {
-        alert('Failed to add payment. Please try again.');
+        alert(response.data.message || 'Failed to add payment. Please try again.');
       }
     } catch (error: any) {
       console.error('Error adding payment:', error);
-      if (error.response?.status === 401) {
-        alert('Authentication required. Please log in.');
+      if (error.response?.status === 404) {
+        alert(error.response.data?.message || 'Student not found. Please check the roll number.');
       } else if (error.response?.status === 400) {
-        alert(error.response?.data?.message || 'Invalid payment details.');
+        alert(error.response.data?.message || 'Invalid input. Please check your data.');
+      } else if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
       } else {
         alert('Failed to add payment. Please try again.');
       }
@@ -213,6 +270,78 @@ const FeeManagement = () => {
   ) => {
     const { id, value } = e.target;
     setNewFeeStructure((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleNewStudentFeeInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setNewStudentFee((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleAddStudentFeeSubmit = async () => {
+    try {
+      // Validate required fields
+      if (!newStudentFee.rollNumber.trim()) {
+        alert('Please enter the roll number.');
+        return;
+      }
+
+      if (!newStudentFee.studentName.trim()) {
+        alert('Please enter the student name.');
+        return;
+      }
+
+      if (!newStudentFee.class.trim()) {
+        alert('Please enter the class.');
+        return;
+      }
+
+      if (!newStudentFee.feeStructureId) {
+        alert('Please select a fee structure.');
+        return;
+      }
+
+      const payload = {
+        rollNumber: newStudentFee.rollNumber.trim(),
+        studentName: newStudentFee.studentName.trim(),
+        class: newStudentFee.class.trim(),
+        feeStructureId: newStudentFee.feeStructureId,
+        academicYear: newStudentFee.academicYear || `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+        dueDate: newStudentFee.dueDate || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        // We'll generate a student ID based on roll number for now
+        studentId: `STU_${newStudentFee.rollNumber.trim()}`
+      };
+
+      const response = await axios.post(
+        `${API_BASE_URL}/api/student-fees`,
+        payload,
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        alert(`Student fee record created successfully for ${newStudentFee.studentName} (Roll No: ${newStudentFee.rollNumber})`);
+        await fetchStudentFees(); // Refresh the list
+        setShowAddStudentFeeDialog(false);
+        setNewStudentFee({
+          rollNumber: "",
+          studentName: "",
+          class: "",
+          feeStructureId: "",
+          academicYear: "",
+          dueDate: "",
+        });
+      } else {
+        alert(response.data.message || 'Failed to create student fee record. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error creating student fee record:', error);
+      if (error.response?.status === 400) {
+        alert(error.response.data?.message || 'Invalid input. Please check your data.');
+      } else if (error.response?.status === 401) {
+        alert('Authentication required. Please log in.');
+      } else {
+        alert('Failed to create student fee record. Please try again.');
+      }
+    }
   };
 
   const handleAddFeeStructureSubmit = async () => {
@@ -547,6 +676,94 @@ const FeeManagement = () => {
               </div>
               <div className="flex space-x-2">
                 <Dialog
+                  open={showAddStudentFeeDialog}
+                  onOpenChange={setShowAddStudentFeeDialog}
+                >
+                  <DialogTrigger asChild>
+                    <Button className="bg-blue-500 hover:bg-blue-600 text-white flex items-center space-x-2">
+                      <Plus className="h-4 w-4" />
+                      <span>Add Student Fee Record</span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-gray-800 border-gray-700 text-white">
+                    <DialogHeader>
+                      <DialogTitle className="text-white">
+                        Add New Student Fee Record
+                      </DialogTitle>
+                      <DialogDescription className="text-gray-400">
+                        Create a fee record for a student before adding payments.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <Input
+                        id="rollNumber"
+                        placeholder="Roll Number"
+                        value={newStudentFee.rollNumber}
+                        onChange={handleNewStudentFeeInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="studentName"
+                        placeholder="Student Name"
+                        value={newStudentFee.studentName}
+                        onChange={handleNewStudentFeeInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="class"
+                        placeholder="Class (e.g., 10, 9, 8)"
+                        value={newStudentFee.class}
+                        onChange={handleNewStudentFeeInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <select
+                        id="feeStructureId"
+                        value={newStudentFee.feeStructureId}
+                        onChange={(e) => setNewStudentFee(prev => ({ ...prev, feeStructureId: e.target.value }))}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 px-3 py-2 rounded-md border"
+                      >
+                        <option value="">Select Fee Structure</option>
+                        {feeStructures.map((structure) => (
+                          <option key={structure.id} value={structure.id}>
+                            {structure.class} - {structure.totalFee}
+                          </option>
+                        ))}
+                      </select>
+                      <Input
+                        id="academicYear"
+                        placeholder="Academic Year (e.g., 2024-2025)"
+                        value={newStudentFee.academicYear}
+                        onChange={handleNewStudentFeeInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                      <Input
+                        id="dueDate"
+                        type="date"
+                        placeholder="Due Date"
+                        value={newStudentFee.dueDate}
+                        onChange={handleNewStudentFeeInputChange}
+                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                      />
+                    </div>
+                    <DialogFooter>
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowAddStudentFeeDialog(false)}
+                        className="border-gray-700 text-gray-300 hover:bg-gray-700"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleAddStudentFeeSubmit}
+                        className="bg-blue-500 hover:bg-blue-600 text-white"
+                      >
+                        Create Fee Record
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                
+                <Dialog
                   open={showAddPaymentDialog}
                   onOpenChange={setShowAddPaymentDialog}
                 >
@@ -567,16 +784,59 @@ const FeeManagement = () => {
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                       <Input
-                        id="studentId"
-                        placeholder="Student ID"
-                        value={paymentDetails.studentId}
+                        id="rollNumber"
+                        placeholder="Roll Number"
+                        value={paymentDetails.rollNumber}
                         onChange={handlePaymentInputChange}
                         className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                       />
+                      
+                      {/* Student Fee Information */}
+                      {isLoadingStudentInfo && (
+                        <div className="bg-gray-700 p-3 rounded-md">
+                          <p className="text-gray-400 text-sm">Loading student information...</p>
+                        </div>
+                      )}
+                      
+                      {studentFeeInfo && (
+                        <div className="bg-gray-700 p-3 rounded-md space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Student:</span>
+                            <span className="text-white text-sm font-medium">{studentFeeInfo.studentName}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Class:</span>
+                            <span className="text-white text-sm">{studentFeeInfo.class}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Total Fee:</span>
+                            <span className="text-white text-sm">₹{studentFeeInfo.totalFeeAmount.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Paid Amount:</span>
+                            <span className="text-green-400 text-sm">₹{studentFeeInfo.paidAmount.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Pending Amount:</span>
+                            <span className="text-orange-400 text-sm font-medium">₹{studentFeeInfo.pendingAmount.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400 text-sm">Status:</span>
+                            <span className={`text-sm font-medium ${
+                              studentFeeInfo.paymentStatus === 'Paid' ? 'text-green-400' : 
+                              studentFeeInfo.paymentStatus === 'Partial' ? 'text-yellow-400' : 'text-red-400'
+                            }`}>
+                              {studentFeeInfo.paymentStatus}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      
                       <Input
                         id="amount"
-                        placeholder="Amount"
+                        placeholder={studentFeeInfo ? `Amount (Max: ₹${studentFeeInfo.pendingAmount.toLocaleString()})` : "Amount"}
                         type="number"
+                        max={studentFeeInfo?.pendingAmount || undefined}
                         value={paymentDetails.amount}
                         onChange={handlePaymentInputChange}
                         className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
@@ -595,6 +855,33 @@ const FeeManagement = () => {
                         onChange={handlePaymentInputChange}
                         className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
                       />
+                      
+                      {/* Payment History */}
+                      {studentFeeInfo && studentFeeInfo.payments && studentFeeInfo.payments.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-sm font-medium text-white mb-2">Payment History</h4>
+                          <div className="bg-gray-700 rounded-md max-h-48 overflow-y-auto">
+                            <div className="space-y-2 p-3">
+                              {studentFeeInfo.payments.slice().reverse().map((payment: any, index: number) => (
+                                <div key={index} className="flex justify-between items-center py-2 border-b border-gray-600 last:border-b-0">
+                                  <div>
+                                    <div className="text-sm text-white">₹{payment.amount.toLocaleString()}</div>
+                                    <div className="text-xs text-gray-400">{payment.method}</div>
+                                  </div>
+                                  <div className="text-right">
+                                    <div className="text-xs text-gray-400">
+                                      {new Date(payment.date).toLocaleDateString()}
+                                    </div>
+                                    <div className="text-xs text-gray-500">
+                                      {payment.transactionId}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <DialogFooter>
                       <Button
@@ -813,7 +1100,7 @@ const FeeManagement = () => {
                     ) : (
                       <tr>
                         <td colSpan={9} className="px-6 py-8 text-center text-gray-400">
-                          No student fee records found. Click "Add Payment" to create one.
+                          No student fee records found. Click "Add Student Fee Record" to create a fee record for a student first, then use "Add Payment" to record payments.
                         </td>
                       </tr>
                     )}

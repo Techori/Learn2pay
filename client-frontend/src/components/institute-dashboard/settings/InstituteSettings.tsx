@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/Tabs";
 import { Input } from "@/components/ui/Input";
@@ -8,30 +8,198 @@ import { Label } from "@/components/ui/Label";
 import { CalendarIcon, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/Badge";
+import { authAPI } from "@/utils/api";
 
 const GeneralSettings = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingData, setIsLoadingData] = useState(true);
   const [generalSettings, setGeneralSettings] = useState({
-    instituteName: "National Public School",
-    instituteCode: "NPS-MAIN",
-    emailAddress: "admin@nps.edu",
-    phoneNumber: "9876543210",
-    address: "123 Main Street, Mumbai",
-    website: "www.nps.edu",
+    instituteName: "",
+    instituteCode: "",
+    emailAddress: "",
+    phoneNumber: "",
+    address: "",
+    city: "",
+    state: "",
+    pinCode: "",
+    website: "",
   });
+
+  // Load current institute settings on component mount
+  useEffect(() => {
+    const loadInstituteSettings = async () => {
+      try {
+        const response = await authAPI.getInstituteSettings();
+        
+        if (response.error) {
+          console.error("Error loading settings:", response.error);
+          toast({
+            title: "Warning",
+            description: "Could not load current settings. Using default values.",
+            variant: "destructive",
+          });
+        } else if (response.institute) {
+          // Map backend data to frontend state
+          setGeneralSettings({
+            instituteName: response.institute.instituteName || "",
+            instituteCode: response.institute.instituteCode || "",
+            emailAddress: response.institute.contactEmail || "",
+            phoneNumber: response.institute.contactPhone || "",
+            address: response.institute.address?.completeAddress || "",
+            city: response.institute.address?.city || "",
+            state: response.institute.address?.state || "",
+            pinCode: response.institute.address?.pinCode || "",
+            website: response.institute.website || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error loading institute settings:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load current settings.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    loadInstituteSettings();
+  }, [toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setGeneralSettings((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSaveGeneralSettings = () => {
-    console.log("Saving General Settings:", generalSettings);
-    toast({
-      title: "General Settings Saved",
-      description: "Institute information updated successfully.",
-    });
+  const handleSaveGeneralSettings = async () => {
+    // Basic validation
+    if (!generalSettings.instituteName.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Institute name is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.emailAddress.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Email address is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.phoneNumber.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Phone number is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.address.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Complete address is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.city.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "City is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.state.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "State is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!generalSettings.pinCode.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Pin code is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      // Prepare data for API call - map frontend field names to backend field names
+      const updateData = {
+        instituteName: generalSettings.instituteName.trim(),
+        instituteCode: generalSettings.instituteCode.trim(),
+        contactEmail: generalSettings.emailAddress.trim(),
+        contactPhone: generalSettings.phoneNumber.trim(),
+        address: {
+          completeAddress: generalSettings.address.trim(),
+          city: generalSettings.city.trim(),
+          state: generalSettings.state.trim(),
+          pinCode: generalSettings.pinCode.trim(),
+        },
+        website: generalSettings.website.trim(),
+      };
+
+      const response = await authAPI.updateInstituteSettings(updateData);
+
+      if (response.error) {
+        toast({
+          title: "Error",
+          description: response.error,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "General Settings Saved",
+          description: "Institute information updated successfully.",
+        });
+        console.log("Settings updated:", response);
+      }
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save settings. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  if (isLoadingData) {
+    return (
+      <Card className="bg-gray-800/50 border-gray-700 shadow-md">
+        <CardHeader>
+          <CardTitle className="text-lg text-white">
+            Institute Information
+          </CardTitle>
+          <p className="text-gray-400 text-sm">
+            Basic institute details and contact information
+          </p>
+        </CardHeader>
+        <CardContent className="flex items-center justify-center py-8">
+          <div className="text-gray-400">Loading institute settings...</div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-gray-800/50 border-gray-700 shadow-md">
@@ -90,16 +258,53 @@ const GeneralSettings = () => {
         </div>
         <div className="space-y-2 col-span-1 md:col-span-2">
           <Label htmlFor="address" className="text-gray-300">
-            Address
+            Complete Address
           </Label>
           <Input
             id="address"
             value={generalSettings.address}
             onChange={handleChange}
+            placeholder="Enter complete address"
             className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
           />
         </div>
-        <div className="space-y-2 col-span-1 md:col-span-2">
+        <div className="space-y-2">
+          <Label htmlFor="city" className="text-gray-300">
+            City
+          </Label>
+          <Input
+            id="city"
+            value={generalSettings.city}
+            onChange={handleChange}
+            placeholder="Enter city"
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="state" className="text-gray-300">
+            State
+          </Label>
+          <Input
+            id="state"
+            value={generalSettings.state}
+            onChange={handleChange}
+            placeholder="Enter state"
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="pinCode" className="text-gray-300">
+            Pin Code
+          </Label>
+          <Input
+            id="pinCode"
+            value={generalSettings.pinCode}
+            onChange={handleChange}
+            placeholder="Enter pin code"
+            className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
+          />
+        </div>
+        <div className="space-y-2">
           <Label htmlFor="website" className="text-gray-300">
             Website
           </Label>
@@ -107,15 +312,17 @@ const GeneralSettings = () => {
             id="website"
             value={generalSettings.website}
             onChange={handleChange}
+            placeholder="Enter website URL"
             className="bg-gray-900 border-gray-700 text-white placeholder-gray-500"
           />
         </div>
         <div className="col-span-1 md:col-span-2 flex justify-start">
           <Button
             onClick={handleSaveGeneralSettings}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            disabled={isLoading}
+            className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save Changes
+            {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </CardContent>

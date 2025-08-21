@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IStudentFee extends Document {
   studentId: string;
+  rollNumber: string;
   studentName: string;
   class: string;
   instituteId: Schema.Types.ObjectId;
@@ -35,6 +36,11 @@ const StudentFeeSchema: Schema = new Schema({
   studentId: {
     type: String,
     required: [true, 'Student ID is required'],
+    trim: true
+  },
+  rollNumber: {
+    type: String,
+    required: [true, 'Roll number is required'],
     trim: true
   },
   studentName: {
