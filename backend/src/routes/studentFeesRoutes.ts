@@ -6,7 +6,9 @@ import {
   addPayment,
   updateStudentFee,
   deleteStudentFee,
-  getPaymentHistory
+  getPaymentHistory,
+  addPaymentByRollNumber,
+  getStudentFeeByRollNumber
 } from '../controllers/studentFeesController';
 import authenticateToken from '../middleware/auth';
 import { requireRole } from '../middleware/roleAuth';
@@ -31,6 +33,14 @@ router.route('/:id')
 // Add payment to student fee record
 router.route('/:id/payment')
   .post(addPayment);
+
+// Add payment by roll number
+router.route('/payment/by-roll-number')
+  .post(addPaymentByRollNumber);
+
+// Get student fee details by roll number
+router.route('/student/roll/:rollNumber')
+  .get(getStudentFeeByRollNumber);
 
 // Get payment history for a specific student
 router.route('/student/:studentId/history')

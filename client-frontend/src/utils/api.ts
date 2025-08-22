@@ -313,6 +313,16 @@ export const authAPI = {
 
   getKycStatus: () => apiCall("/api/institute/kyc/status"),
 
+  // Update institute settings
+  updateInstituteSettings: (settings: any) =>
+    apiCall("/api/institute/settings", {
+      method: "PUT",
+      body: JSON.stringify(settings),
+    }),
+
+  // Get current institute settings
+  getInstituteSettings: () => apiCall("/api/institute/settings"),
+
   // Bulk student registration functions
   bulkRegisterStudents: (file: File) => {
     const formData = new FormData();

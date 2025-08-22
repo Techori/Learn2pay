@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 const InstituteSchema = new mongoose.Schema(
   {
     instituteName: { type: String, required: true },
+    instituteCode: { type: String, required: false, unique: true, sparse: true },
     instituteType: {
       type: String,
       required: true,
       enum: ["School", "College", "Academy", "Gym", "Other", "Coaching"],
     },
     description: { type: String, required: false },
+    website: { type: String, required: false },
     contactPerson: {
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },

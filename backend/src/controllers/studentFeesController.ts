@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import StudentFee from "../models/studentFeesModel";
 import FeeStructure from "../models/feeStructureModel";
+import Student from "../models/parents/studentsModel";
 
 // Get all student fees for the authenticated institute
 export const getAllStudentFees = async (req: Request, res: Response): Promise<void> => {
@@ -75,12 +76,21 @@ export const createStudentFee = async (req: Request, res: Response): Promise<voi
   try {
     const { 
       studentId, 
+      rollNumber,
       studentName, 
       class: className, 
       feeStructureId, 
       academicYear, 
       dueDate 
     } = req.body;
+
+    if (!rollNumber) {
+      res.status(400).json({
+        success: false,
+        message: "Roll number is required"
+      });
+      return;
+    }
     
     // Use the authenticated institute's ID
     let instituteId = req.body.instituteId;
@@ -124,6 +134,7 @@ export const createStudentFee = async (req: Request, res: Response): Promise<voi
     // Create student fee record
     const studentFee = await StudentFee.create({
       studentId,
+      rollNumber,
       studentName,
       class: className,
       instituteId,
@@ -301,6 +312,202 @@ export const getPaymentHistory = async (req: Request, res: Response): Promise<vo
       success: true,
       data: paymentHistory
     });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message
+    });
+  }
+};
+
+// Add payment by roll number
+export const addPaymentByRollNumber = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { rollNumber, amount, method, transactionId, remarks } = req.body;
+    
+    if (!rollNumber || !amount || !method) {
+      res.status(400).json({
+        success: false,
+        message: "Roll number, amount, and payment method are required"
+      });
+      return;
+    }
+
+    // Get the authenticated institute ID
+    let instituteId = req.institute?._id;
+    if (!instituteId) {
+      res.status(401).json({
+        success: false,
+        message: "Institute authentication required"
+      });
+      return;
+    }
+
+    // First, find the student by roll number to get student details
+    const student = await Student.findOne({ rollNumber });
+    if (!student) {
+      res.status(404).json({
+        success: false,
+        message: "Student not found with the provided roll number"
+      });
+      return;
+    }
+
+    // Find the student fee record for the current academic year
+    const currentAcademicYear = `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`;
+    let studentFee = await StudentFee.findOne({
+      rollNumber,
+      instituteId,
+      academicYear: currentAcademicYear
+    });
+
+    // If no fee record exists for current year, try to find any fee record for this student
+    if (!studentFee) {
+      studentFee = await StudentFee.findOne({
+        rollNumber,
+        instituteId
+      }).sort({ academicYear: -1 }); // Get the most recent academic year
+    }
+
+    if (!studentFee) {
+      res.status(404).json({
+        success: false,
+        message: "No fee record found for this student. Please create a fee record first."
+      });
+      return;
+    }
+
+    // Validate payment amount
+    const paymentAmount = parseFloat(amount.toString());
+    
+    if (paymentAmount <= 0) {
+      res.status(400).json({
+        success: false,
+        message: "Payment amount must be greater than zero"
+      });
+      return;
+    }
+
+    // Check if payment exceeds pending amount
+    if (paymentAmount > studentFee.pendingAmount) {
+      res.status(400).json({
+        success: false,
+        message: `Payment amount ₹${paymentAmount} exceeds pending amount ₹${studentFee.pendingAmount}. Maximum allowed: ₹${studentFee.pendingAmount}`,
+        data: {
+          totalFeeAmount: studentFee.totalFeeAmount,
+          paidAmount: studentFee.paidAmount,
+          pendingAmount: studentFee.pendingAmount,
+          maxPaymentAllowed: studentFee.pendingAmount
+        }
+      });
+      return;
+    }
+
+    // Add the payment
+    const newPayment = {
+      amount: paymentAmount,
+      date: new Date(),
+      method,
+      transactionId: transactionId || `TXN_${Date.now()}`,
+      remarks: remarks || `Payment via ${method}`
+    };
+
+    studentFee.payments.push(newPayment);
+    studentFee.paidAmount += paymentAmount;
+    studentFee.pendingAmount = Math.max(0, studentFee.totalFeeAmount - studentFee.paidAmount);
+    studentFee.lastPaymentDate = new Date();
+
+    // Update payment status
+    if (studentFee.pendingAmount === 0) {
+      studentFee.paymentStatus = 'Paid';
+    } else if (studentFee.paidAmount > 0) {
+      studentFee.paymentStatus = 'Partial';
+    }
+
+    await studentFee.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Payment of ₹${paymentAmount} added successfully for ${student.name} (Roll No: ${rollNumber})`,
+      data: {
+        studentName: student.name,
+        rollNumber: studentFee.rollNumber,
+        paymentAmount,
+        totalPaid: studentFee.paidAmount,
+        pendingAmount: studentFee.pendingAmount,
+        paymentStatus: studentFee.paymentStatus,
+        transactionId: newPayment.transactionId
+      }
+    });
+
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message
+    });
+  }
+};
+
+// Get student fee details by roll number
+export const getStudentFeeByRollNumber = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { rollNumber } = req.params;
+    
+    if (!rollNumber) {
+      res.status(400).json({
+        success: false,
+        message: "Roll number is required"
+      });
+      return;
+    }
+
+    // Get the authenticated institute ID
+    let instituteId = req.institute?._id;
+    if (!instituteId) {
+      res.status(401).json({
+        success: false,
+        message: "Institute authentication required"
+      });
+      return;
+    }
+
+    // Find the student fee record
+    const studentFee = await StudentFee.findOne({
+      rollNumber,
+      instituteId
+    }).sort({ academicYear: -1 }); // Get the most recent academic year
+
+    if (!studentFee) {
+      res.status(404).json({
+        success: false,
+        message: "No fee record found for this student. Please create a fee record first."
+      });
+      return;
+    }
+
+    // Also get student details
+    const student = await Student.findOne({ rollNumber });
+    
+    res.status(200).json({
+      success: true,
+      message: "Student fee details retrieved successfully",
+      data: {
+        studentName: student?.name || studentFee.studentName,
+        rollNumber: studentFee.rollNumber,
+        class: studentFee.class,
+        academicYear: studentFee.academicYear,
+        totalFeeAmount: studentFee.totalFeeAmount,
+        paidAmount: studentFee.paidAmount,
+        pendingAmount: studentFee.pendingAmount,
+        paymentStatus: studentFee.paymentStatus,
+        dueDate: studentFee.dueDate,
+        payments: studentFee.payments,
+        lastPaymentDate: studentFee.lastPaymentDate
+      }
+    });
+
   } catch (error: any) {
     res.status(500).json({
       success: false,
