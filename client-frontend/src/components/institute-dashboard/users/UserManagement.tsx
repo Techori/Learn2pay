@@ -32,6 +32,7 @@ import {
   Trash2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import axios from "axios";
 
 interface InstituteUser {
@@ -40,7 +41,7 @@ interface InstituteUser {
   email: string;
   contact?: string;
   role: string;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
   lastLogin?: string;
   createdAt: string;
   permissions: string;
@@ -57,6 +58,7 @@ interface NewUser {
 
 const UserManagement = () => {
   const { toast } = useToast();
+  const { checkSession } = useAuth();
   const [showAddUserDialog, setShowAddUserDialog] = useState(false);
   const [showViewUserDialog, setShowViewUserDialog] = useState(false);
   const [showEditUserDialog, setShowEditUserDialog] = useState(false);
@@ -88,10 +90,13 @@ const UserManagement = () => {
   const fetchInstituteUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users`, {
-        withCredentials: true
-      });
-      
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/institute-users`,
+        {
+          withCredentials: true,
+        }
+      );
+
       if (response.data.success) {
         setSystemUsersData(response.data.data);
       } else {
@@ -102,7 +107,7 @@ const UserManagement = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching institute users:', error);
+      console.error("Error fetching institute users:", error);
       toast({
         title: "Error",
         description: "Failed to fetch institute users",
@@ -195,27 +200,41 @@ const UserManagement = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users`, {
-        name: newUser.name,
-        email: newUser.email,
-        contact: newUser.contact,
-        password: newUser.password,
-        role: newUser.role,
-        permissions: newUser.permissions || "Basic Access",
-      }, {
-        withCredentials: true
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/institute-users`,
+        {
+          name: newUser.name,
+          email: newUser.email,
+          contact: newUser.contact,
+          password: newUser.password,
+          role: newUser.role,
+          permissions: newUser.permissions || "Basic Access",
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.success) {
         await fetchInstituteUsers(); // Refresh the list
         setShowAddUserDialog(false);
-        setNewUser({ name: "", email: "", contact: "", password: "", role: "", permissions: "" });
-        
+        setNewUser({
+          name: "",
+          email: "",
+          contact: "",
+          password: "",
+          role: "",
+          permissions: "",
+        });
+
         toast({
-          title: "Success", 
+          title: "Success",
           description: "User added successfully",
         });
-        console.log("handleAddUser: User added successfully:", response.data.data);
+        console.log(
+          "handleAddUser: User added successfully:",
+          response.data.data
+        );
       } else {
         toast({
           title: "Error",
@@ -224,8 +243,9 @@ const UserManagement = () => {
         });
       }
     } catch (error: any) {
-      console.error('Error adding user:', error);
-      const errorMessage = error.response?.data?.message || "Failed to add user";
+      console.error("Error adding user:", error);
+      const errorMessage =
+        error.response?.data?.message || "Failed to add user";
       toast({
         title: "Error",
         description: errorMessage,
@@ -273,9 +293,14 @@ const UserManagement = () => {
 
     try {
       setIsLoading(true);
-      const response = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${selectedUser._id}`, {
-        withCredentials: true
-      });
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${
+          selectedUser._id
+        }`,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.success) {
         await fetchInstituteUsers(); // Refresh the list
@@ -284,7 +309,10 @@ const UserManagement = () => {
           title: "Success",
           description: "User deleted successfully",
         });
-        console.log("confirmDeleteUser: User deleted successfully:", selectedUser);
+        console.log(
+          "confirmDeleteUser: User deleted successfully:",
+          selectedUser
+        );
       } else {
         toast({
           title: "Error",
@@ -293,8 +321,9 @@ const UserManagement = () => {
         });
       }
     } catch (error: any) {
-      console.error('Error deleting user:', error);
-      const errorMessage = error.response?.data?.message || "Failed to delete user";
+      console.error("Error deleting user:", error);
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete user";
       toast({
         title: "Error",
         description: errorMessage,
@@ -315,20 +344,30 @@ const UserManagement = () => {
     try {
       setIsLoading(true);
       const newStatus = user.status === "Active" ? "Inactive" : "Active";
-      
-      const response = await axios.put(`${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${user._id}/status`, {
-        status: newStatus
-      }, {
-        withCredentials: true
-      });
+
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/api/institute-users/${
+          user._id
+        }/status`,
+        {
+          status: newStatus,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.success) {
         await fetchInstituteUsers(); // Refresh the list
         toast({
           title: "Success",
-          description: `User ${user.status === "Active" ? "deactivated" : "activated"} successfully`,
+          description: `User ${
+            user.status === "Active" ? "deactivated" : "activated"
+          } successfully`,
         });
-        console.log(`handleToggleUserStatus: User ${user._id} status toggled to ${newStatus}`);
+        console.log(
+          `handleToggleUserStatus: User ${user._id} status toggled to ${newStatus}`
+        );
       } else {
         toast({
           title: "Error",
@@ -337,8 +376,12 @@ const UserManagement = () => {
         });
       }
     } catch (error: any) {
-      console.error("handleToggleUserStatus: Failed to update user status:", error);
-      const errorMessage = error.response?.data?.message || "Failed to update user status";
+      console.error(
+        "handleToggleUserStatus: Failed to update user status:",
+        error
+      );
+      const errorMessage =
+        error.response?.data?.message || "Failed to update user status";
       toast({
         title: "Error",
         description: errorMessage,
@@ -503,93 +546,88 @@ const UserManagement = () => {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                    <td
+                      colSpan={6}
+                      className="px-4 py-8 text-center text-gray-400"
+                    >
                       Loading institute users...
                     </td>
                   </tr>
                 ) : filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-gray-400">
+                    <td
+                      colSpan={6}
+                      className="px-4 py-8 text-center text-gray-400"
+                    >
                       No users found
                     </td>
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
-                  <tr
-                    key={user._id}
-                    className="border-b border-gray-700"
-                  >
-                    <td className="px-4 py-3 text-sm ">
-                      {user.name}
-                    </td>
-                    <td className="px-4 py-3 text-sm ">
-                      {user.email}
-                    </td>
-                    <td className="px-4 py-3 text-sm ">
-                      {user.role}
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      <Badge
-                        variant={
-                          user.status === "Active" ? "default" : "destructive"
-                        }
-                        className="capitalize"
-                      >
-                        {user.status}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-sm ">
-                      {user.lastLogin}
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleViewUser(user)}
-                          className="text-gray-400 "
+                    <tr key={user._id} className="border-b border-gray-700">
+                      <td className="px-4 py-3 text-sm ">{user.name}</td>
+                      <td className="px-4 py-3 text-sm ">{user.email}</td>
+                      <td className="px-4 py-3 text-sm ">{user.role}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <Badge
+                          variant={
+                            user.status === "Active" ? "default" : "destructive"
+                          }
+                          className="capitalize"
                         >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleEditUser(user)}
-                          className="text-gray-400 "
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleManagePermissions(user)}
-                          className="text-gray-400 "
-                        >
-                          <ShieldOff className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleToggleUserStatus(user)}
-                          className="text-gray-400 "
-                        >
-                          {user.status === "Active" ? (
-                            <Ban className="h-4 w-4" />
-                          ) : (
-                            <UserCheck className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDeleteUser(user)}
-                          className="text-red-400 hover:text-red-500"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                          {user.status}
+                        </Badge>
+                      </td>
+                      <td className="px-4 py-3 text-sm ">{user.lastLogin}</td>
+                      <td className="px-4 py-3 text-sm">
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleViewUser(user)}
+                            className="text-gray-400 "
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditUser(user)}
+                            className="text-gray-400 "
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleManagePermissions(user)}
+                            className="text-gray-400 "
+                          >
+                            <ShieldOff className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleToggleUserStatus(user)}
+                            className="text-gray-400 "
+                          >
+                            {user.status === "Active" ? (
+                              <Ban className="h-4 w-4" />
+                            ) : (
+                              <UserCheck className="h-4 w-4" />
+                            )}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeleteUser(user)}
+                            className="text-red-400 hover:text-red-500"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
                   ))
                 )}
               </tbody>
@@ -666,7 +704,7 @@ const UserManagement = () => {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-300">Role</label>
-              <Select 
+              <Select
                 value={newUser.role}
                 onValueChange={(value: string) =>
                   setNewUser({ ...newUser, role: value })
@@ -953,29 +991,65 @@ const UserManagement = () => {
               Cancel
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 console.log("Edit User dialog Save Changes button clicked.");
                 if (selectedUser) {
                   setIsLoading(true);
                   try {
-                    setSystemUsersData(
-                      systemUsersData.map((u) =>
-                        u._id === selectedUser._id ? selectedUser : u
-                      )
+                    // Check and refresh session before making API call
+                    await checkSession();
+
+                    // Make API call to update user
+                    const response = await axios.put(
+                      `${
+                        import.meta.env.VITE_API_BASE_URL
+                      }/api/institute-users/${selectedUser._id}`,
+                      {
+                        name: selectedUser.name,
+                        email: selectedUser.email,
+                        contact: selectedUser.contact,
+                        role: selectedUser.role,
+                        permissions: selectedUser.permissions,
+                        status: selectedUser.status,
+                      },
+                      {
+                        withCredentials: true,
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }
                     );
-                    setShowEditUserDialog(false);
-                    toast({
-                      title: "Success",
-                      description: "User updated successfully",
-                    });
-                    console.log(
-                      "Edit User: User updated successfully:",
-                      selectedUser
-                    );
+
+                    if (response.data.success) {
+                      // Update local state only after successful API call
+                      setSystemUsersData(
+                        systemUsersData.map((u) =>
+                          u._id === selectedUser._id
+                            ? { ...selectedUser, ...response.data.data }
+                            : u
+                        )
+                      );
+                      setShowEditUserDialog(false);
+                      toast({
+                        title: "Success",
+                        description: "User updated successfully",
+                      });
+                      console.log(
+                        "Edit User: User updated successfully:",
+                        response.data.data
+                      );
+                    } else {
+                      throw new Error(
+                        response.data.message || "Failed to update user"
+                      );
+                    }
                   } catch (error) {
                     toast({
                       title: "Error",
-                      description: "Failed to update user",
+                      description:
+                        error instanceof Error
+                          ? error.message
+                          : "Failed to update user",
                       variant: "destructive",
                     });
                     console.error("Edit User: Failed to update user:", error);
@@ -1055,31 +1129,67 @@ const UserManagement = () => {
               Cancel
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 console.log(
                   "Manage Permissions dialog Update Permissions button clicked."
                 );
                 if (selectedUser) {
                   setIsLoading(true);
                   try {
-                    setSystemUsersData(
-                      systemUsersData.map((u) =>
-                        u._id === selectedUser._id ? selectedUser : u
-                      )
+                    // Check and refresh session before making API call
+                    await checkSession();
+
+                    // Make API call to update user permissions
+                    const response = await axios.put(
+                      `${
+                        import.meta.env.VITE_API_BASE_URL
+                      }/api/institute-users/${selectedUser._id}`,
+                      {
+                        name: selectedUser.name,
+                        email: selectedUser.email,
+                        contact: selectedUser.contact,
+                        role: selectedUser.role,
+                        permissions: selectedUser.permissions,
+                        status: selectedUser.status,
+                      },
+                      {
+                        withCredentials: true,
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                      }
                     );
-                    setShowPermissionsDialog(false);
-                    toast({
-                      title: "Success",
-                      description: "Permissions updated successfully",
-                    });
-                    console.log(
-                      "Manage Permissions: Permissions updated successfully:",
-                      selectedUser
-                    );
+
+                    if (response.data.success) {
+                      // Update local state only after successful API call
+                      setSystemUsersData(
+                        systemUsersData.map((u) =>
+                          u._id === selectedUser._id
+                            ? { ...selectedUser, ...response.data.data }
+                            : u
+                        )
+                      );
+                      setShowPermissionsDialog(false);
+                      toast({
+                        title: "Success",
+                        description: "Permissions updated successfully",
+                      });
+                      console.log(
+                        "Manage Permissions: Permissions updated successfully:",
+                        response.data.data
+                      );
+                    } else {
+                      throw new Error(
+                        response.data.message || "Failed to update permissions"
+                      );
+                    }
                   } catch (error) {
                     toast({
                       title: "Error",
-                      description: "Failed to update permissions",
+                      description:
+                        error instanceof Error
+                          ? error.message
+                          : "Failed to update permissions",
                       variant: "destructive",
                     });
                     console.error(
