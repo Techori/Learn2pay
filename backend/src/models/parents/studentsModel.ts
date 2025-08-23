@@ -19,6 +19,7 @@ const studentSchema = new mongoose.Schema({
     pinCode: { type: String, required: true },
   },
   instituteName: { type: String, required: true },
+  instituteId: { type: mongoose.Schema.Types.ObjectId, ref: "Institute", required: true },
   admissionDate: { type: Date, required: true },
 }, { timestamps: true });
 

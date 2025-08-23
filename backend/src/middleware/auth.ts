@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { verifyAccessToken } from "@/utils/jwtAuth";
 import Institute from "@/models/institute/instituteModel";
 import Student from "@/models/parents/studentsModel";
+import User from "@/models/usersModel";
 
 const authenticateToken = async (
   req: Request,
@@ -53,6 +54,17 @@ const authenticateToken = async (
         return;
       }
       req.parent = student;
+    } else if (["sales_person", "sales_manager", "admin"].includes(decoded.role)) {
+      const user = await User.findById(decoded.userId || decoded.id).select(
+        "-password"
+      );
+      if (!user) {
+        res.status(401).json({ message: "User not found" });
+        return;
+      }
+      req.salesUser = user;
+      // Add user ID to the decoded object for easier access
+      decoded.id = user._id.toString();
     } else {
       res.status(401).json({ message: "Invalid role" });
       return;

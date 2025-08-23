@@ -1,4 +1,4 @@
-import { registerStudent, bulkRegisterStudents, uploadMiddleware } from "@/controllers/parents/regStudent";
+import { registerStudent, bulkRegisterStudents, uploadMiddleware, getStudentsByInstitute } from "@/controllers/parents/regStudent";
 import { loginParent } from "@/controllers/parents/logParent";
 
 import { getSession, refreshToken, logout } from "@/controllers/session";
@@ -8,14 +8,17 @@ import express from "express";
 const router = express.Router();
 
 // Public routes
-router.post("/register", registerStudent);
-router.post("/bulk-register", uploadMiddleware, bulkRegisterStudents);
 router.post("/login", loginParent);
 router.post("/refresh", refreshToken);
 
 // Protected routes (require authentication)
+router.post("/register", authenticateToken, registerStudent);
+router.post("/bulk-register", authenticateToken, uploadMiddleware, bulkRegisterStudents);
 router.get("/session", authenticateToken, getSession);
 router.post("/logout", authenticateToken, logout);
+
+// Get students by institute ID (for institute dashboard)
+router.get("/students", authenticateToken, getStudentsByInstitute);
 
 
 

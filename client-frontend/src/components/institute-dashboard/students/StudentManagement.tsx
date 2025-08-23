@@ -38,6 +38,7 @@ import {
   Download,
   FileSpreadsheet,
   AlertCircle,
+  RotateCcw,
 } from "lucide-react";
 import AddStudentForm from "./AddStudentForm";
 import { authAPI } from "@/utils/api";
@@ -45,16 +46,31 @@ import * as XLSX from "xlsx";
 import { ScrollArea } from "@/components/ui/ScrollArea";
 
 interface Student {
-  id: string;
-  studentName: string;
+  _id: string;
+  name: string;
   studentId: string;
-  class: string;
-  roll: string;
+  grade: string;
+  section: string;
+  rollNumber: string;
   parentName: string;
-  parentContact: string;
+  parentPhone: string;
   parentEmail: string;
-  status: string;
-  feeStatus: string;
+  address?: {
+    completeAddress: string;
+    city: string;
+    state: string;
+    pinCode: string;
+  };
+  dateOfBirth?: string;
+  age?: number;
+  password?: string;
+  status?: string;
+  feeStatus?: string;
+  instituteId: string;
+  instituteName: string;
+  admissionDate: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Transfer {
@@ -85,7 +101,7 @@ interface KYC {
 }
 
 interface NewStudent
-  extends Omit<Student, "id" | "status" | "feeStatus" | "attendance"> {}
+  extends Omit<Student, "_id" | "status" | "feeStatus" | "instituteId" | "instituteName" | "createdAt" | "updatedAt"> {}
 
 interface StudentManagementProps {
   initialSubTab?: string;
@@ -109,6 +125,7 @@ const StudentManagement = ({
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [classFilter, setClassFilter] = useState("all");
+  const [sectionFilter, setSectionFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showBulkUploadDialog, setShowBulkUploadDialog] = useState(false);
   const [bulkUploadErrors, setBulkUploadErrors] = useState<BulkUploadError[]>(
@@ -132,53 +149,95 @@ const StudentManagement = ({
   };
 
   const [newStudent, setNewStudent] = useState<NewStudent>({
-    studentName: "",
+    name: "",
     studentId: "",
-    class: "",
-    roll: "",
+    grade: "",
+    section: "",
+    rollNumber: "",
     parentName: "",
-    parentContact: "",
+    parentPhone: "",
     parentEmail: "",
+    address: {
+      completeAddress: "",
+      city: "",
+      state: "",
+      pinCode: "",
+    },
+    admissionDate: "",
+    dateOfBirth: "",
+    age: 0,
+    password: "",
   });
 
-  const [allStudentsData, setAllStudentsData] = useState<Student[]>([
-    {
-      id: "1",
-      studentName: "Rajesh Kumar",
-      studentId: "STU001",
-      class: "10th A",
-      roll: "15",
-      parentName: "Suresh Kumar",
-      parentContact: "9876543210",
-      parentEmail: "rajesh@email.com",
-      status: "Active",
-      feeStatus: "Paid",
-    },
-    {
-      id: "2",
-      studentName: "Priya Sharma",
-      studentId: "STU002",
-      class: "10th A",
-      roll: "18",
-      parentName: "Amit Sharma",
-      parentContact: "9876543211",
-      parentEmail: "priya@email.com",
-      status: "Active",
-      feeStatus: "Pending",
-    },
-    {
-      id: "3",
-      studentName: "Arjun Singh",
-      studentId: "STU003",
-      class: "9th B",
-      roll: "22",
-      parentName: "Vikram Singh",
-      parentContact: "9876543212",
-      parentEmail: "arjun@email.com",
-      status: "Active",
-      feeStatus: "Paid",
-    },
-  ]);
+  const [allStudentsData, setAllStudentsData] = useState<Student[]>([]);
+  const [isLoadingStudents, setIsLoadingStudents] = useState(false);
+  const [studentsError, setStudentsError] = useState<string | null>(null);
+
+  // Fetch students data when component mounts
+  useEffect(() => {
+    const fetchStudents = async () => {
+      setIsLoadingStudents(true);
+      setStudentsError(null);
+      
+      try {
+        const studentsResponse = await authAPI.getStudentsByInstitute();
+        if (studentsResponse.error) {
+          throw new Error(studentsResponse.error);
+        }
+        
+        // Transform the data to match our interface
+        const transformedStudents = studentsResponse.students.map((student: any) => ({
+          ...student,
+          studentId: student.rollNumber || student._id, // Use rollNumber as studentId or fallback to _id
+          status: "Active", // Default status
+          feeStatus: "Pending", // Default fee status - you can enhance this later
+        }));
+        
+        setAllStudentsData(transformedStudents);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+        setStudentsError(error instanceof Error ? error.message : "Failed to fetch students");
+      } finally {
+        setIsLoadingStudents(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  // Refresh students data function
+  const refreshStudents = async () => {
+    setIsLoadingStudents(true);
+    try {
+      const studentsResponse = await authAPI.getStudentsByInstitute();
+      if (studentsResponse.error) {
+        throw new Error(studentsResponse.error);
+      }
+      
+      // Transform the data to match our interface
+      const transformedStudents = studentsResponse.students.map((student: any) => ({
+        ...student,
+        studentId: student.rollNumber || student._id,
+        status: "Active",
+        feeStatus: "Pending",
+      }));
+      
+      setAllStudentsData(transformedStudents);
+      toast({
+        title: "Success",
+        description: "Student data refreshed successfully",
+      });
+    } catch (error) {
+      console.error("Error refreshing students:", error);
+      toast({
+        title: "Error",
+        description: "Failed to refresh student data",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingStudents(false);
+    }
+  };
 
   const [transfersData, setTransfersData] = useState<Transfer[]>([
     {
@@ -288,10 +347,10 @@ const StudentManagement = ({
     },
   ];
 
-  const handleAddStudent = (newStudentData: Omit<Student, "id">) => {
+  const handleAddStudent = (newStudentData: Omit<Student, "_id">) => {
     const studentWithId: Student = {
       ...newStudentData,
-      id: (allStudentsData.length + 1).toString(),
+      _id: (allStudentsData.length + 1).toString(),
     };
     setAllStudentsData([...allStudentsData, studentWithId]);
   };
@@ -345,17 +404,27 @@ const StudentManagement = ({
 
   const filteredStudents = allStudentsData.filter((student) => {
     const matchesSearch =
-      student.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student.studentId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.class.toLowerCase().includes(searchQuery.toLowerCase());
+      `${student.grade}${student.section}`.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesClass =
-      classFilter === "all" ? true : student.class === classFilter;
+      classFilter === "all" ? true : student.grade === classFilter;
     const matchesStatus =
       statusFilter === "all" ? true : student.status === statusFilter;
 
     return matchesSearch && matchesClass && matchesStatus;
   });
+
+  // Get unique grades from the data
+  const availableGrades = Array.from(
+    new Set(allStudentsData.map(student => student.grade))
+  ).sort((a, b) => parseInt(a) - parseInt(b));
+
+  // Get unique classes (grade + section combinations) from the data
+  const availableClasses = Array.from(
+    new Set(allStudentsData.map(student => `${student.grade}${student.section}`))
+  ).sort();
 
   const calculateAge = (dob: string) => {
     const today = new Date();
@@ -369,6 +438,22 @@ const StudentManagement = ({
       age--;
     }
     return age;
+  };
+
+  // Function to highlight search terms
+  const highlightText = (text: string, searchTerm: string) => {
+    if (!searchTerm.trim()) return text;
+    
+    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) => 
+      regex.test(part) ? (
+        <span key={index} className="bg-yellow-200 dark:bg-yellow-800 px-1 rounded">
+          {part}
+        </span>
+      ) : part
+    );
   };
 
   const downloadTemplate = async () => {
@@ -583,6 +668,15 @@ const StudentManagement = ({
                 <Button
                   variant="outline"
                   className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+                  onClick={refreshStudents}
+                  disabled={isLoadingStudents}
+                >
+                  <RotateCcw className={`h-4 w-4 ${isLoadingStudents ? 'animate-spin' : ''}`} />
+                  <span>Refresh</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
                   onClick={handleExportStudents}
                 >
                   <Download className="h-4 w-4" />
@@ -615,7 +709,7 @@ const StudentManagement = ({
                   <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
                     <Select value={classFilter} onValueChange={setClassFilter}>
                       <SelectTrigger className="w-full sm:w-[180px] bg-white text-gray-900 border-gray-700 dark:bg-gray-900 dark:text-white dark:border-gray-700">
-                        <SelectValue placeholder="All Classes" />
+                        <SelectValue placeholder="All Grades" />
                       </SelectTrigger>
                       <SelectContent className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
                         <ScrollArea className="h-[180px]">
@@ -623,17 +717,26 @@ const StudentManagement = ({
                             value="all"
                             className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
                           >
-                            All Classes
+                            All Grades
                           </SelectItem>
-                          {[...Array(12)].map((_, i) => (
-                            <SelectItem
-                              key={i + 1}
-                              value={`${i + 1}`}
-                              className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white"
-                            >
-                              Grade {i + 1}
-                            </SelectItem>
-                          ))}
+                          <SelectItem value="7" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 7
+                          </SelectItem>
+                          <SelectItem value="8" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 8
+                          </SelectItem>
+                          <SelectItem value="9" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 9
+                          </SelectItem>
+                          <SelectItem value="10" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 10
+                          </SelectItem>
+                          <SelectItem value="11" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 11
+                          </SelectItem>
+                          <SelectItem value="12" className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white">
+                            Grade 12
+                          </SelectItem>
                         </ScrollArea>
                       </SelectContent>
                     </Select>
@@ -692,30 +795,30 @@ const StudentManagement = ({
                       </tr>
                     ) : (
                       filteredStudents.map((student) => (
-                        <tr key={student.id}>
+                        <tr key={student._id}>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-800 dark:text-gray-300 ">
-                              {student.studentName}
+                              {highlightText(student.name, searchQuery)}
                             </div>
                             <div className="text-xs text-gray-400">
-                              {student.studentId}
+                              {highlightText(student.studentId, searchQuery)}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 ">
-                            {student.class}
+                            {highlightText(`${student.grade}${student.section}`, searchQuery)}
                             <br />
-                            Roll: {student.roll}
+                                                         Roll: {highlightText(student.rollNumber, searchQuery)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-800 dark:text-gray-300 ">
-                              {student.parentName}
+                              {highlightText(student.parentName, searchQuery)}
                             </div>
                             <div className="text-xs text-gray-400">
-                              {student.parentEmail}
+                              {highlightText(student.parentEmail, searchQuery)}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-300 ">
-                            {student.parentContact}
+                                                         {highlightText(student.parentPhone, searchQuery)}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <Badge
@@ -791,6 +894,7 @@ const StudentManagement = ({
             <CardContent>
               <AddStudentForm
                 onStudentAdded={() => {
+                  refreshStudents(); // Refresh the students list
                   handleSubTabChange("all-students");
                 }}
               />
@@ -905,7 +1009,7 @@ const StudentManagement = ({
                 <div>
                   <p className="text-sm text-gray-400">Student Name</p>
                   <p className=" text-gray-900  dark:text-white">
-                    {selectedStudent.studentName}
+                    {selectedStudent.name}
                   </p>
                 </div>
                 <div>
@@ -917,13 +1021,13 @@ const StudentManagement = ({
                 <div>
                   <p className="text-sm text-gray-400">Class</p>
                   <p className=" text-gray-900  dark:text-white">
-                    {selectedStudent.class}
+                    {selectedStudent.grade}{selectedStudent.section}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Roll No.</p>
                   <p className=" text-gray-900  dark:text-white">
-                    {selectedStudent.roll}
+                    {selectedStudent.rollNumber}
                   </p>
                 </div>
                 <div>
@@ -935,7 +1039,7 @@ const StudentManagement = ({
                 <div>
                   <p className="text-sm text-gray-400">Parent Contact</p>
                   <p className=" text-gray-900  dark:text-white">
-                    {selectedStudent.parentContact}
+                    {selectedStudent.parentPhone}
                   </p>
                 </div>
                 <div className="col-span-2">
@@ -999,11 +1103,11 @@ const StudentManagement = ({
                 </label>
                 <Input
                   id="edit-student-name"
-                  value={selectedStudent.studentName}
+                  value={selectedStudent.name}
                   onChange={(e) =>
                     setSelectedStudent({
                       ...selectedStudent,
-                      studentName: e.target.value,
+                      name: e.target.value,
                     })
                   }
                   className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
@@ -1015,11 +1119,12 @@ const StudentManagement = ({
                 </label>
                 <Input
                   id="edit-student-class"
-                  value={selectedStudent.class}
+                  value={selectedStudent.grade + selectedStudent.section}
                   onChange={(e) =>
                     setSelectedStudent({
                       ...selectedStudent,
-                      class: e.target.value,
+                      grade: e.target.value.split(" ")[0],
+                      section: e.target.value.split(" ")[1],
                     })
                   }
                   className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
@@ -1031,11 +1136,11 @@ const StudentManagement = ({
                 </label>
                 <Input
                   id="edit-student-roll"
-                  value={selectedStudent.roll}
+                  value={selectedStudent.rollNumber}
                   onChange={(e) =>
                     setSelectedStudent({
                       ...selectedStudent,
-                      roll: e.target.value,
+                      rollNumber: e.target.value,
                     })
                   }
                   className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
@@ -1063,11 +1168,11 @@ const StudentManagement = ({
                 </label>
                 <Input
                   id="edit-parent-contact"
-                  value={selectedStudent.parentContact}
+                  value={selectedStudent.parentPhone}
                   onChange={(e) =>
                     setSelectedStudent({
                       ...selectedStudent,
-                      parentContact: e.target.value,
+                      parentPhone: e.target.value,
                     })
                   }
                   className="bg-white text-gray-900 border-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-700 "
@@ -1170,7 +1275,7 @@ const StudentManagement = ({
                 if (selectedStudent) {
                   setAllStudentsData(
                     allStudentsData.map((student) =>
-                      student.id === selectedStudent.id
+                      student._id === selectedStudent._id
                         ? selectedStudent
                         : student
                     )

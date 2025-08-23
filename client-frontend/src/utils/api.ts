@@ -323,6 +323,10 @@ export const authAPI = {
   // Get current institute settings
   getInstituteSettings: () => apiCall("/api/institute/settings"),
 
+  // Get students by institute (uses authenticated institute)
+  getStudentsByInstitute: () => 
+    apiCall(`/api/parent/students`),
+
   // Bulk student registration functions
   bulkRegisterStudents: (file: File) => {
     const formData = new FormData();

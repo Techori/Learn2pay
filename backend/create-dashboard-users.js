@@ -25,34 +25,40 @@ async function createDashboardUsers() {
         // Define users for each dashboard role
         const dashboardUsers = [
             {
-                fullName: "John Salesperson",
+                fullName: "John Sales Person",
                 email: "salesperson@test.com",
                 password: hashedPassword,
-                role: "Salesperson",
+                role: "sales_person",
             },
             {
-                fullName: "Sarah Sales Admin",
-                email: "salesadmin@test.com",
+                fullName: "Sarah Sales Manager",
+                email: "salesmanager@test.com",
                 password: hashedPassword,
-                role: "Sales Admin",
+                role: "sales_manager",
             },
             {
-                fullName: "Michael Super Admin",
-                email: "superadmin@test.com",
+                fullName: "Michael Admin",
+                email: "admin@test.com",
                 password: hashedPassword,
-                role: "Super Admin",
+                role: "admin",
             },
             {
-                fullName: "Lisa Referral Partner",
-                email: "referral@test.com",
+                fullName: "Lisa Onboarding Specialist",
+                email: "onboarding@test.com",
                 password: hashedPassword,
-                role: "Referral Partner",
+                role: "sales_person", // Can handle onboarding
             },
             {
                 fullName: "David Support Partner",
                 email: "support@test.com",
                 password: hashedPassword,
                 role: "Support Partner",
+            },
+            {
+                fullName: "Emma Referral Partner",
+                email: "referral@test.com",
+                password: hashedPassword,
+                role: "Referral Partner",
             },
         ];
 
