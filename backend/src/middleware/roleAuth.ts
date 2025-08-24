@@ -2,14 +2,14 @@ import { Request, Response, NextFunction } from "express";
 
 
 // Middleware to check if user has specific role
-export const requireRole = (allowedRoles: ("institute" | "parent")[]) => {
+export const requireRole = (allowedRoles: ("institute" | "parent" | "sales_person" | "sales_manager" | "admin")[]) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     if (!req.user) {
       res.status(401).json({ message: "Authentication required" });
       return;
     }
 
-    if (!allowedRoles.includes(req.user.role)) {
+    if (!allowedRoles.includes(req.user.role as any)) {
       res.status(403).json({
         message: `Access denied. Required roles: ${allowedRoles.join(", ")}`,
       });
@@ -24,6 +24,13 @@ export const requireRole = (allowedRoles: ("institute" | "parent")[]) => {
 export const requireInstituteRole = requireRole(["institute"]);
 export const requireParentRole = requireRole(["parent"]);
 export const requireAnyRole = requireRole(["institute", "parent"]);
+
+// Sales role middlewares
+export const requireSalesPersonRole = requireRole(["sales_person"]);
+export const requireSalesManagerRole = requireRole(["sales_manager"]);
+export const requireAdminRole = requireRole(["admin"]);
+export const requireSalesRole = requireRole(["sales_person", "sales_manager", "admin"]);
+export const requireManagerOrAdminRole = requireRole(["sales_manager", "admin"]);
 
 // Middleware to check if institute can access specific student data
 export const requireInstituteStudentAccess = async (

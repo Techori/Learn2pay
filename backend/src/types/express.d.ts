@@ -50,18 +50,33 @@ export interface IStudent {
   instituteName: string;
 }
 
+export interface IUser {
+  _id: any;
+  fullName: string;
+  email: string;
+  role: string;
+  teamLead?: any;
+  institute?: any;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 declare global {
   namespace Express {
     interface Request {
       institute?: IInstitute;
       parent?: IStudent;
+      salesUser?: IUser;
       user?: {
-        role: "institute" | "parent";
+        role: "institute" | "parent" | "sales_person" | "sales_manager" | "admin";
+        id?: string;
         studentId?: string;
         instituteId?: string;
+        userId?: string;
         email: string;
         instituteName?: string;
         parentName?: string;
+        fullName?: string;
       };
     }
   }

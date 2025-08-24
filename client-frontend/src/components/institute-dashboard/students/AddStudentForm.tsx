@@ -32,6 +32,7 @@ interface StudentFormData {
     pinCode: string;
   };
   instituteName: string;
+  instituteId: string;
   admissionDate: string;
 }
 
@@ -46,23 +47,24 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
   const { institute } = useAuth();
 
   const [formData, setFormData] = useState<StudentFormData>({
-    name: "",
-    parentName: "",
-    parentEmail: "",
-    parentPhone: "",
-    password: "",
-    dateOfBirth: "",
-    age: 0,
-    grade: "",
-    section: "",
-    rollNumber: "",
+    name: "Rahul Kumar",
+    parentName: "Suresh Kumar",
+    parentEmail: "suresh.kumar@email.com",
+    parentPhone: "9876543210",
+    password: "student123",
+    dateOfBirth: "2010-05-15",
+    age: 13,
+    grade: "8",
+    section: "A",
+    rollNumber: "25",
     address: {
-      completeAddress: "",
-      city: "",
-      state: "",
-      pinCode: "",
+      completeAddress: "123 Main Street, Near City Park",
+      city: "Gwalior",
+      state: "Madhya Pradesh",
+      pinCode: "474005",
     },
-    instituteName: institute?.name,
+    instituteName: institute?.name || "Akshat Institute",
+    instituteId: institute?._id || "",
     admissionDate: new Date().toISOString().split('T')[0],
   });
 
@@ -100,6 +102,62 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
     return age;
   };
 
+  // Generate random sample data for testing
+  const generateSampleData = () => {
+    const sampleNames = [
+      "Priya Sharma", "Arjun Singh", "Neha Patel", "Vikram Verma", 
+      "Anjali Gupta", "Rohan Mehta", "Zara Khan", "Aditya Joshi"
+    ];
+    const sampleParents = [
+      "Amit Sharma", "Rajesh Singh", "Sunita Patel", "Vikrant Verma",
+      "Rajesh Gupta", "Sanjay Mehta", "Farhan Khan", "Prakash Joshi"
+    ];
+    const sampleEmails = [
+      "amit.sharma@email.com", "rajesh.singh@email.com", "sunita.patel@email.com",
+      "vikrant.verma@email.com", "rajesh.gupta@email.com", "sanjay.mehta@email.com",
+      "farhan.khan@email.com", "prakash.joshi@email.com"
+    ];
+    const sampleCities = [
+      "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad"
+    ];
+    const sampleStates = [
+      "Maharashtra", "Delhi", "Karnataka", "Telangana", "Tamil Nadu", "West Bengal", "Maharashtra", "Gujarat"
+    ];
+    
+    const randomIndex = Math.floor(Math.random() * sampleNames.length);
+    const randomGrade = Math.floor(Math.random() * 12) + 1;
+    const randomSection = ["A", "B", "C", "D"][Math.floor(Math.random() * 4)];
+    const randomRoll = Math.floor(Math.random() * 50) + 1;
+    const randomYear = 2005 + Math.floor(Math.random() * 15);
+    const randomMonth = Math.floor(Math.random() * 12);
+    const randomDay = Math.floor(Math.random() * 28) + 1;
+    
+    const randomDOB = `${randomYear}-${String(randomMonth + 1).padStart(2, '0')}-${String(randomDay).padStart(2, '0')}`;
+    const calculatedAge = calculateAge(randomDOB);
+    
+    setFormData({
+      name: sampleNames[randomIndex],
+      parentName: sampleParents[randomIndex],
+      parentEmail: sampleEmails[randomIndex],
+      parentPhone: `9${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+      password: "student123",
+      dateOfBirth: randomDOB,
+      age: calculatedAge,
+      grade: randomGrade.toString(),
+      section: randomSection,
+      rollNumber: randomRoll.toString(),
+      address: {
+        completeAddress: `${Math.floor(Math.random() * 999) + 1} ${sampleCities[randomIndex]} Street, Near City Park`,
+        city: sampleCities[randomIndex],
+        state: sampleStates[randomIndex],
+        pinCode: `${Math.floor(Math.random() * 900000) + 100000}`,
+      },
+      instituteName: institute?.name || "Akshat Institute",
+      instituteId: institute?._id || "",
+      admissionDate: new Date().toISOString().split('T')[0],
+    });
+  };
+
   const handleDateOfBirthChange = (dob: string) => {
     const calculatedAge = calculateAge(dob);
     setFormData((prev) => ({
@@ -129,6 +187,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
         rollNumber: formData.rollNumber,
         address: formData.address,
         instituteName: formData.instituteName,
+        instituteId: formData.instituteId,
         admissionDate: formData.admissionDate,
       };
 
@@ -186,6 +245,7 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
           pinCode: "",
         },
         instituteName: "",
+        instituteId: "",
         admissionDate: "",
       });
 
@@ -244,12 +304,23 @@ const AddStudentForm: React.FC<AddStudentFormProps> = ({ onStudentAdded }) => {
   return (
     <form onSubmit={handleSubmit} className="w-full m-0 p-0">
       <Card className="w-full border-0 rounded-none bg-gray-800/50">
-        <CardHeader className="px-4 md:px-6">
-          <CardTitle className="text-gray-800 dark:text-gray-300 flex items-center space-x-2">
-            <User className="h-5 w-5 text-orange-500" />
-            <span>Student Registration Form</span>
-          </CardTitle>
-        </CardHeader>
+                 <CardHeader className="px-4 md:px-6">
+           <div className="flex items-center justify-between">
+             <CardTitle className="text-gray-800 dark:text-gray-300 flex items-center space-x-2">
+               <User className="h-5 w-5 text-orange-500" />
+               <span>Student Registration Form</span>
+             </CardTitle>
+             <Button
+               type="button"
+               variant="outline"
+               onClick={generateSampleData}
+               className="border-gray-700 text-gray-300 hover:bg-gray-800/50 flex items-center space-x-2"
+             >
+               <User className="h-4 w-4" />
+               <span>Generate Sample Data</span>
+             </Button>
+           </div>
+         </CardHeader>
         <CardContent className="space-y-6 px-4 md:px-6">
           {/* Student Information */}
           <div className="space-y-4 w-full">

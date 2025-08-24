@@ -8,7 +8,7 @@ import React, {
 import { authAPI } from "../utils/api";
 
 interface Institute {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   type: string;

@@ -2,12 +2,15 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 
 interface TokenPayload {
-  role: "institute" | "parent";
+  role: "institute" | "parent" | "sales_person" | "sales_manager" | "admin";
   studentId?: string;
   instituteId?: string;
+  userId?: string;
+  id?: string;
   email: string;
   instituteName?: string;
   parentName?: string;
+  fullName?: string;
 }
 
 // access token generator

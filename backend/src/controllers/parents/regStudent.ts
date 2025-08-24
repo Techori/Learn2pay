@@ -33,6 +33,18 @@ const uploadMiddleware = upload.any();
 
 const registerStudent = async (req: Request, res: Response): Promise<void> => {
   const studentInfo = req.body;
+  
+  // Get institute ID from authenticated user
+  const { instituteId } = req.user || {};
+  
+  if (!instituteId) {
+    res.status(401).json({ error: "Institute authentication required" });
+    return;
+  }
+
+  // Add institute ID to the request body for validation
+  studentInfo.instituteId = instituteId;
+  
   const parsed = studentRegisterSchema.safeParse(studentInfo);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.flatten() });
@@ -52,6 +64,7 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
       rollNumber,
       address,
       instituteName,
+      instituteId,
       admissionDate,
     } = parsed.data;
     const existingStudent = await Student.findOne({
@@ -80,6 +93,7 @@ const registerStudent = async (req: Request, res: Response): Promise<void> => {
         rollNumber,
         address,
         instituteName,
+        instituteId,
         admissionDate: new Date(admissionDate),
       });
       res.status(201).json({
@@ -135,6 +149,14 @@ const bulkRegisterStudents = async (
   res: Response
 ): Promise<void> => {
   try {
+    // Get institute ID from authenticated user
+    const { instituteId } = req.user || {};
+    
+    if (!instituteId) {
+      res.status(401).json({ error: "Institute authentication required" });
+      return;
+    }
+
     // Handle files array from upload.any()
     const files = req.files as Express.Multer.File[];
 
@@ -194,14 +216,14 @@ const bulkRegisterStudents = async (
       return;
     }
 
-    // Check for existing students in database
+    // Check for existing students in database using authenticated institute ID
     const existingStudents = await Student.find({
       $or: [
-        { rollNumber: { $in: rollNumbers } },
+        { rollNumber: { $in: rollNumbers }, instituteId: instituteId },
         ...validatedStudents.map((student) => ({
           parentEmail: student.parentEmail,
           name: student.name,
-          instituteName: student.instituteName,
+          instituteId: instituteId, // Use authenticated user's institute ID
         })),
       ],
     });
@@ -221,10 +243,11 @@ const bulkRegisterStudents = async (
       return;
     }
 
-    // Hash passwords for all students
+    // Hash passwords for all students and set the authenticated institute ID
     const studentsWithHashedPasswords = await Promise.all(
       validatedStudents.map(async (student) => ({
         ...student,
+        instituteId: instituteId, // Use authenticated user's institute ID
         password: await hashPassword(student.password),
         dateOfBirth: new Date(student.dateOfBirth),
       }))
@@ -253,6 +276,32 @@ const bulkRegisterStudents = async (
       message: "Internal server error during bulk registration",
       error: error instanceof Error ? error.message : "Unknown error",
     });
+  }
+};
+
+// Get students by institute ID
+export const getStudentsByInstitute = async (req: Request, res: Response): Promise<void> => {
+  try {
+    // Get institute ID from authenticated user
+    const { instituteId } = req.user || {};
+    
+    if (!instituteId) {
+      res.status(401).json({ message: "Institute authentication required" });
+      return;
+    }
+
+    const students = await Student.find({ instituteId })
+      .select('-password') // Exclude password for security
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      message: "Students fetched successfully",
+      students,
+      totalCount: students.length
+    });
+  } catch (error) {
+    console.log("Error fetching students: ", (error as Error).message);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
